@@ -1,18 +1,38 @@
 const choo = require('choo')
 const _ = require('lodash')
 const mainView = require('./main')
+const interpreter = require('./interpreter')
 
 const app = choo()
 
 app.model({
   state: {
-    simulation: {
-      running: false,
-      time: 0
-    }
-
+    robot: { x: 5, y: 5 }
   },
-  reducers: {}
+
+  subscriptions: [
+    (send, done) => {
+      interpreter.subscribe(send, done)
+      interpreter.run(`
+        move('up');
+        move('down');
+        move('left');
+        move('right');
+      `)
+    }
+  ],
+
+  reducers: {
+    move: ({ direction }, state) => {
+      console.log('move', direction)
+      return state
+    },
+
+    changeRunningState: ({ running }, state) => {
+      console.log('running', running)
+      return state
+    }
+  }
 })
 
 app.router((route) => [

@@ -20,6 +20,7 @@
     "eslint-plugin-standard": "^2.0.1"
   },
   "scripts": {
+    "install": "napa https://github.com/NeilFraser/JS-Interpreter.git",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },

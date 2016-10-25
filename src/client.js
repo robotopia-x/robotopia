@@ -1,16 +1,22 @@
 const choo = require('choo')
 const _ = require('lodash')
-const appView = require('./app')
+const mainView = require('./main')
 
 const app = choo()
 
 app.model({
-  state: {},
+  state: {
+    simulation: {
+      running: false,
+      time: 0
+    }
+
+  },
   reducers: {}
 })
 
 app.router((route) => [
-  route('/', appView)
+  route('/', mainView)
 ])
 
 // setup hot module replacement

@@ -8,18 +8,24 @@ const prefix = sf`
         display: flex;
         flex-direction: row;
     }
-    
-    :host > .column:first-child {
-       width: 50%;
-       border-right: 10px solid grey;       
+
+    :host > .divider {
+       background: grey;
+       width: 10px;
+       height: 100%;
+    }
+
+    :host > .column {
+      flex-grow: 1;
     }
 `
 
-const appView = (state, prev, send) => html`
+const mainView = (state, prev, send) => html`
   <main class=${prefix}>
     <div class="column"></div>
+    <div class="divider"></div>
     <div class="column"></div>
   </main>
 `
 
-module.exports = appView
+module.exports = mainView

@@ -5,12 +5,14 @@ function getApi ({ send, scope, interpreter }) {
   function move (value, callback) {
     setTimeout(() => {
       callback(interpreter.createPrimitive(undefined))
-      send('move', { direction: value.data }, () => {})
+      send('move', { direction: value.data }, () => {
+      })
 
       if (!interpreter.run()) {
-        send('changeRunningState', { running: false }, () => {})
+        send('changeRunningState', { running: false }, () => {
+        })
       }
-    }, 100)
+    }, 500)
   }
 
   interpreter.setProperty(scope, 'move', interpreter.createAsyncFunction(move))
@@ -34,7 +36,8 @@ module.exports = {
     this.done()
 
     if (interpreter.run()) {
-      this.send('changeRunningState', { running: true }, () => {})
+      this.send('changeRunningState', { running: true }, () => {
+      })
     }
   }
 }

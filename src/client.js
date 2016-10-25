@@ -1,5 +1,6 @@
-const choo = require('choo')
 const _ = require('lodash')
+const choo = require('choo')
+const update = require('immutability-helper')
 const mainView = require('./main')
 const interpreter = require('./interpreter')
 
@@ -7,7 +8,8 @@ const app = choo()
 
 app.model({
   state: {
-    robot: { x: 5, y: 5 }
+    robot: { x: 5, y: 5 },
+    running: false
   },
 
   subscriptions: [
@@ -24,14 +26,32 @@ app.model({
 
   reducers: {
     move: ({ direction }, state) => {
-      console.log('move', direction)
-      return state
+      let { robot: { x, y } } = state
+
+      switch (direction) {
+        case 'up':
+          y = y - 1
+          break
+        case 'down':
+          y = y + 1
+          break
+        case 'left':
+          x = x - 1
+          break
+        case 'right':
+          x = x + 1
+          break
+      }
+
+      return update(state, {
+        robot: {
+          x: { $set: _.clamp(x, 0, 9) },
+          y: { $set: _.clamp(y, 0, 9) }
+        }
+      })
     },
 
-    changeRunningState: ({ running }, state) => {
-      console.log('running', running)
-      return state
-    }
+    changeRunningState: ({ running }, state) => update(state, { running: { $set: running } })
   }
 })
 
@@ -41,7 +61,9 @@ app.router((route) => [
 
 // setup hot module replacement
 app.use({
-  onStateChange: function (data, state, prev, caller, createSend) { window.__state = state },
+  onStateChange: function (data, state, prev, caller, createSend) {
+    window.__state = state
+  },
   wrapInitialState: (obj) => (_.assign({}, obj, window.__state))
 })
 

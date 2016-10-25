@@ -25,7 +25,6 @@ const mainView = (state, prev, send) => html`
   <main class=${prefix}>
     <div class="column"></div>
     <div class="divider"></div>
-
     <div class="column">
       ${gameView(state)}
     </div>

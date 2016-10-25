@@ -4,6 +4,7 @@
   "description": "interactive development environment to learn programming with robots",
   "main": "src/client.js",
   "dependencies": {
+    "blockly": "git+https://github.com/google/blockly.git",
     "choo": "3.3.0",
     "lodash": "4.16.4",
     "sheetify": "5.1.1"

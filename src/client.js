@@ -19,8 +19,7 @@ const prefix = sf`
 
   h1 {
     color: red;
-  }
-`
+  }`
 
 const mainView = (state, prev, send) => html`
   <main class=${prefix}>

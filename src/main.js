@@ -1,5 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
+const gameView = require('./game')
 
 const prefix = sf`
     :host {
@@ -24,7 +25,10 @@ const mainView = (state, prev, send) => html`
   <main class=${prefix}>
     <div class="column"></div>
     <div class="divider"></div>
-    <div class="column"></div>
+
+    <div class="column">
+      ${gameView(state)}
+    </div>
   </main>
 `
 

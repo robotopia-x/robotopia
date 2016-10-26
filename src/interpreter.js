@@ -24,7 +24,7 @@ module.exports = {
     this.done = done
   },
 
-  run (sourcecode) {
+  run (sourcecode, done) {
     const interpreter = new Interpreter(sourcecode, (interpreter, scope) => (
       getApi({
         send: this.send,
@@ -33,7 +33,7 @@ module.exports = {
       })
     ))
 
-    this.done()
+    done()
 
     if (interpreter.run()) {
       this.send('changeRunningState', { running: true }, () => {

@@ -12,15 +12,20 @@ app.model({
     running: false
   },
 
-  subscriptions: [
-    (send, done) => {
-      interpreter.subscribe(send, done)
+  effects: {
+    run: (data, state, send, done) => {
       interpreter.run(`
         move('up');
         move('down');
         move('left');
         move('right');
-      `)
+      `, done)
+    }
+  },
+
+  subscriptions: [
+    (send, done) => {
+      interpreter.subscribe(send, done)
     }
   ],
 

@@ -19,15 +19,9 @@ app.model({
         move('down');
         move('left');
         move('right');
-      `, done)
+      `, send, done)
     }
   },
-
-  subscriptions: [
-    (send, done) => {
-      interpreter.subscribe(send, done)
-    }
-  ],
 
   reducers: {
     move: ({ direction }, state) => {

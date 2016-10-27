@@ -18,26 +18,16 @@ function getApi ({ send, scope, interpreter }) {
   interpreter.setProperty(scope, 'move', interpreter.createAsyncFunction(move))
 }
 
-module.exports = {
-  subscribe (send, done) {
-    this.send = send
-    this.done = done
-  },
+function run (sourcecode, send, done) {
+  const interpreter = new Interpreter(sourcecode, (interpreter, scope) => (
+    getApi({ send, interpreter, scope })
+  ))
 
-  run (sourcecode, done) {
-    const interpreter = new Interpreter(sourcecode, (interpreter, scope) => (
-      getApi({
-        send: this.send,
-        interpreter,
-        scope
-      })
-    ))
-
-    done()
-
-    if (interpreter.run()) {
-      this.send('changeRunningState', { running: true }, () => {
-      })
-    }
+  if (interpreter.run()) {
+    send('changeRunningState', { running: true }, () => {})
   }
+}
+
+module.exports = {
+  run
 }

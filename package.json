@@ -4,7 +4,9 @@
   "description": "interactive development environment to learn programming with robots",
   "main": "src/client.js",
   "dependencies": {
+    "blockly": "1.0.0",
     "choo": "3.3.0",
+    "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
     "sheetify": "5.1.1"
   },
@@ -14,13 +16,11 @@
     "babelify": "^7.3.0",
     "browserify-hmr": "^0.3.5",
     "budo": "^9.2.1",
-    "eslint-config-standard": "^6.2.0",
-    "eslint": "^3.8.1",
-    "eslint-plugin-promise": "^3.0.0",
-    "eslint-plugin-standard": "^2.0.1"
+    "standard": "^8.5.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "napa https://github.com/NeilFraser/JS-Interpreter.git",
+    "test": "standard",
     "start": "node server.js"
   },
   "repository": {

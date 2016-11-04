@@ -4,8 +4,9 @@
   "description": "interactive development environment to learn programming with robots",
   "main": "src/client.js",
   "dependencies": {
+    "blockly": "1.0.0",
     "choo": "3.3.0",
-    "immutability-helper": "^2.0.0",
+    "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
     "sheetify": "5.1.1"
   },

@@ -1,7 +1,7 @@
 window.acorn = require('JS-Interpreter.git/acorn')
 const { Interpreter } = require('JS-Interpreter.git/interpreter')
 
-function getApi ({ send, scope, interpreter }) {
+function addApi ({ send, scope, interpreter }) {
   function move (value, callback) {
     setTimeout(() => {
       callback(interpreter.createPrimitive(undefined))
@@ -20,7 +20,7 @@ function getApi ({ send, scope, interpreter }) {
 
 function run (sourcecode, send, done) {
   const interpreter = new Interpreter(sourcecode, (interpreter, scope) => (
-    getApi({ send, interpreter, scope })
+    addApi({ send, interpreter, scope })
   ))
 
   if (interpreter.run()) {

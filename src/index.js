@@ -1,3 +1,12 @@
+// TODO: replace this later with require
+if (!window.__loaded) {
+  document.write('<script src="./node_modules/blockly/blockly_compressed.js"></script>')
+  document.write('<script src="./node_modules/blockly/blocks_compressed.js"></script>')
+  document.write('<script src="./node_modules/blockly/msg/js/en.js"></script>')
+}
+
+window.__loaded = true
+
 const _ = require('lodash')
 const choo = require('choo')
 const update = require('immutability-helper')
@@ -8,7 +17,7 @@ const app = choo()
 
 app.model({
   state: {
-    robot: { x: 5, y: 5 },
+    robot: { x: 7, y: 10 },
     running: false
   },
 

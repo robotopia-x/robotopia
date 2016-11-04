@@ -3,6 +3,12 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
 
+document.write(`
+  <script src="../node_modules/blockly/blockly_compressed.js"></script>
+  <script src="../node_modules/blockly/blocks_compressed.js"></script>
+  <script src="../node_modules/blockly/javascript_compressed.js"></script>
+`)
+
 const app = choo()
 
 app.model({
@@ -12,27 +18,8 @@ app.model({
   }
 })
 
-const prefix = sf`
-  :host {
-    font-family: sans-serif;
-  }
-
-  h1 {
-    color: red;
-  }`
-
-const mainView = (state, prev, send) => html`
-  <main class=${prefix}>
-    <h1>Title: ${state.title}!</h1>
-    <input
-      type="text"
-      value=${state.title}
-      oninput=${(e) => send('update', e.target.value)}>
-  </main>
-`
-
 app.router((route) => [
-  route('/', mainView)
+  route('/', require('./views/blockly'))
 ])
 
 // setup hot module replacement

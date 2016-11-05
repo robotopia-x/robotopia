@@ -1,7 +1,11 @@
+/* global Blockly */
+
+const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
 
-const toolbox = `<xml id="toolbox" style="display: none">
+const toolbox = `
+  <xml id="toolbox" style="display: none">
       <category name="Logic">
         <block type="controls_if"></block>
         <block type="controls_repeat_ext"></block>
@@ -16,63 +20,47 @@ const toolbox = `<xml id="toolbox" style="display: none">
         <block type="move"></block>
         <block type="rotate"></block>
       </category>
-    </xml>`
+   </xml>
+`
 
 const prefix = sf`
-  :host {
+  :host, :host > .editor {
     height:100%;
     width: 100%;
-  }
-  
-  #blocklyDiv {
-    position: absolute;
-  }
+  }  
 `
-var mountedBlockly = html``
 
-const blocklyView = (state, prev, send) => {
-  console.log('rendered')
-  return mountedBlockly || html`
-    <div id="blocklyArea" class=${prefix}>
-      <div id="blocklyDiv" onload=${(el) => {
-        if (!mountedBlockly) {
-          console.log('mounted')
-          var blocklyArea = document.getElementById('blocklyArea')
-          var workspace = Blockly.inject(el.id,
-            {toolbox: toolbox})
+const blocklyView = widget((update) => {
+  let send, workspace, editorElement
 
-          var onresize = (e) => {
-            // Compute the absolute coordinates and dimensions of blocklyArea.
-            var element = blocklyArea
-            var x = 0
-            var y = 0
-            do {
-              x += element.offsetLeft
-              y += element.offsetTop
-              element = element.offsetParent
-            } while (element)
-            // Position blocklyDiv over blocklyArea.
-            blocklyDiv.style.left = x + 'px'
-            blocklyDiv.style.top = y + 'px'
-            blocklyDiv.style.width = blocklyArea.offsetWidth + 'px'
-            blocklyDiv.style.height = blocklyArea.offsetHeight + 'px'
-          }
-          window.addEventListener('resize', onresize, false)
-          onresize()
-          Blockly.svgResize(workspace)
+  update(onupdate)
 
-          workspace.addChangeListener(myUpdateFunction)
-          function myUpdateFunction (event) {
-            console.log('changed')
-            var code = Blockly.JavaScript.workspaceToCode(workspace)
-            send('updateCode', { srcCode: code })
-          }
-
-          mountedBlockly = document.getElementById('blocklyArea')  
-        }
-    }}></div>
-   </div>
+  return html`   
+    <div class=${prefix}>
+      <div class='editor' onload=${onload} onunload=${onunload}></div>       
+    </div>
   `
-}
+
+  function onupdate (stat, prev, _send) {
+    send = _send
+  }
+
+  function onload (el) {
+    editorElement = el
+    workspace = Blockly.inject(editorElement, { toolbox: toolbox })
+
+    workspace.addChangeListener(updateCode)
+  }
+
+  function updateCode () {
+    send('updateCode', {
+      srcCode: Blockly.JavaScript.workspaceToCode(workspace)
+    })
+  }
+
+  function onunload () {
+    workspace.removeChangeListener(updateCode)
+  }
+})
 
 module.exports = blocklyView

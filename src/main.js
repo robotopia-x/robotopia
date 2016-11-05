@@ -38,7 +38,7 @@ const contentPrefix = sf`
     }
 
     :host > .column {
-      flex-grow: 1;
+      width: 50%;      
     }
 `
 

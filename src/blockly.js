@@ -41,7 +41,7 @@ const blocklyView = widget((update) => {
     </div>
   `
 
-  function onupdate (stat, prev, _send) {
+  function onupdate (state, prev, _send) {
     send = _send
   }
 

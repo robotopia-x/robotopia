@@ -1,37 +1,26 @@
+const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
+const canvasView = require('./canvas')
 
 const prefix = sf`
   :host {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  :host .stage {
-    border: 1px solid #000;
-    width: 200px;
-    height: 200px;
-  }
-
-  :host circle {
-    fill: red
   }
 `
 
-const GameView = ({robot}) => {
-  const x = robot.x * 20
-  const y = robot.y * 20
-
-  return html`
-    <div class=${prefix}>
-      <svg viewBox="0 0 200 200" class='stage'>
-        <circle class="circle" cx="${x}" cy="${y}" r="10"/>
-      </svg>
+const gameView = (state, prev, send) => html`
+    <div class="${prefix}">
+      ${canvasView(_.partial(render, state))}
     </div>
   `
+
+function render (state, ctx, cWidth, cHeight) {
+  const {robot: { x, y }} = state
+
+  ctx.clearRect(0, 0, cWidth, cHeight)
+  ctx.fillRect(x, y, 10, 10)
 }
 
-module.exports = GameView
+module.exports = gameView

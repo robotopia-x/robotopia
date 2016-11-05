@@ -38,23 +38,23 @@ app.model({
 
       switch (direction) {
         case 'UP':
-          y = y - 1
+          y = y - 10
           break
         case 'DOWN':
-          y = y + 1
+          y = y + 10
           break
         case 'LEFT':
-          x = x - 1
+          x = x - 10
           break
         case 'RIGHT':
-          x = x + 1
+          x = x + 10
           break
       }
 
       return update(state, {
         robot: {
-          x: { $set: _.clamp(x, 0, 9) },
-          y: { $set: _.clamp(y, 0, 9) }
+          x: { $set: x },
+          y: { $set: y }
         }
       })
     },

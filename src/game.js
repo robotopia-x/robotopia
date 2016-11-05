@@ -1,5 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
+const canvasView = require('./canvas')
 
 const prefix = sf`
   :host {
@@ -8,30 +9,17 @@ const prefix = sf`
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  :host .stage {
-    border: 1px solid #000;
-    width: 200px;
-    height: 200px;
-  }
-
-  :host circle {
-    fill: red
-  }
 `
 
-const GameView = ({robot}) => {
-  const x = robot.x * 20
-  const y = robot.y * 20
+/*
+canvas(state, render)
+render(ctx, state)
+*/
 
-  return html`
-    <div class=${prefix}>
-      <svg viewBox="0 0 200 200" class='stage'>
-        <circle class="circle" cx="${x}" cy="${y}" r="10"/>
-      </svg>
+const gameView = (state, prev, send) => html`
+    <div class="${prefix}">
+      ${canvasView}
     </div>
   `
-}
 
-module.exports = GameView
+module.exports = gameView

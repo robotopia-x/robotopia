@@ -2,6 +2,7 @@ const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
 const canvasView = require('./canvas')
+const gameGrid = require('../utils/gamegrid')
 
 const prefix = sf`
   :host {
@@ -22,6 +23,9 @@ function render (state, ctx, cWidth, cHeight) {
 
 
   ctx.clearRect(0, 0, cWidth, cHeight)
+
+  gameGrid.drawGrid(state, ctx, cWidth, cHeight)
+
   ctx.fillRect(x, y, 10, 10)
 }
 

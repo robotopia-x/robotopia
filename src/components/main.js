@@ -38,7 +38,8 @@ const contentPrefix = sf`
     }
 
     :host > .column {
-      width: 50%;      
+      width: 50%;  
+      height: 100%;
     }
 `
 

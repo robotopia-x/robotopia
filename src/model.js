@@ -43,8 +43,7 @@ const gameState = gameEngine.init({
 const initialState = {
   robot: { x: 5, y: 5 },
   running: false,
-  srcCode: '',
-  game: gameState
+  srcCode: ''
 }
 
 module.exports = {

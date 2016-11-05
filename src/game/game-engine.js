@@ -18,11 +18,19 @@ function addEntity (state, { components, id = uid() }) {
   })
 }
 
-function updateEntity (state, id, type, updateComponent) {
-  const componentState = state.entities[id].components[type]
+function updateEntity (updateComponent, type, data, state) {
+  const componentState = state.entities[data.id].components[data.type]
 
   return update(state, {
-    entities: { [id]: { components: { [type]: { $set: updateComponent(componentState) } } } }
+    entities: {
+      [data.id]: {
+        components: {
+          [type]: {
+            $set: updateComponent.apply(null, data.params.concat([componentState]))
+          }
+        }
+      }
+    }
   })
 }
 

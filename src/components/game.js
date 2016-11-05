@@ -19,6 +19,8 @@ const gameView = (state, prev, send) => html`
 function render (state, ctx, cWidth, cHeight) {
   const {robot: { x, y }} = state
 
+
+
   ctx.clearRect(0, 0, cWidth, cHeight)
   ctx.fillRect(x, y, 10, 10)
 }

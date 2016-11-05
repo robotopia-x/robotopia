@@ -22,6 +22,8 @@ function render (state, ctx, cWidth, cHeight) {
   ctx.save()
   ctx.scale(cWidth / 1000, cHeight / 1000)
 
+
+
   ctx.clearRect(0, 0, cWidth, cHeight)
   drawGrid(state, ctx, cWidth, cHeight)
 

@@ -49,7 +49,7 @@ const mainView = (state, prev, send) => html`
     </div>
     <div class=${`${contentPrefix} content`}>
       <div class="column">
-        ${blockly()}
+        ${blockly(state, prev, send)}
       </div>
       <div class="divider"></div>
       <div class="column">

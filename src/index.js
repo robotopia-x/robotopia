@@ -20,18 +20,15 @@ const app = choo()
 
 app.model({
   state: {
-    robot: { x: 7, y: 10 },
-    running: false
+    robot: { x: 5, y: 5 },
+    running: false,
+    srcCode: ''
   },
 
   effects: {
-    run: (data, state, send, done) => {
-      interpreter.run(`
-        move('up');
-        move('down');
-        move('left');
-        move('right');
-      `, send, done)
+    runCode: (data, state, send, done) => {
+      interpreter.run(state.srcCode, send, done)
+      console.log(state.srcCode)
     }
   },
 
@@ -40,16 +37,16 @@ app.model({
       let { robot: { x, y } } = state
 
       switch (direction) {
-        case 'up':
+        case 'UP':
           y = y - 1
           break
-        case 'down':
+        case 'DOWN':
           y = y + 1
           break
-        case 'left':
+        case 'LEFT':
           x = x - 1
           break
-        case 'right':
+        case 'RIGHT':
           x = x + 1
           break
       }
@@ -62,7 +59,8 @@ app.model({
       })
     },
 
-    changeRunningState: ({ running }, state) => update(state, { running: { $set: running } })
+    changeRunningState: ({ running }, state) => update(state, { running: { $set: running } }),
+    updateCode: ({ srcCode }, state) => update(state, { srcCode: { $set: srcCode } })
   }
 })
 

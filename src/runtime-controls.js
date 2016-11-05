@@ -8,7 +8,7 @@ function runtimeControls (state, prev, send) {
   }
 
   return html`
-    <button onclick=${() => send('run', { })}>run</button>
+    <button onclick=${() => send('runCode', { })}>run</button>
   `
 }
 

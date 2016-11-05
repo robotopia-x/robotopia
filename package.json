@@ -5,11 +5,10 @@
   "main": "src/client.js",
   "dependencies": {
     "blockly": "1.0.0",
-    "cache-element": "^1.1.1",
+    "cache-element": "1.1.1",
     "choo": "3.3.0",
     "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
-    "node-blockly": "^1.0.7",
     "sheetify": "5.1.1"
   },
   "devDependencies": {

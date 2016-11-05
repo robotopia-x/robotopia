@@ -1,6 +1,7 @@
 const gameEngine = require('./game/game-engine')
 const reducers = require('./reducers')
 const effects = require('./effects')
+const gameGrid = require('./utils/gamegrid')
 
 const gameState = gameEngine.init({
   tiles: [

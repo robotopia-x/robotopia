@@ -9,8 +9,8 @@ if (!window.__loaded) {
 }
 window.__loaded = true
 
-const _ = require('lodash')
 const choo = require('choo')
+const hotModuleReplacement = require('./utils/hotModuleReplacement')
 const app = choo()
 
 app.model(require('./model'))
@@ -19,17 +19,7 @@ app.router((route) => [
   route('/', require('./components/main'))
 ])
 
-// setup hot module replacement
-app.use({
-  onStateChange: function (data, state, prev, caller, createSend) {
-    window.__state = state
-  },
-  wrapInitialState: (obj) => (_.assign({}, obj, window.__state))
-})
-
-if (module.hot) {
-  module.hot.accept()
-}
+hotModuleReplacement(app)
 
 window.startApp = () => {
   document.body.innerHTML = ''

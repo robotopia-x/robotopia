@@ -31,7 +31,8 @@ const changeRunningState = ({ running }, state) => {
 }
 
 const updateCode = ({ srcCode }, state) => {
-  update(state, { srcCode: { $set: srcCode } })
+  console.log('update code')
+  return update(state, { srcCode: { $set: srcCode } })
 }
 
 module.exports = {

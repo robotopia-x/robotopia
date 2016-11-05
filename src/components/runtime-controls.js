@@ -1,6 +1,6 @@
 const html = require('choo/html')
 
-function runtimeControls (state, prev, send) {
+function runtimeControlsView (state, prev, send) {
   if (state.running) {
     return html`
       <button disabled>running...</button>
@@ -12,4 +12,4 @@ function runtimeControls (state, prev, send) {
   `
 }
 
-module.exports = runtimeControls
+module.exports = runtimeControlsView

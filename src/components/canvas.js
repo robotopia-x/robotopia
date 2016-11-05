@@ -28,7 +28,7 @@ const canvasView = widget((update) => {
   function onload (el) {
     canvas = el
     ctx = canvas.getContext('2d')
-    
+
     render(ctx, canvas.width, canvas.height)
   }
 })

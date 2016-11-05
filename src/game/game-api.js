@@ -8,7 +8,7 @@ module.exports = {
     move: _.partial(updateEntity, 'position', (direction, { x, y }) => {
       let nextX = x
       let nextY = y
-
+      
       switch (direction) {
         case 'UP':
           nextY = y - 1

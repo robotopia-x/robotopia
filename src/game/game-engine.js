@@ -18,15 +18,17 @@ function addEntity (state, { components, id = uid() }) {
   })
 }
 
-function updateEntity (updateComponent, type, data, state) {
-  const componentState = state.entities[data.id].components[data.type]
+function updateEntity (type, updateComponent, data, state) {
+  const componentState = state.game.entities[data.id].components[type]
 
   return update(state, {
-    entities: {
-      [data.id]: {
-        components: {
-          [type]: {
-            $set: updateComponent.apply(null, data.params.concat([componentState]))
+    game: {
+      entities: {
+        [data.id]: {
+          components: {
+            [type]: {
+              $set: updateComponent.apply(null, data.params.concat([componentState]))
+            }
           }
         }
       }

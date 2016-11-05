@@ -4,19 +4,34 @@ const sf = require('sheetify')
 
 const prefix = sf`
   :host {
-    height:100%;
-    width: 100%;
+    
   }  
 `
 const canvasView = widget((update) => {
-  let send, ctx
+  let ctx, render, canvas
 
   update(onupdate)
 
   return html`
-  
+    <div>
+      <canvas class=${prefix} onload=${onload}></canvas>
+    </div>
   `
 
+  function onupdate (_render) {
+    render = _render
+    if (ctx) {
+      render(ctx, canvas.width, canvas.height)
+    }
+  }
 
+  function onload (el) {
+    canvas = el
+    ctx = canvas.getContext('2d')
+    
+    render(ctx, canvas.width, canvas.height)
+  }
 })
+
+module.exports = canvasView
 

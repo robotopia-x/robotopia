@@ -1,8 +1,8 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('./game')
-const blockly = require('./blockly')
-const runtimeControls = require('./../utils/runtime-controls')
+const blocklyView = require('./blockly')
+const runtimeControlsView = require('./../utils/runtime-controls')
 
 const mainPrefix = sf`
     :host {
@@ -45,11 +45,11 @@ const contentPrefix = sf`
 const mainView = (state, prev, send) => html`
   <main class=${mainPrefix}>
     <div class="header-bar">
-      ${runtimeControls(state, prev, send)}
+      ${runtimeControlsView(state, prev, send)}
     </div>
     <div class=${`${contentPrefix} content`}>
       <div class="column">
-        ${blockly(state, prev, send)}
+        ${blocklyView(state, prev, send)}
       </div>
       <div class="divider"></div>
       <div class="column">

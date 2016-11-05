@@ -10,7 +10,7 @@ if (!window.__loaded) {
 window.__loaded = true
 
 const choo = require('choo')
-const hotModuleReplacement = require('./utils/hotModuleReplacement')
+const hotModuleReplacement = require('./utils/hot-module-replacement')
 const app = choo()
 
 app.model(require('./model'))

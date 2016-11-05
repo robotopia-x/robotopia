@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('./game')
+const blockly = require('./blockly')
 const runtimeControls = require('./runtime-controls')
 
 const mainPrefix = sf`
@@ -47,7 +48,9 @@ const mainView = (state, prev, send) => html`
       ${runtimeControls(state, prev, send)}
     </div>
     <div class=${`${contentPrefix} content`}>
-      <div class="column"></div>
+      <div class="column">
+        ${blockly()}
+      </div>
       <div class="divider"></div>
       <div class="column">
         ${gameView(state)}

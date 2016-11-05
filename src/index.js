@@ -3,6 +3,9 @@ if (!window.__loaded) {
   document.write('<script src="./node_modules/blockly/blockly_compressed.js"></script>')
   document.write('<script src="./node_modules/blockly/blocks_compressed.js"></script>')
   document.write('<script src="./node_modules/blockly/msg/js/en.js"></script>')
+  document.write('<script src="./node_modules/blockly/javascript_compressed.js"></script>')
+  document.write('<script src="../lib/custom_blocks.js"></script>')
+  document.write('<script src="../lib/blockHandler.js" onload="startApp()"}></script>')
 }
 
 window.__loaded = true
@@ -79,5 +82,8 @@ if (module.hot) {
   module.hot.accept()
 }
 
-document.body.innerHTML = ''
-document.body.appendChild(app.start())
+window.startApp = () => {
+  document.body.innerHTML = ''
+  document.body.appendChild(app.start())
+}
+

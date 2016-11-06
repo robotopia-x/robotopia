@@ -35,11 +35,16 @@ const contentPrefix = sf`
       background: #404040;
       width: 10px;
       height: 100%;
+      cursor: ew-resize;
+    }
+    
+    :host > .divider:hover {
+      background: #848484;
     }
 
     :host > .column {
-      width: 50%;  
       height: 100%;
+      width: 50%;
     }
 `
 

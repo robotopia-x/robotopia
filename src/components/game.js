@@ -57,7 +57,8 @@ function getTileImage (type) {
   return {
     0: assets.store.PLAIN_BLOCK,
     1: assets.store.GRASS_BLOCK,
-    2: assets.store.WATER_BLOCK
+    2: assets.store.WATER_BLOCK,
+    3: assets.store.STONE_BLOCK
   }[type]
 }
 

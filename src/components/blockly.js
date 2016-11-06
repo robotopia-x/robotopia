@@ -13,7 +13,7 @@ const prefix = sf`
 `
 
 const blocklyView = widget((update) => {
-  let state, send, workspace, editorElement
+  let send, workspace, editorElement
 
   update(onupdate)
 
@@ -24,7 +24,6 @@ const blocklyView = widget((update) => {
   `
 
   function onupdate (_state, prev, _send) {
-    state = _state
     send = _send
   }
 

@@ -26,8 +26,10 @@ window.startApp = () => {
   assets.load({
     GRASS_BLOCK: '../assets/img/grass-block.png',
     PLAIN_BLOCK: '../assets/img/plain-block.png',
+    WATER_BLOCK: '../assets/img/water-block.png',
+    STONE_BLOCK: '../assets/img/stone-block.png',
     GEM: '../assets/img/gem-blue.png',
-    ROBOT: '../assets/img/character-girl.png'
+    ROBOT: '../assets/img/robot-front.png'
   }).then(() => {
     document.body.innerHTML = ''
     document.body.appendChild(app.start())

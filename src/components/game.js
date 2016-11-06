@@ -28,11 +28,7 @@ function render (ctx, width, height, state) {
   ctx.clearRect(0, 0, width, height)
   renderTiles(ctx, state.tiles)
 
-  _.forEach(gameEngine.getAllEntities(['position', 'sprite'], state), (entity) => {
-    const { position, sprite } = entity
-
-    ctx.drawImage(assets.store[sprite.type], position.x * TILE_WIDTH, position.y * TILE_HEIGHT)
-  })
+  renderEntities(ctx, state)
 
   ctx.restore()
 }
@@ -45,11 +41,24 @@ function renderTiles (ctx, tiles) {
   }
 }
 
+function renderEntities (ctx, state) {
+  const sortedEntities = _.sortBy(gameEngine.getAllEntities(['position', 'sprite'], state), [(e) => {
+    return [e.position.x, e.position.y]
+  }])
+
+  _.forEach(sortedEntities, (entity) => {
+    const { position, sprite } = entity
+
+    ctx.drawImage(assets.store[sprite.type], position.x * TILE_WIDTH, position.y * TILE_HEIGHT)
+  })
+}
+
 function getTileImage (type) {
   return {
     0: assets.store.PLAIN_BLOCK,
     1: assets.store.GRASS_BLOCK,
-    2: assets.store.WATER_BLOCK
+    2: assets.store.WATER_BLOCK,
+    3: assets.store.STONE_BLOCK
   }[type]
 }
 

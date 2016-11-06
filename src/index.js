@@ -9,6 +9,7 @@ if (!window.__loaded) {
 }
 window.__loaded = true
 
+const assets = require('./utils/assets')
 const choo = require('choo')
 const hotModuleReplacement = require('./utils/hot-module-replacement')
 const app = choo()
@@ -22,6 +23,13 @@ app.router((route) => [
 hotModuleReplacement(app)
 
 window.startApp = () => {
-  document.body.innerHTML = ''
-  document.body.appendChild(app.start())
+  assets.load({
+    GRASS_BLOCK: '../assets/img/grass-block.png',
+    PLAIN_BLOCK: '../assets/img/plain-block.png',
+    GEM: '../assets/img/gem-blue.png',
+    ROBOT: '../assets/img/character-girl.png'
+  }).then(() => {
+    document.body.innerHTML = ''
+    document.body.appendChild(app.start())
+  })
 }

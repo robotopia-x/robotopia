@@ -11,7 +11,7 @@ const updateCode = ({ srcCode }, state) => {
   return update(state, { srcCode: { $set: srcCode } })
 }
 
-module.exports = _.assing({},
+module.exports = _.assign({},
   gameApi.actions,
   {
     changeRunningState,

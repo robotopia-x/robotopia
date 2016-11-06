@@ -38,7 +38,8 @@ const contentPrefix = sf`
     }
 
     :host > .column {
-      width: 50%;      
+      width: 50%;  
+      height: 100%;
     }
 `
 
@@ -53,7 +54,7 @@ const mainView = (state, prev, send) => html`
       </div>
       <div class="divider"></div>
       <div class="column">
-        ${gameView(state, prev, send)}
+        ${gameView(state.game, prev, send)}
       </div>
     </div>
   </main>

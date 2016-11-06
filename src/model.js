@@ -1,6 +1,7 @@
 const gameEngine = require('./game/game-engine')
 const reducers = require('./reducers')
 const effects = require('./effects')
+const gameGrid = require('./utils/gamegrid')
 
 const gameState = gameEngine.init({
   tiles: [
@@ -41,7 +42,7 @@ const gameState = gameEngine.init({
 })
 
 const initialState = {
-  robot: { x: 5, y: 5 },
+  robot: { x: 0, y: 0 },
   running: false,
   srcCode: '',
   game: gameState

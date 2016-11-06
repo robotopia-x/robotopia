@@ -48,7 +48,6 @@ function renderEntities (ctx, state) {
 
   _.forEach(sortedEntities, (entity) => {
     const { position, sprite } = entity
-
     ctx.drawImage(assets.store[sprite.type], position.x * TILE_WIDTH, position.y * TILE_HEIGHT)
   })
 }

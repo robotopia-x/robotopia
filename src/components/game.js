@@ -38,8 +38,6 @@ function render (ctx, width, height, state) {
 }
 
 function renderTiles (ctx, tiles) {
-  console.log(ctx)
-
   for (let y = 0; y < tiles.length; y++) {
     for (let x = 0; x < tiles[y].length; x++) {
       ctx.drawImage(getTileImage(tiles[y][x]), x * TILE_WIDTH, y * TILE_HEIGHT + 40)

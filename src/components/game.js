@@ -5,6 +5,9 @@ const assets = require('../utils/assets')
 const canvasView = require('./canvas')
 const gameEngine = require('../game/game-engine')
 
+const TILE_HEIGHT = 80
+const TILE_WIDTH = 100
+
 const prefix = sf`
   :host {
     width: 100%;
@@ -14,35 +17,40 @@ const prefix = sf`
 
 const gameView = (state, prev, send) => html`
     <div class="${prefix}">
-      ${canvasView(_.partial(render, state))}
+      ${canvasView((ctx, width, height) => render(ctx, width, height, state))}
     </div>
   `
 
-function render (state, ctx, cWidth, cHeight) {
+function render (ctx, width, height, state) {
   ctx.save()
-  ctx.scale(cWidth / 1000, cHeight / 1000)
+  ctx.scale(width / 1000, height / 1000)
 
-  ctx.clearRect(0, 0, cWidth, cHeight)
-  drawGrid(state, ctx, cWidth, cHeight)
+  ctx.clearRect(0, 0, width, height)
+  renderTiles(ctx, state.tiles)
 
-  _.forEach(gameEngine.getAllEntities(state, 'position'), (entity) => {
-    const {position: { x, y }, id} = entity
-    const img = id === 'robot' ? 'ROBOT' : 'GEM'
+  _.forEach(gameEngine.getAllEntities(['position', 'sprite'], state), (entity) => {
+    const { position, sprite } = entity
 
-    ctx.drawImage(assets.store[img], x * 100, y * 100)
+    ctx.drawImage(assets.store[sprite.type], position.x * TILE_WIDTH, position.y * TILE_HEIGHT)
   })
 
   ctx.restore()
 }
 
-function drawGrid (state, ctx, cWidth, cHeight) {
-  const gameGrid = state.tiles
-
-  for (let y = 0; y < gameGrid.length; y++) {
-    for (let x = 0; x < gameGrid[y].length; x++) {
-      ctx.drawImage(assets.store.PLAIN_BLOCK, x * 100, y * 100)
+function renderTiles (ctx, tiles) {
+  for (let y = 0; y < tiles.length; y++) {
+    for (let x = 0; x < tiles[y].length; x++) {
+      ctx.drawImage(getTileImage(tiles[y][x]), x * TILE_WIDTH, y * TILE_HEIGHT + 40)
     }
   }
+}
+
+function getTileImage (type) {
+  return {
+    0: assets.store.PLAIN_BLOCK,
+    1: assets.store.GRASS_BLOCK,
+    2: assets.store.WATER_BLOCK
+  }[type]
 }
 
 module.exports = gameView

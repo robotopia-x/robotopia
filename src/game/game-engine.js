@@ -5,47 +5,53 @@ const uid = require('uid')
 function init ({ tiles, entities }) {
   return {
     tiles,
-    entities: _.reduce(entities, (entities, { id = uid(), components }) => {
-      entities[id] = { id, components }
+    entities: _.reduce(entities, (entities, entity) => {
+      if (!entity.id) {
+        entity.id = uid()
+      }
+      entities[entity.id] = entity
       return entities
     }, {})
   }
 }
 
-function addEntity (state, { components, id = uid() }) {
-  return update(state, {
-    entities: { [id]: { $set: { components, id } } }
-  })
-}
-
-function updateEntity (type, updateComponent, data, state) {
-  const componentState = state.game.entities[data.id].components[type]
+function updateEntity (types, updateComponents, { id, params }, state) {
+  const current = getEntity(id, types, state)
+  const next = updateComponents.apply(null, params.concat([current]))
 
   return update(state, {
     game: {
       entities: {
-        [data.id]: {
-          components: {
-            [type]: {
-              $set: updateComponent.apply(null, data.params.concat([componentState]))
-            }
-          }
-        }
+        [id]: _.reduce(next, (changes, component, type) => {
+          changes[type] = { $set:  _.assign({}, current[type], component) }
+          return changes
+        }, {})
       }
     }
   })
 }
 
-function getAllEntities (state, type) {
+function getEntity (id, types, state) {
+  return _.pick(state.game.entities[id], types)
+}
+
+function getAllEntities (types, state) {
   return _(state.entities)
-    .filter(({ components }) => components[type])
-    .map(({ id, components }) => ({ id, [type]: components[type] }))
+    .filter(entity => hasEntityComponents(types, entity))
+    .map(entity => getEntityComponents(types, entity))
     .value()
+}
+
+function hasEntityComponents (types, entity) {
+  return _.every(types, (type) => !_.isUndefined(entity))
+}
+
+function getEntityComponents (types, entity) {
+  return _.pick(entity, ['id'].concat(types))
 }
 
 module.exports = {
   init,
-  addEntity,
-  getAllEntities,
-  updateEntity
+  updateEntity,
+  getAllEntities
 }

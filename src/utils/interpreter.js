@@ -5,8 +5,7 @@ function addApi ({ send, scope, interpreter }) {
   function move (value, callback) {
     setTimeout(() => {
       callback(interpreter.createPrimitive(undefined))
-      send('move', { params: [value.data], id: 'robot' }, () => {
-      })
+      send('move', { id: 'robot', params: [value.data] }, () => {})
 
       if (!interpreter.run()) {
         send('changeRunningState', { running: false }, () => {

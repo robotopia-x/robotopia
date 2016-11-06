@@ -11,8 +11,6 @@ const prefix = sf`
     border-radius: 5%;
     font-size: 14px;
     font-family: Helvetica, Arial, Sans-Serif;
-    text-decoration: none;
-    vertical-align: middle;
   }
   
   :host:hover {

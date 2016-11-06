@@ -24,8 +24,8 @@ module.exports = gameEngine.init({
 function getRobot ({ id, x, y }) {
   return {
     id: 'robot',
-    position: { x, y },
-    sprite: { type: 'ROBOT' }
+    position: { x, y, rotation: 0 },
+    sprite: { type: 'ROBOT_0' }
   }
 }
 

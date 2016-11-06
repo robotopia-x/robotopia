@@ -23,7 +23,7 @@ function updateEntity (types, updateComponents, { id, params }, state) {
     game: {
       entities: {
         [id]: _.reduce(next, (changes, component, type) => {
-          changes[type] = { $set:  _.assign({}, current[type], component) }
+          changes[type] = { $set: _.assign({}, current[type], component) }
           return changes
         }, {})
       }

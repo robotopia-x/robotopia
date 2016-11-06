@@ -5,29 +5,36 @@ const prefix = sf`
   :host {
     height: 30px;
     width: 75px;
-    color: ##404040;
-    background-color: #dddddd;
     border: none;
     border-radius: 5%;
-    font-size: 14px;
     font-family: Helvetica, Arial, Sans-Serif;
   }
   
-  :host:hover {
+  :host.clickable {
+    color: #404040;
+    background-color: #dddddd;
+    font-size: 14px;
+  }
+   
+  :host.clickable:hover {
     color: #2b2b2b;
     background-color: white;
+  }
+  
+  :host.diabled {
+    font-size: 12px;
   }
 `
 
 function runtimeControlsView (state, prev, send) {
   if (state.running) {
     return html`
-      <button id="disabled" class=${prefix} disabled>Running...</button>
+      <button class=${prefix + ' disabled'} disabled>Running...</button>
    `
   }
 
   return html`
-    <button id="clickable" class=${prefix} onclick=${() => send('runCode', { })}>► Run</button>
+    <button class=${prefix + ' clickable'} onclick=${() => send('runCode', { })}>► Run</button>
   `
 }
 

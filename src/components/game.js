@@ -22,12 +22,11 @@ const gameView = (state, prev, send) => html`
   `
 
 function render (ctx, width, height, state) {
+  ctx.clearRect(0, 0, width, height)
   ctx.save()
   ctx.scale(width / 1000, height / 1000)
 
-  ctx.clearRect(0, 0, width, height)
   renderTiles(ctx, state.tiles)
-
   renderEntities(ctx, state)
 
   ctx.restore()

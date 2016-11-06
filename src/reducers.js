@@ -7,14 +7,18 @@ const changeRunningState = ({ running }, state) => {
 }
 
 const updateCode = ({ srcCode }, state) => {
-  console.log('update code')
   return update(state, { srcCode: { $set: srcCode } })
+}
+
+const updateWorkspace = ({ workspace }, state) => {
+  return update(state, {workspace: { $set: workspace }})
 }
 
 module.exports = _.assign({},
   gameApi.actions,
   {
     changeRunningState,
-    updateCode
+    updateCode,
+    updateWorkspace
   }
 )

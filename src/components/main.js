@@ -13,11 +13,11 @@ const mainPrefix = sf`
     }
 
     :host .header-bar {
-      height: 75px;
+      height: 50px;
       display: flex;
       padding: 20px;
       align-items: center;
-      background: #333;
+      background: #404040;
     }
 
     :host .content {
@@ -32,7 +32,7 @@ const contentPrefix = sf`
     }
 
     :host > .divider {
-      background: grey;
+      background: #404040;
       width: 10px;
       height: 100%;
     }

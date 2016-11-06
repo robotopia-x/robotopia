@@ -6,6 +6,7 @@ const initialState = {
   robot: { x: 0, y: 0 },
   running: false,
   srcCode: '',
+  workspace: '',
   game: gameState
 }
 

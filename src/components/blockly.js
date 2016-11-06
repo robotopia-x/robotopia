@@ -1,4 +1,4 @@
-/* global Blockly */
+/* global Blockly localStorage */
 
 const widget = require('cache-element/widget')
 const html = require('choo/html')
@@ -13,7 +13,7 @@ const prefix = sf`
 `
 
 const blocklyView = widget((update) => {
-  let send, workspace, editorElement
+  let state, send, workspace, editorElement
 
   update(onupdate)
 
@@ -23,7 +23,8 @@ const blocklyView = widget((update) => {
     </div>
   `
 
-  function onupdate (state, prev, _send) {
+  function onupdate (_state, prev, _send) {
+    state = _state
     send = _send
   }
 
@@ -31,6 +32,7 @@ const blocklyView = widget((update) => {
     editorElement = el
     workspace = Blockly.inject(editorElement, { toolbox: toolbox })
 
+    restoreWorkspace(workspace)
     workspace.addChangeListener(updateCode)
   }
 
@@ -38,11 +40,24 @@ const blocklyView = widget((update) => {
     send('updateCode', {
       srcCode: Blockly.JavaScript.workspaceToCode(workspace)
     })
+
+    const xml = Blockly.Xml.workspaceToDom(workspace)
+    const xmlText = Blockly.Xml.domToText(xml)
+    send('updateWorkspace', {
+      workspace: xmlText
+    })
+
+    localStorage.setItem('workspace', xmlText)
   }
 
   function onunload () {
     workspace.removeChangeListener(updateCode)
   }
 })
+
+function restoreWorkspace (workspace) {
+  const xml = Blockly.Xml.textToDom(localStorage.getItem('workspace'))
+  Blockly.Xml.domToWorkspace(xml, workspace)
+}
 
 module.exports = blocklyView

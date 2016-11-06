@@ -5,28 +5,30 @@ const GAME_SIZE = 10
 
 module.exports = {
   actions: {
-    move: _.partial(updateEntity, 'position', (direction, { x, y }) => {
-      let nextX = x
-      let nextY = y
+    move: _.partial(updateEntity, ['position'], (direction, { position }) => {
+      let nextX = position.x
+      let nextY = position.y
 
       switch (direction) {
         case 'UP':
-          nextY = y - 1
+          nextY = position.y - 1
           break
         case 'DOWN':
-          nextY = y + 1
+          nextY = position.y + 1
           break
         case 'LEFT':
-          nextX = x - 1
+          nextX = position.x - 1
           break
         case 'RIGHT':
-          nextX = x + 1
+          nextX = position.x + 1
           break
       }
 
       return {
-        x: _.clamp(nextX, 0, GAME_SIZE - 1),
-        y: _.clamp(nextY, 0, GAME_SIZE - 1)
+        position: {
+          x: _.clamp(nextX, 0, GAME_SIZE - 1),
+          y: _.clamp(nextY, 0, GAME_SIZE - 1)
+        }
       }
     })
   }

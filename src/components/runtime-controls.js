@@ -21,7 +21,7 @@ const prefix = sf`
     background-color: white;
   }
   
-  :host.diabled {
+  :host.disabled {
     font-size: 12px;
   }
 `

@@ -15,11 +15,15 @@ const prefix = sf`
   }
 `
 
-const gameView = (state, prev, send) => html`
+const gameView = (state, prev, send) => {
+  console.log(state)
+
+  return html`
     <div class="${prefix}">
       ${canvasView((ctx, width, height) => render(ctx, width, height, state))}
     </div>
   `
+}
 
 function render (ctx, width, height, state) {
   ctx.clearRect(0, 0, width, height)

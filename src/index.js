@@ -13,9 +13,13 @@ const { ORIENTATION } = require('./utils/types')
 const assets = require('./utils/assets')
 const choo = require('choo')
 const hotModuleReplacement = require('./utils/hot-module-replacement')
+const ideModel = require('./model')
+const gameModel = require('./game')
+
 const app = choo()
 
-app.model(require('./model'))
+app.model(ideModel)
+app.model(gameModel)
 
 app.router((route) => [
   route('/', require('./components/main'))

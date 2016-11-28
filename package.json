@@ -23,6 +23,7 @@
   "scripts": {
     "install": "napa https://github.com/NeilFraser/JS-Interpreter.git",
     "test": "standard",
+    "lint": "standard --fix",
     "start": "node server.js"
   },
   "repository": {

@@ -15,43 +15,79 @@ function init ({ tiles, entities }) {
   }
 }
 
-function updateEntity (types, updateComponents, { id, params }, state) {
-  const current = getEntity(id, types, state)
-  const next = updateComponents.apply(null, params.concat([current]))
-
-  return update(state, {
-    game: {
-      entities: {
-        [id]: _.reduce(next, (changes, component, type) => {
-          changes[type] = { $set: _.assign({}, current[type], component) }
-          return changes
-        }, {})
-      }
-    }
-  })
+function getEntity (id, componentTypes, state) {
+  return getEntityComponents(componentTypes, state.entities[id])
 }
 
-function getEntity (id, types, state) {
-  return _.pick(state.game.entities[id], types)
-}
-
-function getAllEntities (types, state) {
+function getAllEntities (componentTypes, state) {
   return _(state.entities)
-    .filter(entity => hasEntityComponents(types, entity))
-    .map(entity => getEntityComponents(types, entity))
+    .filter(entity => hasEntityComponents(componentTypes, entity))
+    .map(entity => getEntityComponents(componentTypes, entity))
     .value()
 }
 
-function hasEntityComponents (types, entity) {
-  return _.every(types, (type) => !_.isUndefined(entity))
+function hasEntityComponents (componentTypes, entity) {
+  return _.every(componentTypes, (type) => !_.isUndefined(entity))
 }
 
-function getEntityComponents (types, entity) {
-  return _.pick(entity, ['id'].concat(types))
+function getEntityComponents (componentTypes, entity) {
+  return _.pick(entity, ['id'].concat(componentTypes))
+}
+
+function game ({ namespace, initialState, components }) {
+  const reducers = getComponentsReducers(components)
+
+  return {
+    namespace,
+    state: init(initialState),
+    reducers
+  }
+}
+
+function getComponentsReducers (components) {
+  return _.reduce(components, (gameReducers, component, componentType) => {
+    return _.reduce(component.reducers, (gameReducers, reducer, reducerName) => {
+      gameReducers[`${componentType}.${reducerName}`] = _.partial(executeAction, component.requires, reducer)
+      console.log('component:', reducerName, gameReducers)
+      return gameReducers
+    }, gameReducers)
+  }, {})
+}
+
+function executeAction (componentTypes, reducer, { target, data }, state) {
+  let entitiyChanges
+
+  if (target) {
+    entitiyChanges = getSingleEntityChanges(componentTypes, reducer, target, data, state)
+  } else {
+    entitiyChanges = getAllEntitiesChanges(componentTypes, reducer, data, state)
+  }
+
+  return update(state, { entities: entitiyChanges })
+}
+
+function getSingleEntityChanges (componentTypes, reducer, id, action, state) {
+  const current = getEntity(id, componentTypes, state)
+  const nextChanges = reducer(action, current)
+
+  return {
+    [id]: nextChanges
+  }
+}
+
+function getAllEntitiesChanges (componentTypes, reducer, action, state) {
+  const entities = getAllEntities(componentTypes, state)
+
+  return _.reduce((entityChanges, entity) => {
+    const next = reducer(action, entity)
+
+    entityChanges[entity.id] = _.mapValues(next, (component) => ({ $set: component }))
+
+    return entityChanges
+  }, entities, {})
 }
 
 module.exports = {
-  init,
-  updateEntity,
+  engine: game,
   getAllEntities
 }

@@ -7,7 +7,11 @@ const initialState = {
   running: false,
   srcCode: '',
   workspace: '',
-  game: gameState
+  game: gameState,
+  canvas: {
+    pan: { x: 0, y: 0 },
+    zoom: 1250
+  }
 }
 
 module.exports = {

@@ -14,11 +14,16 @@ const updateWorkspace = ({ workspace }, state) => {
   return update(state, {workspace: { $set: workspace }})
 }
 
+const updateCanvas = ({ canvas }, state) => {
+  return update(state, {canvas: { $set: canvas }})
+}
+
 module.exports = _.assign({},
   gameApi.actions,
   {
     changeRunningState,
     updateCode,
-    updateWorkspace
+    updateWorkspace,
+    updateCanvas
   }
 )

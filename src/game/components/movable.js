@@ -1,16 +1,16 @@
 const _ = require('lodash')
 const { MOVE } = require('../../utils/types')
 
-const GAME_SIZE = 10
-
-
 module.exports = {
   movable: {
     requires: ['position'],
 
     reducers: {
-      move: ({ direction }, state) => {
+      move: ({ direction }, state, game) => {
         const { position } = state
+        const { tiles } = game
+        const mapWidth = tiles[0].length
+        const mapHeight = tiles.length
         let nextX = position.x
         let nextY = position.y
         let rotatedDirection = applyRotation(direction, position.rotation)
@@ -30,10 +30,14 @@ module.exports = {
             break
         }
 
+        if (game.tiles[nextY][nextX] === 2) {
+          return {}
+        }
+
         return {
           position: {
-            x: { $set: _.clamp(nextX, 0, GAME_SIZE - 1) },
-            y: { $set: _.clamp(nextY, 0, GAME_SIZE - 1) }
+            x: { $set: _.clamp(nextX, 0, mapWidth - 1) },
+            y: { $set: _.clamp(nextY, 0, mapHeight - 1) }
           }
         }
       },

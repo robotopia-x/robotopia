@@ -2,20 +2,24 @@ const _ = require('lodash')
 const update = require('immutability-helper')
 const uid = require('uid')
 
-function init ({ tiles, entities }) {
-  return {
-    tiles,
-    entities: _.reduce(entities, (entities, entity) => {
-      if (!entity.id) {
-        entity.id = uid()
-      }
+function init (state) {
+  const globalState = _.omit(state, ['entities'])
 
-      // TODO: enforce component requirements
+  return _.extend(
+    globalState,
+    {
+      entities: _.reduce(state.entities, (entities, entity) => {
+        if (!entity.id) {
+          entity.id = uid()
+        }
 
-      entities[entity.id] = entity
-      return entities
-    }, {})
-  }
+        // TODO: enforce component requirements
+
+        entities[entity.id] = entity
+        return entities
+      }, {})
+    }
+  )
 }
 
 function getEntity (id, state) {
@@ -45,38 +49,38 @@ function game ({ namespace, state, components }) {
 function getComponentsReducers (components) {
   return _.reduce(components, (gameReducers, component, componentType) => {
     return _.reduce(component.reducers, (gameReducers, reducer, reducerName) => {
-      gameReducers[`${componentType}.${reducerName}`] = _.partial(executeAction, component.requires, reducer)
+      gameReducers[`${componentType}.${reducerName}`] = _.partial(executeAction, componentType, reducer)
       return gameReducers
     }, gameReducers)
   }, {})
 }
 
-function executeAction (componentTypes, reducer, { target, data }, state) {
+function executeAction (componentType, reducer, { target, data }, state) {
   let entitiyChanges
 
   if (target) {
-    entitiyChanges = getSingleEntityChanges(componentTypes, reducer, target, data, state)
+    entitiyChanges = getSingleEntityChanges(reducer, target, data, state)
   } else {
-    entitiyChanges = getAllEntitiesChanges(componentTypes, reducer, data, state)
+    entitiyChanges = getAllEntitiesChanges(reducer, componentType, data, state)
   }
 
   return update(state, { entities: entitiyChanges })
 }
 
-function getSingleEntityChanges (componentTypes, reducer, id, action, state) {
+function getSingleEntityChanges (reducer, id, action, state) {
   const current = getEntity(id, state)
-  const nextChanges = reducer(action, current)
+  const nextChanges = reducer(action, current, state)
 
   return {
     [id]: nextChanges
   }
 }
 
-function getAllEntitiesChanges (componentTypes, reducer, action, state) {
-  const entities = getAllEntities(componentTypes, state)
+function getAllEntitiesChanges (reducer, componentType, action, state) {
+  const entities = getAllEntities([componentType], state)
 
   return _.reduce((entityChanges, entity) => {
-    const next = reducer(action, entity)
+    const next = reducer(action, entity, state)
 
     entityChanges[entity.id] = _.mapValues(next, (component) => ({ $set: component }))
 

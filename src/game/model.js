@@ -1,4 +1,4 @@
-const game = require('../utils/game-engine')
+const game = require('../utils/game')
 const initialState = require('./initial-state')
 const { movable } = require('./components/movable')
 

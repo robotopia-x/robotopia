@@ -1,0 +1,54 @@
+const { ORIENTATION } = require('../utils/types')
+
+module.exports = {
+  tiles: [
+    [2, 1, 2, 3, 2, 0, 0, 0, 0, 0],
+    [2, 1, 2, 1, 2, 0, 0, 0, 0, 0],
+    [2, 1, 2, 1, 2, 0, 0, 0, 0, 0],
+    [2, 1, 1, 1, 2, 0, 0, 0, 0, 0],
+    [2, 2, 2, 1, 2, 0, 0, 0, 0, 0],
+    [2, 2, 2, 1, 2, 2, 2, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1, 2, 0, 0, 0],
+    [1, 2, 2, 1, 2, 1, 2, 0, 0, 0],
+    [1, 2, 2, 1, 2, 1, 2, 2, 2, 0],
+    [1, 2, 3, 1, 2, 1, 1, 3, 2, 0]
+  ],
+  entities: [
+    getRobot({ id: 'robot', x: 1, y: 0 }),
+    getGem({ x: 3, y: 0 }),
+    getGem({ x: 7, y: 9 }),
+    getGem({ x: 2, y: 9 })
+  ]
+}
+
+function getRobot ({ id, x, y }) {
+  return {
+    id,
+    position: { x, y, rotation: 0 },
+    renderer: {
+      type: 'ROTATING',
+      data: {
+        sprites: {
+          [ORIENTATION.FRONT]: 'ROBOT_FRONT',
+          [ORIENTATION.BACK]: 'ROBOT_BACK',
+          [ORIENTATION.LEFT]: 'ROBOT_LEFT',
+          [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
+        }
+      }
+    },
+    movable: {}
+  }
+}
+
+function getGem ({ x, y }) {
+  return {
+    position: { x, y },
+    item: { type: 'gem' },
+    renderer: {
+      type: 'SIMPLE',
+      data: {
+        sprite: 'GEM'
+      }
+    }
+  }
+}

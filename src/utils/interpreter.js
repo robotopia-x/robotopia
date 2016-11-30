@@ -7,7 +7,7 @@ function addApi ({ send, scope, interpreter }) {
   function move (value, callback) {
     setTimeout(() => {
       callback(interpreter.createPrimitive(undefined))
-      send('game:robot.move', { target: 'robot', data: { direction: MOVE[value.data] } }, _.noop)
+      send('game:movable.move', { target: 'robot', data: { direction: MOVE[value.data] } }, _.noop)
 
       if (!interpreter.run()) {
         send('changeRunningState', { running: false }, () => {
@@ -19,7 +19,7 @@ function addApi ({ send, scope, interpreter }) {
   function rotate (value, callback) {
     setTimeout(() => {
       callback(interpreter.createPrimitive(undefined))
-      send('game:robot.rotate', { target: 'robot', data: { direction: ROTATE[value.data] } }, _.noop)
+      send('game:movable.rotate', { target: 'robot', data: { direction: ROTATE[value.data] } }, _.noop)
 
       if (!interpreter.run()) {
         send('changeRunningState', { running: false }, () => {})

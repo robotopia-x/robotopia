@@ -9,20 +9,22 @@ function init ({ tiles, entities }) {
       if (!entity.id) {
         entity.id = uid()
       }
+
+      // TODO: enforce component requirements
+
       entities[entity.id] = entity
       return entities
     }, {})
   }
 }
 
-function getEntity (id, componentTypes, state) {
-  return getEntityComponents(componentTypes, state.entities[id])
+function getEntity (id, state) {
+  return state.entities[id]
 }
 
 function getAllEntities (componentTypes, state) {
   return _(state.entities)
     .filter(entity => hasEntityComponents(componentTypes, entity))
-    .map(entity => getEntityComponents(componentTypes, entity))
     .value()
 }
 
@@ -30,16 +32,12 @@ function hasEntityComponents (componentTypes, entity) {
   return _.every(componentTypes, (type) => !_.isUndefined(entity))
 }
 
-function getEntityComponents (componentTypes, entity) {
-  return _.pick(entity, ['id'].concat(componentTypes))
-}
-
-function game ({ namespace, initialState, components }) {
+function game ({ namespace, state, components }) {
   const reducers = getComponentsReducers(components)
 
   return {
     namespace,
-    state: init(initialState),
+    state: init(state),
     reducers
   }
 }
@@ -48,7 +46,6 @@ function getComponentsReducers (components) {
   return _.reduce(components, (gameReducers, component, componentType) => {
     return _.reduce(component.reducers, (gameReducers, reducer, reducerName) => {
       gameReducers[`${componentType}.${reducerName}`] = _.partial(executeAction, component.requires, reducer)
-      console.log('component:', reducerName, gameReducers)
       return gameReducers
     }, gameReducers)
   }, {})
@@ -67,7 +64,7 @@ function executeAction (componentTypes, reducer, { target, data }, state) {
 }
 
 function getSingleEntityChanges (componentTypes, reducer, id, action, state) {
-  const current = getEntity(id, componentTypes, state)
+  const current = getEntity(id, state)
   const nextChanges = reducer(action, current)
 
   return {
@@ -89,5 +86,6 @@ function getAllEntitiesChanges (componentTypes, reducer, action, state) {
 
 module.exports = {
   engine: game,
+  getEntity,
   getAllEntities
 }

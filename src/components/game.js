@@ -17,27 +17,13 @@ const prefix = sf`
 
 const gameView = (state, prev, send) => html`
     <div class="${prefix}">
-      ${canvasView((ctx, width, height, changed) => render(ctx, width, height, changed, state, send))}
+      ${canvasView((ctx, width, height) => render(ctx, width, height, state))}
     </div>
   `
 
-function render (ctx, width, height, changed, state, send) {
-  send('updateCanvas', { canvas: changed }, () => {})
-
-  const newXPos = state.canvas.pan.x + (state.canvas.zoom / 2 - width / 2)
-  const newYPos = state.canvas.pan.y + (state.canvas.zoom / 2 - height / 2)
-  const newGameWidth = width / state.canvas.zoom
-  const newGameHeight = height / state.canvas.zoom
-
-  ctx.clearRect(0, 0, width, height)
-  ctx.save()
-  ctx.scale(newGameWidth, newGameHeight)
-  ctx.translate(newXPos, newYPos)
-
+function render (ctx, width, height, state) {
   renderTiles(ctx, state.game.tiles)
   renderEntities(ctx, state.game)
-
-  ctx.restore()
 }
 
 function renderTiles (ctx, tiles) {

@@ -35,11 +35,16 @@ const contentPrefix = sf`
       background: #404040;
       width: 10px;
       height: 100%;
+      cursor: ew-resize;
+    }
+    
+    :host > .divider:hover {
+      background: #848484;
     }
 
     :host > .column {
-      width: 50%;  
       height: 100%;
+      width: 50%;
     }
 `
 
@@ -54,7 +59,7 @@ const mainView = (state, prev, send) => html`
       </div>
       <div class="divider"></div>
       <div class="column">
-        ${gameView(state.game, prev, send)}
+        ${gameView(state, prev, send)}
       </div>
     </div>
   </main>

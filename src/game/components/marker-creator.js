@@ -10,7 +10,7 @@ module.exports = {
           data: getMarker(state.position.x, state.position.y)
         }, _.noop)
 
-        return state
+        return {}
       }
     }
   }

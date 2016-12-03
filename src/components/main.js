@@ -36,6 +36,7 @@ const contentPrefix = sf`
       width: 10px;
       height: 100%;
       cursor: ew-resize;
+      flex-shrink: 0;
     }
     
     :host > .divider:hover {

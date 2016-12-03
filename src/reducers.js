@@ -12,8 +12,13 @@ const updateWorkspace = ({ workspace }, state) => {
   return update(state, { workspace: { $set: workspace } })
 }
 
+const updateCanvas = ({ canvas }, state) => {
+  return update(state, {canvas: { $set: canvas }})
+}
+
 module.exports = {
   changeRunningState,
   updateCode,
-  updateWorkspace
+  updateWorkspace,
+  updateCanvas
 }

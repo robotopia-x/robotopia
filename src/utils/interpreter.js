@@ -1,56 +1,70 @@
-window.acorn = require('JS-Interpreter.git/acorn')
 const _ = require('lodash')
-const { Interpreter } = require('JS-Interpreter.git/interpreter')
+const esper = require('esper.js')
+
 const { MOVE, ROTATE } = require('../utils/types')
 
-function addApi ({ send, scope, interpreter }) {
-  function move (value, callback) {
-    setTimeout(() => {
-      callback(interpreter.createPrimitive(undefined))
-      send('game:movable.move', { target: 'robot', data: { direction: MOVE[value.data] } }, _.noop)
+class RobotRuntime {
 
-      if (!interpreter.run()) {
-        send('changeRunningState', { running: false }, () => {
-        })
-      }
-    }, 500)
+  constructor ({ code, api, id, send }) {
+    this.engine = new esper.Engine()
+    this.engine.load(code)
+    this.id = id
+    this.send = send
+    this._completedTurn = true
+
+    this.addAPI(api)
   }
 
-  function rotate (value, callback) {
-    setTimeout(() => {
-      callback(interpreter.createPrimitive(undefined))
-      send('game:movable.rotate', { target: 'robot', data: { direction: ROTATE[value.data] } }, _.noop)
+  addAPI (api) {
+    _.forEach(api, (method, name) =>
+      this.engine.addGlobalFx(name, (...params) => {
+        const [action, data] = method.apply(null, params)
 
-      if (!interpreter.run()) {
-        send('changeRunningState', { running: false }, () => {})
-      }
-    }, 500)
+        this.send(action, { target: this.id, data }, _.noop)
+
+        this._completedTurn = true
+      })
+    )
   }
 
-  function placeMarker (callback) {
-    setTimeout(() => {
-      callback(interpreter.createPrimitive(undefined))
-      send('game:markerCreator.placeMarker', { target: 'robot' }, _.noop)
+  step () {
+    let terminated
 
-      if (!interpreter.run()) {
-        send('changeRunningState', { running: false }, () => {})
-      }
-    }, 500)
+    this._completedTurn = false
+
+    do {
+      terminated = this.engine.step()
+    } while (!terminated && !this._completedTurn)
+
+    return terminated
   }
-
-  interpreter.setProperty(scope, 'move', interpreter.createAsyncFunction(move))
-  interpreter.setProperty(scope, 'rotate', interpreter.createAsyncFunction(rotate))
-  interpreter.setProperty(scope, 'placeMarker', interpreter.createAsyncFunction(placeMarker))
 }
 
-function run (sourcecode, send, done) {
-  const interpreter = new Interpreter(sourcecode, (interpreter, scope) => (
-    addApi({ send, interpreter, scope })
-  ))
+const robotApi = {
+  move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
+  rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
+  placeMarker: () => ['game:markerCreator.placeMarker']
+}
 
-  if (interpreter.run()) {
-    send('changeRunningState', { running: true }, () => {})
+function run (code, send, done) {
+  const engine = new RobotRuntime({
+    id: 'robot',
+    api: robotApi,
+    code,
+    send
+  })
+
+  send('changeRunningState', { running: true }, _.noop)
+
+  function runRobot () {
+    if (engine.step()) {
+      return send('changeRunningState', { running: false }, _.noop)
+    }
+
+    setTimeout(runRobot, 500)
   }
+
+  runRobot()
 }
 
 module.exports = {

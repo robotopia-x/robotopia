@@ -14,6 +14,5 @@ const dividerView = widget((update) => {
   }
 
   function onload (el) {
-    }
-  
+  }
 })

@@ -4,7 +4,7 @@ const robotRuntime = require('./utils/robot-runtime')
 
 const initialState = {
   robot: { x: 0, y: 0 },
-  running: false,
+  gameSpeed: 500,
   code: '',
   workspace: ''
 }

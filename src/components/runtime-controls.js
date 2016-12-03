@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 
-const prefix = sf`
+const buttonPrefix = sf`
   :host {
     height: 30px;
     width: 75px;
@@ -20,14 +20,27 @@ const prefix = sf`
 `
 
 function runtimeControlsView (state, prev, send) {
+  return html`
+  <div>
+    ${runButtonView(state, send)}
+      <input
+         type='range'
+         min='100' max='1000'
+         value=${ state.gameSpeed }
+         oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
+  </div>
+  `
+}
+
+function runButtonView (state, send) {
   if (state.running) {
     return html`
-      <button class=${prefix} onclick=${() => send('stopSimulation')}>Stop</button>
+      <button class=${buttonPrefix} onclick=${() => send('stopSimulation')}>Stop</button>
    `
   }
 
   return html`
-    <button class=${prefix} onclick=${() => send('startSimulation')}>► Run</button>
+    <button class=${buttonPrefix} onclick=${() => send('startSimulation')}>► Run</button>
   `
 }
 

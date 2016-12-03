@@ -35,7 +35,7 @@ class Clock {
     this._running = false
   }
 
-  setInterval (interval) {
+  setSpeed (interval) {
     this._clockInterval = interval
   }
 }

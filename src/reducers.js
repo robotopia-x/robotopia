@@ -16,9 +16,14 @@ const updateCanvas = ({ canvas }, state) => {
   return update(state, { canvas: { $set: canvas } })
 }
 
+const setGameSpeed = ({ speed }, state) => {
+  return update(state, { gameSpeed: { $set: speed } })
+}
+
 module.exports = {
   changeRunningState,
   updateCode,
   updateWorkspace,
-  updateCanvas
+  updateCanvas,
+  setGameSpeed
 }

@@ -3,6 +3,9 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
 
+// inital zoom is set so viewport will have at least this height and width
+const MIN_INITAL_VIEWPORT_SIZE = 1200
+
 const prefix = sf`
   :host {
     width: 100%;
@@ -130,7 +133,9 @@ function addWindowListeners (canvas, ctx, canvasTransform, render) {
 function resize (canvas, canvasTransform) {
   canvas.width = canvas.parentNode.offsetWidth
   canvas.height = canvas.parentNode.offsetHeight
-  canvasTransform.zoom = Math.min(1, canvas.width / 1000)
+
+  // zoom out if width or height of canvas are less than 1200
+  canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
 }
 
 module.exports = canvasView

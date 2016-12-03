@@ -3,13 +3,11 @@ const esper = require('esper.js')
 
 const { MOVE, ROTATE } = require('../utils/types')
 
-class RobotRuntime {
+class Robot {
 
-  constructor ({ code, api, id, send }) {
+  constructor ({ api, id }) {
     this.engine = new esper.Engine()
-    this.engine.load(code)
     this.id = id
-    this.send = send
     this._completedTurn = true
 
     this.addAPI(api)
@@ -27,9 +25,16 @@ class RobotRuntime {
     )
   }
 
+  connect (send) {
+    this.send = send
+  }
+
+  loadCode (code) {
+    this.engine.load(code)
+  }
+
   step () {
     let terminated
-
     this._completedTurn = false
 
     do {
@@ -40,33 +45,10 @@ class RobotRuntime {
   }
 }
 
-const robotApi = {
+const api = {
   move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
   rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
   placeMarker: () => ['game:markerCreator.placeMarker']
 }
 
-function run (code, send, done) {
-  const engine = new RobotRuntime({
-    id: 'robot',
-    api: robotApi,
-    code,
-    send
-  })
-
-  send('changeRunningState', { running: true }, _.noop)
-
-  function runRobot () {
-    if (engine.step()) {
-      return send('changeRunningState', { running: false }, _.noop)
-    }
-
-    setTimeout(runRobot, 500)
-  }
-
-  runRobot()
-}
-
-module.exports = {
-  run
-}
+module.exports = new Robot({ id: 'robot', api })

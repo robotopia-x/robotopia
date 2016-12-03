@@ -7,34 +7,27 @@ const prefix = sf`
     width: 75px;
     border: none;
     border-radius: 5%;
+    font-size: 14px;
     font-family: Helvetica, Arial, Sans-Serif;
-  }
-  
-  :host.clickable {
     color: #404040;
     background-color: #dddddd;
-    font-size: 14px;
   }
-   
-  :host.clickable:hover {
+
+  :host :hover {
     color: #2b2b2b;
     background-color: white;
-  }
-  
-  :host.disabled {
-    font-size: 12px;
   }
 `
 
 function runtimeControlsView (state, prev, send) {
   if (state.running) {
     return html`
-      <button class=${prefix + ' disabled'} disabled>Running...</button>
+      <button class=${prefix} onclick=${() => send('stopSimulation')}>Stop</button>
    `
   }
 
   return html`
-    <button class=${prefix + ' clickable'} onclick=${() => send('runCode', { })}>► Run</button>
+    <button class=${prefix} onclick=${() => send('startSimulation')}>► Run</button>
   `
 }
 

@@ -1,7 +1,5 @@
-const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const assets = require('../utils/assets')
 const canvasView = require('./canvas')
 const renderer = require('../game/renderer')
 

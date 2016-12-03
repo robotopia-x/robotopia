@@ -37,50 +37,76 @@ function hasEntityComponents (componentTypes, entity) {
 }
 
 function game ({ namespace, state, components }) {
-  const reducers = getComponentsReducers(components)
+  // TODO: enforce that there are no components which have effects and reducers with the same name
 
   return {
     namespace,
     state: init(state),
-    reducers
+    reducers: getComponentsReducers(components),
+    effects: getComponentsEffects(components)
   }
 }
 
 function getComponentsReducers (components) {
-  return _.reduce(components, (gameReducers, component, componentType) => {
-    return _.reduce(component.reducers, (gameReducers, reducer, reducerName) => {
-      gameReducers[`${componentType}.${reducerName}`] = _.partial(executeAction, componentType, reducer)
-      return gameReducers
-    }, gameReducers)
+  return getComponentsActionHandlers('reducer', components)
+}
+
+function getComponentsEffects (components) {
+  return getComponentsActionHandlers('effects', components)
+}
+
+/* getComponentsActionHandlers()
+
+ Combines all action handler of all components of one type.
+ There are two different action types in choo: reducers and effects
+
+ handlers are prefixed with the name of the component so if we have two components A and B
+ the returned handlers would look something like this
+
+ {
+ 'A.handler1': function(),
+ 'A.handler2': function(),
+ 'B.handler3': function()
+ }
+
+ All handlers are wrapped so the action handler has only a view on the data of the entity
+
+ */
+function getComponentsActionHandlers (actionType, components) {
+  return _.reduce(components, (handlers, component, componentType) => {
+    return _.reduce(component[actionType], (handlers, actionHandler, reducerName) => {
+      handlers[`${componentType}.${reducerName}`] = _.partial(executeAction, componentType, actionHandler)
+      return handlers
+    }, handlers)
   }, {})
 }
 
-function executeAction (componentType, reducer, { target, data }, state) {
+function executeAction (componentType, actionHandler, { target, data }, state, send, done) {
   let entitiyChanges
 
   if (target) {
-    entitiyChanges = getSingleEntityChanges(reducer, target, data, state)
+    entitiyChanges = getSingleEntityChanges(actionHandler, target, data, state, send, done)
   } else {
-    entitiyChanges = getAllEntitiesChanges(reducer, componentType, data, state)
+    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, data, state, send, done)
   }
 
   return update(state, { entities: entitiyChanges })
 }
 
-function getSingleEntityChanges (reducer, id, action, state) {
+function getSingleEntityChanges (actionHandler, id, action, state) {
   const current = getEntity(id, state)
-  const nextChanges = reducer(action, current, state)
+  const nextChanges = actionHandler(action, current, state)
 
   return {
     [id]: nextChanges
   }
 }
 
-function getAllEntitiesChanges (reducer, componentType, action, state) {
+function getAllEntitiesChanges (actionHandler, componentType, action, state, send, done) {
   const entities = getAllEntities([componentType], state)
 
   return _.reduce((entityChanges, entity) => {
-    const next = reducer(action, entity, state)
+    const next = actionHandler(action, entity, state, send, done)
 
     entityChanges[entity.id] = _.mapValues(next, (component) => ({ $set: component }))
 

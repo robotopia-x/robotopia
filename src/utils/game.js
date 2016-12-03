@@ -55,11 +55,11 @@ const gameAPI = {
   effects: {}
 }
 
-function game ({ namespace, state, components, reducer, effects }) {
+function game ({ state, components, reducer, effects }) {
   // TODO: enforce that there are no components which have effects and reducers with the same name
 
   return {
-    namespace,
+    namespace: 'game',
     state: init(state),
     reducers: _.assign(
       {},

@@ -12,6 +12,16 @@ const prefix = sf`
     justify-content: center;
     padding: 25px;
   }
+
+  :host > canvas {
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+
+  :host > canvas.dragging{
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+  }
 `
 
 const canvasView = widget((update) => {
@@ -46,20 +56,15 @@ const canvasView = widget((update) => {
 })
 
 function callRender (canvas, ctx, canvasTransform, render) {
-  const { pan, zoom } = canvasTransform;
+  const { pan, zoom } = canvasTransform
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.save()
 
+  // apply canvas transform
   ctx.translate(canvas.width / 2, canvas.height / 2)
   ctx.scale(zoom, zoom)
-
-  ctx.translate( pan.x,  pan.y)
-
-
-
-  //ctx.translate(pan.x / zoom, pan.y / zoom)
-
+  ctx.translate(pan.x, pan.y)
 
   render(ctx, canvas.width, canvas.height)
 
@@ -74,6 +79,7 @@ function addCanvasListeners (canvas, ctx, canvasTransform, render) {
     dragging = true
     dragStart.x = evt.clientX
     dragStart.y = evt.clientY
+    canvas.classList.add('dragging')
   })
 
   canvas.addEventListener('mousemove', (evt) => {
@@ -93,10 +99,12 @@ function addCanvasListeners (canvas, ctx, canvasTransform, render) {
 
   canvas.addEventListener('mouseup', (evt) => {
     dragging = false
+    canvas.classList.remove('dragging')
   })
 
   canvas.addEventListener('mouseleave', (evt) => {
     dragging = false
+    canvas.classList.remove('dragging')
   })
 
   canvas.addEventListener('mousewheel', (evt) => {

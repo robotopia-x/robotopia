@@ -9,7 +9,6 @@ if (!window.__loaded) {
 }
 window.__loaded = true
 
-const { ORIENTATION } = require('./utils/types')
 const assets = require('./utils/assets')
 const choo = require('choo')
 const hotModuleReplacement = require('./utils/hot-module-replacement')
@@ -34,6 +33,7 @@ window.startApp = () => {
     WATER_BLOCK: '../assets/img/water-block.png',
     STONE_BLOCK: '../assets/img/stone-block.png',
     GEM: '../assets/img/gem-blue.png',
+    MARKER: '../assets/img/star.png',
     ROBOT_FRONT: '../assets/img/robot-front.png',
     ROBOT_LEFT: '../assets/img/robot-left.png',
     ROBOT_BACK: '../assets/img/robot-back.png',

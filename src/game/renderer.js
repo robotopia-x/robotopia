@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const assets = require('../utils/assets')
-const gameEngine = require('../utils/game-engine')
+const gameEngine = require('../utils/game')
 const { RENDERER } = require('../utils/types')
 
 const TILE_HEIGHT = 80

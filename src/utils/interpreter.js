@@ -27,8 +27,20 @@ function addApi ({ send, scope, interpreter }) {
     }, 500)
   }
 
+  function placeMarker (callback) {
+    setTimeout(() => {
+      callback(interpreter.createPrimitive(undefined))
+      send('game:markerCreator.placeMarker', { target: 'robot' }, _.noop)
+
+      if (!interpreter.run()) {
+        send('changeRunningState', { running: false }, () => {})
+      }
+    }, 500)
+  }
+
   interpreter.setProperty(scope, 'move', interpreter.createAsyncFunction(move))
   interpreter.setProperty(scope, 'rotate', interpreter.createAsyncFunction(rotate))
+  interpreter.setProperty(scope, 'placeMarker', interpreter.createAsyncFunction(placeMarker))
 }
 
 function run (sourcecode, send, done) {

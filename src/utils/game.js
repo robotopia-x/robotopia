@@ -9,17 +9,21 @@ function init (state) {
     globalState,
     {
       entities: _.reduce(state.entities, (entities, entity) => {
-        if (!entity.id) {
-          entity.id = uid()
-        }
-
-        // TODO: enforce component requirements
-
-        entities[entity.id] = entity
+        entities[entity.id] = createEntity(entity)
         return entities
       }, {})
     }
   )
+}
+
+function createEntity (entity) {
+  if (!entity.id) {
+    entity.id = uid()
+  }
+
+  // TODO: enforce component requirements
+
+  return entity
 }
 
 function getEntity (id, state) {
@@ -36,19 +40,43 @@ function hasEntityComponents (componentTypes, entity) {
   return _.every(componentTypes, (type) => !_.isUndefined(entity))
 }
 
-function game ({ namespace, state, components }) {
+const gameAPI = {
+  reducers: {
+    createEntity: ({ data }, state) => {
+      const entity = createEntity(data)
+
+      return update(state, {
+        entities: {
+          [entity.id]: { $set: entity }
+        }
+      })
+    }
+  },
+  effects: {}
+}
+
+function game ({ namespace, state, components, reducer, effects }) {
   // TODO: enforce that there are no components which have effects and reducers with the same name
 
   return {
     namespace,
     state: init(state),
-    reducers: getComponentsReducers(components),
-    effects: getComponentsEffects(components)
+    reducers: _.assign(
+      {},
+      getComponentsReducers(components),
+      gameAPI.reducer,
+    ),
+
+    effects: _.assign({},
+      getComponentsEffects(components),
+      effects,
+      gameAPI.effects
+    )
   }
 }
 
 function getComponentsReducers (components) {
-  return getComponentsActionHandlers('reducer', components)
+  return getComponentsActionHandlers('reducers', components)
 }
 
 function getComponentsEffects (components) {
@@ -69,7 +97,7 @@ function getComponentsEffects (components) {
  'B.handler3': function()
  }
 
- All handlers are wrapped so the action handler has only a view on the data of the entity
+ All handlers are wrapped so the action handler has only a view of the data of the entity
 
  */
 function getComponentsActionHandlers (actionType, components) {
@@ -93,9 +121,9 @@ function executeAction (componentType, actionHandler, { target, data }, state, s
   return update(state, { entities: entitiyChanges })
 }
 
-function getSingleEntityChanges (actionHandler, id, action, state) {
+function getSingleEntityChanges (actionHandler, id, action, state, send, done) {
   const current = getEntity(id, state)
-  const nextChanges = actionHandler(action, current, state)
+  const nextChanges = actionHandler(action, current, state, send, done)
 
   return {
     [id]: nextChanges

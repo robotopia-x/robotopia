@@ -3,6 +3,9 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
 
+// inital zoom is set so viewport will have at least this height and width
+const MIN_INITAL_VIEWPORT_SIZE = 1200
+
 const prefix = sf`
   :host {
     width: 100%;
@@ -12,11 +15,21 @@ const prefix = sf`
     justify-content: center;
     padding: 25px;
   }
+
+  :host > canvas {
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+
+  :host > canvas.dragging{
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+  }
 `
 
 const canvasView = widget((update) => {
   let ctx, render, canvas
-  let canvasTransforms = { zoom: 1250, pan: { x: 0, y: 0 } }
+  let canvasTransform = { zoom: 1, pan: { x: 0, y: 0 } }
 
   update(onupdate)
 
@@ -28,8 +41,9 @@ const canvasView = widget((update) => {
 
   function onupdate (_render) {
     render = _render
+
     if (ctx) {
-      callRender(canvas, ctx, canvasTransforms, render)
+      callRender(canvas, ctx, canvasTransform, render)
     }
   }
 
@@ -37,88 +51,92 @@ const canvasView = widget((update) => {
     canvas = el
     ctx = canvas.getContext('2d')
 
-    addCanvasListeners(canvas, ctx, canvasTransforms, render)
-    addWindowListeners(canvas, ctx, canvasTransforms, render, el)
+    addCanvasListeners(canvas, ctx, canvasTransform, render)
+    addWindowListeners(canvas, ctx, canvasTransform, render)
 
-    resize(el)
-    callRender(canvas, ctx, canvasTransforms, render)
+    resize(canvas, canvasTransform)
+    callRender(canvas, ctx, canvasTransform, render)
   }
-})
 
-function callRender (canvas, ctx, canvasTransforms, render) {
-  const newGameWidth = canvas.width / canvasTransforms.zoom
-  const newGameHeight = canvas.height / canvasTransforms.zoom
-  const newXPos = canvasTransforms.pan.x + (canvasTransforms.zoom / 2 - canvas.width / 2)
-  const newYPos = canvasTransforms.pan.y + (canvasTransforms.zoom / 2 - canvas.height / 2)
+  function callRender (canvas, ctx, canvasTransform, render) {
+    const { pan, zoom } = canvasTransform
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.save()
-  ctx.scale(newGameWidth, newGameHeight)
-  ctx.translate(newXPos, newYPos)
-  render(ctx, canvas.width, canvas.height)
-  ctx.restore()
-}
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.save()
 
-function addCanvasListeners (canvas, ctx, canvasTransforms, render) {
-  let dragStart = { x: 0, y: 0 }
-  let dragging = false
+    // apply canvas transform
+    ctx.translate(canvas.width / 2, canvas.height / 2)
+    ctx.scale(zoom, zoom)
+    ctx.translate(pan.x, pan.y)
 
-  canvas.addEventListener('mousedown', (evt) => {
-    dragging = true
-    dragStart.x = evt.clientX
-    dragStart.y = evt.clientY
-  })
+    render(ctx, canvas.width, canvas.height)
 
-  canvas.addEventListener('mousemove', (evt) => {
-    if (dragging) {
-      let x = evt.clientX
-      let y = evt.clientY
+    ctx.restore()
+  }
 
-      canvasTransforms.pan.x += (x - dragStart.x)
-      canvasTransforms.pan.y += (y - dragStart.y)
+  function addCanvasListeners () {
+    let dragStart = { x: 0, y: 0 }
+    let dragging = false
 
-      callRender(canvas, ctx, canvasTransforms, render)
-
+    canvas.addEventListener('mousedown', (evt) => {
+      dragging = true
       dragStart.x = evt.clientX
       dragStart.y = evt.clientY
-    }
-  })
+      canvas.classList.add('dragging')
+    })
 
-  canvas.addEventListener('mouseup', (evt) => {
-    dragging = false
-  })
+    canvas.addEventListener('mousemove', (evt) => {
+      if (dragging) {
+        let x = evt.clientX
+        let y = evt.clientY
 
-  canvas.addEventListener('mousewheel', (evt) => {
-    if (evt.deltaY > 0) {
-      canvasTransforms.zoom += evt.deltaY / 2
-    } else {
-      canvasTransforms.zoom += evt.deltaY / 2
-    }
+        canvasTransform.pan.x += (x - dragStart.x) / canvasTransform.zoom
+        canvasTransform.pan.y += (y - dragStart.y) / canvasTransform.zoom
 
-    canvasTransforms.zoom = _.clamp(canvasTransforms.zoom, 1, 5000)
-  }, false)
-}
+        callRender(canvas, ctx, canvasTransform, render)
 
-function addWindowListeners (canvas, ctx, canvasTransforms, render, el) {
-  window.addEventListener('resize', () => {
-    resize(el)
-    callRender(canvas, ctx, canvasTransforms, render)
-  })
+        dragStart.x = evt.clientX
+        dragStart.y = evt.clientY
+      }
+    })
 
-  window.addEventListener('mousewheel', (evt) => {
-    evt.preventDefault()
-    callRender(canvas, ctx, canvasTransforms, render)
-  }, false)
-}
+    canvas.addEventListener('mouseup', () => {
+      dragging = false
+      canvas.classList.remove('dragging')
+    })
 
-function resize (el) {
-  const parWidth = el.parentNode.offsetWidth - 50
-  const parHeight = el.parentNode.offsetHeight - 50
+    canvas.addEventListener('mouseleave', () => {
+      dragging = false
+      canvas.classList.remove('dragging')
+    })
 
-  const newDims = parHeight > parWidth ? parWidth : parHeight
+    canvas.addEventListener('mousewheel', (evt) => {
+      const zoom = canvasTransform.zoom + (evt.deltaY / 2000)
 
-  el.width = newDims
-  el.height = newDims
-}
+      canvasTransform.zoom = _.clamp(zoom, 0.1, 2)
+    }, false)
+  }
+
+  function addWindowListeners () {
+    window.addEventListener('resize', () => {
+      resize(canvas, canvasTransform)
+
+      callRender(canvas, ctx, canvasTransform, render)
+    })
+
+    window.addEventListener('mousewheel', (evt) => {
+      evt.preventDefault()
+      callRender(canvas, ctx, canvasTransform, render)
+    }, false)
+  }
+
+  function resize (canvas, canvasTransform) {
+    canvas.width = canvas.parentNode.offsetWidth
+    canvas.height = canvas.parentNode.offsetHeight
+
+    // zoom out if width or height of canvas are less than 1200
+    canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
+  }
+})
 
 module.exports = canvasView

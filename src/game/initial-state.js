@@ -1,6 +1,6 @@
-const gameEngine = require('./game-engine')
+const { ORIENTATION } = require('../utils/types')
 
-module.exports = gameEngine.init({
+module.exports = {
   tiles: [
     [0, 2, 1, 2, 3, 2, 0, 0, 0, 0],
     [0, 2, 1, 2, 1, 2, 0, 0, 0, 0],
@@ -19,20 +19,36 @@ module.exports = gameEngine.init({
     getGem({ x: 8, y: 9 }),
     getGem({ x: 3, y: 9 })
   ]
-})
+}
 
 function getRobot ({ id, x, y }) {
   return {
-    id: 'robot',
+    id,
     position: { x, y, rotation: 0 },
-    sprite: { type: 'ROBOT_0' }
+    renderer: {
+      type: 'ROTATING',
+      data: {
+        sprites: {
+          [ORIENTATION.FRONT]: 'ROBOT_FRONT',
+          [ORIENTATION.BACK]: 'ROBOT_BACK',
+          [ORIENTATION.LEFT]: 'ROBOT_LEFT',
+          [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
+        }
+      }
+    },
+    movable: {}
   }
 }
 
-function getGem ({x, y}) {
+function getGem ({ x, y }) {
   return {
     position: { x, y },
     item: { type: 'gem' },
-    sprite: { type: 'GEM' }
+    renderer: {
+      type: 'SIMPLE',
+      data: {
+        sprite: 'GEM'
+      }
+    }
   }
 }

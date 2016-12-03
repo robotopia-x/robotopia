@@ -16,5 +16,10 @@ module.exports = {
   ROTATE: {
     LEFT: 1,
     RIGHT: -1
+  },
+
+  RENDERER: {
+    SIMPLE: 'SIMPLE',
+    ROTATING: 'ROTATING'
   }
 }

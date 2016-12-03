@@ -4,8 +4,8 @@ const changeRunningState = ({ running }, state) => {
   return update(state, { running: { $set: running } })
 }
 
-const updateCode = ({ srcCode }, state) => {
-  return update(state, { srcCode: { $set: srcCode } })
+const updateCode = ({ code }, state) => {
+  return update(state, { code: { $set: code } })
 }
 
 const updateWorkspace = ({ workspace }, state) => {
@@ -13,7 +13,7 @@ const updateWorkspace = ({ workspace }, state) => {
 }
 
 const updateCanvas = ({ canvas }, state) => {
-  return update(state, {canvas: { $set: canvas }})
+  return update(state, { canvas: { $set: canvas } })
 }
 
 module.exports = {

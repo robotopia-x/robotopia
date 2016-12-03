@@ -7,6 +7,7 @@
     "blockly": "1.0.0",
     "cache-element": "1.1.1",
     "choo": "3.3.0",
+    "esper.js": "0.1.7",
     "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
     "sheetify": "5.1.1",
@@ -21,7 +22,6 @@
     "standard": "^8.5.0"
   },
   "scripts": {
-    "install": "napa https://github.com/NeilFraser/JS-Interpreter.git",
     "test": "standard",
     "lint": "standard --fix",
     "start": "node server.js"

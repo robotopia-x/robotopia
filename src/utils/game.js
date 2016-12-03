@@ -55,7 +55,7 @@ const gameAPI = {
   effects: {}
 }
 
-function game ({ state, components, reducer, effects }) {
+function game ({ state, components, reducers, effects }) {
   // TODO: enforce that there are no components which have effects and reducers with the same name
 
   return {
@@ -64,13 +64,14 @@ function game ({ state, components, reducer, effects }) {
     reducers: _.assign(
       {},
       getComponentsReducers(components),
-      gameAPI.reducer,
+      gameAPI.reducers,
+      reducers
     ),
-
-    effects: _.assign({},
+    effects: _.assign(
+      {},
       getComponentsEffects(components),
-      effects,
-      gameAPI.effects
+      gameAPI.effects,
+      effects
     )
   }
 }

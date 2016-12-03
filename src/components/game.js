@@ -20,12 +20,7 @@ const gameView = (state, prev, send) => {
 
 function render (ctx, width, height, state) {
   ctx.clearRect(0, 0, width, height)
-  ctx.save()
-  ctx.scale(width / 1000, height / 1000)
-
   renderer.render(ctx, state)
-
-  ctx.restore()
 }
 
 module.exports = gameView

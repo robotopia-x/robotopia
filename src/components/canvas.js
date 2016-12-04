@@ -4,7 +4,7 @@ const sf = require('sheetify')
 const _ = require('lodash')
 
 // inital zoom is set so viewport will have at least this height and width
-const MIN_INITAL_VIEWPORT_SIZE = 1200
+const MIN_INITAL_VIEWPORT_SIZE = 1000
 
 const prefix = sf`
   :host {
@@ -111,7 +111,7 @@ const canvasView = widget((update) => {
     })
 
     canvas.addEventListener('mousewheel', (evt) => {
-      const zoom = canvasTransform.zoom + (evt.deltaY / 2000)
+      const zoom = canvasTransform.zoom + (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
 
       canvasTransform.zoom = _.clamp(zoom, 0.1, 2)
     }, false)

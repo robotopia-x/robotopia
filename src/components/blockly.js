@@ -37,7 +37,7 @@ const blocklyView = widget((update) => {
 
   function updateCode () {
     send('updateCode', {
-      srcCode: Blockly.JavaScript.workspaceToCode(workspace)
+      code: Blockly.JavaScript.workspaceToCode(workspace)
     })
 
     const xml = Blockly.Xml.workspaceToDom(workspace)

@@ -1,40 +1,46 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 
-const prefix = sf`
+const buttonPrefix = sf`
   :host {
     height: 30px;
     width: 75px;
     border: none;
     border-radius: 5%;
+    font-size: 14px;
     font-family: Helvetica, Arial, Sans-Serif;
-  }
-  
-  :host.clickable {
     color: #404040;
     background-color: #dddddd;
-    font-size: 14px;
   }
-   
-  :host.clickable:hover {
+
+  :host :hover {
     color: #2b2b2b;
     background-color: white;
-  }
-  
-  :host.disabled {
-    font-size: 12px;
   }
 `
 
 function runtimeControlsView (state, prev, send) {
+  return html`
+  <div>
+    ${runButtonView(state, send)}
+      <input
+         type='range'
+         min='100' max='1000'
+         value=${ state.gameSpeed }
+         oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
+  </div>
+  `
+}
+
+function runButtonView (state, send) {
   if (state.running) {
     return html`
-      <button class=${prefix + ' disabled'} disabled>Running...</button>
+      <button class=${buttonPrefix} onclick=${() => send('stopSimulation')}>Stop</button>
    `
   }
 
   return html`
-    <button class=${prefix + ' clickable'} onclick=${() => send('runCode', { })}>► Run</button>
+    <button class=${buttonPrefix} onclick=${() => send('startSimulation')}>► Run</button>
   `
 }
 

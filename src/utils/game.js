@@ -159,5 +159,6 @@ function getAllEntitiesChanges (actionHandler, componentType, action, state, sen
 module.exports = {
   engine: game,
   getEntity,
-  getAllEntities
+  getAllEntities,
+  getEntitiyFromPos
 }

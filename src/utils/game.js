@@ -30,6 +30,20 @@ function getEntity (id, state) {
   return state.entities[id]
 }
 
+function getEntitiyFromPos ({ x, y }, state) {
+  return _.find(state.entities, (entity) => {
+    return (entity.id !== 'robot' &&
+    entity.position.x === x &&
+    entity.position.y === y)
+  })
+}
+
+function deleteEntity (id, state) {
+  return _.omitBy(state.entities, (entitiy) => {
+    return entitiy.id === id
+  })
+}
+
 function getAllEntities (componentTypes, state) {
   return _(state.entities)
     .filter(entity => hasEntityComponents(componentTypes, entity))
@@ -50,6 +64,18 @@ const gameAPI = {
           [entity.id]: { $set: entity }
         }
       })
+    },
+    deleteEntity: ({ data }, state) => {
+      const entitiy = getEntitiyFromPos({ x: data.x, y: data.y }, state)
+
+      if (entitiy) {
+        return update(state, {
+          entities: {
+            $set: deleteEntity(entitiy.id, state)
+          }
+        })
+      }
+      return state
     }
   },
   effects: {}
@@ -146,5 +172,6 @@ function getAllEntitiesChanges (actionHandler, componentType, action, state, sen
 module.exports = {
   engine: game,
   getEntity,
-  getAllEntities
+  getAllEntities,
+  getEntitiyFromPos
 }

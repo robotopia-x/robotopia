@@ -48,7 +48,8 @@ class Robot {
 const api = {
   move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
   rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
-  placeMarker: () => ['game:markerCreator.placeMarker']
+  placeMarker: () => ['game:markerCreator.placeMarker'],
+  collectResource: () => ['game:collectable.collectResource']
 }
 
 module.exports = new Robot({ id: 'robot', api })

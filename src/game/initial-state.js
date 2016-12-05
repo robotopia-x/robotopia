@@ -15,9 +15,9 @@ module.exports = {
   ],
   entities: [
     getRobot({ id: 'robot', x: 2, y: 0 }),
-    getGem({ x: 4, y: 0 }),
-    getGem({ x: 8, y: 9 }),
-    getGem({ x: 3, y: 9 })
+    getGem({ x: 2, y: 4 }),
+    getGem({ x: 5, y: 5 }),
+    getGem({ x: 5, y: 2 })
   ]
 }
 

@@ -1,4 +1,4 @@
-const { ORIENTATION } = require('../utils/types')
+const entites = require('./entities')
 
 module.exports = {
   tiles: [
@@ -29,41 +29,7 @@ module.exports = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
   entities: [
-    getRobot({ id: 'robot', x: 2, y: 0 }),
-    getGem({ x: 4, y: 0 }),
-    getGem({ x: 8, y: 9 }),
-    getGem({ x: 3, y: 9 })
+    entites.base({ x: 12, y: 12, id: 'BASE' })
   ]
 }
 
-function getRobot ({ id, x, y }) {
-  return {
-    id,
-    position: { x, y, rotation: 0 },
-    renderer: {
-      type: 'ROTATING',
-      data: {
-        sprites: {
-          [ORIENTATION.FRONT]: 'ROBOT_FRONT',
-          [ORIENTATION.BACK]: 'ROBOT_BACK',
-          [ORIENTATION.LEFT]: 'ROBOT_LEFT',
-          [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
-        }
-      }
-    },
-    movable: {}
-  }
-}
-
-function getGem ({ x, y }) {
-  return {
-    position: { x, y },
-    item: { type: 'gem' },
-    renderer: {
-      type: 'SIMPLE',
-      data: {
-        sprite: 'GEM'
-      }
-    }
-  }
-}

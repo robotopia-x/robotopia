@@ -1,6 +1,7 @@
+const _ = require('lodash')
 const reducers = require('./reducers')
 const effects = require('./effects')
-const robotRuntime = require('./utils/robot-runtime')
+const clock = require('./utils/clock')
 
 const initialState = {
   robot: { x: 0, y: 0 },
@@ -15,7 +16,9 @@ module.exports = {
   reducers,
   subscriptions: [
     (send, done) => {
-      robotRuntime.connect(send)
+      clock.onTick(() => {
+        send('stepRobotRuntime', _.noop)
+      })
     }
   ]
 }

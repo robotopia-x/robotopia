@@ -1,31 +1,30 @@
 const html = require('choo/html')
 const sf = require('sheetify')
+const button = require('../element/button')
 
-const buttonPrefix = sf`
+
+const prefix = sf`
   :host {
-    height: 30px;
-    width: 75px;
-    border: none;
-    border-radius: 5%;
-    font-size: 14px;
-    font-family: Helvetica, Arial, Sans-Serif;
-    color: #404040;
-    background-color: #dddddd;
+    display: flex;
+    flex-direction: row;
   }
 
-  :host :hover {
-    color: #2b2b2b;
-    background-color: white;
+  :host > * {
+    margin-left: 20px;
+  }
+
+  :host > :first-child {
+    margin-left: 0;
   }
 `
 
 function runtimeControlsView (state, prev, send) {
   return html`
-  <div>
+  <div class="${prefix}">
     ${runButtonView(state, send)}
       <input
-         type='range'
-         min='100' max='1000'
+         type="range"
+         min="100" max="1000"
          value=${ state.gameSpeed }
          oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
   </div>
@@ -34,14 +33,18 @@ function runtimeControlsView (state, prev, send) {
 
 function runButtonView (state, send) {
   if (state.running) {
-    return html`
-      <button class=${buttonPrefix} onclick=${() => send('stopSimulation')}>Stop</button>
-   `
+    return button({
+      onclick: () => send('stopSimulation'),
+      icon: 'pause',
+      label: 'Pause'
+    })
   }
 
-  return html`
-    <button class=${buttonPrefix} onclick=${() => send('startSimulation')}>► Run</button>
-  `
+  return button({
+    onclick: () => send('startSimulation'),
+    icon: 'play',
+    label: 'Play'
+  })
 }
 
 module.exports = runtimeControlsView

@@ -2,7 +2,6 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const button = require('../element/button')
 
-
 const prefix = sf`
   :host {
     display: flex;
@@ -19,29 +18,34 @@ const prefix = sf`
 `
 
 function runtimeControlsView (state, prev, send) {
+  const spawnButton = button({
+    onclick: () => send('spawnBot'),
+    label: 'Spawn Robot'
+  })
+
   return html`
   <div class="${prefix}">
-    ${runButtonView(state, send)}
+    ${playButtonView(state, send)}
       <input
          type="range"
          min="100" max="1000"
-         value=${ state.gameSpeed }
+         value="${state.gameSpeed}"
          oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
-  </div>
-  `
+    ${spawnButton}
+  </div>`
 }
 
-function runButtonView (state, send) {
+function playButtonView (state, send) {
   if (state.running) {
     return button({
-      onclick: () => send('stopSimulation'),
+      onclick: () => send('pauseSimulation'),
       icon: 'pause',
       label: 'Pause'
     })
   }
 
   return button({
-    onclick: () => send('startSimulation'),
+    onclick: () => send('runSimulation'),
     icon: 'play',
     label: 'Play'
   })

@@ -3,13 +3,13 @@ const update = require('immutability-helper')
 const uid = require('uid')
 
 function init (state) {
-  const globalState = _.omit(state, ['entities'])
-
-  return _.extend(
-    globalState,
+  return _.assign(
+    {},
+    state,
     {
       entities: _.reduce(state.entities, (entities, entity) => {
-        entities[entity.id] = createEntity(entity)
+        const entityWithId = createEntity(entity)
+        entities[entityWithId.id] = entityWithId
         return entities
       }, {})
     }
@@ -159,6 +159,5 @@ function getAllEntitiesChanges (actionHandler, componentType, action, state, sen
 module.exports = {
   engine: game,
   getEntity,
-  getAllEntities,
-  getEntitiyFromPos
+  getAllEntities
 }

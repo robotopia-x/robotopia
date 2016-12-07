@@ -2,8 +2,6 @@ const _ = require('lodash')
 const uid = require('uid')
 const esper = require('esper.js')
 
-const { MOVE, ROTATE } = require('../utils/types')
-
 class RobotRuntime {
 
   constructor () {
@@ -11,15 +9,19 @@ class RobotRuntime {
     this.terminated = false
   }
 
-  spawnRobot ({ spawnerId, api, code, send }) {
+  connect (send) {
+    this.send = send
+  }
+
+  spawnRobot ({ spawnerId, api, code }) {
     const id = uid()
 
-    send('game:spawner.spawn', {
+    this.send('game:spawner.spawn', {
       target: spawnerId,
       data: { id }
     }, _.noop)
 
-    this.robots[id] = new Robot({ id, api, code, send })
+    this.robots[id] = new Robot({ id, api, code, send: this.send })
   }
 
   reloadRobotCode (id, code) {
@@ -27,7 +29,14 @@ class RobotRuntime {
   }
 
   step () {
-    _.forEach(this.robots, (robot) => robot.step())
+    _.forEach(this.robots, (robot, id) => {
+      robot.step()
+
+      if (robot.hasTerminated()) {
+        this.send('game:deleteEntity', { data: { id } }, _.noop)
+        delete this.robots[id]
+      }
+    })
   }
 
   hasTerminated () {

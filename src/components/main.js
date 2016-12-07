@@ -50,7 +50,7 @@ const contentPrefix = sf`
 `
 
 const mainView = (state, prev, send) => html`
-  <main class=${mainPrefix}>
+  <main class="${mainPrefix}">
     <div class="header-bar">
       ${runtimeControlsView(state, prev, send)}
     </div>

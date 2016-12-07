@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const uid = require('uid')
 const clock = require('./utils/clock')
 const robotRuntime = require('./utils/robot-runtime')
 const { MOVE, ROTATE } = require('./utils/types')
@@ -28,7 +27,7 @@ function stepRobotRuntime () {
 }
 
 function spawnBot (data, { code }, send) {
-  robotRuntime.spawnRobot({spawnerId: 'BASE', api, code, send})
+  robotRuntime.spawnRobot({spawnerId: 'BASE', api, code})
 }
 
 const api = {

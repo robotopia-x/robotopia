@@ -30,6 +30,12 @@ function getEntity (id, state) {
   return state.entities[id]
 }
 
+function deleteEntity (id, state) {
+  return _.omitBy(state.entities, (entitiy) => {
+    return entitiy.id === id
+  })
+}
+
 function getAllEntities (componentTypes, state) {
   return _(state.entities)
     .filter(entity => hasEntityComponents(componentTypes, entity))
@@ -48,6 +54,13 @@ const gameAPI = {
       return update(state, {
         entities: {
           [entity.id]: { $set: entity }
+        }
+      })
+    },
+    deleteEntity: ({ data }, state) => {
+      return update(state, {
+        entities: {
+          $set: deleteEntity(data.id, state)
         }
       })
     }

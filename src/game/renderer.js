@@ -44,8 +44,8 @@ function renderEntities (ctx, state) {
   _(entities)
     .sortBy(['position.y', 'position.x'])
     .each((entity) => {
-    renderEntity(ctx, entity)
-  })
+      renderEntity(ctx, entity)
+    })
 }
 
 function renderEntity (ctx, entity) {

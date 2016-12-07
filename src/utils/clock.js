@@ -4,39 +4,51 @@
 class Clock {
 
   constructor () {
-    this._clockInterval = 500
+    this.prevTickTimestamp = null
+    this.clockInterval = 500
+    this.running = false
   }
 
-  start (onTick) {
-    this._onTick = onTick
+  // call to register a single tick handler
+  onTick (tickCallback) {
+    this.tickCallback = tickCallback
+  }
 
-    if (this._running) {
+  triggerNextTick () {
+    this.tickCallback()
+
+    this.prevTickTimestamp = Date.now()
+
+    this.timeoutID = setTimeout(() => this.triggerNextTick(), this.clockInterval)
+  }
+
+  start () {
+    this.running = true
+
+    const timePassed = (Date.now() - this.prevTickTimestamp)
+
+    // ensure that it's not possible to trigger ticks faster by calling start and stop repeatedly
+    if (timePassed < this.clockInterval) {
+      const timeUntilNextTick = (this.clockInterval - timePassed)
+
+      this.timeoutID = setTimeout(() => this.triggerNextTick(), timeUntilNextTick)
+
       return
     }
-
-    this._running = true
 
     this.triggerNextTick()
   }
 
-  triggerNextTick () {
-    if (!this._running) {
-      return
+  stop () {
+    if (this.timeoutID) {
+      clearTimeout(this.timeoutID)
     }
 
-    this._onTick()
-
-    setTimeout(() => {
-      this.triggerNextTick()
-    }, this._clockInterval)
-  }
-
-  stop () {
-    this._running = false
+    this.running = false
   }
 
   setSpeed (interval) {
-    this._clockInterval = interval
+    this.clockInterval = interval
   }
 }
 

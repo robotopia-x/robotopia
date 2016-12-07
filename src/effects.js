@@ -1,34 +1,45 @@
 const _ = require('lodash')
 const clock = require('./utils/clock')
 const robotRuntime = require('./utils/robot-runtime')
+const { MOVE, ROTATE } = require('./utils/types')
 
-const startSimulation = (data, { code, gameSpeed }, send, done) => {
-  robotRuntime.loadCode(code)
-
+function runSimulation (data, { gameSpeed }, send) {
   clock.setSpeed(gameSpeed)
-  clock.start(() => {
-    if (robotRuntime.step()) {
-      send('changeRunningState', { running: false }, _.noop)
-      clock.stop()
-      done()
-    }
-  })
+  clock.start()
 
-  send('changeRunningState', { running: true }, _.noop)
+  send('setRunningState', { running: true }, _.noop)
 }
 
-const stopSimulation = (data, state, send) => {
+function pauseSimulation (data, state, send) {
   clock.stop()
-  send('changeRunningState', { running: false }, _.noop)
+
+  send('setRunningState', { running: false }, _.noop)
 }
 
-const changeGameSpeed = ({ speed }, state, send) => {
-  send('setGameSpeed', { speed }, _.noop)
+function changeGameSpeed ({ speed }, state, send) {
   clock.setSpeed(speed)
+
+  send('setGameSpeed', { speed }, _.noop)
+}
+
+function stepRobotRuntime () {
+  robotRuntime.step()
+}
+
+function spawnBot (data, { code }, send) {
+  robotRuntime.spawnRobot({spawnerId: 'BASE', api, code})
+}
+
+const api = {
+  move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
+  rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
+  placeMarker: () => ['game:markerCreator.placeMarker']
 }
 
 module.exports = {
-  startSimulation,
-  stopSimulation,
-  changeGameSpeed
+  runSimulation,
+  pauseSimulation,
+  changeGameSpeed,
+  stepRobotRuntime,
+  spawnBot
 }

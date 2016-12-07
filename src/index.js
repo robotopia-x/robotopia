@@ -37,7 +37,8 @@ window.startApp = () => {
     ROBOT_FRONT: '../assets/img/robot-front.png',
     ROBOT_LEFT: '../assets/img/robot-left.png',
     ROBOT_BACK: '../assets/img/robot-back.png',
-    ROBOT_RIGHT: '../assets/img/robot-right.png'
+    ROBOT_RIGHT: '../assets/img/robot-right.png',
+    BASE: '../assets/img/spawn.png'
   }).then(() => {
     document.body.innerHTML = ''
     document.body.appendChild(app.start())

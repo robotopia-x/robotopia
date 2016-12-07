@@ -28,7 +28,8 @@ module.exports = {
 function getEntitiyFromPos ({ collectorId, x, y }, state) {
   return _.find(state.entities, (entity) => {
     return (entity.id !== collectorId &&
-    entity.position.x === x &&
-    entity.position.y === y)
+        entity.position.x === x &&
+        entity.position.y === y) &&
+        entity.collectable
   })
 }

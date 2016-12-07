@@ -40,7 +40,12 @@ function getTileImageType (type) {
 
 function renderEntities (ctx, state) {
   const entities = gameEngine.getAllEntities(['renderer'], state)
-  _.each(entities, (entity) => renderEntity(ctx, entity))
+
+  _(entities)
+    .sortBy(['position.y', 'position.x'])
+    .each((entity) => {
+    renderEntity(ctx, entity)
+  })
 }
 
 function renderEntity (ctx, entity) {

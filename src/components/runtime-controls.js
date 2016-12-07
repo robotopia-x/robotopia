@@ -47,7 +47,7 @@ function playButtonView (state, send) {
   return button({
     onclick: () => send('runSimulation'),
     icon: 'play',
-    label: 'Play'
+    label: 'Run'
   })
 }
 

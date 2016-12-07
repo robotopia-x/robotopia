@@ -57,20 +57,28 @@ class Robot {
     this.addAPI(api)
   }
 
-  addAPI (api) {
-    _.forEach(api, (method, name) =>
-      this.engine.addGlobalFx(name, (...params) => {
+  addAPI ({ name, actions }) {
+    this.engine.addGlobal(name, this.getAPIObject(actions))
+  }
+
+  // turns action definitions in functions which can be called by the Robot code
+  getAPIObject (actions) {
+    return _.reduce(actions, (api, method, name) => {
+      api[name] = (...params) => {
         const [action, data] = method.apply(null, params)
 
         this.send(action, { target: this.id, data }, _.noop)
 
         this.completedTurn = true
-      })
-    )
+      }
+
+      return api
+    }, {})
   }
 
   loadCode (code) {
-    this.terminated = this.engine.load(code)
+    this.terminated = false
+    this.engine.load(code)
   }
 
   step () {

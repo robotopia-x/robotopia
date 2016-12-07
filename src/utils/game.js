@@ -3,13 +3,13 @@ const update = require('immutability-helper')
 const uid = require('uid')
 
 function init (state) {
-  const globalState = _.omit(state, ['entities'])
-
-  return _.extend(
-    globalState,
+  return _.assign(
+    {},
+    state,
     {
       entities: _.reduce(state.entities, (entities, entity) => {
-        entities[entity.id] = createEntity(entity)
+        const entityWithId = createEntity(entity)
+        entities[entityWithId.id] = entityWithId
         return entities
       }, {})
     }
@@ -28,14 +28,6 @@ function createEntity (entity) {
 
 function getEntity (id, state) {
   return state.entities[id]
-}
-
-function getEntitiyFromPos ({ x, y }, state) {
-  return _.find(state.entities, (entity) => {
-    return (entity.id !== 'robot' &&
-    entity.position.x === x &&
-    entity.position.y === y)
-  })
 }
 
 function deleteEntity (id, state) {
@@ -66,16 +58,11 @@ const gameAPI = {
       })
     },
     deleteEntity: ({ data }, state) => {
-      const entitiy = getEntitiyFromPos({ x: data.x, y: data.y }, state)
-
-      if (entitiy) {
-        return update(state, {
-          entities: {
-            $set: deleteEntity(entitiy.id, state)
-          }
-        })
-      }
-      return state
+      return update(state, {
+        entities: {
+          $set: deleteEntity(data.id, state)
+        }
+      })
     }
   },
   effects: {}
@@ -172,6 +159,5 @@ function getAllEntitiesChanges (actionHandler, componentType, action, state, sen
 module.exports = {
   engine: game,
   getEntity,
-  getAllEntities,
-  getEntitiyFromPos
+  getAllEntities
 }

@@ -78,7 +78,7 @@ class Robot {
   }
 
   triggerEvent (name, args) {
-    if (this.handlesEvent) {
+    if (this.handlesEvent()) {
       return
     }
 
@@ -93,11 +93,10 @@ class Robot {
     // the code of the engine just calls the event handler
     this.currentEngine = this.currentEngine.fork()
     this.currentEngine.load(`${this.name}.${eventHandlerName}.apply(args)`)
-    this.handlesEvent = true
   }
 
   step () {
-    if (this.terminatedMain && !this.handlesEvent) {
+    if (this.terminatedMain && !this.handlesEvent()) {
       return
     }
 
@@ -107,12 +106,16 @@ class Robot {
       completed = this.currentEngine.step()
     } while (!completed && !this.completedTurn)
 
-    if (completed && this.handlesEvent) {
+    if (completed && this.handlesEvent()) {
       this.currentEngine = this.mainEngine
       return
     }
 
     this.terminatedMain = true
+  }
+
+  handlesEvent () {
+    return this.mainEngine !== this.currentEngine
   }
 }
 

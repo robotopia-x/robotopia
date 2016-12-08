@@ -100,6 +100,12 @@ class Robot {
     if (completed) {
       if (this.handlesEvent()) {
         this.currentEngine = this.mainEngine
+
+        // continue execution if event handler hasn't triggered an action
+        if (!this.completedTurn) {
+          this.step()
+        }
+
         return
       }
 

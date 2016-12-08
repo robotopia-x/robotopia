@@ -11,8 +11,6 @@ module.exports = {
         const entitiy = entities[spawner.type](paramsWithPosition)
 
         send('game:createEntity', { data: entitiy }, _.noop)
-
-        return {}
       }
     }
   }

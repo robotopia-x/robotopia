@@ -33,7 +33,7 @@ function spawnBot (data, { code }, send) {
 const api = {
   move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
   rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
-  placeMarker: () => ['game:markerCreator.placeMarker'],
+  placeMarker: () => ['game:spawner.spawn'],
   collectResource: () => ['game:collector.collectResource']
 }
 

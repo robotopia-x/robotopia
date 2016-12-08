@@ -6,7 +6,6 @@ class RobotRuntime {
 
   constructor () {
     this.robots = {}
-    this.terminated = false
   }
 
   connect (send) {
@@ -24,8 +23,8 @@ class RobotRuntime {
     this.robots[id] = new Robot({ id, api, code, send: this.send })
   }
 
-  reloadRobotCode (id, code) {
-    this.robots[id].loadCode(code)
+  triggerEvent (name, args) {
+    _.forEach(this.robots, (robot) => robot.triggerEvent(name, args))
   }
 
   step () {
@@ -38,27 +37,24 @@ class RobotRuntime {
       }
     })
   }
-
-  hasTerminated () {
-    return _.every(this.robots, (robot) => robot.hasTerminated())
-  }
 }
 
 class Robot {
 
   constructor ({ id, api, code, send }) {
-    this.engine = new esper.Engine()
+    this.currentEngine = this.mainEngine = new esper.Engine()
     this.id = id
     this.send = send
     this.completedTurn = true
-    this.terminated = false
+    this.terminatedMain = false
 
     this.loadCode(code)
     this.addAPI(api)
   }
 
-  addAPI ({ name, actions }) {
-    this.engine.addGlobal(name, this.getAPIObject(actions))
+  addAPI ({ namespace, actions }) {
+    this.namespace = namespace
+    this.engine.addGlobal(namespace, this.getAPIObject(actions))
   }
 
   // turns action definitions in functions which can be called by the Robot code
@@ -77,24 +73,46 @@ class Robot {
   }
 
   loadCode (code) {
-    this.terminated = false
+    this.terminatedMain = false
     this.engine.load(code)
   }
 
-  step () {
-    if (this.terminated) {
+  triggerEvent (name, args) {
+    if (this.handlesEvent) {
       return
     }
 
-    this.completedTurn = false
+    const eventHandlerName = `on${_.capitalize(name)}`
 
-    do {
-      this.terminated = this.engine.step()
-    } while (!this.terminated && !this.completedTurn)
+    // skip if robot program has no event handler
+    if (!_.isFunction(this.currentEngine.globalScope.get(this.namespace).native[eventHandlerName])) {
+      return
+    }
+
+    // create separate engine which shares all the state with the main engine
+    // the code of the engine just calls the event handler
+    this.currentEngine = this.currentEngine.fork()
+    this.currentEngine.load(`${this.name}.${eventHandlerName}.apply(args)`)
+    this.handlesEvent = true
   }
 
-  hasTerminated () {
-    return this.terminated
+  step () {
+    if (this.terminatedMain && !this.handlesEvent) {
+      return
+    }
+
+    let completed = false
+
+    do {
+      completed = this.currentEngine.step()
+    } while (!completed && !this.completedTurn)
+
+    if (completed && this.handlesEvent) {
+      this.currentEngine = this.mainEngine
+      return
+    }
+
+    this.terminatedMain = true
   }
 }
 

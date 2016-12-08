@@ -26,7 +26,7 @@ function stepRobotRuntime () {
   robotRuntime.step()
 }
 
-function spawnBot (data, { code }, send) {
+function spawnBot (data, { code }) {
   robotRuntime.spawnRobot({spawnerId: 'BASE', api, code})
 }
 
@@ -39,10 +39,15 @@ const api = {
   }
 }
 
+function triggerRuntimeEvent ({ name, args, blad }) {
+  robotRuntime.triggerEvent(name, args)
+}
+
 module.exports = {
   runSimulation,
   pauseSimulation,
   changeGameSpeed,
   stepRobotRuntime,
-  spawnBot
+  spawnBot,
+  triggerRuntimeEvent
 }

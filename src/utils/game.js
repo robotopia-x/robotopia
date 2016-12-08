@@ -37,9 +37,7 @@ function deleteEntity (id, state) {
 }
 
 function getAllEntities (componentTypes, state) {
-  return _(state.entities)
-    .filter(entity => hasEntityComponents(componentTypes, entity))
-    .value()
+  return _.filter(state.entities, (entity) => hasEntityComponents(componentTypes, entity))
 }
 
 function hasEntityComponents (componentTypes, entity) {
@@ -90,11 +88,11 @@ function game ({ state, components, reducers, effects }) {
 }
 
 function getComponentsReducers (components) {
-  return getComponentsActionHandlers('reducers', components)
+  return getComponentsActionHandlers('reducers', components, executeReducerAction)
 }
 
 function getComponentsEffects (components) {
-  return getComponentsActionHandlers('effects', components)
+  return getComponentsActionHandlers('effects', components, executeEffectAction)
 }
 
 /* getComponentsActionHandlers()
@@ -114,7 +112,7 @@ function getComponentsEffects (components) {
  All handlers are wrapped so the action handler has only a view of the data of the entity
 
  */
-function getComponentsActionHandlers (actionType, components) {
+function getComponentsActionHandlers (actionType, components, executeAction) {
   return _.reduce(components, (handlers, component, componentType) => {
     return _.reduce(component[actionType], (handlers, actionHandler, reducerName) => {
       handlers[`${componentType}.${reducerName}`] = _.partial(executeAction, componentType, actionHandler)
@@ -123,37 +121,49 @@ function getComponentsActionHandlers (actionType, components) {
   }, {})
 }
 
-function executeAction (componentType, actionHandler, { target, data }, state, send, done) {
+function executeReducerAction (componentType, actionHandler, { target, data }, state) {
   let entitiyChanges
 
   if (target) {
-    entitiyChanges = getSingleEntityChanges(actionHandler, target, data, state, send, done)
+    entitiyChanges = getSingleEntityChanges(actionHandler, target, data, state)
   } else {
-    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, data, state, send, done)
+    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, data, state)
   }
 
   return update(state, { entities: entitiyChanges })
 }
 
-function getSingleEntityChanges (actionHandler, id, action, state, send, done) {
+function getSingleEntityChanges (actionHandler, id, action, state) {
   const current = getEntity(id, state)
-  const nextChanges = actionHandler(action, current, state, send, done)
+  const nextChanges = actionHandler(action, current, state)
 
   return {
     [id]: nextChanges
   }
 }
 
-function getAllEntitiesChanges (actionHandler, componentType, action, state, send, done) {
+function getAllEntitiesChanges (actionHandler, componentType, action, state) {
   const entities = getAllEntities([componentType], state)
 
   return _.reduce((entityChanges, entity) => {
-    const next = actionHandler(action, entity, state, send, done)
+    const next = actionHandler(action, entity, state)
 
     entityChanges[entity.id] = _.mapValues(next, (component) => ({ $set: component }))
 
     return entityChanges
   }, entities, {})
+}
+
+function executeEffectAction (componentType, actionHandler, { target, data }, state, send, done) {
+  if (target) {
+    const entity = getEntity(target, state)
+    return actionHandler(data, entity, state, send, done)
+  }
+
+  const entites = getAllEntities(componentType, state)
+  _.forEach(entites, (entity) => {
+    actionHandler(data, entity, state, send, done)
+  })
 }
 
 module.exports = {

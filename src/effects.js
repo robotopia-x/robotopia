@@ -35,7 +35,8 @@ const api = {
   actions: {
     move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
     rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
-    placeMarker: () => ['game:spawner.spawn']
+    placeMarker: () => ['game:spawner.spawn'],
+    collectResource: () => ['game:collector.collectResource']
   }
 }
 

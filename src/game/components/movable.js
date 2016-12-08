@@ -30,7 +30,8 @@ module.exports = {
             break
         }
 
-        if (game.tiles[nextY][nextX] === 2) {
+        if (game.tiles[nextY] &&
+          game.tiles[nextY][nextX] === 2) {
           return {}
         }
 

@@ -23,6 +23,7 @@ module.exports = {
 
   gem: ({ x, y }) => ({
     position: { x, y },
+    collectable: {},
     item: { type: 'gem' },
     renderer: {
       type: 'SIMPLE',

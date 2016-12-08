@@ -29,7 +29,8 @@ module.exports = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
   entities: [
-    entites.base({ x: 12, y: 12, id: 'BASE' })
+    entites.base({ x: 12, y: 12, id: 'BASE' }),
+    entites.gem({ x: 10, y: 12 })
   ]
 }
 

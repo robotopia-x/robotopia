@@ -31,7 +31,7 @@ function spawnBot (data, { code }, send) {
 }
 
 const api = {
-  name: 'robot',
+  namespace: 'robot',
   actions: {
     move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
     rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],

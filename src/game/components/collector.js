@@ -18,8 +18,6 @@ module.exports = {
             data: { id: resource.id }
           }, _.noop)
         }
-
-        return {}
       }
     }
   }

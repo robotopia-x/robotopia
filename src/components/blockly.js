@@ -29,7 +29,7 @@ const blocklyView = widget((update) => {
 
   function onload (el) {
     editorElement = el
-    workspace = Blockly.inject(editorElement, { toolbox: toolbox })
+    workspace = Blockly.inject(editorElement, toolbox)
 
     restoreWorkspace(workspace)
     workspace.addChangeListener(updateCode)

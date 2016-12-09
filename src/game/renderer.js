@@ -1,23 +1,23 @@
 const _ = require('lodash')
 const assets = require('../utils/assets')
-const gameEngine = require('../utils/game')
+const game = require('../utils/game')
 const { RENDERER } = require('../utils/types')
 
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
 
-function render (ctx, state) {
+function render (ctx, state, prev) {
   const { tiles } = state
 
   moveOrigin(ctx, tiles)
   renderTiles(ctx, tiles)
-  renderEntities(ctx, state)
+  renderEntities(ctx, state, prev)
 }
 
 // move origin to top left by half the size of the board so the game will be centered
 function moveOrigin (ctx, tiles) {
   const offsetX = -(tiles.length / 2) * TILE_WIDTH
-  const offsetY = -(tiles.length / 2) * TILE_HEIGHT
+  const offsetY = -(tiles[0].length / 2) * TILE_HEIGHT
   ctx.translate(offsetX, offsetY)
 }
 
@@ -38,14 +38,25 @@ function getTileImageType (type) {
   }[type]
 }
 
-function renderEntities (ctx, state) {
-  const entities = gameEngine.getAllEntities(['renderer'], state)
+function renderEntities (ctx, state, prev) {
+  const entities = game.getAllEntities(['renderer'], state)
 
   _(entities)
     .sortBy(['position.y', 'position.x'])
-    .each((entity) => {
-      renderEntity(ctx, entity)
+    .map((entity) => combineWithPrevEntityState(prev, entity))
+    .each(([entity, prevEntity]) => {
+      renderEntity(ctx, entity, prevEntity)
     })
+}
+
+function combineWithPrevEntityState (prev, entity) {
+  if (!prev) {
+    return [entity, undefined]
+  }
+
+  const prevEntity = game.getEntity(entity.id, prev)
+
+  return [entity, prevEntity]
 }
 
 function renderEntity (ctx, entity) {

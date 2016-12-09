@@ -10,17 +10,17 @@ const prefix = sf`
   }
 `
 
-const gameView = (state, prev, send) => {
+const gameView = (state, prev) => {
   return html`
     <div class="${prefix}">
-      ${canvasView((ctx, width, height) => render(ctx, width, height, state))}
+      ${canvasView((ctx, width, height) => render(ctx, width, height, state, prev))}
     </div>
   `
 }
 
-function render (ctx, width, height, state) {
+function render (ctx, width, height, state, prev) {
   ctx.clearRect(0, 0, width, height)
-  renderer.render(ctx, state)
+  renderer.render(ctx, state, prev)
 }
 
 module.exports = gameView

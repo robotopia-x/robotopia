@@ -11,6 +11,12 @@ module.exports = {
         const entitiy = entities[spawner.type](paramsWithPosition)
 
         send('game:createEntity', { data: entitiy }, _.noop)
+        send('triggerRuntimeEvent', {
+          name: `create${_.capitalizeFirstLetter(spawner.type)}`,
+          args: [ entitiy ]
+        }, _.noop)
+
+        return {}
       }
     }
   }

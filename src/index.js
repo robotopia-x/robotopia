@@ -9,6 +9,8 @@ if (!window.__loaded) {
 }
 window.__loaded = true
 
+require('./utils/lodash-extension')
+
 const assets = require('./utils/assets')
 const choo = require('choo')
 const hotModuleReplacement = require('./utils/hot-module-replacement')

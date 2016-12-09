@@ -26,15 +26,22 @@ function stepRobotRuntime () {
   robotRuntime.step()
 }
 
-function spawnBot (data, { code }, send) {
+function spawnBot (data, { code }) {
   robotRuntime.spawnRobot({spawnerId: 'BASE', api, code})
 }
 
 const api = {
-  move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
-  rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
-  placeMarker: () => ['game:spawner.spawn'],
-  collectResource: () => ['game:collector.collectResource']
+  namespace: 'robot',
+  actions: {
+    move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
+    rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
+    placeMarker: () => ['game:spawner.spawn'],
+    collectResource: () => ['game:collector.collectResource']
+  }
+}
+
+function triggerRuntimeEvent ({ name, args, blad }) {
+  robotRuntime.triggerEvent(name, args)
 }
 
 module.exports = {
@@ -42,5 +49,6 @@ module.exports = {
   pauseSimulation,
   changeGameSpeed,
   stepRobotRuntime,
-  spawnBot
+  spawnBot,
+  triggerRuntimeEvent
 }

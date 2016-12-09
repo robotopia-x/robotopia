@@ -6,7 +6,6 @@ class RobotRuntime {
 
   constructor () {
     this.robots = {}
-    this.terminated = false
   }
 
   connect (send) {
@@ -24,69 +23,98 @@ class RobotRuntime {
     this.robots[id] = new Robot({ id, api, code, send: this.send })
   }
 
-  reloadRobotCode (id, code) {
-    this.robots[id].loadCode(code)
+  triggerEvent (name, args) {
+    _.forEach(this.robots, (robot) => robot.triggerEvent(name, args))
   }
 
   step () {
-    _.forEach(this.robots, (robot, id) => {
-      robot.step()
-
-      if (robot.hasTerminated()) {
-        this.send('game:deleteEntity', { data: { id } }, _.noop)
-        delete this.robots[id]
-      }
-    })
-  }
-
-  hasTerminated () {
-    return _.every(this.robots, (robot) => robot.hasTerminated())
+    _.forEach(this.robots, (robot, id) => robot.step())
   }
 }
 
 class Robot {
 
   constructor ({ id, api, code, send }) {
-    this.engine = new esper.Engine()
     this.id = id
     this.send = send
     this.completedTurn = true
-    this.terminated = false
+    this.terminatedMain = false
 
-    this.loadCode(code)
+    // initialize engine
+    this.mainEngine = this.currentEngine = new esper.Engine()
+    this.mainEngine.load(code)
+
     this.addAPI(api)
   }
 
-  addAPI (api) {
-    _.forEach(api, (method, name) =>
-      this.engine.addGlobalFx(name, (...params) => {
+  addAPI ({ namespace, actions }) {
+    this.namespace = namespace
+    this.mainEngine.addGlobal(namespace, this.getAPIObject(actions))
+  }
+
+  // turns action definitions in functions which can be called by the Robot code
+  getAPIObject (actions) {
+    return _.reduce(actions, (api, method, name) => {
+      api[name] = (...params) => {
         const [action, data] = method.apply(null, params)
 
         this.send(action, { target: this.id, data }, _.noop)
 
         this.completedTurn = true
-      })
-    )
+      }
+
+      return api
+    }, {})
   }
 
-  loadCode (code) {
-    this.terminated = this.engine.load(code)
+  triggerEvent (name, args) {
+    if (this.handlesEvent()) {
+      return
+    }
+
+    const eventHandlerName = `on${_.capitalizeFirstLetter(name)}`
+
+    // skip if robot program has no event handler
+    if (!_.isFunction(this.currentEngine.globalScope.get(this.namespace).native[eventHandlerName])) {
+      return
+    }
+
+    // create separate engine which shares all the state with the main engine
+    // the code of the engine just calls the event handler
+    this.currentEngine = this.currentEngine.fork()
+    this.currentEngine.load(`${this.namespace}.${eventHandlerName}.apply(null, ${JSON.stringify(args)})`)
   }
 
   step () {
-    if (this.terminated) {
+    if (this.terminatedMain && !this.handlesEvent()) {
       return
     }
 
     this.completedTurn = false
+    let completed = false
 
     do {
-      this.terminated = this.engine.step()
-    } while (!this.terminated && !this.completedTurn)
+      completed = this.currentEngine.step()
+    } while (!completed && !this.completedTurn)
+
+    if (completed) {
+      if (this.handlesEvent()) {
+        this.currentEngine = this.mainEngine
+
+        // continue execution if event handler hasn't triggered an action
+        if (!this.completedTurn) {
+          this.step()
+        }
+
+        return
+      }
+
+      this.terminatedMain = true
+    }
   }
 
-  hasTerminated () {
-    return this.terminated
+  handlesEvent () {
+    return this.mainEngine !== this.currentEngine
   }
 }
 

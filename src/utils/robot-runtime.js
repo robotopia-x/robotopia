@@ -42,13 +42,29 @@ class Robot {
 
     // initialize engine
     this.mainEngine = this.currentEngine = new esper.Engine()
-    this.mainEngine.load(code)
 
     this.addAPI(api)
+
+    this.registerFunctions(api)
+    this.mainEngine.load(code)
   }
 
-  addAPI ({ namespace, actions }) {
+  registerFunctions ({ namespace, functions }) {
+    const script = _.reduce(functions, (script, method, name) => {
+      return script + `${namespace}.${name}=${method.toString()}\n`
+    }, '')
+
+    this.mainEngine.load(script)
+    this.mainEngine.runSync()
+  }
+
+  addAPI ({ namespace, globals, actions }) {
     this.namespace = namespace
+
+    _.forEach(globals, (global, name) => {
+      this.mainEngine.addGlobal(name, global)
+    })
+
     this.mainEngine.addGlobal(namespace, this.getAPIObject(actions))
   }
 

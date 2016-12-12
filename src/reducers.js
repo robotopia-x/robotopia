@@ -5,14 +5,7 @@ const setRunningState = ({ running }, state) => {
 }
 
 const updateCode = ({ code }, state) => {
-  const codeWithHandler = `
-    robot.onCreateMarker = function (entity) {
-      console.log('whoo something was created', entity)
-    }
-
-  ` + code
-
-  return update(state, { code: { $set: codeWithHandler } })
+  return update(state, { code: { $set: code } })
 }
 
 const updateWorkspace = ({ workspace }, state) => {

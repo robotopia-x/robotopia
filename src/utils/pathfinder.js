@@ -2,12 +2,11 @@ const aStar = require('easystarjs')
 const easystar = new aStar.js()
 const grid = require('../game/initial-state').tiles
 
-easystar.enableSync()
-easystar.setGrid(grid)
-easystar.setAcceptableTiles([1])
+setup(grid, [1])
 
 function setup (grid, allowedTiles) {
-  easystar.setGrid(board)
+  easystar.enableSync()
+  easystar.setGrid(grid)
   easystar.setAcceptableTiles(allowedTiles)
 }
 

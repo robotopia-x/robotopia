@@ -1,7 +1,7 @@
 const budo = require('budo')
 const hotModuleReloading = require('browserify-hmr')
 
-budo(`${__dirname}/src/index.js`, {
+budo(`${__dirname}/index.js`, {
   serve: 'bundle.js',
   live: '*.{css,html}',
   port: 3000,

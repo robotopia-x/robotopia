@@ -1,7 +1,10 @@
 const aStar = require('easystarjs')
 const easystar = new aStar.js()
+const grid = require('../game/initial-state').tiles
 
 easystar.enableSync()
+easystar.setGrid(grid)
+easystar.setAcceptableTiles([1])
 
 function setup (grid, allowedTiles) {
   easystar.setGrid(board)
@@ -23,21 +26,20 @@ function getPath (startPos, endPos) {
 
 function getMovementCommand (currentPos, newPos) {
   if (currentPos.y < newPos.y) {
-    return 'move(FORWARD)\n'
+    return 'FORWARD'
   } else if (currentPos.y > newPos.y) {
-    return 'move(BACKWARD)\n'
+    return 'BACKWARD'
   }
 
   if (currentPos.x < newPos.x) {
-    return 'move(RIGHT)\n'
+    return 'RIGHT'
   } else if (currentPos.x > newPos.x) {
-    return 'move(LEFT)\n'
+    return 'LEFT'
   }
-
 }
 
 function getMovementCommands (startPos, endPos) {
-  let commandStack = ''
+  let wordPath = []
   const path = getPath(startPos, endPos)
 
   let currentPos = path[0]
@@ -45,11 +47,11 @@ function getMovementCommands (startPos, endPos) {
   for (let step = 1; step < path.length; step++) {
     const newPos = path[step]
 
-    commandStack += getMovementCommand(currentPos, newPos)
+    wordPath.push(getMovementCommand(currentPos, newPos))
     currentPos = newPos
   }
 
-  return commandStack
+  return wordPath
 }
 
 module.exports = {

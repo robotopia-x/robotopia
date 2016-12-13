@@ -10,6 +10,7 @@ if (!window.__loaded) {
 window.__loaded = true
 
 require('./utils/lodash-extension')
+const roboRuntime = require('./utils/robot-runtime')
 
 const assets = require('./utils/assets')
 const choo = require('choo')
@@ -18,6 +19,8 @@ const ideModel = require('./model')
 const gameModel = require('./game/model')
 
 const app = choo()
+
+app.use({ onStateChange: (state, data) => roboRuntime.onStateChange(data.game) })
 
 app.model(ideModel)
 app.model(gameModel)

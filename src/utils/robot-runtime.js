@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const uid = require('uid')
 const esper = require('esper.js')
+const game = require('../utils/game')
 
 class RobotRuntime {
 
@@ -10,6 +11,14 @@ class RobotRuntime {
 
   connect (send) {
     this.send = send
+  }
+
+  onStateChange (state) {
+    this.state = state
+  }
+
+  getState () {
+    return this.state
   }
 
   spawnRobot ({ spawnerId, api, code }) {
@@ -58,18 +67,22 @@ class Robot {
     this.mainEngine.runSync()
   }
 
-  addAPI ({ namespace, globals, actions }) {
+  addAPI ({ namespace, globals, actions, sensors }) {
     this.namespace = namespace
 
     _.forEach(globals, (global, name) => {
       this.mainEngine.addGlobal(name, global)
     })
 
-    this.mainEngine.addGlobal(namespace, this.getAPIObject(actions))
+    this.mainEngine.addGlobal(namespace, this.getAPIObject({ actions, sensors }))
   }
 
   // turns action definitions in functions which can be called by the Robot code
-  getAPIObject (actions) {
+  getAPIObject ({ actions, sensors }) {
+    return _.merge({}, this.getAPIActions(actions), this.getAPISensors(sensors))
+  }
+
+  getAPIActions (actions) {
     return _.reduce(actions, (api, method, name) => {
       api[name] = (...params) => {
         const [action, data] = method.apply(null, params)
@@ -77,6 +90,22 @@ class Robot {
         this.send(action, { target: this.id, data }, _.noop)
 
         this.completedTurn = true
+      }
+
+      return api
+    }, {})
+  }
+
+  getAPISensors (sensors) {
+    return _.reduce(sensors, (api, method, name) => {
+      api[name] = (...params) => {
+        const state = robotRuntime.getState()
+
+        debugger
+
+        const entity = game.getEntity(this.id, state)
+
+        return method.apply(null, [entity, state].concat(params))
       }
 
       return api
@@ -134,4 +163,4 @@ class Robot {
   }
 }
 
-module.exports = new RobotRuntime()
+const robotRuntime = module.exports = new RobotRuntime()

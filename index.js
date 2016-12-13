@@ -1,4 +1,5 @@
 require('./src/utils/lodash-extension')
+require('./src/blockly')
 
 const assets = require('./src/utils/assets')
 const choo = require('choo')

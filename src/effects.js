@@ -44,12 +44,16 @@ const api = {
   },
   functions: {
     moveTo: function (xPos, yPos) {
-      const path = pathfinder.getMovementCommands({ x: 12, y: 12 }, { x: xPos, y: yPos })
+      const entityPos = this.getPosition()
+      const path = pathfinder.getMovementCommands({ x: entityPos.x, y: entityPos.y }, { x: xPos, y: yPos })
 
       for (let i = 0; i < path.length; i++) {
         this.move(path[i])
       }
     }
+  },
+  sensors: {
+    getPosition: (state, game) => state.position
   }
 }
 

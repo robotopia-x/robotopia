@@ -1,5 +1,4 @@
 const budo = require('budo')
-const hotModuleReloading = require('browserify-hmr')
 
 budo(`${__dirname}/index.js`, {
   serve: 'bundle.js',
@@ -9,6 +8,5 @@ budo(`${__dirname}/index.js`, {
   css: '../assets/main.css',
   browserify: {
     transform: ['sheetify/transform', 'babelify'],
-    plugin: hotModuleReloading
   }
 })

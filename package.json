@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "description": "interactive development environment to learn programming with robots",
   "main": "src/client.js",
+  "browserify": {
+    "transform": [
+      "sheetify/transform"
+    ]
+  },
   "dependencies": {
     "blockly": "1.0.0",
     "cache-element": "1.1.1",
@@ -25,7 +30,7 @@
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "node server.js"
+    "start": "budo --live --host localhost index.js:bundle.js"
   },
   "repository": {
     "type": "git",

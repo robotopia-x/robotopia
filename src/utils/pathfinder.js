@@ -39,7 +39,9 @@ function getMovementCommand (currentPos, newPos) {
 
 function getMovementCommands (startPos, endPos) {
   let wordPath = []
-  const path = getPath(startPos, endPos)
+
+  // x and y are switched because in the api of easystar the axis are switched
+  const path = getPath({ x: startPos.y, y: startPos.x }, { x: endPos.y, y: endPos.x })
 
   let currentPos = path[0]
 

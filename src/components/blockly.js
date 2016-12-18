@@ -1,9 +1,8 @@
 /* global Blockly localStorage */
-
 const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
-const toolbox = require('../../lib/toolbox')
+const toolbox = require('../blockly/toolbox')
 
 const prefix = sf`
   :host, :host > .editor {

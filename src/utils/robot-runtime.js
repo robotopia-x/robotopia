@@ -100,9 +100,6 @@ class Robot {
     return _.reduce(sensors, (api, method, name) => {
       api[name] = (...params) => {
         const state = robotRuntime.getState()
-
-        debugger
-
         const entity = game.getEntity(this.id, state)
 
         return method.apply(null, [entity, state].concat(params))

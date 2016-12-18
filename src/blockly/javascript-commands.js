@@ -6,7 +6,7 @@ Blockly.JavaScript.event_logic = function (block) {
   return `
     robot.onCreate${dropdownName} = function (entity) {
       ${statementsEvent}
-    }`
+    }\n`
 }
 
 Blockly.JavaScript.move = function (block) {
@@ -31,7 +31,7 @@ Blockly.JavaScript.move_to = function (block) {
   const xPos = Blockly.JavaScript.valueToCode(block, 'moveX', Blockly.JavaScript.ORDER_ATOMIC)
   const yPos = Blockly.JavaScript.valueToCode(block, 'moveY', Blockly.JavaScript.ORDER_ATOMIC)
 
-  return `robot.moveTo(${xPos}, ${yPos})`
+  return `robot.moveTo(${xPos}, ${yPos})\n`
 }
 
 Blockly.JavaScript.marker = function (block) {

@@ -1,58 +1,58 @@
-const aStar = require('easystarjs')
-const easystar = new aStar.js()
-const grid = require('../game/initial-state').tiles
+const { AStarFinder, Grid } = require('pathfinding')
+const initalState = require('../game/initial-state')
 
-setup(grid, [1])
+const finder = new AStarFinder()
 
-function setup (grid, allowedTiles) {
-  easystar.enableSync()
-  easystar.setGrid(grid)
-  easystar.setAcceptableTiles(allowedTiles)
+function getGrid (state) {
+  const { tiles } = state
+
+  const width = tiles[0].length
+  const height = tiles.length
+  const grid = new Grid(width, height)
+
+  for (let x = 0; x < width; x += 1) {
+    for (let y = 0; y < height; y += 1) {
+      if (tiles[y][x] === 0) {
+        grid.setWalkableAt(x, y, false)
+      }
+    }
+  }
+
+  return grid
 }
 
 function getPath (startPos, endPos) {
-  let fullPath = []
-
-  easystar.findPath(startPos.y, startPos.x, endPos.y, endPos.x, function (path) {
-    if (path) {
-      fullPath = path
-    }
-  })
-  easystar.calculate()
-
-  return fullPath
+  const grid = getGrid(initalState)
+  return finder.findPath(startPos.x, startPos.y, endPos.x, endPos.y, grid)
 }
 
-function getMovementCommand (currentPos, newPos) {
-  if (currentPos.y < newPos.y) {
+function getMovementCommand ([currentX, currentY], [nextX, nextY]) {
+  if (currentY < nextY) {
     return 'FORWARD'
-  } else if (currentPos.y > newPos.y) {
+  } else if (currentY > nextY) {
     return 'BACKWARD'
   }
 
-  if (currentPos.x < newPos.x) {
+  if (currentX < nextX) {
     return 'RIGHT'
-  } else if (currentPos.x > newPos.x) {
+  } else if (currentX > nextX) {
     return 'LEFT'
   }
 }
 
 function getMovementCommands (startPos, endPos) {
-  let wordPath = []
-
-  // x and y are switched because in the api of easystar the axis are switched
-  const path = getPath({ x: startPos.y, y: startPos.x }, { x: endPos.y, y: endPos.x })
-
+  const commands = []
+  const path = getPath({ x: startPos.x, y: startPos.y }, { x: endPos.x, y: endPos.y })
   let currentPos = path[0]
 
-  for (let step = 1; step < path.length; step++) {
-    const newPos = path[step]
+  for (let step = 1; step < path.length; step += 1) {
+    const nextPos = path[step]
 
-    wordPath.push(getMovementCommand(currentPos, newPos))
-    currentPos = newPos
+    commands.push(getMovementCommand(currentPos, nextPos))
+    currentPos = nextPos
   }
 
-  return wordPath
+  return commands
 }
 
 module.exports = {

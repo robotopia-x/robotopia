@@ -5,11 +5,14 @@ const assets = require('./src/utils/assets')
 const choo = require('choo')
 const ideModel = require('./src/model')
 const gameModel = require('./src/game/model')
+const robotRuntime = require('./src/utils/robot-runtime')
 
 const app = choo()
 
 app.model(ideModel)
 app.model(gameModel)
+
+app.use({ onStateChange: (action, state) => robotRuntime.onStateChange(state.game) })
 
 app.router((route) => [
   route('/', require('./src/components/main'))
@@ -28,6 +31,5 @@ assets.load({
   ROBOT_RIGHT: '../assets/img/robot-right.png',
   BASE: '../assets/img/spawn.png'
 }).then(() => {
-  document.body.innerHTML = ''
   document.body.appendChild(app.start())
 })

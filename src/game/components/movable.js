@@ -45,7 +45,7 @@ module.exports = {
 
       rotate: ({ direction }, state) => {
         const { position } = state
-        const orientation = mod(position.rotation + direction, 4)
+        const orientation = mod(position.rotation - direction, 4)
 
         return {
           position: {

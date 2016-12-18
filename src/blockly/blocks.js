@@ -1,21 +1,11 @@
 /* global Blockly */
-
-Blockly.Blocks.main_logic = {
-  init: function () {
-    this.appendStatementInput('Main')
-      .setCheck(null)
-      .appendField('Main')
-    this.setColour(20)
-    this.setTooltip('Main execution context')
-  }
-}
-
 Blockly.Blocks.event_logic = {
   init: function () {
-    this.appendStatementInput('Event')
-      .setCheck(null)
+    this.appendDummyInput()
       .appendField('Event')
-      .appendField(new Blockly.FieldDropdown([['Marker', 'MARKER'], ['Enemy', 'ENEMY'], ['Friend', 'FRIEND']]), 'NAME')
+      .appendField(new Blockly.FieldDropdown([['Marker', 'Marker'], ['Enemy', 'Enemy'], ['Friend', 'Friend']]), 'NAME')
+    this.appendStatementInput('NAME')
+      .setCheck(null)
     this.setColour(20)
     this.setTooltip('Events execution context')
   }
@@ -76,3 +66,30 @@ Blockly.Blocks.collect_resource = {
   }
 }
 
+Blockly.Blocks.move_to = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('Move to')
+    this.appendValueInput('moveX')
+      .setCheck(null)
+      .appendField('x:')
+    this.appendValueInput('moveY')
+      .setCheck(null)
+      .appendField('y:')
+    this.setInputsInline(true)
+    this.setPreviousStatement(true, null)
+    this.setNextStatement(true, null)
+    this.setTooltip('Moves the robot to position x, y on the gamefield')
+    this.setColour(230)
+  }
+}
+
+Blockly.Blocks.marker = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldDropdown([['Marker.x', 'entity.position.x'], ['Marker.y', 'entity.position.y']]), 'Marker')
+    this.setOutput(true, null)
+    this.setColour(170)
+    this.setTooltip('Variable that holds the x or y position of the marker')
+  }
+}

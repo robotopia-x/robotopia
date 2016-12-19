@@ -1,5 +1,6 @@
 const { AStarFinder, Grid } = require('pathfinding')
 const initalState = require('../game/initial-state')
+const { ORIENTATION } = require('./types')
 
 const finder = new AStarFinder()
 
@@ -28,16 +29,18 @@ function getPath (startPos, endPos) {
 
 function getMovementCommand ([currentX, currentY], [nextX, nextY]) {
   if (currentY < nextY) {
-    return 'FORWARD'
-  } else if (currentY > nextY) {
-    return 'BACKWARD'
+    return ORIENTATION.FRONT
+  }
+
+  if (currentY > nextY) {
+    return ORIENTATION.BACK
   }
 
   if (currentX < nextX) {
-    return 'RIGHT'
-  } else if (currentX > nextX) {
-    return 'LEFT'
+    return ORIENTATION.RIGHT
   }
+
+  return ORIENTATION.LEFT
 }
 
 function getMovementCommands (startPos, endPos) {

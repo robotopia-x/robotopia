@@ -43,7 +43,12 @@ const prefix = sf`
   :host.icon-pause:before {
     background-image: url('assets/icons/pause.svg');
   }
+
+  :host.icon-stop:before {
+    background-image: url('assets/icons/stop.svg');
+  }
 `
+
 function button ({ onclick, icon, label }) {
   const classes = classNames(
     prefix,

@@ -52,6 +52,13 @@ module.exports = {
             rotation: { $set: orientation }
           }
         }
+      },
+      setRotation: (state, { direction }) => {
+        return {
+          position: {
+            rotation: { $set: direction }
+          }
+        }
       }
     }
   }

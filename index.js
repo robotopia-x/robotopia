@@ -12,10 +12,10 @@ const app = choo()
 app.model(ideModel)
 app.model(gameModel)
 
-app.use({ onStateChange: (action, state) => robotRuntime.onStateChange(state.game) })
+app.use({ onStateChange: (state) => robotRuntime.onStateChange(state.game) })
 
-app.router((route) => [
-  route('/', require('./src/components/main'))
+app.router({ default: '/' }, [
+  ['/', require('./src/components/main')]
 ])
 
 assets.load({

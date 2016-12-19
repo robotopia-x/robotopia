@@ -11,7 +11,7 @@
   "dependencies": {
     "blockly": "1.0.0",
     "cache-element": "1.1.1",
-    "choo": "3.3.0",
+    "choo": "4.0.1",
     "classnames": "^2.2.5",
     "esper.js": "0.1.7",
     "immutability-helper": "2.0.0",

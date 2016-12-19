@@ -5,7 +5,7 @@ module.exports = {
     requires: ['position'],
 
     effects: {
-      collectResource: (data, state, game, send) => {
+      collectResource: (state, data, game, send) => {
         const collectorId = state.id
         const resource = getEntitiyFromPos({
           collectorId: collectorId,

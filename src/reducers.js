@@ -1,18 +1,18 @@
 const update = require('immutability-helper')
 
-const setRunningState = ({ running }, state) => {
+const setRunningState = (state, { running }) => {
   return update(state, { running: { $set: running } })
 }
 
-const updateCode = ({ code }, state) => {
+const updateCode = (state, { code }) => {
   return update(state, { code: { $set: code } })
 }
 
-const updateWorkspace = ({ workspace }, state) => {
+const updateWorkspace = (state, { workspace }) => {
   return update(state, { workspace: { $set: workspace } })
 }
 
-const setGameSpeed = ({ speed }, state) => {
+const setGameSpeed = (state, { speed }) => {
   return update(state, { gameSpeed: { $set: speed } })
 }
 

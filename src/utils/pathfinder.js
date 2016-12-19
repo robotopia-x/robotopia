@@ -30,15 +30,17 @@ function getPath (startPos, endPos) {
 function getMovementCommand ([currentX, currentY], [nextX, nextY]) {
   if (currentY < nextY) {
     return ORIENTATION.FRONT
-  } else if (currentY > nextY) {
+  }
+
+  if (currentY > nextY) {
     return ORIENTATION.BACK
   }
 
   if (currentX < nextX) {
     return ORIENTATION.RIGHT
-  } else if (currentX > nextX) {
-    return ORIENTATION.LEFT
   }
+
+  return ORIENTATION.LEFT
 }
 
 function getMovementCommands (startPos, endPos) {

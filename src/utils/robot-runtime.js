@@ -21,6 +21,17 @@ class RobotRuntime {
     return this.state
   }
 
+  // instantiate a new bot which is associated by its id to an game entity
+  // we need this for the tutorial levels
+  createRobot ({ id, api, code }) {
+    if (!_.isNil(this.robots[id])) {
+      throw new Error(`Robot with the id '${id}' exists already`)
+    }
+
+    this.robots[id] = new Robot({ id, api, code, send: this.send })
+  }
+
+  // instantiate a new bot which is spawend in the game world by a spawner
   spawnRobot ({ spawnerId, api, code }) {
     const id = uid()
 
@@ -29,7 +40,11 @@ class RobotRuntime {
       data: { id }
     }, _.noop)
 
-    this.robots[id] = new Robot({ id, api, code, send: this.send })
+    this.createRobot({ id, api, code })
+  }
+
+  loadCode ({ id, code }) {
+    this.robots[id].loadCode(code)
   }
 
   triggerEvent (name, args) {
@@ -46,15 +61,19 @@ class Robot {
   constructor ({ id, api, code, send }) {
     this.id = id
     this.send = send
+    this.api = api
+
+    this.loadCode(code)
+  }
+
+  loadCode (code) {
     this.completedTurn = true
     this.terminatedMain = false
+    this.currentEngine = this.mainEngine = new esper.Engine()
 
-    // initialize engine
-    this.mainEngine = this.currentEngine = new esper.Engine()
+    this.addAPI(this.api)
+    this.registerFunctions(this.api)
 
-    this.addAPI(api)
-
-    this.registerFunctions(api)
     this.mainEngine.load(code)
   }
 

@@ -18,10 +18,10 @@ const prefix = sf`
 `
 
 function runtimeControlsView (state, prev, send) {
-  const spawnButton = button({
+  /* const spawnButton = button({
     onclick: () => send('spawnBot'),
     label: 'Spawn Robot'
-  })
+  }) */
 
   return html`
   <div class="${prefix}">
@@ -31,16 +31,15 @@ function runtimeControlsView (state, prev, send) {
          min="100" max="1000"
          value="${state.gameSpeed}"
          oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
-    ${spawnButton}
   </div>`
 }
 
 function playButtonView (state, send) {
   if (state.running) {
     return button({
-      onclick: () => send('pauseSimulation'),
-      icon: 'pause',
-      label: 'Pause'
+      onclick: () => send('stopSimulation'),
+      icon: 'stop',
+      label: 'Stop'
     })
   }
 

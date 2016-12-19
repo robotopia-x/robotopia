@@ -3,14 +3,20 @@
   "version": "0.1.0",
   "description": "interactive development environment to learn programming with robots",
   "main": "src/client.js",
+  "browserify": {
+    "transform": [
+      "sheetify/transform"
+    ]
+  },
   "dependencies": {
     "blockly": "1.0.0",
     "cache-element": "1.1.1",
-    "choo": "3.3.0",
+    "choo": "4.0.1",
     "classnames": "^2.2.5",
     "esper.js": "0.1.7",
     "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
+    "pathfinding": "0.4.18",
     "sheetify": "5.1.1",
     "uid": "0.0.2"
   },
@@ -25,7 +31,7 @@
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "node server.js"
+    "start": "budo --live --host localhost index.js:bundle.js"
   },
   "repository": {
     "type": "git",

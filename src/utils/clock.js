@@ -1,12 +1,14 @@
+const _ = require('lodash')
+
 // Clock
 // sends ticks to drive incremental simulation
 
 class Clock {
 
   constructor () {
-    this.prevTickTimestamp = null
+    this.timer = new Timer()
     this.clockInterval = 500
-    this.running = false
+    this.prevTickTimestamp = null
   }
 
   // call to register a single tick handler
@@ -16,27 +18,27 @@ class Clock {
 
   triggerNextTick () {
     this.tickCallback()
-
     this.prevTickTimestamp = Date.now()
-
     this.timeoutID = setTimeout(() => this.triggerNextTick(), this.clockInterval)
   }
 
   start () {
-    this.running = true
-
-    const timePassed = (Date.now() - this.prevTickTimestamp)
-
-    // ensure that it's not possible to trigger ticks faster by calling start and stop repeatedly
-    if (timePassed < this.clockInterval) {
-      const timeUntilNextTick = (this.clockInterval - timePassed)
-
-      this.timeoutID = setTimeout(() => this.triggerNextTick(), timeUntilNextTick)
-
+    if (this.timer.isRunning()) {
       return
     }
 
-    this.triggerNextTick()
+    this.timer.start()
+
+    const timeUntilNextTick = this.getTimeUntilNextTick()
+    this.timeoutID = setTimeout(() => this.triggerNextTick(), timeUntilNextTick)
+  }
+
+  getTimeUntilNextTick () {
+    if (!this.prevTickTimestamp) {
+      return 0
+    }
+
+    return Math.max(0, this.clockInterval - this.timer.now() - this.prevTickTimestamp)
   }
 
   stop () {
@@ -44,11 +46,62 @@ class Clock {
       clearTimeout(this.timeoutID)
     }
 
-    this.running = false
+    this.timer.pause()
   }
 
   setSpeed (interval) {
     this.clockInterval = interval
+  }
+
+  getProgress () {
+    if (!this.prevTickTimestamp) {
+      return 0
+    }
+
+    return (this.timer.now() - this.prevTickTimestamp) / this.clockInterval
+  }
+}
+
+// Timer
+// replaces Date.now and adds the ability to pause time
+class Timer {
+
+  constructor () {
+    this.pausedTimestamp = null
+    this.offset = null
+  }
+
+  start () {
+    if (!this.pausedTimestamp) {
+      return
+    }
+
+    if (!this.offset) {
+      this.offset = Date.now()
+      return
+    }
+
+    this.offset += (Date.now() - this.pausedTimestamp)
+  }
+
+  pause () {
+    if (_.isNil(this.pausedTimestamp)) {
+      return
+    }
+
+    this.pausedTimestamp = Date.now()
+  }
+
+  now () {
+    if (_.isNil(this.pausedTimestamp)) {
+      return this.pausedTimstamp - this.offset
+    }
+
+    return Date.now() - this.offset
+  }
+
+  isRunning () {
+    return !_.isNil(this.pausedTimestamp)
   }
 }
 

@@ -93,7 +93,7 @@ class Timer {
   }
 
   now () {
-    if (_.isNil(this.pausedTimestamp)) {
+    if (!_.isNil(this.pausedTimestamp)) {
       return this.pausedTimstamp - this.offset
     }
 

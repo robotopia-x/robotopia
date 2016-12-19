@@ -6,12 +6,12 @@ const { RENDERER } = require('../utils/types')
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
 
-function render (ctx, state, prev) {
+function render (ctx, state, prev, progress) {
   const { tiles } = state
 
   moveOrigin(ctx, tiles)
   renderTiles(ctx, tiles)
-  renderEntities(ctx, state, prev)
+  renderEntities(ctx, state, prev, progress)
 }
 
 // move origin to top left by half the size of the board so the game will be centered
@@ -38,15 +38,15 @@ function getTileImageType (type) {
   }[type]
 }
 
-function renderEntities (ctx, state, prev) {
+function renderEntities (ctx, state, prev, progress) {
   const entities = game.getAllEntities(['renderer'], state)
 
   _(entities)
-    .sortBy(['position.y', 'position.x'])
-    .map((entity) => combineWithPrevEntityState(prev, entity))
-    .each(([entity, prevEntity]) => {
-      renderEntity(ctx, entity, prevEntity)
-    })
+  .sortBy(['position.y', 'position.x'])
+  .map((entity) => combineWithPrevEntityState(prev, entity))
+  .each(([entity, prevEntity]) => {
+    renderEntity(ctx, entity, prevEntity, progress)
+  })
 }
 
 function combineWithPrevEntityState (prev, entity) {
@@ -59,7 +59,7 @@ function combineWithPrevEntityState (prev, entity) {
   return [entity, prevEntity]
 }
 
-function renderEntity (ctx, entity) {
+function renderEntity (ctx, entity, prevEntity, progress) {
   const { type, data } = entity.renderer
 
   switch (type) {
@@ -68,7 +68,7 @@ function renderEntity (ctx, entity) {
       break
 
     case RENDERER.ROTATING:
-      rotatingRenderer(ctx, data, entity)
+      rotatingRenderer(ctx, data, entity, prevEntity, progress)
       break
 
     default:
@@ -76,12 +76,22 @@ function renderEntity (ctx, entity) {
   }
 }
 
-function simpleRenderer (ctx, { sprite }, { position }) {
+function simpleRenderer (ctx, { sprite }, { position }, progress) {
   drawSprite(ctx, sprite, position.x, position.y)
 }
 
-function rotatingRenderer (ctx, { sprites }, { position }) {
-  drawSprite(ctx, sprites[position.rotation], position.x, position.y)
+function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
+  let x, y
+
+  if (prev) {
+    x = prev.position.x + (current.position.x - prev.position.x) * progress
+    y = prev.position.y + (current.position.y - prev.position.y) * progress
+  } else {
+    x = current.position.x
+    y = current.position.y
+  }
+
+  drawSprite(ctx, sprites[current.position.rotation], x, y)
 }
 
 function drawSprite (ctx, type, x, y) {

@@ -30,6 +30,7 @@ module.exports = {
   ],
   entities: [
     entites.robot({ x: 12, y: 12, id: 'ROBOT' }),
+    entites.base({ x: 12, y: 12, id: 'BASE' }),
     entites.gem({ x: 10, y: 12 })
   ]
 }

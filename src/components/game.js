@@ -2,6 +2,7 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const canvasView = require('./canvas')
 const renderer = require('../game/renderer')
+const clock = require('../utils/clock')
 
 const prefix = sf`
   :host {
@@ -20,7 +21,7 @@ const gameView = (state, prev) => {
 
 function render (ctx, width, height, state, prev) {
   ctx.clearRect(0, 0, width, height)
-  renderer.render(ctx, state, prev)
+  renderer.render(ctx, state, prev, clock.getProgress())
 }
 
 module.exports = gameView

@@ -1,17 +1,18 @@
 const _ = require('lodash')
 const clock = require('./utils/clock')
 const robotRuntime = require('./utils/robot-runtime')
-const { MOVE, ROTATE } = require('./utils/types')
-const pathfinder = require('./utils/pathfinder')
+const robotApi = require('./utils/robot-api')
 
-function runSimulation ({ gameSpeed }, data, send) {
+function runSimulation ({ gameSpeed, code }, data, send) {
   clock.setSpeed(gameSpeed)
   clock.start()
+
+  robotRuntime.loadCode({ id: 'ROBOT', code })
 
   send('setRunningState', { running: true }, _.noop)
 }
 
-function pauseSimulation (state, data, send) {
+function stopSimulation (state, data, send) {
   clock.stop()
 
   send('setRunningState', { running: false }, _.noop)
@@ -28,33 +29,7 @@ function stepRobotRuntime () {
 }
 
 function spawnBot ({ code }, data) {
-  robotRuntime.spawnRobot({ spawnerId: 'BASE', api, code })
-}
-
-const api = {
-  namespace: 'robot',
-  globals: {
-    pathfinder
-  },
-  actions: {
-    move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
-    rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
-    placeMarker: () => ['game:spawner.spawn'],
-    collectResource: () => ['game:collector.collectResource']
-  },
-  functions: {
-    moveTo: function (xPos, yPos) {
-      const entityPos = this.getPosition()
-      const path = pathfinder.getMovementCommands({ x: entityPos.x, y: entityPos.y }, { x: xPos, y: yPos })
-
-      for (let i = 0; i < path.length; i++) {
-        this.move(path[i])
-      }
-    }
-  },
-  sensors: {
-    getPosition: (state, game) => state.position
-  }
+  robotRuntime.spawnRobot({ spawnerId: 'BASE', api: robotApi, code })
 }
 
 function triggerRuntimeEvent (state, { name, args }) {
@@ -63,7 +38,7 @@ function triggerRuntimeEvent (state, { name, args }) {
 
 module.exports = {
   runSimulation,
-  pauseSimulation,
+  stopSimulation,
   changeGameSpeed,
   stepRobotRuntime,
   spawnBot,

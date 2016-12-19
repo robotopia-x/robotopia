@@ -4,20 +4,20 @@ const robotRuntime = require('./utils/robot-runtime')
 const { MOVE, ROTATE } = require('./utils/types')
 const pathfinder = require('./utils/pathfinder')
 
-function runSimulation (data, { gameSpeed }, send) {
+function runSimulation ({ gameSpeed }, data, send) {
   clock.setSpeed(gameSpeed)
   clock.start()
 
   send('setRunningState', { running: true }, _.noop)
 }
 
-function pauseSimulation (data, state, send) {
+function pauseSimulation (state, data, send) {
   clock.stop()
 
   send('setRunningState', { running: false }, _.noop)
 }
 
-function changeGameSpeed ({ speed }, state, send) {
+function changeGameSpeed (state, { speed }, send) {
   clock.setSpeed(speed)
 
   send('setGameSpeed', { speed }, _.noop)
@@ -27,8 +27,8 @@ function stepRobotRuntime () {
   robotRuntime.step()
 }
 
-function spawnBot (data, { code }) {
-  robotRuntime.spawnRobot({spawnerId: 'BASE', api, code})
+function spawnBot ({ code }, data) {
+  robotRuntime.spawnRobot({ spawnerId: 'BASE', api, code })
 }
 
 const api = {
@@ -57,7 +57,7 @@ const api = {
   }
 }
 
-function triggerRuntimeEvent ({ name, args, blad }) {
+function triggerRuntimeEvent (state, { name, args }) {
   robotRuntime.triggerEvent(name, args)
 }
 

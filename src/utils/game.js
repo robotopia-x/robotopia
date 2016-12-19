@@ -46,7 +46,7 @@ function hasEntityComponents (componentTypes, entity) {
 
 const gameAPI = {
   reducers: {
-    createEntity: ({ data }, state) => {
+    createEntity: (state, { data }) => {
       const entity = createEntity(data)
 
       return update(state, {
@@ -55,7 +55,7 @@ const gameAPI = {
         }
       })
     },
-    deleteEntity: ({ data }, state) => {
+    deleteEntity: (state, { data }) => {
       return update(state, {
         entities: {
           $set: deleteEntity(data.id, state)
@@ -121,32 +121,32 @@ function getComponentsActionHandlers (actionType, components, executeAction) {
   }, {})
 }
 
-function executeReducerAction (componentType, actionHandler, { target, data }, state) {
+function executeReducerAction (componentType, actionHandler, state, { target, data }) {
   let entitiyChanges
 
   if (target) {
-    entitiyChanges = getSingleEntityChanges(actionHandler, target, data, state)
+    entitiyChanges = getSingleEntityChanges(actionHandler, target, state, data)
   } else {
-    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, data, state)
+    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, state, data)
   }
 
   return update(state, { entities: entitiyChanges })
 }
 
-function getSingleEntityChanges (actionHandler, id, action, state) {
+function getSingleEntityChanges (actionHandler, id, state, action) {
   const current = getEntity(id, state)
-  const nextChanges = actionHandler(action, current, state)
+  const nextChanges = actionHandler(current, action, state)
 
   return {
     [id]: nextChanges
   }
 }
 
-function getAllEntitiesChanges (actionHandler, componentType, action, state) {
+function getAllEntitiesChanges (actionHandler, componentType, state, action) {
   const entities = getAllEntities([componentType], state)
 
   return _.reduce((entityChanges, entity) => {
-    const next = actionHandler(action, entity, state)
+    const next = actionHandler(entity, action, state)
 
     entityChanges[entity.id] = _.mapValues(next, (component) => ({ $set: component }))
 
@@ -154,15 +154,15 @@ function getAllEntitiesChanges (actionHandler, componentType, action, state) {
   }, entities, {})
 }
 
-function executeEffectAction (componentType, actionHandler, { target, data }, state, send, done) {
+function executeEffectAction (componentType, actionHandler, state, { target, data }, send, done) {
   if (target) {
     const entity = getEntity(target, state)
-    return actionHandler(data, entity, state, send, done)
+    return actionHandler(entity, data, state, send, done)
   }
 
   const entites = getAllEntities(componentType, state)
   _.forEach(entites, (entity) => {
-    actionHandler(data, entity, state, send, done)
+    actionHandler(entity, data, state, send, done)
   })
 }
 

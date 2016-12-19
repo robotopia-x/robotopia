@@ -13,7 +13,7 @@ module.exports = {
   robotRuntime: (send) => {
     robotRuntime.connect(send)
     robotRuntime.createRobot({
-      id: 'robot',
+      id: 'ROBOT',
       api: robotApi,
       code: ''
     })

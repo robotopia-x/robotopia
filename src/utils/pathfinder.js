@@ -28,22 +28,24 @@ function getPath (startPos, endPos) {
 
 function getMovementCommand ([currentX, currentY], [nextX, nextY]) {
   if (currentY < nextY) {
-    return 'FORWARD'
+    return { move: 'FORWARD' }
   } else if (currentY > nextY) {
-    return 'BACKWARD'
+    return { move: 'BACKWARD' }
   }
 
   if (currentX < nextX) {
-    return 'RIGHT'
+    return { move: 'RIGHT' }
   } else if (currentX > nextX) {
-    return 'LEFT'
+    return { move: 'LEFT' }
   }
 }
 
-function getMovementCommands (startPos, endPos) {
+function getMovementCommands (startPos, endPos, initRotation) {
   const commands = []
   const path = getPath({ x: startPos.x, y: startPos.y }, { x: endPos.x, y: endPos.y })
   let currentPos = path[0]
+
+  commands.push({ setRotate: 'LEFT' })
 
   for (let step = 1; step < path.length; step += 1) {
     const nextPos = path[step]

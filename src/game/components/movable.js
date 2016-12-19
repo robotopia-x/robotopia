@@ -6,7 +6,7 @@ module.exports = {
     requires: ['position'],
 
     reducers: {
-      move: ({ direction }, state, game) => {
+      move: (state, { direction }, game) => {
         const { position } = state
         const { tiles } = game
         const mapWidth = tiles[0].length
@@ -43,7 +43,7 @@ module.exports = {
         }
       },
 
-      rotate: ({ direction }, state) => {
+      rotate: (state, { direction }) => {
         const { position } = state
         const orientation = mod(position.rotation - direction, 4)
 

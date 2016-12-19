@@ -1,9 +1,7 @@
 const _ = require('lodash')
-const raf = require('raf')
 const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
-
 
 // inital zoom is set so viewport will have at least this height and width
 const MIN_INITAL_VIEWPORT_SIZE = 1000
@@ -41,7 +39,7 @@ const canvasView = widget((update) => {
     </div>
   `
 
-  function renderLoop () {
+  function renderCanvas () {
     const { pan, zoom } = canvasTransform
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -55,12 +53,14 @@ const canvasView = widget((update) => {
     render(ctx, canvas.width, canvas.height)
 
     ctx.restore()
-
-    raf(renderLoop)
   }
 
   function onupdate (_render) {
     render = _render
+
+    if (ctx) {
+      renderCanvas()
+    }
   }
 
   function onload (el) {
@@ -72,7 +72,7 @@ const canvasView = widget((update) => {
 
     resize(canvas, canvasTransform)
 
-    renderLoop()
+    renderCanvas()
   }
 
   function addCanvasListeners () {
@@ -96,6 +96,8 @@ const canvasView = widget((update) => {
 
         dragStart.x = evt.clientX
         dragStart.y = evt.clientY
+
+        renderCanvas()
       }
     })
 
@@ -113,6 +115,8 @@ const canvasView = widget((update) => {
       evt.preventDefault()
       const zoom = canvasTransform.zoom + (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
       canvasTransform.zoom = _.clamp(zoom, 0.1, 2)
+
+      renderCanvas()
     }, false)
   }
 
@@ -126,6 +130,8 @@ const canvasView = widget((update) => {
 
     // zoom out if width or height of canvas are less than 1200
     canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
+
+    renderCanvas()
   }
 })
 

@@ -43,6 +43,10 @@ class RobotRuntime {
     this.createRobot({ id, api, code })
   }
 
+  loadCode ({ id, code }) {
+    this.robots[id].loadCode(code)
+  }
+
   triggerEvent (name, args) {
     _.forEach(this.robots, (robot) => robot.triggerEvent(name, args))
   }
@@ -57,15 +61,19 @@ class Robot {
   constructor ({ id, api, code, send }) {
     this.id = id
     this.send = send
+    this.api = api
+
+    this.loadCode(code)
+  }
+
+  loadCode (code) {
     this.completedTurn = true
     this.terminatedMain = false
+    this.currentEngine = this.mainEngine = new esper.Engine()
 
-    // initialize engine
-    this.mainEngine = this.currentEngine = new esper.Engine()
+    this.addAPI(this.api)
+    this.registerFunctions(this.api)
 
-    this.addAPI(api)
-
-    this.registerFunctions(api)
     this.mainEngine.load(code)
   }
 

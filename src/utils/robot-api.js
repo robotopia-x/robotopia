@@ -25,4 +25,4 @@ module.exports = {
   sensors: {
     getPosition: (state, game) => state.position
   }
-};
+}

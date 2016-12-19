@@ -3,9 +3,11 @@ const clock = require('./utils/clock')
 const robotRuntime = require('./utils/robot-runtime')
 const robotApi = require('./utils/robot-api')
 
-function runSimulation ({ gameSpeed }, data, send) {
+function runSimulation ({ gameSpeed, code }, data, send) {
   clock.setSpeed(gameSpeed)
   clock.start()
+
+  robotRuntime.loadCode({ id: 'ROBOT', code })
 
   send('setRunningState', { running: true }, _.noop)
 }

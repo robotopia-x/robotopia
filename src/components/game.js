@@ -21,7 +21,7 @@ const gameView = (state, prev) => {
 
 function render (ctx, width, height, state, prev) {
   ctx.clearRect(0, 0, width, height)
-  renderer.render(ctx, state, prev, clock.getProgress())
+  renderer.render(ctx, state, prev, state.progress)
 }
 
 module.exports = gameView

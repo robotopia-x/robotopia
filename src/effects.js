@@ -24,8 +24,10 @@ function changeGameSpeed (state, { speed }, send) {
   send('setGameSpeed', { speed }, _.noop)
 }
 
-function stepRobotRuntime () {
+function stepRobotRuntime (state, data, send) {
+  send('game:beginStep', {}, _.noop)
   robotRuntime.step()
+  send('game:completeStep', {}, _.noop)
 }
 
 function spawnBot ({ code }, data) {

@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const uid = require('uid')
 const esper = require('esper.js')
-const game = require('../utils/game')
+const { getGameState, getEntity } = require('../utils/game')
 
 class RobotRuntime {
 
@@ -119,9 +119,10 @@ class Robot {
     return _.reduce(sensors, (api, method, name) => {
       api[name] = (...params) => {
         const state = robotRuntime.getState()
-        const entity = game.getEntity(this.id, state)
+        const game = getGameState(state)
+        const entity = getEntity(this.id, game)
 
-        return method.apply(null, [entity, state].concat(params))
+        return method.apply(null, [entity, game].concat(params))
       }
 
       return api

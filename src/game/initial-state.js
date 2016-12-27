@@ -29,7 +29,7 @@ module.exports = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ],
 
-  progress: 0,
+  stepProgress: 0,
 
   entities: [
     entites.base({ x: 12, y: 12, id: 'BASE' }),

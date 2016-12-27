@@ -2,7 +2,6 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const canvasView = require('./canvas')
 const renderer = require('../game/renderer')
-const clock = require('../utils/clock')
 
 const prefix = sf`
   :host {
@@ -11,17 +10,17 @@ const prefix = sf`
   }
 `
 
-const gameView = (state, prev) => {
+const gameView = (state) => {
   return html`
     <div class="${prefix}">
-      ${canvasView((ctx, width, height) => render(ctx, width, height, state, prev))}
+      ${canvasView((ctx, width, height) => render(ctx, width, height, state))}
     </div>
   `
 }
 
-function render (ctx, width, height, state, prev) {
+function render (ctx, width, height, state) {
   ctx.clearRect(0, 0, width, height)
-  renderer.render(ctx, state, prev)
+  renderer.render(ctx, state)
 }
 
 module.exports = gameView

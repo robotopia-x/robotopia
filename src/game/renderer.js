@@ -9,8 +9,6 @@ const TILE_WIDTH = 100
 function render (ctx, state) {
   const { tiles } = state.current
 
-  console.log(state.stepProgress)
-
   moveOrigin(ctx, tiles)
   renderTiles(ctx, tiles)
   renderEntities(ctx, state.current, state.prev, state.stepProgress)

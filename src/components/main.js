@@ -49,7 +49,8 @@ const contentPrefix = sf`
     }
 `
 
-const mainView = (state, prev, send) => html`
+const mainView = (state, prev, send) => {
+  return html`
   <main class="${mainPrefix}">
     <div class="header-bar">
       ${runtimeControlsView(state, prev, send)}
@@ -60,10 +61,11 @@ const mainView = (state, prev, send) => html`
       </div>
       <div class="divider"></div>
       <div class="column">
-        ${gameView(state.game, prev, send)}
+        ${gameView(state.game)}
       </div>
     </div>
   </main>
 `
+}
 
 module.exports = mainView

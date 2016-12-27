@@ -10,7 +10,7 @@ const prefix = sf`
   }
 `
 
-const gameView = (state, prev, send) => {
+const gameView = (state) => {
   return html`
     <div class="${prefix}">
       ${canvasView((ctx, width, height) => render(ctx, width, height, state))}

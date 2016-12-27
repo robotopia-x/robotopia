@@ -1,7 +1,7 @@
+const _ = require('lodash')
 const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
-const _ = require('lodash')
 
 // inital zoom is set so viewport will have at least this height and width
 const MIN_INITAL_VIEWPORT_SIZE = 1000
@@ -39,26 +39,7 @@ const canvasView = widget((update) => {
     </div>
   `
 
-  function onupdate (_render) {
-    render = _render
-
-    if (ctx) {
-      callRender(canvas, ctx, canvasTransform, render)
-    }
-  }
-
-  function onload (el) {
-    canvas = el
-    ctx = canvas.getContext('2d')
-
-    addCanvasListeners(canvas, ctx, canvasTransform, render)
-    addWindowListeners(canvas, ctx, canvasTransform, render)
-
-    resize(canvas, canvasTransform)
-    callRender(canvas, ctx, canvasTransform, render)
-  }
-
-  function callRender (canvas, ctx, canvasTransform, render) {
+  function renderCanvas () {
     const { pan, zoom } = canvasTransform
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -72,6 +53,26 @@ const canvasView = widget((update) => {
     render(ctx, canvas.width, canvas.height)
 
     ctx.restore()
+  }
+
+  function onupdate (_render) {
+    render = _render
+
+    if (ctx) {
+      renderCanvas()
+    }
+  }
+
+  function onload (el) {
+    canvas = el
+    ctx = canvas.getContext('2d')
+
+    addCanvasListeners(canvas, ctx, canvasTransform, render)
+    addWindowListeners(canvas, ctx, canvasTransform, render)
+
+    resize(canvas, canvasTransform)
+
+    renderCanvas()
   }
 
   function addCanvasListeners () {
@@ -93,10 +94,10 @@ const canvasView = widget((update) => {
         canvasTransform.pan.x += (x - dragStart.x) / canvasTransform.zoom
         canvasTransform.pan.y += (y - dragStart.y) / canvasTransform.zoom
 
-        callRender(canvas, ctx, canvasTransform, render)
-
         dragStart.x = evt.clientX
         dragStart.y = evt.clientY
+
+        renderCanvas()
       }
     })
 
@@ -111,23 +112,16 @@ const canvasView = widget((update) => {
     })
 
     canvas.addEventListener('mousewheel', (evt) => {
+      evt.preventDefault()
       const zoom = canvasTransform.zoom + (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
-
       canvasTransform.zoom = _.clamp(zoom, 0.1, 2)
+
+      renderCanvas()
     }, false)
   }
 
   function addWindowListeners () {
-    window.addEventListener('resize', () => {
-      resize(canvas, canvasTransform)
-
-      callRender(canvas, ctx, canvasTransform, render)
-    })
-
-    window.addEventListener('mousewheel', (evt) => {
-      evt.preventDefault()
-      callRender(canvas, ctx, canvasTransform, render)
-    }, false)
+    window.addEventListener('resize', () => resize(canvas, canvasTransform))
   }
 
   function resize (canvas, canvasTransform) {
@@ -136,6 +130,8 @@ const canvasView = widget((update) => {
 
     // zoom out if width or height of canvas are less than 1200
     canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
+
+    renderCanvas()
   }
 })
 

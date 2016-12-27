@@ -1,12 +1,18 @@
+const _ = require('lodash')
+const raf = require('raf')
+
 // Clock
 // sends ticks to drive incremental simulation
 
 class Clock {
 
   constructor () {
-    this.prevTickTimestamp = null
+    this.timer = new Timer()
     this.clockInterval = 500
-    this.running = false
+    this.prevTickTimestamp = null
+
+    this.tickCallback = _.noop
+    this.progressCallback = _.noop
   }
 
   // call to register a single tick handler
@@ -14,29 +20,45 @@ class Clock {
     this.tickCallback = tickCallback
   }
 
+  onProgress (progressCallback) {
+    this.progressCallback = progressCallback
+  }
+
   triggerNextTick () {
     this.tickCallback()
 
-    this.prevTickTimestamp = Date.now()
-
+    this.prevTickTimestamp = this.timer.now()
     this.timeoutID = setTimeout(() => this.triggerNextTick(), this.clockInterval)
   }
 
-  start () {
-    this.running = true
-
-    const timePassed = (Date.now() - this.prevTickTimestamp)
-
-    // ensure that it's not possible to trigger ticks faster by calling start and stop repeatedly
-    if (timePassed < this.clockInterval) {
-      const timeUntilNextTick = (this.clockInterval - timePassed)
-
-      this.timeoutID = setTimeout(() => this.triggerNextTick(), timeUntilNextTick)
-
+  triggerProgress () {
+    if (!this.timer.isRunning()) {
       return
     }
 
-    this.triggerNextTick()
+    raf(() => this.triggerProgress())
+    this.progressCallback(this.getProgress())
+  }
+
+  start () {
+    if (this.timer.isRunning()) {
+      return
+    }
+
+    this.timer.start()
+
+    const timeUntilNextTick = this.getTimeUntilNextTick()
+    this.timeoutID = setTimeout(() => this.triggerNextTick(), timeUntilNextTick)
+
+    this.triggerProgress()
+  }
+
+  getTimeUntilNextTick () {
+    if (!this.prevTickTimestamp) {
+      return 0
+    }
+
+    return Math.max(0, this.clockInterval - (this.timer.now() - this.prevTickTimestamp))
   }
 
   stop () {
@@ -44,11 +66,58 @@ class Clock {
       clearTimeout(this.timeoutID)
     }
 
-    this.running = false
+    this.timer.pause()
   }
 
   setSpeed (interval) {
     this.clockInterval = interval
+  }
+
+  getProgress () {
+    if (_.isNil(this.prevTickTimestamp)) {
+      return 0
+    }
+
+    return _.clamp((this.timer.now() - this.prevTickTimestamp) / this.clockInterval, 0, 1)
+  }
+}
+
+// Timer
+// replaces Date.now and adds the ability to pause time
+class Timer {
+
+  constructor () {
+    this.pausedTimestamp = Date.now()
+    this.offset = Date.now()
+  }
+
+  start () {
+    if (this.isRunning()) {
+      return
+    }
+
+    this.offset += (Date.now() - this.pausedTimestamp)
+    this.pausedTimestamp = null
+  }
+
+  pause () {
+    if (!this.isRunning()) {
+      return
+    }
+
+    this.pausedTimestamp = Date.now()
+  }
+
+  now () {
+    if (!this.isRunning()) {
+      return this.pausedTimestamp - this.offset
+    }
+
+    return Date.now() - this.offset
+  }
+
+  isRunning () {
+    return _.isNil(this.pausedTimestamp)
   }
 }
 

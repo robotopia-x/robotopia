@@ -8,6 +8,10 @@ module.exports = {
     clock.onTick(() => {
       send('stepRobotRuntime', _.noop)
     })
+
+    clock.onProgress((progress) => {
+      send('game:setStepProgress', { progress }, _.noop)
+    })
   },
 
   robotRuntime: (send) => {

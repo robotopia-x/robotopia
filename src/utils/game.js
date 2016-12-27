@@ -102,11 +102,16 @@ const gameAPI = {
     },
 
     completeStep: (state) => {
+      if (state.isGameStepCompleted) {
+        return state
+      }
+
       return update(state, {
         prev: { $set: state.current },
         current: { $set: state.next },
         next: { $set: null },
-        isGameStepCompleted: { $set: true }
+        isGameStepCompleted: { $set: true },
+        stepProgress: { $set: 0 }
       })
     }
   },

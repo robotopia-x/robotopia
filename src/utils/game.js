@@ -3,7 +3,7 @@ const update = require('immutability-helper')
 const uid = require('uid')
 
 function init (state) {
-  return _.assign(
+  const current = _.assign(
     {},
     state,
     {
@@ -14,6 +14,30 @@ function init (state) {
       }, {})
     }
   )
+
+  return {
+    isGameStepCompleted: true,
+    stepProgress: 0,
+    prev: null,
+    current,
+    next: null
+  }
+}
+
+function getGameState (state) {
+  if (!state.isGameStepCompleted) {
+    return state.next
+  }
+
+  return state.current
+}
+
+function updateGameState (state, changes) {
+  if (!state.isGameStepCompleted) {
+    return update(state, { next: changes })
+  }
+
+  return update(state, { current: changes })
 }
 
 function createEntity (entity) {
@@ -26,22 +50,22 @@ function createEntity (entity) {
   return entity
 }
 
-function getEntity (id, state) {
-  return state.entities[id]
+function getEntity (id, game) {
+  return game.entities[id]
 }
 
-function deleteEntity (id, state) {
-  return _.omitBy(state.entities, (entitiy) => {
+function deleteEntity (id, game) {
+  return _.omitBy(game.entities, (entitiy) => {
     return entitiy.id === id
   })
 }
 
-function getAllEntities (componentTypes, state) {
-  return _.filter(state.entities, (entity) => hasEntityComponents(componentTypes, entity))
+function getAllEntities (componentTypes, game) {
+  return _.filter(game.entities, (entity) => hasEntityComponents(componentTypes, entity))
 }
 
-function hasEntityComponents (componentTypes, entity) {
-  return _.every(componentTypes, (type) => !_.isUndefined(entity))
+function hasEntityComponents (componentTypes, game) {
+  return _.every(componentTypes, (type) => !_.isUndefined(game))
 }
 
 const gameAPI = {
@@ -49,17 +73,40 @@ const gameAPI = {
     createEntity: (state, { data }) => {
       const entity = createEntity(data)
 
-      return update(state, {
+      return updateGameState(state, {
         entities: {
           [entity.id]: { $set: entity }
         }
       })
     },
+
     deleteEntity: (state, { data }) => {
-      return update(state, {
+      return updateGameState(state, {
         entities: {
           $set: deleteEntity(data.id, state)
         }
+      })
+    },
+
+    setStepProgress: (state, { progress }) => {
+      return update(state, {
+        stepProgress: { $set: progress }
+      })
+    },
+
+    beginStep: (state) => {
+      return update(state, {
+        next: { $set: state.current },
+        isGameStepCompleted: { $set: false }
+      })
+    },
+
+    completeStep: (state) => {
+      return update(state, {
+        prev: { $set: state.current },
+        current: { $set: state.next },
+        next: { $set: null },
+        isGameStepCompleted: { $set: true }
       })
     }
   },
@@ -76,13 +123,13 @@ function game ({ state, components, reducers, effects }) {
       {},
       getComponentsReducers(components),
       gameAPI.reducers,
-      reducers
+      getGlobalReducers(reducers)
     ),
     effects: _.assign(
       {},
       getComponentsEffects(components),
       gameAPI.effects,
-      effects
+      getGlobalEffects(effects)
     )
   }
 }
@@ -122,15 +169,16 @@ function getComponentsActionHandlers (actionType, components, executeAction) {
 }
 
 function executeReducerAction (componentType, actionHandler, state, { target, data }) {
+  const game = getGameState(state)
   let entitiyChanges
 
   if (target) {
-    entitiyChanges = getSingleEntityChanges(actionHandler, target, state, data)
+    entitiyChanges = getSingleEntityChanges(actionHandler, target, game, data)
   } else {
-    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, state, data)
+    entitiyChanges = getAllEntitiesChanges(actionHandler, componentType, game, data)
   }
 
-  return update(state, { entities: entitiyChanges })
+  return updateGameState(state, { entities: entitiyChanges })
 }
 
 function getSingleEntityChanges (actionHandler, id, state, action) {
@@ -143,31 +191,55 @@ function getSingleEntityChanges (actionHandler, id, state, action) {
 }
 
 function getAllEntitiesChanges (actionHandler, componentType, state, action) {
-  const entities = getAllEntities([componentType], state)
+  const game = getGameState(state)
+  const entities = getAllEntities([componentType], game)
 
-  return _.reduce((entityChanges, entity) => {
-    const next = actionHandler(entity, action, state)
-
-    entityChanges[entity.id] = _.mapValues(next, (component) => ({ $set: component }))
+  return _.reduce(entities, (entityChanges, entity) => {
+    entityChanges[entity.id] = actionHandler(entity, action, game)
 
     return entityChanges
-  }, entities, {})
+  }, {})
 }
 
 function executeEffectAction (componentType, actionHandler, state, { target, data }, send, done) {
+  const game = getGameState(state)
+
   if (target) {
-    const entity = getEntity(target, state)
-    return actionHandler(entity, data, state, send, done)
+    const entity = getEntity(target, game)
+    return actionHandler(entity, data, game, send, done)
   }
 
-  const entites = getAllEntities(componentType, state)
-  _.forEach(entites, (entity) => {
-    actionHandler(entity, data, state, send, done)
+  const entities = getAllEntities(componentType, game)
+  _.forEach(entities, (entity) => {
+    actionHandler(entity, data, game, send, done)
   })
+}
+
+function getGlobalReducers (reducers) {
+  return _.reduce(reducers, (handlers, handler, name) => {
+    handlers[name] = (state, data) => {
+      const game = getGameState(state)
+      return updateGameState(state, handler(game, data))
+    }
+
+    return handlers
+  }, {})
+}
+
+function getGlobalEffects (effects) {
+  return _.reduce(effects, (handlers, handler, name) => {
+    handlers[name] = (state, data, send, done) => {
+      const game = getGameState(state)
+      handler(game, data, send, done)
+    }
+
+    return handlers
+  }, {})
 }
 
 module.exports = {
   engine: game,
+  getGameState,
   getEntity,
   getAllEntities
 }

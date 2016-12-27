@@ -10,7 +10,7 @@ module.exports = {
     })
 
     clock.onProgress((progress) => {
-      send('game:setProgress', { progress }, _.noop)
+      send('game:setStepProgress', { progress }, _.noop)
     })
   },
 

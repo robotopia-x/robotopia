@@ -1,11 +1,11 @@
-require('./src/utils/lodash-extension')
-require('./src/blockly')
+require('./lib/utils/lodash-extension')
+require('./lib/blockly')
 
-const assets = require('./src/utils/assets')
+const assets = require('./lib/utils/assets')
 const choo = require('choo')
-const ideModel = require('./src/model')
-const gameModel = require('./src/game/model')
-const robotRuntime = require('./src/utils/robot-runtime')
+const ideModel = require('./models/ide')
+const gameModel = require('./models/game')
+const robotRuntime = require('./lib/utils/robot-runtime')
 
 const app = choo()
 
@@ -15,7 +15,7 @@ app.model(gameModel)
 app.use({ onStateChange: (state) => robotRuntime.onStateChange(state.game) })
 
 app.router({ default: '/' }, [
-  ['/', require('./src/components/main')]
+  ['/', require('./pages/main')]
 ])
 
 assets.load({

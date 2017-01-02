@@ -1,4 +1,4 @@
-const entites = require('./entities')
+const entities = require('./entities')
 
 module.exports = {
   tiles: [
@@ -32,9 +32,8 @@ module.exports = {
   stepProgress: 0,
 
   entities: [
-    entites.base({ x: 12, y: 12, id: 'BASE' }),
-    entites.robot({ x: 12, y: 12, id: 'ROBOT' }),
-    entites.gem({ x: 10, y: 12 })
+    entities.base({ x: 12, y: 12, id: 'BASE' }),
+    entities.robot({ x: 12, y: 12, id: 'ROBOT' }),
+    entities.gem({ x: 10, y: 12 })
   ]
 }
-

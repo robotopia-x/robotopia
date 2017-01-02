@@ -1,6 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const button = require('../element/button')
+const button = require('./button')
 
 const prefix = sf`
   :host {

@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { MOVE } = require('../../utils/types')
+const { MOVE } = require('../../../lib/utils/types')
 
 module.exports = {
   movable: {

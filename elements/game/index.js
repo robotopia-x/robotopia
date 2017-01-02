@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const canvasView = require('./canvas')
-const renderer = require('../game/renderer')
+const canvasView = require('../canvas')
+const renderer = require('./renderer')
 
 const prefix = sf`
   :host {

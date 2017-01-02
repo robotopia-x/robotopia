@@ -1,32 +1,29 @@
 const _ = require('lodash')
-const clock = require('../../lib/utils/clock')
 const robotRuntime = require('../../lib/utils/robot-runtime')
 const robotApi = require('../../lib/utils/robot-api')
 
-function runSimulation ({ gameSpeed, code }, data, send) {
-  clock.setSpeed(gameSpeed)
-  clock.start()
-
+function runSimulation ({ code }, data, send) {
+  send('clock:start', {}, _.noop)
   robotRuntime.loadCode({ id: 'ROBOT', code })
-
   send('setRunningState', { running: true }, _.noop)
 }
 
 function stopSimulation (state, data, send) {
-  clock.stop()
-
+  send('clock:stop', {}, _.noop)
   send('setRunningState', { running: false }, _.noop)
 }
 
 function changeGameSpeed (state, { speed }, send) {
-  clock.setSpeed(speed)
-
+  // translate speed (value from 0  1) to intervalDuration (100 - 1000 ms)
+  const intervalDuration = 100 + ((1 - speed) * 900)
+  send('clock:setIntervalDuration', { intervalDuration }, _.noop)
   send('setGameSpeed', { speed }, _.noop)
 }
 
 function stepRobotRuntime (state, data, send) {
   send('game:beginStep', {}, _.noop)
   robotRuntime.step()
+  send('clock:setProgress', { progress: 0 }, _.noop)
   send('game:completeStep', {}, _.noop)
 }
 

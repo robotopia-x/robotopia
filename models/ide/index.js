@@ -4,7 +4,7 @@ const subscriptions = require('./subscriptions')
 
 const initialState = {
   robot: { x: 0, y: 0 },
-  gameSpeed: 500,
+  gameSpeed: 0.5,
   code: '',
   workspace: ''
 }

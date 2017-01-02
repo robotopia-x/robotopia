@@ -4,12 +4,14 @@ require('./lib/blockly')
 const assets = require('./lib/utils/assets')
 const choo = require('choo')
 const ideModel = require('./models/ide')
+const clockModel = require('./models/clock').getModel()
 const gameModel = require('./models/game')
 const robotRuntime = require('./lib/utils/robot-runtime')
 
 const app = choo()
 
 app.model(ideModel)
+app.model(clockModel)
 app.model(gameModel)
 
 app.use({ onStateChange: (state) => robotRuntime.onStateChange(state.game) })

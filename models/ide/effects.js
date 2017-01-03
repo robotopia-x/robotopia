@@ -33,10 +33,28 @@ function spawnBot ({ code }, data, send) {
   send('runtime:createRobot', { id, code }, _.noop)
 }
 
+function resetLevel (state, data, send) {
+  send('stopSimulation', {}, _.noop)
+  send('level:loadLevel', { level: 0 }, _.noop)
+}
+
+function nextLevel (state, data, send) {
+  send('stopSimulation', {}, _.noop)
+  send('level:nextLevel', {}, _.noop)
+}
+
+function prevLevel (state, data, send) {
+  send('stopSimulation', {}, _.noop)
+  send('level:prevLevel', {}, _.noop)
+}
+
 module.exports = {
   runSimulation,
   stopSimulation,
   changeGameSpeed,
   tick,
-  spawnBot
+  spawnBot,
+  resetLevel,
+  nextLevel,
+  prevLevel
 }

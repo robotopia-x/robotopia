@@ -2,7 +2,13 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../elements/game/index')
 const blocklyView = require('../elements/blockly')
-const { spawnButton, speedSlider, playButtonView, resetButton } = require('../elements/runtime-controls')
+const {
+  spawnButton,
+  speedSlider,
+  playButtonView,
+  resetButton,
+  nextLevelButton,
+  prevLevelButton } = require('../elements/runtime-controls')
 
 const mainPrefix = sf`
     :host {
@@ -64,14 +70,17 @@ const controlsPrefix = sf`
     }
 `
 
-const mainView = (state, prev, send) => {
+const tutorialView = (state, prev, send) => {
   return html`
   <main class="${mainPrefix}">
     <div class="header-bar">
       <div class="${controlsPrefix}">
         ${playButtonView(state, send)}
+        ${speedSlider(state, send)}
         ${spawnButton(state, send)}
+        ${prevLevelButton(state, send)}        
         ${resetButton(state, send)}
+        ${nextLevelButton(state, send)}
       </div>
     </div>
     <div class=${`${contentPrefix} content`}>
@@ -87,4 +96,4 @@ const mainView = (state, prev, send) => {
 `
 }
 
-module.exports = mainView
+module.exports = tutorialView

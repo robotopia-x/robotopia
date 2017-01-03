@@ -1,4 +1,6 @@
 const _ = require('lodash')
+const uid = require('uid')
+const entities = require('../game/entities')
 
 function runSimulation ({ code }, data, send) {
   send('clock:start', {}, _.noop)
@@ -25,9 +27,10 @@ function tick (state, data, send) {
   send('game:completeStep', {}, _.noop)
 }
 
-function spawnBot ({ code }, data) {
-  console.log('spawnBot: noop')
-  // robotRuntime.spawnRobot({ spawnerId: 'BASE', api: robotApi, code })
+function spawnBot ({ code }, data, send) {
+  const id = uid()
+  send('game:createEntity', { data: entities.robot({ id, x: 12, y: 12 }) }, _.noop)
+  send('runtime:createRobot', { id, code }, _.noop)
 }
 
 function triggerRuntimeEvent (state, { name, args }) {

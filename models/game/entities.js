@@ -5,9 +5,7 @@ module.exports = {
     id,
     position: { x, y, rotation: 0 },
     movable: {},
-    spawner: {
-      type: 'marker'
-    },
+    markerSpawner: {},
     renderer: {
       type: 'ROTATING',
       data: {
@@ -36,10 +34,9 @@ module.exports = {
   base: ({ x, y, id }) => ({
     id,
     position: { x, y },
-    spawner: {
-      type: 'robot'
+    robotSpawner: {
+      interval: 20
     },
-    intervalSpawner: {},
     renderer: {
       type: 'SIMPLE',
       data: {

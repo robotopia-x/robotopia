@@ -11,7 +11,7 @@ module.exports = {
     move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
     rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
     setRotation: (direction) => ['game:movable.setRotation', { direction: direction }],
-    placeMarker: () => ['game:spawner.spawn'],
+    placeMarker: () => ['game:markerSpawner.spawn'],
     collectResource: () => ['game:collector.collectResource']
   },
   functions: {

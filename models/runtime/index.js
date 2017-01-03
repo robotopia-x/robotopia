@@ -2,7 +2,7 @@ const Runtime = require('../../lib/runtime/runtime')
 
 const api = require('./robot-api')
 
-function createRuntime () {
+function create () {
   const runtime = new Runtime()
 
   const model = {
@@ -36,5 +36,5 @@ function createRuntime () {
 }
 
 module.exports = {
-  createRuntime
+  create
 }

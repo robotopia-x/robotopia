@@ -1,21 +1,28 @@
 require('./lib/utils/lodash-extension')
 require('./lib/blockly')
 
+const _ = require('lodash')
 const choo = require('choo')
 const assets = require('./lib/utils/assets')
 const ideModel = require('./models/ide')
-const clockModel = require('./models/clock').getModel()
-const runtime = require('./models/runtime').createRuntime()
 const gameModel = require('./models/game')
+const clock = require('./models/clock').create()
+const runtime = require('./models/runtime').create()
 
 const app = choo()
 
 app.model(ideModel)
-app.model(clockModel)
-app.model(runtime.model)
 app.model(gameModel)
+app.model(clock.model)
+app.model(runtime.model)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
+
+clock.onTick((send) => {
+  send('game:beginStep', {}, _.noop)
+  send('runtime:step', {}, _.noop)
+  send('game:completeStep', {}, _.noop)
+})
 
 app.router({ default: '/' }, [
   ['/', require('./pages/main')]

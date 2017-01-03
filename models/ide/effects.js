@@ -1,10 +1,9 @@
 const _ = require('lodash')
-const robotRuntime = require('../../lib/utils/robot-runtime')
-const robotApi = require('../../lib/utils/robot-api')
 
 function runSimulation ({ code }, data, send) {
   send('clock:start', {}, _.noop)
-  robotRuntime.loadCode({ id: 'ROBOT', code })
+  send('runtime:destroyRobot', { id: 'ROBOT' }, _.noop)
+  send('runtime:createRobot', { id: 'ROBOT', code }, _.noop)
   send('setRunningState', { running: true }, _.noop)
 }
 
@@ -20,26 +19,27 @@ function changeGameSpeed (state, { speed }, send) {
   send('setGameSpeed', { speed }, _.noop)
 }
 
-function stepRobotRuntime (state, data, send) {
+function tick (state, data, send) {
   send('game:beginStep', {}, _.noop)
-  robotRuntime.step()
-  send('clock:setProgress', { progress: 0 }, _.noop)
+  send('runtime:step', {}, _.noop)
   send('game:completeStep', {}, _.noop)
 }
 
 function spawnBot ({ code }, data) {
-  robotRuntime.spawnRobot({ spawnerId: 'BASE', api: robotApi, code })
+  console.log('spawnBot: noop')
+  // robotRuntime.spawnRobot({ spawnerId: 'BASE', api: robotApi, code })
 }
 
 function triggerRuntimeEvent (state, { name, args }) {
-  robotRuntime.triggerEvent(name, args)
+  console.log('triggerRuntimeEvent: noop')
+  // robotRuntime.triggerEvent(name, args)
 }
 
 module.exports = {
   runSimulation,
   stopSimulation,
   changeGameSpeed,
-  stepRobotRuntime,
+  tick,
   spawnBot,
   triggerRuntimeEvent
 }

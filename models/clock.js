@@ -28,7 +28,10 @@ function getModel () {
 
     subscriptions: {
       clock: (send) => {
-        clock.onTick(() => send('stepRobotRuntime', {}, _.noop))
+        clock.onTick(() => {
+          send('clock:setProgress', { progress: 0 })
+          send('game:tick', {}, _.noop)
+        })
         clock.onProgress((progress) => send('clock:setProgress', { progress }, _.noop))
       }
     }

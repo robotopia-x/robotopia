@@ -1,7 +1,7 @@
 const _ = require('lodash')
-const clock = require('./utils/clock')
-const robotRuntime = require('./utils/robot-runtime')
-const robotApi = require('./utils/robot-api')
+const clock = require('../../lib/utils/clock')
+const robotRuntime = require('../../lib/utils/robot-runtime')
+const robotApi = require('../../lib/utils/robot-api')
 
 function runSimulation ({ gameSpeed, code }, data, send) {
   clock.setSpeed(gameSpeed)

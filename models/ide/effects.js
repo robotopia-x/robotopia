@@ -35,7 +35,7 @@ function spawnBot ({ code }, data, send) {
 
 function resetLevel (state, data, send) {
   send('stopSimulation', {}, _.noop)
-  send('level:loadLevel', { level: 0 }, _.noop)
+  send('level:resetLevel', {}, _.noop)
 }
 
 function nextLevel (state, data, send) {

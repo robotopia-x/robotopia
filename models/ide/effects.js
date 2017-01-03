@@ -33,16 +33,10 @@ function spawnBot ({ code }, data, send) {
   send('runtime:createRobot', { id, code }, _.noop)
 }
 
-function triggerRuntimeEvent (state, { name, args }) {
-  console.log('triggerRuntimeEvent: noop')
-  // robotRuntime.triggerEvent(name, args)
-}
-
 module.exports = {
   runSimulation,
   stopSimulation,
   changeGameSpeed,
   tick,
-  spawnBot,
-  triggerRuntimeEvent
+  spawnBot
 }

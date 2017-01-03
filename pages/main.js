@@ -61,7 +61,7 @@ const mainView = (state, prev, send) => {
       </div>
       <div class="divider"></div>
       <div class="column">
-        ${gameView(state.game)}
+        ${gameView(state.game, state.clock.progress)}
       </div>
     </div>
   </main>

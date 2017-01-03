@@ -1,10 +1,9 @@
 const reducers = require('./reducers')
 const effects = require('./effects')
-const subscriptions = require('./subscriptions')
 
 const initialState = {
   robot: { x: 0, y: 0 },
-  gameSpeed: 500,
+  gameSpeed: 0.5,
   code: '',
   workspace: ''
 }
@@ -12,6 +11,5 @@ const initialState = {
 module.exports = {
   state: initialState,
   effects,
-  reducers,
-  subscriptions
+  reducers
 }

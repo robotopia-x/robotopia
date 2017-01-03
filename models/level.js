@@ -6,7 +6,7 @@ module.exports = {
   namespace: 'level',
 
   state: {
-    level: 1
+    level: 0
   },
 
   reducers: {
@@ -20,13 +20,18 @@ module.exports = {
   effects: {
     loadLevel: (state, { level }, send) => {
       send('level:_setLevel', { level: level }, _.noop)
-      send('game:loadGameState', { loadState: tutorials[level].state }, _.noop)
+      send('game:loadGameState', { loadState: tutorials[level] }, _.noop)
+    },
+    resetLevel: (state, data, send) => {
+      send('game:loadGameState', { loadState: tutorials[state.level] }, _.noop)
     },
     nextLevel: (state, data, send) => {
-      send('level:loadLevel', { level: state.level + 1 }, _.noop)
+      if (state.level < (_.size(tutorials) - 1)) {
+        send('level:loadLevel', { level: state.level + 1 }, _.noop)
+      }
     },
     prevLevel: (state, data, send) => {
-      if (state.level > 1) {
+      if (state.level > 0) {
         send('level:loadLevel', { level: state.level - 1 }, _.noop)
       }
     }

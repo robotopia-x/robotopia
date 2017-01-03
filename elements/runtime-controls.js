@@ -28,7 +28,7 @@ function runtimeControlsView (state, prev, send) {
     ${playButtonView(state, send)}
       <input
          type="range"
-         min="100" max="1000"
+         min="0" max="1"
          value="${state.gameSpeed}"
          oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />    
      ${spawnButton}

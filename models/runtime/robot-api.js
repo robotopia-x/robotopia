@@ -1,5 +1,6 @@
-const { MOVE, ROTATE } = require('./types')
-const pathfinder = require('./pathfinder')
+const { MOVE, ROTATE } = require('../../lib/utils/types')
+const pathfinder = require('../../lib/utils/pathfinder')
+const game = require('../../lib/utils/game')
 
 module.exports = {
   namespace: 'robot',
@@ -27,6 +28,9 @@ module.exports = {
     }
   },
   sensors: {
-    getPosition: (state, game) => state.position
+    getPosition: (state, id) => {
+      const entity = game.getEntity(id, state.current)
+      return entity.position
+    }
   }
 }

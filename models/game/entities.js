@@ -39,6 +39,7 @@ module.exports = {
     spawner: {
       type: 'robot'
     },
+    intervalSpawner: {},
     renderer: {
       type: 'SIMPLE',
       data: {

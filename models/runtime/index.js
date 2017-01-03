@@ -19,6 +19,10 @@ function create () {
 
       step: () => {
         runtime.step()
+      },
+
+      triggerEvent: (state, { name, args }) => {
+        runtime.triggerEvent(name, args)
       }
     },
 

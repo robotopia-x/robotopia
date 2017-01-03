@@ -1,6 +1,8 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const button = require('./button')
+const _ = require('lodash')
+const initalState = require('../models/game').state
 
 const prefix = sf`
   :host {
@@ -32,6 +34,7 @@ function runtimeControlsView (state, prev, send) {
          value="${state.gameSpeed}"
          oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />    
      ${spawnButton}
+     ${resetButton(state, send)}
   </div>`
 }
 
@@ -50,5 +53,17 @@ function playButtonView (state, send) {
     label: 'Run'
   })
 }
+
+function resetButton (state, send) {
+  return button({
+    onclick: () => {
+      send('stopSimulation'),
+      send('game:loadGameState', { loadState: initalState }, _.noop)
+    },
+    label: 'Reset'
+  })
+}
+
+
 
 module.exports = runtimeControlsView

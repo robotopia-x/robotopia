@@ -2,7 +2,8 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const button = require('./button')
 const _ = require('lodash')
-const initalState = require('../models/game').state
+//const initalState = require('../models/game').state
+const initalState = require('../models/game/tutorials').state
 
 const prefix = sf`
   :host {

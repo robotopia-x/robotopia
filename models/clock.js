@@ -2,10 +2,11 @@ const _ = require('lodash')
 const update = require('immutability-helper')
 const Clock = require('../lib/time/clock')
 
-function getModel () {
+function create () {
+  let tickCallback = _.noop
   const clock = new Clock()
 
-  return {
+  const model = {
     namespace: 'clock',
 
     state: {
@@ -29,16 +30,22 @@ function getModel () {
     subscriptions: {
       clock: (send) => {
         clock.onTick(() => {
-          send('clock:setProgress', { progress: 0 })
-          send('game:tick', {}, _.noop)
+          send('clock:setProgress', { progress: 0 }, _.noop)
+          tickCallback(send)
         })
+
         clock.onProgress((progress) => send('clock:setProgress', { progress }, _.noop))
       }
     }
   }
+
+  return {
+    model,
+    onTick: (callback) => { tickCallback = callback }
+  }
 }
 
 module.exports = {
-  getModel
+  create
 }
 

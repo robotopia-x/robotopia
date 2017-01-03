@@ -1,8 +1,8 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const gameView = require('./game')
-const blocklyView = require('./blockly')
-const runtimeControlsView = require('./runtime-controls')
+const gameView = require('../elements/game/index')
+const blocklyView = require('../elements/blockly')
+const runtimeControlsView = require('../elements/runtime-controls')
 
 const mainPrefix = sf`
     :host {

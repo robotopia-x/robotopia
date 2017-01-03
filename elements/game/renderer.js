@@ -6,12 +6,12 @@ const { RENDERER } = require('../../lib/utils/types')
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
 
-function render (ctx, state) {
+function render (ctx, state, progress) {
   const { tiles } = state.current
 
   moveOrigin(ctx, tiles)
   renderTiles(ctx, tiles)
-  renderEntities(ctx, state.current, state.prev, state.stepProgress)
+  renderEntities(ctx, state.current, state.prev, progress)
 }
 
 // move origin to top left by half the size of the board so the game will be centered

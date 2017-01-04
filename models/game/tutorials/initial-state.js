@@ -38,10 +38,10 @@ module.exports = {
       entities.gem({x: 10, y: 12})
     ]
   },
-  goals: {
-    winningCondition: { x: 10, y: 10 },
-    gems: 1
-  },
+  goals: [
+    { type: 'moveTo', params: { position: { x: 0, y: 3 }, entity: 'ROBOT' }, desc: 'Move the Robot into the goal'},
+    { type: 'collectResource', params: {}, desc: 'Collect 3 Gems'}
+  ],
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
   toolbox: `
     <xml id="toolbox" style="display: none">

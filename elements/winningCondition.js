@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
+const { getGameState, getEntity } = require('../lib/utils/game')
 
 const winPrefix = sf`
   :host {
@@ -60,12 +61,10 @@ const goalPrefix = sf`
 `
 
 const winningCondition = (state, send) => {
-  const robot = state.game.current.entities.ROBOT
+  const game = getGameState(state.game)
   const level = state.level
 
-
-  //TODO if all goals are met -> level finished
-  if (robot.position.x === 0 && robot.position.y === 3) {
+  if (checkAllGoals(game, level.goals)) {
     return html`
     <div class="${winPrefix}">
       <div class="modalContent">
@@ -93,22 +92,38 @@ const winningCondition = (state, send) => {
     `
   }
 
-  //TODO each goal needs to be checked and either ticked or x-ed
   return html`
     <div class="${goalPrefix}">
       <div class="modalContent">
         <h4>Level: ${level.level + 1}</h4>
-        ${getGoals(level.goals)}
+        ${getGoals(game, level.goals)}
       </div>
     </div>
   `
 }
 
-function getGoals (goals) {
-  return _.reduce(goals, (goal, value, key) => {
-    goal.push(html`<p>${'X'} ${key}: ${value}</p>`)
+function getGoals (game, goals) {
+  return _.reduce(goals, (goal, value) => {
+    goal.push(html`<p>${checkGoal(value.type, game, value.params)} ${value.desc}</p>`)
     return goal
   }, [])
+}
+
+function checkAllGoals (game, goals) {
+  return _.every(goals, (goal) => checkGoal(goal.type, game, goal.params))
+}
+
+function checkGoal (type, game, params) {
+  if (type === 'moveTo') {
+    const entity = getEntity(params.entity, game)
+    const entityPos = { x: entity.position.x, y: entity.position.y }
+
+    return _.isEqual(entityPos, params.position)
+  }
+
+  if (type === 'collectResource') {
+    return false
+  }
 }
 
 module.exports = winningCondition

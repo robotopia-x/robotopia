@@ -70,7 +70,6 @@ const controlsPrefix = sf`
       margin-left: 0;
     }
 `
-
 const tutorialView = (state, prev, send) => {
   return html`
   <main class="${mainPrefix}">

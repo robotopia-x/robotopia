@@ -91,7 +91,13 @@ function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
     y = current.position.y
   }
 
-  drawSprite(ctx, sprites[current.position.rotation], x, y)
+  const sprite = sprites[current.position.rotation]
+
+  if (sprite === undefined) {
+    throw new Error(`rotatingRenderer: no sprite defined for rotation = ${current.position.rotation} `)
+  }
+
+  drawSprite(ctx, sprite, x, y)
 }
 
 function drawSprite (ctx, type, x, y) {

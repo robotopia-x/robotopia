@@ -6,20 +6,22 @@ module.exports = {
   namespace: 'level',
 
   state: {
-    level: 0
+    level: 0,
+    goals: {}
   },
 
   reducers: {
-    _setLevel: (state, { level }) => {
+    _setLevel: (state, { level, goals }) => {
       return update(state, {
-        level: { $set: level }
+        level: { $set: level },
+        goals: { $set: goals}
       })
     }
   },
 
   effects: {
     loadLevel: (state, { level }, send) => {
-      send('level:_setLevel', { level: level }, _.noop)
+      send('level:_setLevel', { level: level, goals: tutorials[level].goals }, _.noop)
       send('game:loadGameState', { loadState: tutorials[level].state }, _.noop)
       send('updateWorkspace', { workspace: tutorials[level].workspace }, _.noop)
       send('updateToolbox', { toolbox: tutorials[level].toolbox }, _.noop)

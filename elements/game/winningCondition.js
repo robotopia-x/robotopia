@@ -29,17 +29,22 @@ const goalPrefix = sf`
     height: 1%;
     width: 20%;
     background-color: grey;
+    color: transparent;
   }
   
   :host:hover {
-    height: 10%;
+    height: 15%;
+    color: #404040;
   }
   
-  
+  :host .modalContent {
+    margin: 25px;
+  }
 `
 
 const winningCondition = (state, send) => {
   const robot = state.game.current.entities.ROBOT
+  const level = state.level
 
   if (robot.position.x === 0 && robot.position.y === 3) {
     return html`
@@ -55,7 +60,8 @@ const winningCondition = (state, send) => {
   return html`
     <div class="${goalPrefix}">
       <div class="modalContent">
-        <h1>Goal here!</h1>  
+        <h4>Level: ${level.level + 1}</h4>
+        <p>Collect 4 Gems</p>
       </div>
     </div>
   `

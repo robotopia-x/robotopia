@@ -27,6 +27,8 @@ const blocklyView = widget((update) => {
       updateToolbox(workspace, _state.toolbox)
     }
 
+    //TODO react on changed workspace and set the new workspace with given blocks
+
     send = _send
   }
 

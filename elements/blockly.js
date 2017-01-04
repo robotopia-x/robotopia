@@ -23,29 +23,39 @@ const blocklyView = widget((update) => {
   `
 
   function onupdate (_state, prev, _send) {
+    if (prev && _state.toolbox !== prev.toolbox) {
+      updateToolbox(workspace, _state.toolbox)
+    }
+
     send = _send
   }
 
   function onload (el) {
+    //throw new Error
+
     editorElement = el
     workspace = Blockly.inject(editorElement, toolbox)
 
-    restoreWorkspace(workspace)
+    updateWorkspaceBlocks(workspace, localStorage.getItem('workspace'))
+
     workspace.addChangeListener(updateCode)
   }
 
   function updateCode () {
-    send('updateCode', {
-      code: Blockly.JavaScript.workspaceToCode(workspace)
-    })
+    console.log('updated')
 
     const xml = Blockly.Xml.workspaceToDom(workspace)
     const xmlText = Blockly.Xml.domToText(xml)
+
     send('updateWorkspace', {
       workspace: xmlText
     })
 
     localStorage.setItem('workspace', xmlText)
+
+    send('updateCode', {
+      code: Blockly.JavaScript.workspaceToCode(workspace)
+    })
   }
 
   function onunload () {
@@ -53,9 +63,13 @@ const blocklyView = widget((update) => {
   }
 })
 
-function restoreWorkspace (workspace) {
-  const xml = Blockly.Xml.textToDom(localStorage.getItem('workspace'))
-  Blockly.Xml.domToWorkspace(xml, workspace)
+function updateWorkspaceBlocks (workspace, xml) {
+  const workspaceXml = Blockly.Xml.textToDom(xml)
+  Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+}
+
+function updateToolbox (workspace, toolbox) {
+  workspace.updateToolbox(toolbox)
 }
 
 module.exports = blocklyView

@@ -7,12 +7,28 @@ module.exports = {
   globals: {
     pathfinder
   },
+  actionsPerRound: 1,
   actions: {
-    move: (direction) => ['game:movable.move', { direction: MOVE[direction] }],
-    rotate: (direction) => ['game:movable.rotate', { direction: ROTATE[direction] }],
-    setRotation: (direction) => ['game:movable.setRotation', { direction: direction }],
-    placeMarker: () => ['game:markerSpawner.spawn'],
-    collectResource: () => ['game:collector.collectResource']
+    move: (direction) => ({
+      action: ['game:movable.move', { direction: MOVE[direction] }],
+      cost: 1
+    }),
+    rotate: (direction) => ({
+      action: ['game:movable.rotate', { direction: ROTATE[direction] }],
+      cost: 0
+    }),
+    setRotation: (direction) => ({
+      action: ['game:movable.setRotation', { direction: direction }],
+      cost: 0
+    }),
+    placeMarker: () => ({
+      action: ['game:markerSpawner.spawn'],
+      cost: 1
+    }),
+    collectResource: () => ({
+      action: ['game:collector.collectResource'],
+      cost: 1
+    })
   },
   functions: {
     moveTo: function (xPos, yPos) {

@@ -26,7 +26,7 @@ module.exports = {
     { type: 'moveTo', params: { position: { x: 0, y: 6 }, entity: 'ROBOT' }, desc: 'Move the Robot into the goal'},
     { type: 'collectResource', params: {}, desc: 'Collect 3 Gems'}
   ],
-  storyText: 'Once upon a time, there was a small robot who died... The end',
+  storyModal: { text: 'Once upon a time, there was a small robot who died... The end', img: '../assets/img/tutorials/tutorial1.png' },
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="rotate" id="bizsM0~3M?%9v:^sintR" x="235" y="155"><field name="Direction">LEFT</field></block></xml>',
   toolbox: `<xml id="toolbox" style="display: none">
                 <category name="Logic" colour="100">

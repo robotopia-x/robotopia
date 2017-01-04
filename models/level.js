@@ -9,16 +9,16 @@ module.exports = {
     level: 0,
     goals: {},
     displayStory: true,
-    storyText: ''
+    storyModal: ''
   },
 
   reducers: {
-    _setLevel: (state, { level, goals, storyText }) => {
+    _setLevel: (state, { level, goals, storyModal }) => {
       return update(state, {
         level: { $set: level },
         goals: { $set: goals},
         displayStory: { $set: true },
-        storyText: { $set: storyText }
+        storyModal: { $set: storyModal }
       })
     },
     _setDisplayStoryModal: (state, { displayStory }) => {
@@ -33,7 +33,7 @@ module.exports = {
       send('level:_setLevel', {
         level: level,
         goals: tutorials[level].goals,
-        storyText: tutorials[level].storyText
+        storyModal: tutorials[level].storyModal
       }, _.noop)
       send('game:loadGameState', { loadState: tutorials[level].state }, _.noop)
       send('updateWorkspace', { workspace: tutorials[level].workspace }, _.noop)

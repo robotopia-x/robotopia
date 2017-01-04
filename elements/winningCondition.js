@@ -35,6 +35,10 @@ const winPrefix = sf`
   h1 {
     margin: 0;
   }
+  
+  img {
+    width: 50%;
+  }
 `
 
 const goalPrefix = sf`
@@ -42,16 +46,9 @@ const goalPrefix = sf`
     position: absolute;
     left: 80%;
     top: 0;
-    height: 50px;
+    height: 20%;
     width: 20%;
     background-color: #DDDDDD;
-    color: transparent;
-    transition: height 0.25s, color 0.2s;
-    transition-timing-function: ease-in-out;
-  }
-  
-  :host:hover {
-    height: 20%;
     color: #404040;
   }
   
@@ -64,18 +61,23 @@ const winningCondition = (state, send) => {
   const game = getGameState(state.game)
   const level = state.level
 
+  const goals = getGoals(game, level.goals)
+
   if (checkAllGoals(game, level.goals)) {
     return html`
     <div class="${winPrefix}">
       <div class="modalContent">
         <h1>Congratulations on finishing Level ${level.level + 1}</h1>  
+        <div class="goals">
+          <h2>Goals: </h2>
+          ${goals}
+        </div>
         <button onclick=${() => send('nextLevel')}>Next Level</button>
       </div>
     </div>
     `
   }
 
-  //TODO display a img of what has to be done in the level
   if (level.displayStory) {
     return html`
     <div class="${winPrefix}">
@@ -83,8 +85,12 @@ const winningCondition = (state, send) => {
         <h1>Tutorial - Level ${level.level + 1}</h1> 
         <div class="storyTime">
           <p>Super awesome story here...</p>
-          <p>${level.storyText}</p>
-          <p>IMG with the task described will be here...</p>
+          <p>${level.storyModal.text}</p>
+          <img src="${level.storyModal.img}"/>
+          <div class="goals">
+            <h2>Goals: </h2>
+            ${goals}
+          </div>
         </div>
         <button onclick=${() => send('level:closeStoryModal')}>Start Tutorial</button>
       </div>
@@ -96,7 +102,10 @@ const winningCondition = (state, send) => {
     <div class="${goalPrefix}">
       <div class="modalContent">
         <h4>Level: ${level.level + 1}</h4>
-        ${getGoals(game, level.goals)}
+        <div class="goals">
+          <h3>Goals: </h3>
+          ${goals}
+        </div>
       </div>
     </div>
   `
@@ -122,7 +131,7 @@ function checkGoal (type, game, params) {
   }
 
   if (type === 'collectResource') {
-    return false
+    return true
   }
 }
 

@@ -21,8 +21,8 @@ function create () {
     },
 
     effects: {
-      createRobot: ({ code }, { id }) => {
-        runtime.createAgent({ id, api, code })
+      createRobot: ({ code }, { id, groupId }) => {
+        runtime.createAgent({ id, api, code, groupId })
       },
 
       destroyRobot: (state, { id }) => {
@@ -33,8 +33,8 @@ function create () {
         runtime.step()
       },
 
-      triggerEvent: (state, { name, args }) => {
-        runtime.triggerEvent(name, args)
+      triggerEvent: (state, { name, args, groupId }) => {
+        runtime.triggerEvent(name, args, groupId)
       }
     },
 

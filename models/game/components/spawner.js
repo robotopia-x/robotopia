@@ -11,7 +11,8 @@ const markerSpawner = {
 
       send('game:createEntity', { data: marker }, _.noop)
       send('runtime:triggerEvent', {
-        name: `createMarker`,
+        name: 'createMarker',
+        groupId: team.id,
         args: [marker]
       }, _.noop)
     }
@@ -44,7 +45,7 @@ const robotSpawner = {
         const robot = entities.robot({ id, x: position.x, y: position.y, teamId: team.id })
 
         send('game:createEntity', { data: robot }, _.noop)
-        send('runtime:createRobot', { id, code: 'robot.moveTo(0, 0)' }, _.noop)
+        send('runtime:createRobot', { id, groupId: team.id }, _.noop)
       }
 
       // increment stepsSinceLastSpawn

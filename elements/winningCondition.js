@@ -17,9 +17,18 @@ const winPrefix = sf`
   }
   
   :host > .modalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     background-color: #FFFFFF;
     color: #404040;
     height: 100%;
+    text-align: center;
+  }
+  
+  button {
+    width: 10%;
   }
   
   h1 {
@@ -65,13 +74,16 @@ const winningCondition = (state, send) => {
     `
   }
 
-  if (level.story) {
+  if (level.displayStory) {
     return html`
     <div class="${winPrefix}">
       <div class="modalContent">
-        <h1>StoryBlabla Level ${level.level + 1}</h1> 
-        <p>Super awesome story here</p>
-        <button onclick=${() => send('level:closeStory')}>Start Tutorial</button>
+        <h1>Tutorial - Level ${level.level + 1}</h1> 
+        <div class="storyTime">
+          <p>Super awesome story here...</p>
+          <p>${level.storyText}</p>
+        </div>
+        <button onclick=${() => send('level:closeStoryModal')}>Start Tutorial</button>
       </div>
     </div>
     `
@@ -81,20 +93,17 @@ const winningCondition = (state, send) => {
     <div class="${goalPrefix}">
       <div class="modalContent">
         <h4>Level: ${level.level + 1}</h4>
-        <ul>${getGoals(level.goals)}</ul>
+        ${getGoals(level.goals)}
       </div>
     </div>
   `
 }
 
 function getGoals (goals) {
-  const goalList = []
-
-  _.forEach(goals, (goal, key) => {
-    goalList.push(`<p>${'X'} ${key}: ${goal}</p>`)
-  })
-
-  return goalList
+  return _.reduce(goals, (goal, value, key) => {
+    goal.push(html`<p>${'X'} ${key}: ${value}</p>`)
+    return goal
+  }, [])
 }
 
 module.exports = winningCondition

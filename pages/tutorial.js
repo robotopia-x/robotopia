@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../elements/game/index')
-const winningCondition = require('../elements/game/winningCondition')
+const winningCondition = require('../elements/winningCondition')
 const blocklyView = require('../elements/blockly')
 const {
   spawnButton,

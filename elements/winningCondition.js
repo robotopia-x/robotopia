@@ -13,12 +13,17 @@ const winPrefix = sf`
     height: 80%;
     z-index: 100;
     display: block;
+    padding: 25px;
   }
   
   :host > .modalContent {
-    margin: 25px;
     background-color: #FFFFFF;
     color: #404040;
+    height: 100%;
+  }
+  
+  h1 {
+    margin: 0;
   }
 `
 
@@ -31,6 +36,8 @@ const goalPrefix = sf`
     width: 20%;
     background-color: #DDDDDD;
     color: transparent;
+    transition: height 0.25s, color 0.2s;
+    transition-timing-function: ease-in-out;
   }
   
   :host:hover {
@@ -81,13 +88,13 @@ const winningCondition = (state, send) => {
 }
 
 function getGoals (goals) {
-  let goalString = ``
+  const goalList = []
 
   _.forEach(goals, (goal, key) => {
-    goalString += `<p>${'X'} ${key}: ${goal}</p>`
+    goalList.push(`<p>${'X'} ${key}: ${goal}</p>`)
   })
 
-  return goalString
+  return goalList
 }
 
 module.exports = winningCondition

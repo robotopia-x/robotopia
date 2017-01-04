@@ -7,7 +7,7 @@ const initialState = {
   gameSpeed: 0.5,
   code: '',
   workspace: '',
-  toolbox: initialToolbox
+  toolbox: ''
 }
 
 module.exports = {

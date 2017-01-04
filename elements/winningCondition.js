@@ -63,6 +63,8 @@ const winningCondition = (state, send) => {
   const robot = state.game.current.entities.ROBOT
   const level = state.level
 
+
+  //TODO if all goals are met -> level finished
   if (robot.position.x === 0 && robot.position.y === 3) {
     return html`
     <div class="${winPrefix}">
@@ -74,6 +76,7 @@ const winningCondition = (state, send) => {
     `
   }
 
+  //TODO display a img of what has to be done in the level
   if (level.displayStory) {
     return html`
     <div class="${winPrefix}">
@@ -82,6 +85,7 @@ const winningCondition = (state, send) => {
         <div class="storyTime">
           <p>Super awesome story here...</p>
           <p>${level.storyText}</p>
+          <p>IMG with the task described will be here...</p>
         </div>
         <button onclick=${() => send('level:closeStoryModal')}>Start Tutorial</button>
       </div>
@@ -89,6 +93,7 @@ const winningCondition = (state, send) => {
     `
   }
 
+  //TODO each goal needs to be checked and either ticked or x-ed
   return html`
     <div class="${goalPrefix}">
       <div class="modalContent">

@@ -8,27 +8,33 @@ module.exports = {
   state: {
     level: 0,
     goals: {},
-    story: true
+    displayStory: true,
+    storyText: ''
   },
 
   reducers: {
-    _setLevel: (state, { level, goals }) => {
+    _setLevel: (state, { level, goals, storyText }) => {
       return update(state, {
         level: { $set: level },
         goals: { $set: goals},
-        story: { $set: true },
+        displayStory: { $set: true },
+        storyText: { $set: storyText }
       })
     },
-    _setStoryModal: (state, { story }) => {
+    _setDisplayStoryModal: (state, { displayStory }) => {
       return update(state, {
-        story: { $set: false }
+        displayStory: { $set: displayStory }
       })
     }
   },
 
   effects: {
     loadLevel: (state, { level }, send) => {
-      send('level:_setLevel', { level: level, goals: tutorials[level].goals }, _.noop)
+      send('level:_setLevel', {
+        level: level,
+        goals: tutorials[level].goals,
+        storyText: tutorials[level].storyText
+      }, _.noop)
       send('game:loadGameState', { loadState: tutorials[level].state }, _.noop)
       send('updateWorkspace', { workspace: tutorials[level].workspace }, _.noop)
       send('updateToolbox', { toolbox: tutorials[level].toolbox }, _.noop)
@@ -46,8 +52,8 @@ module.exports = {
         send('level:loadLevel', { level: state.level - 1 }, _.noop)
       }
     },
-    closeStory: (state, data, send) => {
-      send('level:_setStoryModal', { story: false }, _.noop)
+    closeStoryModal: (state, data, send) => {
+      send('level:_setDisplayStoryModal', { displayStory: false }, _.noop)
     }
   }
 }

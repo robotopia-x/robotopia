@@ -26,6 +26,7 @@ module.exports = {
     winningCondition: { x: 0, y: 0 },
     gems: 1
   },
+  storyText: 'Once upon a time, there was a small robot who died... The end',
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="rotate" id="bizsM0~3M?%9v:^sintR" x="235" y="155"><field name="Direction">LEFT</field></block></xml>',
   toolbox: `<xml id="toolbox" style="display: none">
                 <category name="Logic" colour="100">

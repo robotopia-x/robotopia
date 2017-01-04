@@ -27,6 +27,10 @@ const blocklyView = widget((update) => {
       updateToolbox(workspace, _state.toolbox)
     }
 
+    if (prev && Math.abs(_state.workspace.length - prev.workspace.length) > 25) {
+      //updateWorkspace(workspace, _state.workspace)
+    }
+
     send = _send
   }
 
@@ -36,7 +40,7 @@ const blocklyView = widget((update) => {
     editorElement = el
     workspace = Blockly.inject(editorElement, toolbox)
 
-    updateWorkspaceBlocks(workspace, localStorage.getItem('workspace'))
+    updateWorkspace(workspace, localStorage.getItem('workspace'))
 
     workspace.addChangeListener(updateCode)
   }
@@ -63,7 +67,9 @@ const blocklyView = widget((update) => {
   }
 })
 
-function updateWorkspaceBlocks (workspace, xml) {
+function updateWorkspace (workspace, xml) {
+  console.log('called')
+
   const workspaceXml = Blockly.Xml.textToDom(xml)
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
 }

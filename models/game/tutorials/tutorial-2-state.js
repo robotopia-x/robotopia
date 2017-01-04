@@ -20,7 +20,7 @@ module.exports = {
       entities.gem({x: 6, y: 6})
     ]
   },
-  workspace: '',
+  workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
   toolbox: `
           <xml id="toolbox" style="display: none">
               <category name="Logic" colour="100">

@@ -20,6 +20,10 @@ module.exports = {
       entities.gem({x: 6, y: 6})
     ]
   },
+  goals: {
+    winningCondition: { x: 6, y: 6 },
+    gems: 1
+  },
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
   toolbox: `
           <xml id="toolbox" style="display: none">

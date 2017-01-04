@@ -9,21 +9,7 @@ const tutorial1State = require('./tutorial-1-state')
 const tutorial2State = require('./tutorial-2-state')
 
 module.exports = [
-  {
-    state: initialState.state,
-    workspace: initialState.workspace,
-    toolbox: initialState.toolbox
-  },
-
-  {
-    state: tutorial1State.state,
-    workspace: tutorial1State.workspace,
-    toolbox: tutorial1State.toolbox
-  },
-
-  {
-    state: tutorial2State.state,
-    workspace: tutorial2State.workspace,
-    toolbox: tutorial2State.toolbox
-  }
+  initialState,
+  tutorial1State,
+  tutorial2State
 ]

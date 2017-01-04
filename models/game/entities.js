@@ -1,8 +1,9 @@
 const { ORIENTATION } = require('../../lib/utils/types')
 
 module.exports = {
-  robot: ({ id, x, y }) => ({
+  robot: ({ id, x, y, teamId }) => ({
     id,
+    team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},
     markerSpawner: {},
@@ -31,8 +32,9 @@ module.exports = {
     }
   }),
 
-  base: ({ x, y, id }) => ({
+  base: ({ x, y, id, teamId }) => ({
     id,
+    team: { id: teamId },
     position: { x, y },
     robotSpawner: {
       interval: 20
@@ -45,8 +47,9 @@ module.exports = {
     }
   }),
 
-  marker: ({ x, y }) => ({
+  marker: ({ x, y, teamId }) => ({
     position: { x, y },
+    team: { id: teamId },
     renderer: {
       type: 'SIMPLE',
       data: {

@@ -35,7 +35,7 @@ const blocklyView = widget((update) => {
   }
 
   function updateCode () {
-    send('updateCode', {
+    send('runtime:commitCode', {
       code: Blockly.JavaScript.workspaceToCode(workspace)
     })
 

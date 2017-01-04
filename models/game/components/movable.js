@@ -30,8 +30,9 @@ module.exports = {
             break
         }
 
+        // TODO: extract general is walkable function instead of referecing specific tile numbers
         if (game.tiles[nextY] &&
-          game.tiles[nextY][nextX] === 2) {
+          game.tiles[nextY][nextX] === 0) {
           return {}
         }
 

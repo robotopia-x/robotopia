@@ -7,14 +7,21 @@ module.exports = {
 
   state: {
     level: 0,
-    goals: {}
+    goals: {},
+    story: true
   },
 
   reducers: {
     _setLevel: (state, { level, goals }) => {
       return update(state, {
         level: { $set: level },
-        goals: { $set: goals}
+        goals: { $set: goals},
+        story: { $set: true }
+      })
+    },
+    _setStoryModal: (state, { story }) => {
+      return update(state, {
+        story: { $set: false }
       })
     }
   },
@@ -38,6 +45,9 @@ module.exports = {
       if (state.level > 0) {
         send('level:loadLevel', { level: state.level - 1 }, _.noop)
       }
+    },
+    closeStory: (state, data, send) => {
+      send('level:_setStoryModal', { story: false }, _.noop)
     }
   }
 }

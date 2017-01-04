@@ -55,6 +55,10 @@ module.exports = {
         }
       },
       setRotation: (state, { direction }) => {
+        if (direction === undefined) {
+          throw new Error('undefined rotation')
+        }
+
         return {
           position: {
             rotation: { $set: direction }

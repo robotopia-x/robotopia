@@ -6,6 +6,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},
+    collides: {},
     markerSpawner: {},
     renderer: {
       type: 'ROTATING',
@@ -37,7 +38,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y },
     robotSpawner: {
-      interval: 10
+      interval: 1
     },
     renderer: {
       type: 'SIMPLE',

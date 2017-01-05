@@ -16,7 +16,7 @@ module.exports = {
     _setLevel: (state, { level, goals, storyModal }) => {
       return update(state, {
         level: { $set: level },
-        goals: { $set: goals},
+        goals: { $set: goals },
         displayStory: { $set: true },
         storyModal: { $set: storyModal }
       })

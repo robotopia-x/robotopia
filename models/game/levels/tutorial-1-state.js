@@ -30,8 +30,6 @@ module.exports = {
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
 
-    stepProgress: 0,
-
     entities: [
       entities.robot({x: 12, y: 12, id: 'ROBOT'}),
       entities.gem({x: 10, y: 12})

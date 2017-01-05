@@ -12,7 +12,7 @@ const prefix = sf`
 `
 
 const blocklyView = widget((update) => {
-  let send, workspace, editorElement
+  let send, workspace, editorElement, saveInterval
 
   update(onupdate)
 
@@ -27,6 +27,9 @@ const blocklyView = widget((update) => {
       updateToolbox(workspace, _state.toolbox)
     }
 
+    /*TODO change workspace if workspace is updated externally
+      insted of only updating it when the level is changed
+      blockly shouldn't need to know about levels*/
     if (prev && _state.level.level !== prev.level.level) {
       clearWorkspace(workspace)
       updateWorkspace(workspace, _state.workspace)
@@ -42,7 +45,7 @@ const blocklyView = widget((update) => {
     updateWorkspace(workspace, localStorage.getItem('workspace'))
 
     workspace.addChangeListener(updateCode)
-    setInterval(saveWorkspaceFromDom, 1000)
+    saveInterval = setInterval(saveWorkspaceFromDom, 1000)
   }
 
   function updateCode () {
@@ -64,6 +67,7 @@ const blocklyView = widget((update) => {
 
   function onunload () {
     workspace.removeChangeListener(updateCode)
+    clearInterval(saveInterval)
   }
 })
 

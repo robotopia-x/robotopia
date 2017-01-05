@@ -1,5 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
+const _ = require('lodash')
 const gameView = require('../elements/game/index')
 const blocklyView = require('../elements/blockly')
 const { spawnButton, speedSlider, playButtonView, resetButton } = require('../elements/runtime-controls')
@@ -73,7 +74,7 @@ const mainView = (state, prev, send) => {
 
 
   return html`
-  <main class="${mainPrefix}">
+  <main onload=${() => send('level:loadLevel', { level: 0 }, _.noop)} class="${mainPrefix}">
     <div class="header-bar">
       <div class="${controlsPrefix}">
         ${playButton}

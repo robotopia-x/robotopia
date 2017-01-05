@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
+const levels = require('../models/game/levels')
 const { getGameState, getEntity } = require('../lib/utils/game')
 
 const winPrefix = sf`
@@ -8,33 +9,25 @@ const winPrefix = sf`
     position: absolute;
     left: 10%;
     top: 10%;
-    background-color: #404040;
     color: white;
     width: 80%;
     height: 80%;
     z-index: 100;
     display: block;
     padding: 25px;
-  }
-  
-  :host > .modalContent {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
     background-color: #FFFFFF;
     color: #404040;
-    height: 100%;
     text-align: center;
     overflow: scroll;
+    border: 10px solid #404040;
   }
   
   button {
     width: 10%;
-  }
-  
-  h1 {
-    margin: 0;
   }
   
   img {
@@ -52,32 +45,32 @@ const goalPrefix = sf`
     background-color: #DDDDDD;
     color: #404040;
     overflow: scroll;
-  }
-  
-  :host .modalContent {
-    margin: 25px;
+    padding: 25px;
   }
 `
 
 const winningCondition = (state, send) => {
   const game = getGameState(state.game)
   const level = state.level
+  const levelAmount = _.size(levels) - 1
 
   const goals = getGoals(game, level.goals)
 
   if (checkAllGoals(game, level.goals)) {
+
+    // TODO move this to another place
+    // we shouldn't call send here because
+    // rerendering a component shouldn't have a side effect
     send('stopSimulation')
 
     return html`
     <div class="${winPrefix}">
-      <div class="modalContent">
-        <h1>Congratulations on finishing Level ${level.level + 1}</h1>  
-        <div class="goals">
-          <h2>Goals: </h2>
-          ${goals}
-        </div>
-        <button onclick=${() => send('nextLevel')}>Next Level</button>
+      <h1>Congratulations on finishing Level ${level.level}</h1>  
+      <div class="goals">
+        <h2>Goals: </h2>
+        ${goals}
       </div>
+      ${getNextLevelButton(send, level, levelAmount)}
     </div>
     `
   }
@@ -85,41 +78,42 @@ const winningCondition = (state, send) => {
   if (level.displayStory) {
     return html`
     <div class="${winPrefix}">
-      <div class="modalContent">
-        <h1>Tutorial - Level ${level.level + 1}</h1> 
-        <div class="storyTime">
-          <p>Super awesome story here...</p>
-          <p>${level.storyModal.text}</p>
-          <img src="${level.storyModal.img}"/>
-          <div class="goals">
-            <h2>Goals: </h2>
-            ${goals}
-          </div>
+      <h1>Tutorial - Level ${level.level}</h1> 
+      <div class="storyTime">
+        <p>Super awesome story here...</p>
+        <p>${level.storyModal.text}</p>
+        ${level.storyModal.img ? html`<img src="${level.storyModal.img}"/>` : html``}
+        <div class="goals">
+          <h2>Goals: </h2>
+          ${goals}
         </div>
-        <button onclick=${() => send('level:closeStoryModal')}>Start Tutorial</button>
       </div>
+      <button onclick=${() => send('level:_setDisplayStoryModal', { displayStory: false })}>Start Tutorial</button>
     </div>
     `
   }
 
   return html`
     <div class="${goalPrefix}">
-      <div class="modalContent">
-        <h4>Level: ${level.level + 1}</h4>
-        <div class="goals">
-          <h3>Goals: </h3>
-          ${goals}
-        </div>
+      <h4>Level: ${level.level}</h4>
+      <div class="goals">
+        <h3>Goals: </h3>
+        ${goals}
       </div>
     </div>
   `
 }
 
+function getNextLevelButton (send, level, levelAmount) {
+  if (level.level < levelAmount){
+    return html`<button onclick=${() => send('nextLevel')}>Next Level</button>`
+  }
+
+  return html`<button onclick=${() => send('location:set', '/')}>Load Editor</button>`
+}
+
 function getGoals (game, goals) {
-  return _.reduce(goals, (goal, value) => {
-    goal.push(html`<p>${checkGoal(value.type, game, value.params)} ${value.desc}</p>`)
-    return goal
-  }, [])
+  return _.map(goals, (goal) => html`<p>${checkGoal(goal.type, game, goal.params)} ${goal.desc}</p>`)
 }
 
 function checkAllGoals (game, goals) {

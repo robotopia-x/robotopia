@@ -80,25 +80,23 @@ module.exports = {
     getWalkableFieldNearPosition: (state, id, x, y) => {
       const game = getGameState(state)
 
-      if (isFieldWalkable(game, x, y)) {
-        return { x, y }
-      }
 
       // expand search for walkable field in a square spiral around the target field
-      // on each iteration go one step further away
 
-      let direction = 0
-      let length = 0
+      let direction = 0 // which direction we're moving
+      let length = 0 // how many steps we move, will be increased after two direction changes
 
-      let testX = x
-      let testY = y
+      let testX = x // x coordinate of the field we check
+      let testY = y // y coordinate
 
+      // keep expanding until we exceeded the board size
       while (length <= game.tiles.length) {
-        if (isFieldWalkable(game, testX, testY)) {
-          return { x: testX, y: testY }
-        }
-
         for (let i = 0; i <= length; i++) {
+          // return if we found a walkable field
+          if (isFieldWalkable(game, testX, testY)) {
+            return { x: testX, y: testY }
+          }
+
           switch (direction) {
             case 0: // DOWN
               testY += 1
@@ -116,10 +114,12 @@ module.exports = {
           }
         }
 
-        if (direction === 1 || direction === 3) {
+        // increase spiral length after every 2 turns
+        if (direction % 2 === 1) {
           length += 1
         }
 
+        // turn clockwise
         direction = (direction + 1) % 4
       }
     },

@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
-const tutorials = require('./game/tutorials')
+const levels = require('./game/levels')
 
 module.exports = {
   namespace: 'level',
@@ -32,18 +32,18 @@ module.exports = {
     loadLevel: (state, { level }, send) => {
       send('level:_setLevel', {
         level: level,
-        goals: tutorials[level].goals,
-        storyModal: tutorials[level].storyModal
+        goals: levels[level].goals,
+        storyModal: levels[level].storyModal
       }, _.noop)
-      send('game:loadGameState', { loadState: tutorials[level].state }, _.noop)
-      send('updateWorkspace', { workspace: tutorials[level].workspace }, _.noop)
-      send('updateToolbox', { toolbox: tutorials[level].toolbox }, _.noop)
+      send('game:loadGameState', { loadState: levels[level].state }, _.noop)
+      send('updateWorkspace', { workspace: levels[level].workspace }, _.noop)
+      send('updateToolbox', { toolbox: levels[level].toolbox }, _.noop)
     },
     resetLevel: (state, data, send) => {
-      send('game:loadGameState', { loadState: tutorials[state.level].state }, _.noop)
+      send('game:loadGameState', { loadState: levels[state.level].state }, _.noop)
     },
     nextLevel: (state, data, send) => {
-      if (state.level < (_.size(tutorials) - 1)) {
+      if (state.level < (_.size(levels) - 1)) {
         send('level:loadLevel', { level: state.level + 1 }, _.noop)
       }
     },
@@ -52,8 +52,5 @@ module.exports = {
         send('level:loadLevel', { level: state.level - 1 }, _.noop)
       }
     },
-    closeStoryModal: (state, data, send) => {
-      send('level:_setDisplayStoryModal', { displayStory: false }, _.noop)
-    }
   }
 }

@@ -1,5 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
+const _ = require('lodash')
 const gameView = require('../elements/game/index')
 const winningCondition = require('../elements/winningCondition')
 const blocklyView = require('../elements/blockly')
@@ -79,7 +80,7 @@ const tutorialView = (state, prev, send) => {
   })
 
   return html`
-  <main class="${mainPrefix}">
+  <main onload=${() => send('level:loadLevel', { level: 1 }, _.noop)} class="${mainPrefix}">
     <div class="header-bar">
       <div class="${controlsPrefix}">
         ${playButton}

@@ -38,7 +38,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y },
     robotSpawner: {
-      interval: 1
+      interval: 20
     },
     renderer: {
       type: 'SIMPLE',

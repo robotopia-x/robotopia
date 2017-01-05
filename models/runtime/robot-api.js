@@ -80,6 +80,7 @@ module.exports = {
     getWalkableFieldNearPosition: (state, id, x, y) => {
       const game = getGameState(state)
 
+
       // expand search for walkable field in a square spiral around the target field
 
       let direction = 0 // which direction we're moving

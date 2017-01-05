@@ -1,5 +1,5 @@
+const update = require('immutability-helper')
 const Runtime = require('../../lib/runtime/runtime')
-
 const api = require('./robot-api')
 
 function create () {
@@ -8,9 +8,21 @@ function create () {
   const model = {
     namespace: 'runtime',
 
+    state: {
+      code: ''
+    },
+
+    reducers: {
+      commitCode: (state, { code }) => {
+        return update(state, {
+          code: { $set: code }
+        })
+      }
+    },
+
     effects: {
-      createRobot: (state, { id, code }) => {
-        runtime.createAgent({ id, api, code })
+      createRobot: ({ code }, { id, groupId }) => {
+        runtime.createAgent({ id, api, code, groupId })
       },
 
       destroyRobot: (state, { id }) => {
@@ -21,8 +33,8 @@ function create () {
         runtime.step()
       },
 
-      triggerEvent: (state, { name, args }) => {
-        runtime.triggerEvent(name, args)
+      triggerEvent: (state, { name, args, groupId }) => {
+        runtime.triggerEvent(name, args, groupId)
       }
     },
 

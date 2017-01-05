@@ -2,11 +2,15 @@ const _ = require('lodash')
 const uid = require('uid')
 const entities = require('../game/entities')
 
-function runSimulation ({ code }, data, send) {
+function runSimulation (state, data, send) {
   send('clock:start', {}, _.noop)
-  send('runtime:destroyRobot', { id: 'ROBOT' }, _.noop)
-  send('runtime:createRobot', { id: 'ROBOT', code }, _.noop)
   send('setRunningState', { running: true }, _.noop)
+}
+
+function runTutorialSimulation (state, data, send) {
+  send('runtime:destroyRobot', { id: 'ROBOT' }, _.noop)
+  send('runtime:createRobot', { id: 'ROBOT' }, _.noop)
+  send('runSimulation', {}, _.noop)
 }
 
 function stopSimulation (state, data, send) {
@@ -50,6 +54,7 @@ function prevLevel (state, data, send) {
 
 module.exports = {
   runSimulation,
+  runTutorialSimulation,
   stopSimulation,
   changeGameSpeed,
   tick,

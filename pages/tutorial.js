@@ -29,7 +29,7 @@ const mainPrefix = sf`
     }
 
     :host .content {
-      height: 100%;        
+      height: 100%;  
     }
 `
 
@@ -72,11 +72,17 @@ const controlsPrefix = sf`
     }
 `
 const tutorialView = (state, prev, send) => {
+  const playButton = playButtonView({
+    running: state.running,
+    onStart: () => send('runTutorialSimulation'),
+    onStop: () => send('stopSimulation')
+  })
+
   return html`
   <main class="${mainPrefix}">
     <div class="header-bar">
       <div class="${controlsPrefix}">
-        ${playButtonView(state, send)}
+        ${playButton}
         ${speedSlider(state, send)}
         ${spawnButton(state, send)}
         ${prevLevelButton(state, send)}        

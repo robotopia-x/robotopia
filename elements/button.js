@@ -49,7 +49,10 @@ const prefix = sf`
   }
 `
 
-function button ({ onclick, icon, label }) {
+function button ({
+  icon, label,
+  onClick,
+}) {
   const classes = classNames(
     prefix,
     {
@@ -59,7 +62,7 @@ function button ({ onclick, icon, label }) {
   )
 
   return html`
-    <button class="${classes}" onclick=${onclick}>
+    <button class="${classes}" onclick=${onClick}>
       ${label}
     </button>
   `

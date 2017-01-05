@@ -44,7 +44,7 @@ const helpPrefix = sf`
 `
 
 const helpView = (state, send) => {
-  if (true) {
+  if (state) { // TODO check if help button is clicked
     return html`
     <div class="${helpPrefix}">
       <div class="modalContent">

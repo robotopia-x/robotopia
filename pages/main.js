@@ -70,6 +70,7 @@ const mainView = (state, prev, send) => {
     <div class="header-bar">
       <div class="${controlsPrefix}">
         ${playButtonView(state, send)}
+        ${speedSlider(state, send)}
         ${spawnButton(state, send)}
         ${resetButton(state, send)}
       </div>

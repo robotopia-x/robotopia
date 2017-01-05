@@ -51,6 +51,7 @@ const goalPrefix = sf`
     width: 20%;
     background-color: #DDDDDD;
     color: #404040;
+    overflow: scroll;
   }
   
   :host .modalContent {

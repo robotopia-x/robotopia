@@ -65,11 +65,18 @@ const controlsPrefix = sf`
 `
 
 const mainView = (state, prev, send) => {
+  const playButton = playButtonView({
+    running: state.running,
+    onStart: () => send('runSimulation'),
+    onStop: () => send('stopSimulation')
+  })
+
+
   return html`
   <main class="${mainPrefix}">
     <div class="header-bar">
       <div class="${controlsPrefix}">
-        ${playButtonView(state, send)}
+        ${playButton}
         ${speedSlider(state, send)}
         ${spawnButton(state, send)}
         ${resetButton(state, send)}

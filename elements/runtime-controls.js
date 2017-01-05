@@ -13,22 +13,25 @@ function speedSlider (state, send) {
 
 function spawnButton (state, send) {
   return button({
-    onclick: () => send('spawnBot'),
+    onClick: () => send('spawnBot'),
     label: 'Spawn Robot'
   })
 }
 
-function playButtonView (state, send) {
-  if (state.running) {
+function playButtonView ({
+  running,
+  onStart, onStop
+}) {
+  if (running) {
     return button({
-      onclick: () => send('stopSimulation'),
+      onClick: onStop,
       icon: 'stop',
       label: 'Stop'
     })
   }
 
   return button({
-    onclick: () => send('runSimulation'),
+    onClick: onStart,
     icon: 'play',
     label: 'Run'
   })
@@ -36,21 +39,21 @@ function playButtonView (state, send) {
 
 function resetButton (state, send) {
   return button({
-    onclick: () => send('resetLevel'),
+    onClick: () => send('resetLevel'),
     label: 'Reset'
   })
 }
 
 function nextLevelButton (state, send) {
   return button({
-    onclick: () => send('nextLevel'),
+    onClick: () => send('nextLevel'),
     label: 'Next Level'
   })
 }
 
 function prevLevelButton (state, send) {
   return button({
-    onclick: () => send('prevLevel'),
+    onClick: () => send('prevLevel'),
     label: 'Previous Level'
   })
 }

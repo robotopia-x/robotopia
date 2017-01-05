@@ -15,7 +15,6 @@ module.exports = {
     stepProgress: 0,
 
     entities: [
-      entities.base({x: 0, y: 0, id: 'BASE'}),
       entities.robot({x: 0, y: 0, id: 'ROBOT'}),
       entities.gem({x: 6, y: 6})
     ]

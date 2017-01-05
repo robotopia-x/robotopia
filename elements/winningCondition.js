@@ -26,6 +26,7 @@ const winPrefix = sf`
     color: #404040;
     height: 100%;
     text-align: center;
+    overflow: scroll;
   }
   
   button {
@@ -64,6 +65,8 @@ const winningCondition = (state, send) => {
   const goals = getGoals(game, level.goals)
 
   if (checkAllGoals(game, level.goals)) {
+    send('stopSimulation')
+
     return html`
     <div class="${winPrefix}">
       <div class="modalContent">

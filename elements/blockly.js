@@ -45,6 +45,12 @@ const blocklyView = widget((update) => {
     setInterval(saveWorkspaceFromDom, 1000)
   }
 
+  function updateCode () {
+    send('runtime:commitCode', {
+      code: Blockly.JavaScript.workspaceToCode(workspace)
+    })
+  }
+
   function saveWorkspaceFromDom () {
     const xml = Blockly.Xml.workspaceToDom(workspace)
     const xmlText = Blockly.Xml.domToText(xml)
@@ -54,12 +60,6 @@ const blocklyView = widget((update) => {
     })
 
     localStorage.setItem('workspace', xmlText)
-  }
-
-  function updateCode () {
-    send('updateCode', {
-      code: Blockly.JavaScript.workspaceToCode(workspace)
-    })
   }
 
   function onunload () {

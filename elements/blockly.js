@@ -27,23 +27,25 @@ const blocklyView = widget((update) => {
       updateToolbox(workspace, _state.toolbox)
     }
 
-    //TODO react on changed workspace and set the new workspace with given blocks
+    if (prev && _state.level.level !== prev.level.level) {
+      clearWorkspace(workspace)
+      updateWorkspace(workspace, _state.workspace)
+    }
 
     send = _send
   }
 
   function onload (el) {
-    //throw new Error
-
     editorElement = el
     workspace = Blockly.inject(editorElement, toolbox)
 
     updateWorkspace(workspace, localStorage.getItem('workspace'))
 
     workspace.addChangeListener(updateCode)
+    setInterval(saveWorkspaceFromDom, 1000)
   }
 
-  function updateCode () {
+  function saveWorkspaceFromDom () {
     const xml = Blockly.Xml.workspaceToDom(workspace)
     const xmlText = Blockly.Xml.domToText(xml)
 
@@ -52,7 +54,9 @@ const blocklyView = widget((update) => {
     })
 
     localStorage.setItem('workspace', xmlText)
+  }
 
+  function updateCode () {
     send('updateCode', {
       code: Blockly.JavaScript.workspaceToCode(workspace)
     })
@@ -66,6 +70,10 @@ const blocklyView = widget((update) => {
 function updateWorkspace (workspace, xml) {
   const workspaceXml = Blockly.Xml.textToDom(xml)
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+}
+
+function clearWorkspace (workspace) {
+  workspace.clear()
 }
 
 function updateToolbox (workspace, toolbox) {

@@ -3,6 +3,7 @@ const sf = require('sheetify')
 const gameView = require('../elements/game/index')
 const winningCondition = require('../elements/winningCondition')
 const blocklyView = require('../elements/blockly')
+
 const {
   spawnButton,
   speedSlider,

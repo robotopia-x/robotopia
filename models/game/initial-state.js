@@ -34,6 +34,7 @@ module.exports = {
   entities: [
     entities.base({ x: 3, y: 3, teamId: 'BLUE' }),
     entities.base({ x: 21, y: 21, teamId: 'RED' }),
+    entities.tower({ x: 0, y: 0, teamId: 'RED' }),
     entities.gem({ x: 10, y: 12 })
   ]
 }

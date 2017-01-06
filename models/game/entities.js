@@ -48,6 +48,18 @@ module.exports = {
     }
   }),
 
+  tower: ({ id, x, y, teamId }) => ({
+    id,
+    team: { id: teamId },
+    position: { x, y },
+    renderer: {
+      type: 'SIMPLE',
+      data: {
+        sprite: 'TOWER'
+      }
+    }
+  }),
+
   marker: ({ x, y, teamId }) => ({
     position: { x, y },
     team: { id: teamId },

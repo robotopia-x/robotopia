@@ -1,8 +1,10 @@
+const _ = require('lodash')
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
 const pathfinder = require('../../lib/utils/pathfinder')
 const {
   getGameState,
   getEntity,
+  getAllEntities,
   isFieldEmpty,
   getEmptyFieldNearPosition
 } = require('../../lib/game')
@@ -101,6 +103,20 @@ module.exports = {
       const entity = getEntity(id, game)
 
       return pathfinder.getPath(game, entity.position, { x, y })
+    },
+
+    getBasePosition: (state, id, x, y) => {
+      const game = getGameState(state)
+      const entity = getEntity(id, game)
+      console.log(entity.team.id, getBaseOfTeam(game, entity.team.id))
+
+      return getBaseOfTeam(game, entity.team.id).position
     }
   }
+}
+
+function getBaseOfTeam (game, teamId) {
+  const bases = getAllEntities('robotSpawner', game)
+
+  return _.find(bases, ({ team }) => team.id === teamId)
 }

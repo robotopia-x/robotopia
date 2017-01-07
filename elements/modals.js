@@ -39,20 +39,20 @@ const winPrefix = sf`
 `
 
 function storyModal ({
-  header, story, img, goals, buttonText,
+  header, story, hint, img, goals, buttonText,
   onClick
 }) {
   return html`
     <div class="${winPrefix}">
       <h1>${header}</h1> 
       <div class="storyTime">
-        <p>Super awesome story here...</p>
         <p>${story}</p>
-        ${img ? html`<img src="${img}"/>` : html``}
-        <div class="goals">
-          <h2>Goals: </h2>
-          ${goals}
-        </div>
+        <p>(Hint: ${hint})</p>
+      </div>
+      ${img ? html`<img src="${img}"/>` : html``}
+      <div class="goals">
+        <h2>Goals: </h2>
+        ${goals}
       </div>
       <button onclick=${onClick}>${buttonText}</button>
     </div>

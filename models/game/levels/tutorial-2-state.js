@@ -35,7 +35,8 @@ module.exports = {
 
   storyModal: {
     text: 'Once upon a time, there was a small robot who died... The end',
-    img: '../assets/img/tutorials/tutorial1.png'
+    hint: 'You can also only use Move with the different directions',
+    img: '../assets/img/tutorials/tutorial2.png'
   },
 
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="rotate" id="bizsM0~3M?%9v:^sintR" x="235" y="155"><field name="Direction">LEFT</field></block></xml>',

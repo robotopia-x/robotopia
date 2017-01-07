@@ -4,8 +4,8 @@ module.exports = {
   robot: ({ id, x, y, teamId }) => ({
     id,
     health: {
-      current: 10,
-      max: 10
+      current: 5,
+      max: 5
     },
     team: { id: teamId },
     position: { x, y, rotation: 0 },
@@ -55,6 +55,10 @@ module.exports = {
   tower: ({ id, x, y, teamId }) => ({
     id,
     team: { id: teamId },
+    shooter: {
+      range: 2,
+      damage: 1
+    },
     position: { x, y },
     collides: {},
     sprite: {

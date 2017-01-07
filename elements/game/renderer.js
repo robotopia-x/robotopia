@@ -95,8 +95,9 @@ function simpleRenderer (ctx, { sprite }, { position }) {
 }
 
 function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
-  const x = prev.position.x + (current.position.x - prev.position.x) * progress
-  const y = prev.position.y + (current.position.y - prev.position.y) * progress
+  const x = interpolate(current.position.x, prev.position.x, progress)
+  const y = interpolate(current.position.y, prev.position.y, progress)
+  // const y = prev.position.y + (current.position.y - prev.position.y) * progress
   const sprite = sprites[current.position.rotation]
 
   if (sprite === undefined) {
@@ -110,6 +111,10 @@ function drawSprite (ctx, type, x, y) {
   ctx.drawImage(assets.store[type], x * TILE_WIDTH, y * TILE_HEIGHT)
 }
 
+function interpolate (current, prev, progress) {
+  return prev + (current - prev) * progress
+}
+
 const HEALTH_BAR_WIDTH = 75
 const HEALTH_BAR_HEIGHT = 15
 const HEALTH_BAR_BACKGROUND = '#fff'
@@ -119,10 +124,10 @@ const HEALTH_BAR_BORDER = '#000'
 function renderHealth (ctx, current, prev, progress) {
   ctx.fillStyle = 'red'
 
-  const x = (current.position.x + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
-  const y = current.position.y * TILE_HEIGHT
+  const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
+  const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT
 
-  const healthPercentage = (current.health.current + (current.health.current - prev.health.current) * progress) / current.health.max
+  const healthPercentage = interpolate(current.health.current, prev.health.current, progress) / current.health.max
 
   // don't render health bar if entity has no damage
   if (healthPercentage === 1) {

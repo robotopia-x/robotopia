@@ -30,6 +30,7 @@ const winningCondition = (gameState, level, send) => {
     return storyModal({
       header: `Tutorial - Level ${level.level}`,
       story: story.text,
+      hint: story.hint,
       img: story.img,
       goals: goals,
       buttonText: 'Start Tutorial',

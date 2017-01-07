@@ -72,7 +72,6 @@ const mainView = (state, prev, send) => {
     onStop: () => send('stopSimulation')
   })
 
-
   return html`
   <main onload=${() => send('level:loadLevel', { level: 0 }, _.noop)} class="${mainPrefix}">
     <div class="header-bar">

@@ -27,9 +27,9 @@ const blocklyView = widget((update) => {
       updateToolbox(workspace, _state.toolbox)
     }
 
-    /*TODO change workspace if workspace is updated externally
+    /* TODO change workspace if workspace is updated externally
       insted of only updating it when the level is changed
-      blockly shouldn't need to know about levels*/
+      blockly shouldn't need to know about levels */
     if (prev && _state.level.level !== prev.level.level) {
       clearWorkspace(workspace)
       updateWorkspace(workspace, _state.workspace)

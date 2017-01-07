@@ -51,6 +51,6 @@ module.exports = {
       if (state.level > 0) {
         send('level:loadLevel', { level: state.level - 1 }, _.noop)
       }
-    },
+    }
   }
 }

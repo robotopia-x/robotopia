@@ -1,6 +1,6 @@
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
 const pathfinder = require('../../lib/utils/pathfinder')
-const { getGameState, getEntity, isFieldEmpty } = require('../../lib/utils/game')
+const { getGameState, getEntity, isFieldEmpty } = require('../../lib/game')
 
 module.exports = {
   namespace: 'robot',

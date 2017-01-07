@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const levels = require('../models/game/levels')
-const { getGameState } = require('../lib/utils/game')
+const { getGameState } = require('../lib/game')
 const { getGoals, checkAllGoals } = require('../lib/utils/goal')
 const { storyModal, winModal } = require('../elements/modals')
 

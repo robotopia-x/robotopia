@@ -12,7 +12,7 @@ module.exports = {
     movable: {},
     markerSpawner: {},
     towerSpawner: {},
-    renderer: {
+    sprite: {
       type: 'ROTATING',
       data: {
         sprites: {
@@ -29,7 +29,7 @@ module.exports = {
     position: { x, y },
     collectable: {},
     item: { type: 'gem' },
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'GEM'
@@ -44,7 +44,7 @@ module.exports = {
     robotSpawner: {
       interval: 20
     },
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'BASE'
@@ -57,7 +57,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y },
     collides: {},
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'TOWER'
@@ -68,7 +68,7 @@ module.exports = {
   marker: ({ x, y, teamId }) => ({
     position: { x, y },
     team: { id: teamId },
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'MARKER'

@@ -1,27 +1,35 @@
 const _ = require('lodash')
-const update = require('immutability-helper')
 
 module.exports = {
   health: {
     requires: [],
 
-    reducer: {
+    reducers: {
       heal: (state, { amount }) => {
         const newHealth = Math.min(state.health.max, state.health.current + amount)
 
-        return update(state, {
-          current: { $set: newHealth }
-        })
+        return {
+          health: { current: { $set: newHealth } }
+        }
       },
 
       _set: (state, { health }) => {
-        return update(state, {
-          current: { $set: health }
-        })
+        return {
+          health: { current: { $set: health } }
+        }
       }
     },
 
     effects: {
+      update: (state, data, game, send) => {
+
+        if (state.health.current < 5) {
+          send('game:health.heal', { target: state.id, data: { amount: 3 } }, _.noop)
+        }
+
+        send('game:health.damage', { target: state.id, data: { amount: 1 } }, _.noop)
+      },
+
       damage: (state, { amount }, game, send) => {
         const newHealth = state.health.current - amount
 
@@ -31,10 +39,11 @@ module.exports = {
             data: {
               health: newHealth
             }
-          })
+          }, _.noop)
+          return
         }
 
-        send('game:deleteEntity', { id: state.id }, _.noop)
+        send('game:deleteEntity', { data: { id: state.id } }, _.noop)
       }
     }
   }

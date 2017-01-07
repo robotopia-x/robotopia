@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const assets = require('../../lib/utils/assets')
-const game = require('../../lib/game/index')
+const { getAllEntities, getEntity } = require('../../lib/game/index')
 const { RENDERER } = require('../../lib/utils/types')
 
 const TILE_HEIGHT = 80
@@ -39,7 +39,7 @@ function getTileImageType (type) {
 }
 
 function renderEntities (ctx, state, prev, progress) {
-  const entities = game.getAllEntities('renderer', state)
+  const entities = getAllEntities('id', state)
 
   _(entities)
   .sortBy(['position.y', 'position.x'])
@@ -54,13 +54,23 @@ function combineWithPrevEntityState (prev, entity) {
     return [entity, undefined]
   }
 
-  const prevEntity = game.getEntity(entity.id, prev)
+  const prevEntity = getEntity(entity.id, prev)
 
   return [entity, prevEntity]
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
-  const { type, data } = entity.renderer
+  if (entity.sprite) {
+    renderSprite(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.health) {
+    renderHealth(ctx, entity, prevEntity, progress)
+  }
+}
+
+function renderSprite (ctx, entity, prevEntity, progress) {
+  const { type, data } = entity.sprite
 
   switch (type) {
     case RENDERER.SIMPLE:
@@ -102,6 +112,41 @@ function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
 
 function drawSprite (ctx, type, x, y) {
   ctx.drawImage(assets.store[type], x * TILE_WIDTH, y * TILE_HEIGHT)
+}
+
+const HEALTH_BAR_WIDTH = 75
+const HEALTH_BAR_HEIGHT = 15
+const HEALTH_BAR_BACKGROUND = '#fff'
+const HEALTH_BAR_COLOR = '#00ff00'
+const HEALTH_BAR_BORDER = '#000'
+
+function renderHealth (ctx, { position, health }, prevEntity, progress) {
+  ctx.fillStyle = 'red'
+
+  const x = (position.x + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
+  const y = position.y * TILE_HEIGHT
+  const healthPercentage = health.current / health.max
+
+  if (healthPercentage === 1) {
+    return
+  }
+
+  ctx.save()
+
+  // draw background
+  ctx.fillStyle = HEALTH_BAR_BACKGROUND
+  ctx.fillRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
+
+  // draw health percentage
+  ctx.fillStyle = HEALTH_BAR_COLOR
+  ctx.fillRect(x, y, HEALTH_BAR_WIDTH * healthPercentage, HEALTH_BAR_HEIGHT)
+
+  // draw border
+  ctx.strokeStyle = HEALTH_BAR_BORDER
+  ctx.lineWidth = 2
+  ctx.strokeRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
+
+  ctx.restore()
 }
 
 module.exports = {

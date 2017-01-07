@@ -51,10 +51,14 @@ function renderEntities (ctx, state, prev, progress) {
 
 function combineWithPrevEntityState (prev, entity) {
   if (!prev) {
-    return [entity, undefined]
+    return [entity, entity]
   }
 
   const prevEntity = getEntity(entity.id, prev)
+
+  if (!prevEntity) {
+    return [entity, entity]
+  }
 
   return [entity, prevEntity]
 }
@@ -86,21 +90,13 @@ function renderSprite (ctx, entity, prevEntity, progress) {
   }
 }
 
-function simpleRenderer (ctx, { sprite }, { position }, progress) {
+function simpleRenderer (ctx, { sprite }, { position }) {
   drawSprite(ctx, sprite, position.x, position.y)
 }
 
 function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
-  let x, y
-
-  if (prev) {
-    x = prev.position.x + (current.position.x - prev.position.x) * progress
-    y = prev.position.y + (current.position.y - prev.position.y) * progress
-  } else {
-    x = current.position.x
-    y = current.position.y
-  }
-
+  const x = prev.position.x + (current.position.x - prev.position.x) * progress
+  const y = prev.position.y + (current.position.y - prev.position.y) * progress
   const sprite = sprites[current.position.rotation]
 
   if (sprite === undefined) {
@@ -120,12 +116,13 @@ const HEALTH_BAR_BACKGROUND = '#fff'
 const HEALTH_BAR_COLOR = '#00ff00'
 const HEALTH_BAR_BORDER = '#000'
 
-function renderHealth (ctx, { position, health }, prevEntity, progress) {
+function renderHealth (ctx, current, prev, progress) {
   ctx.fillStyle = 'red'
 
-  const x = (position.x + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
-  const y = position.y * TILE_HEIGHT
-  const healthPercentage = health.current / health.max
+  const x = (current.position.x + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
+  const y = current.position.y * TILE_HEIGHT
+
+  const healthPercentage = (current.health.current + (current.health.current - prev.health.current) * progress) / current.health.max
 
   if (healthPercentage === 1) {
     return

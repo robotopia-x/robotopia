@@ -8,6 +8,7 @@ const ideModel = require('./models/ide')
 const gameModel = require('./models/game')
 const clock = require('./models/clock').create()
 const runtime = require('./models/runtime').create()
+const level = require('./models/level')
 
 const app = choo()
 
@@ -15,6 +16,7 @@ app.model(ideModel)
 app.model(gameModel)
 app.model(clock.model)
 app.model(runtime.model)
+app.model(level)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 
@@ -24,8 +26,9 @@ clock.onTick((send) => {
   send('game:completeStep', {}, _.noop)
 })
 
-app.router({ default: '/' }, [
-  ['/', require('./pages/main')]
+app.router({ default: '/editor' }, [
+  ['/editor', require('./pages/main')],
+  ['/tutorial', require('./pages/tutorial')]
 ])
 
 assets.load({

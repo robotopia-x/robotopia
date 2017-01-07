@@ -2,8 +2,17 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
 const gameView = require('../elements/game/index')
+const tutorialDialog = require('../elements/tutorialDialog')
+const goalProgress = require('../elements/goalProgress')
 const blocklyView = require('../elements/blockly')
-const { spawnButton, speedSlider, playButtonView, resetButton } = require('../elements/runtime-controls')
+
+const {
+  spawnButton,
+  speedSlider,
+  playButtonView,
+  resetButton,
+  nextLevelButton,
+  prevLevelButton } = require('../elements/runtime-controls')
 
 const mainPrefix = sf`
     :host {
@@ -22,7 +31,7 @@ const mainPrefix = sf`
     }
 
     :host .content {
-      height: 100%;        
+      height: 100%;  
     }
 `
 
@@ -64,22 +73,23 @@ const controlsPrefix = sf`
       margin-left: 0;
     }
 `
-
-const mainView = (state, prev, send) => {
+const tutorialView = (state, prev, send) => {
   const playButton = playButtonView({
     running: state.running,
-    onStart: () => send('runSimulation'),
+    onStart: () => send('runTutorialSimulation'),
     onStop: () => send('stopSimulation')
   })
 
   return html`
-  <main onload=${() => send('level:loadLevel', { level: 0 }, _.noop)} class="${mainPrefix}">
+  <main onload=${() => send('level:loadLevel', { level: 1 }, _.noop)} class="${mainPrefix}">
     <div class="header-bar">
       <div class="${controlsPrefix}">
         ${playButton}
         ${speedSlider(state, send)}
         ${spawnButton(state, send)}
+        ${prevLevelButton(state, send)}        
         ${resetButton(state, send)}
+        ${nextLevelButton(state, send)}
       </div>
     </div>
     <div class=${`${contentPrefix} content`}>
@@ -90,9 +100,13 @@ const mainView = (state, prev, send) => {
       <div class="column">
         ${gameView(state.game, state.clock.progress)}
       </div>
+      <div class="tutorialOverlay">
+        ${tutorialDialog(state.game, state.level, send)}
+        ${goalProgress(state.game, state.level)}
+    </div>
     </div>
   </main>
 `
 }
 
-module.exports = mainView
+module.exports = tutorialView

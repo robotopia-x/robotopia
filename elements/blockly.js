@@ -12,7 +12,7 @@ const prefix = sf`
 `
 
 const blocklyView = widget((update) => {
-  let send, workspace, editorElement
+  let send, workspace, editorElement, saveInterval
 
   update(onupdate)
 
@@ -23,6 +23,18 @@ const blocklyView = widget((update) => {
   `
 
   function onupdate (_state, prev, _send) {
+    if (prev && _state.toolbox !== prev.toolbox) {
+      updateToolbox(workspace, _state.toolbox)
+    }
+
+    /* TODO change workspace if workspace is updated externally
+      insted of only updating it when the level is changed
+      blockly shouldn't need to know about levels */
+    if (prev && _state.level.level !== prev.level.level) {
+      clearWorkspace(workspace)
+      updateWorkspace(workspace, _state.workspace)
+    }
+
     send = _send
   }
 
@@ -30,17 +42,22 @@ const blocklyView = widget((update) => {
     editorElement = el
     workspace = Blockly.inject(editorElement, toolbox)
 
-    restoreWorkspace(workspace)
+    updateWorkspace(workspace, localStorage.getItem('workspace'))
+
     workspace.addChangeListener(updateCode)
+    saveInterval = setInterval(saveWorkspaceFromDom, 1000)
   }
 
   function updateCode () {
     send('runtime:commitCode', {
       code: Blockly.JavaScript.workspaceToCode(workspace)
     })
+  }
 
+  function saveWorkspaceFromDom () {
     const xml = Blockly.Xml.workspaceToDom(workspace)
     const xmlText = Blockly.Xml.domToText(xml)
+
     send('updateWorkspace', {
       workspace: xmlText
     })
@@ -50,12 +67,21 @@ const blocklyView = widget((update) => {
 
   function onunload () {
     workspace.removeChangeListener(updateCode)
+    clearInterval(saveInterval)
   }
 })
 
-function restoreWorkspace (workspace) {
-  const xml = Blockly.Xml.textToDom(localStorage.getItem('workspace'))
-  Blockly.Xml.domToWorkspace(xml, workspace)
+function updateWorkspace (workspace, xml) {
+  const workspaceXml = Blockly.Xml.textToDom(xml)
+  Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+}
+
+function clearWorkspace (workspace) {
+  workspace.clear()
+}
+
+function updateToolbox (workspace, toolbox) {
+  workspace.updateToolbox(toolbox)
 }
 
 module.exports = blocklyView

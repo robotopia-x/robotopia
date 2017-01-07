@@ -2,7 +2,7 @@ const _ = require('lodash')
 const uid = require('uid')
 const entities = require('../entities')
 const { MOVE } = require('../../../lib/utils/types')
-const { isFieldEmpty } = require('../../../lib/utils/game')
+const { isFieldEmpty } = require('../../../lib/game')
 
 const markerSpawner = {
   requires: ['position', 'team'],

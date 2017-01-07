@@ -37,6 +37,11 @@ module.exports = {
         send('game:deleteEntity', {
           data: { id: state.id }
         }, _.noop)
+
+        // TODO: move this somewhere else
+        send('runtime:destroyRobot', {
+          id: state.id
+        }, _.noop)
       }
     }
   }

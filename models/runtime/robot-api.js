@@ -1,6 +1,11 @@
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
 const pathfinder = require('../../lib/utils/pathfinder')
-const { getGameState, getEntity, isFieldEmpty } = require('../../lib/game')
+const {
+  getGameState,
+  getEntity,
+  isFieldEmpty,
+  getEmptyFieldNearPosition
+} = require('../../lib/game')
 
 module.exports = {
   namespace: 'robot',
@@ -45,9 +50,13 @@ module.exports = {
     moveTo: function (x, y) {
       var nextPosition
       var currentPosition = this.getPosition()
-      var target = this.getWalkableFieldNearPosition(x, y)
-      var path = this.getPathTo(target.x, target.y)
+      var target = this.getEmptyFieldNearPosition(x, y)
 
+      if (target === null) {
+        return
+      }
+
+      var path = this.getPathTo(target.x, target.y)
       for (var i = 1; i < path.length; i++) {
         nextPosition = path[i]
 
@@ -81,49 +90,10 @@ module.exports = {
       return isFieldEmpty(game, x, y)
     },
 
-    getWalkableFieldNearPosition: (state, id, x, y) => {
+    getEmptyFieldNearPosition: (state, id, x, y) => {
       const game = getGameState(state)
 
-      // expand search for walkable field in a square spiral around the target field
-
-      let direction = 0 // which direction we're moving
-      let length = 0 // how many steps we move, will be increased after two direction changes
-
-      let testX = x // x coordinate of the field we check
-      let testY = y // y coordinate
-
-      // keep expanding until we exceeded the board size
-      while (length <= game.tiles.length) {
-        for (let i = 0; i <= length; i++) {
-          // return if we found a walkable field
-          if (isFieldEmpty(game, testX, testY)) {
-            return { x: testX, y: testY }
-          }
-
-          switch (direction) {
-            case 0: // DOWN
-              testY += 1
-              break
-            case 1: // LEFT
-              testX -= 1
-              break
-            case 2: // UP
-              testY -= 1
-              break
-            case 3: // RIGHT
-              testX += 1
-              break
-          }
-        }
-
-        // increase spiral length after every 2 turns
-        if (direction % 2 === 1) {
-          length += 1
-        }
-
-        // turn clockwise
-        direction = (direction + 1) % 4
-      }
+      return getEmptyFieldNearPosition(game, x, y)
     },
 
     getPathTo: (state, id, x, y) => {

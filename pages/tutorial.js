@@ -2,7 +2,8 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
 const gameView = require('../elements/game/index')
-const winningCondition = require('../elements/winningCondition')
+const tutorialDialog = require('../elements/tutorialDialog')
+const goalProgress = require('../elements/goalProgress')
 const blocklyView = require('../elements/blockly')
 
 const {
@@ -99,8 +100,9 @@ const tutorialView = (state, prev, send) => {
       <div class="column">
         ${gameView(state.game, state.clock.progress)}
       </div>
-      <div class="overlay">
-        ${winningCondition(state, send)}
+      <div class="tutorialOverlay">
+        ${tutorialDialog(state.game, state.level, send)}
+        ${goalProgress(state.game, state.level)}
     </div>
     </div>
   </main>

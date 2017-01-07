@@ -6,8 +6,11 @@ const {
   getEntity,
   getAllEntities,
   isFieldEmpty,
-  getEmptyFieldNearPosition
+  findFieldNearPosition,
+  findEmptyFieldNearPosition
 } = require('../../lib/game')
+
+const SAVE_ZONE_SIZE = 4 // how far enemy towers have to build from base
 
 module.exports = {
   namespace: 'robot',
@@ -52,7 +55,8 @@ module.exports = {
     moveTo: function (x, y) {
       var nextPosition
       var currentPosition = this.getPosition()
-      var target = this.getEmptyFieldNearPosition(x, y)
+
+      var target = this.findEmptyFieldNearPosition(x, y)
 
       if (target === null) {
         return
@@ -76,8 +80,17 @@ module.exports = {
 
         currentPosition = nextPosition
       }
+    },
+
+    buildTowerNearPosition: function () { // don't use arrow shorthand here because it messes with toString
+      var botPosition = this.getPosition()
+      var towerPosition = this.findFieldForTowerNearPosition(botPosition.x, botPosition.y)
+
+      this.moveTo(towerPosition.x, towerPosition.y)
+      this.buildTower()
     }
   },
+
   sensors: {
     getPosition: (state, id) => {
       const game = getGameState(state)
@@ -92,10 +105,28 @@ module.exports = {
       return isFieldEmpty(game, x, y)
     },
 
-    getEmptyFieldNearPosition: (state, id, x, y) => {
+    findFieldForTowerNearPosition: (state, id, x, y) => {
+      const game = getGameState(state)
+      const bot = getEntity(id, game)
+      const bases = getEnemyBases(game, bot)
+
+      // find a field which is empty and not inside the save zone of another base
+      return findFieldNearPosition(game, x, y, (game, x, y) => {
+        if (!isFieldEmpty(game, x, y)) {
+          return false
+        }
+
+        return _.every(bases, ({ position }) => {
+          const distance = Math.sqrt(Math.pow(position.x - x, 2) + Math.pow(position.y - y, 2))
+          return distance > SAVE_ZONE_SIZE
+        })
+      })
+    },
+
+    findEmptyFieldNearPosition: (state, id, x, y) => {
       const game = getGameState(state)
 
-      return getEmptyFieldNearPosition(game, x, y)
+      return findEmptyFieldNearPosition(game, x, y)
     },
 
     getPathTo: (state, id, x, y) => {
@@ -108,7 +139,6 @@ module.exports = {
     getBasePosition: (state, id, x, y) => {
       const game = getGameState(state)
       const entity = getEntity(id, game)
-      console.log(entity.team.id, getBaseOfTeam(game, entity.team.id))
 
       return getBaseOfTeam(game, entity.team.id).position
     }
@@ -119,4 +149,10 @@ function getBaseOfTeam (game, teamId) {
   const bases = getAllEntities('robotSpawner', game)
 
   return _.find(bases, ({ team }) => team.id === teamId)
+}
+
+function getEnemyBases (game, entity) {
+  const bases = getAllEntities('robotSpawner', game)
+
+  return _.filter(bases, ({ team }) => team.id !== entity.team.id)
 }

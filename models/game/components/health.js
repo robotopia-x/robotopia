@@ -21,15 +21,6 @@ module.exports = {
     },
 
     effects: {
-      update: (state, data, game, send) => {
-
-        if (state.health.current < 5) {
-          send('game:health.heal', { target: state.id, data: { amount: 3 } }, _.noop)
-        }
-
-        send('game:health.damage', { target: state.id, data: { amount: 1 } }, _.noop)
-      },
-
       damage: (state, { amount }, game, send) => {
         const newHealth = state.health.current - amount
 

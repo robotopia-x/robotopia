@@ -124,6 +124,7 @@ function renderHealth (ctx, current, prev, progress) {
 
   const healthPercentage = (current.health.current + (current.health.current - prev.health.current) * progress) / current.health.max
 
+  // don't render health bar if entity has no damage
   if (healthPercentage === 1) {
     return
   }

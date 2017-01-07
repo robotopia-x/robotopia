@@ -3,6 +3,10 @@ const { ORIENTATION } = require('../../lib/utils/types')
 module.exports = {
   robot: ({ id, x, y, teamId }) => ({
     id,
+    health: {
+      current: 10,
+      max: 10
+    },
     team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},

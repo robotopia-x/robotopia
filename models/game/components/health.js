@@ -34,7 +34,9 @@ module.exports = {
           return
         }
 
-        send('game:deleteEntity', { data: { id: state.id } }, _.noop)
+        send('game:deleteEntity', {
+          data: { id: state.id }
+        }, _.noop)
       }
     }
   }

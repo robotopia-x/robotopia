@@ -1,6 +1,8 @@
 const _ = require('lodash')
 const uid = require('uid')
 const entities = require('../entities')
+const { MOVE } = require('../../../lib/utils/types')
+const { isFieldEmpty } = require('../../../lib/utils/game')
 
 const markerSpawner = {
   requires: ['position', 'team'],
@@ -15,6 +17,40 @@ const markerSpawner = {
         groupId: team.id,
         args: [marker]
       }, _.noop)
+    }
+  }
+}
+
+const towerSpawner = {
+  requires: ['position', 'team'],
+
+  effects: {
+    spawn: ({ position, team }, data, game, send) => {
+      let x = position.x
+      let y = position.y
+
+      switch (position.rotation) {
+        case MOVE.BACKWARD:
+          y -= 1
+          break
+        case MOVE.FORWARD:
+          y += 1
+          break
+        case MOVE.LEFT:
+          x -= 1
+          break
+        case MOVE.RIGHT:
+          x += 1
+          break
+      }
+
+      if (isFieldEmpty(game, x, y)) {
+        const marker = entities.tower({ x: position.x, y: position.y, teamId: team.id })
+
+        // TODO: check here if enough resources are available
+
+        send('game:createEntity', { data: marker }, _.noop)
+      }
     }
   }
 }
@@ -59,5 +95,6 @@ const robotSpawner = {
 
 module.exports = {
   markerSpawner,
+  towerSpawner,
   robotSpawner
 }

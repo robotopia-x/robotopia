@@ -6,8 +6,8 @@ module.exports = {
     team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},
-    collides: {},
     markerSpawner: {},
+    towerSpawner: {},
     renderer: {
       type: 'ROTATING',
       data: {
@@ -52,6 +52,7 @@ module.exports = {
     id,
     team: { id: teamId },
     position: { x, y },
+    collides: {},
     renderer: {
       type: 'SIMPLE',
       data: {

@@ -1,6 +1,6 @@
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
 const pathfinder = require('../../lib/utils/pathfinder')
-const { getGameState, getEntity, isFieldWalkable } = require('../../lib/utils/game')
+const { getGameState, getEntity, isFieldEmpty } = require('../../lib/utils/game')
 
 module.exports = {
   namespace: 'robot',
@@ -21,7 +21,11 @@ module.exports = {
     }),
     placeMarker: () => ({
       action: ['game:markerSpawner.spawn'],
-      cost: 0
+      cost: 1
+    }),
+    buildTower: () => ({
+      action: ['game:towerSpawner.spawn'],
+      cost: 1
     }),
     collectResource: () => ({
       action: ['game:collector.collectResource'],
@@ -71,15 +75,14 @@ module.exports = {
       return entity.position
     },
 
-    isFieldWalkable: (state, id, x, y) => {
+    isFieldEmpty: (state, id, x, y) => {
       const game = getGameState(state)
 
-      return isFieldWalkable(game, x, y)
+      return isFieldEmpty(game, x, y)
     },
 
     getWalkableFieldNearPosition: (state, id, x, y) => {
       const game = getGameState(state)
-
 
       // expand search for walkable field in a square spiral around the target field
 
@@ -93,7 +96,7 @@ module.exports = {
       while (length <= game.tiles.length) {
         for (let i = 0; i <= length; i++) {
           // return if we found a walkable field
-          if (isFieldWalkable(game, testX, testY)) {
+          if (isFieldEmpty(game, testX, testY)) {
             return { x: testX, y: testY }
           }
 
@@ -108,7 +111,6 @@ module.exports = {
               testY -= 1
               break
             case 3: // RIGHT
-
               testX += 1
               break
           }

@@ -45,7 +45,7 @@ const towerSpawner = {
       }
 
       if (isFieldEmpty(game, x, y)) {
-        const marker = entities.tower({ x: position.x, y: position.y, teamId: team.id })
+        const marker = entities.tower({ x, y, teamId: team.id })
 
         // TODO: check here if enough resources are available
 

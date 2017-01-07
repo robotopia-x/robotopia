@@ -29,8 +29,6 @@ module.exports = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ],
 
-  stepProgress: 0,
-
   entities: [
     entities.base({ x: 3, y: 3, teamId: 'BLUE' }),
     entities.base({ x: 21, y: 21, teamId: 'RED' }),

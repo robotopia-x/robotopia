@@ -12,6 +12,10 @@ const updateWorkspace = (state, { workspace }) => {
   return update(state, { workspace: { $set: workspace } })
 }
 
+const updateToolbox = (state, { toolbox }) => {
+  return update(state, { toolbox: { $set: toolbox } })
+}
+
 const setGameSpeed = (state, { speed }) => {
   return update(state, { gameSpeed: { $set: speed } })
 }
@@ -20,5 +24,6 @@ module.exports = {
   setRunningState,
   setGameSpeed,
   updateCode,
-  updateWorkspace
+  updateWorkspace,
+  updateToolbox
 }

@@ -7,6 +7,12 @@ function runSimulation (state, data, send) {
   send('setRunningState', { running: true }, _.noop)
 }
 
+function runTutorialSimulation (state, data, send) {
+  send('runtime:destroyRobot', { id: 'ROBOT' }, _.noop)
+  send('runtime:createRobot', { id: 'ROBOT' }, _.noop)
+  send('runSimulation', {}, _.noop)
+}
+
 function stopSimulation (state, data, send) {
   send('clock:stop', {}, _.noop)
   send('setRunningState', { running: false }, _.noop)
@@ -31,10 +37,29 @@ function spawnBot ({ code }, data, send) {
   send('runtime:createRobot', { id, code }, _.noop)
 }
 
+function resetLevel (state, data, send) {
+  send('stopSimulation', {}, _.noop)
+  send('level:resetLevel', {}, _.noop)
+}
+
+function nextLevel (state, data, send) {
+  send('stopSimulation', {}, _.noop)
+  send('level:nextLevel', {}, _.noop)
+}
+
+function prevLevel (state, data, send) {
+  send('stopSimulation', {}, _.noop)
+  send('level:prevLevel', {}, _.noop)
+}
+
 module.exports = {
   runSimulation,
+  runTutorialSimulation,
   stopSimulation,
   changeGameSpeed,
   tick,
-  spawnBot
+  spawnBot,
+  resetLevel,
+  nextLevel,
+  prevLevel
 }

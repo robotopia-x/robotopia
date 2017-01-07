@@ -1,54 +1,68 @@
 const html = require('choo/html')
-const sf = require('sheetify')
 const button = require('./button')
 
-const prefix = sf`
-  :host {
-    display: flex;
-    flex-direction: row;
-  }
-
-  :host > * {
-    margin-left: 20px;
-  }
-
-  :host > :first-child {
-    margin-left: 0;
-  }
-`
-
-function runtimeControlsView (state, prev, send) {
-  const spawnButton = button({
-    onclick: () => send('spawnBot'),
-    label: 'Spawn Robot'
-  })
-
+function speedSlider (state, send) {
   return html`
-  <div class="${prefix}">
-    ${playButtonView(state, send)}
       <input
          type="range"
          min="0" max="1"
          value="${state.gameSpeed}"
-         oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />    
-     ${spawnButton}
-  </div>`
+         oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
+  `
 }
 
-function playButtonView (state, send) {
-  if (state.running) {
+function spawnButton (state, send) {
+  return button({
+    onClick: () => send('spawnBot'),
+    label: 'Spawn Robot'
+  })
+}
+
+function playButtonView ({
+  running,
+  onStart, onStop
+}) {
+  if (running) {
     return button({
-      onclick: () => send('stopSimulation'),
+      onClick: onStop,
       icon: 'stop',
       label: 'Stop'
     })
   }
 
   return button({
-    onclick: () => send('runSimulation'),
+    onClick: onStart,
     icon: 'play',
     label: 'Run'
   })
 }
 
-module.exports = runtimeControlsView
+function resetButton (state, send) {
+  return button({
+    onClick: () => send('resetLevel'),
+    label: 'Reset'
+  })
+}
+
+function nextLevelButton (state, send) {
+  return button({
+    onClick: () => send('nextLevel'),
+    label: 'Next Level'
+  })
+}
+
+function prevLevelButton (state, send) {
+  return button({
+    onClick: () => send('prevLevel'),
+    label: 'Previous Level'
+  })
+}
+
+module.exports = {
+  spawnButton,
+  speedSlider,
+  playButtonView,
+  resetButton,
+  nextLevelButton,
+  prevLevelButton
+}

@@ -1,6 +1,16 @@
+const _ = require('lodash')
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
 const pathfinder = require('../../lib/utils/pathfinder')
-const { getGameState, getEntity, isFieldWalkable } = require('../../lib/utils/game')
+const {
+  getGameState,
+  getEntity,
+  getAllEntities,
+  isFieldEmpty,
+  findFieldNearPosition,
+  findEmptyFieldNearPosition
+} = require('../../lib/game')
+
+const SAVE_ZONE_SIZE = 4 // how far enemy towers have to build from base
 
 module.exports = {
   namespace: 'robot',
@@ -21,7 +31,11 @@ module.exports = {
     }),
     placeMarker: () => ({
       action: ['game:markerSpawner.spawn'],
-      cost: 0
+      cost: 1
+    }),
+    buildTower: () => ({
+      action: ['game:towerSpawner.spawn'],
+      cost: 1
     }),
     collectResource: () => ({
       action: ['game:collector.collectResource'],
@@ -41,9 +55,14 @@ module.exports = {
     moveTo: function (x, y) {
       var nextPosition
       var currentPosition = this.getPosition()
-      var target = this.getWalkableFieldNearPosition(x, y)
-      var path = this.getPathTo(target.x, target.y)
 
+      var target = this.findEmptyFieldNearPosition(x, y)
+
+      if (target === null) {
+        return
+      }
+
+      var path = this.getPathTo(target.x, target.y)
       for (var i = 1; i < path.length; i++) {
         nextPosition = path[i]
 
@@ -61,8 +80,17 @@ module.exports = {
 
         currentPosition = nextPosition
       }
+    },
+
+    buildTowerNearPosition: function () { // don't use arrow shorthand here because it messes with toString
+      var botPosition = this.getPosition()
+      var towerPosition = this.findFieldForTowerNearPosition(botPosition.x, botPosition.y)
+
+      this.moveTo(towerPosition.x, towerPosition.y)
+      this.buildTower()
     }
   },
+
   sensors: {
     getPosition: (state, id) => {
       const game = getGameState(state)
@@ -71,57 +99,34 @@ module.exports = {
       return entity.position
     },
 
-    isFieldWalkable: (state, id, x, y) => {
+    isFieldEmpty: (state, id, x, y) => {
       const game = getGameState(state)
 
-      return isFieldWalkable(game, x, y)
+      return isFieldEmpty(game, x, y)
     },
 
-    getWalkableFieldNearPosition: (state, id, x, y) => {
+    findFieldForTowerNearPosition: (state, id, x, y) => {
+      const game = getGameState(state)
+      const bot = getEntity(id, game)
+      const bases = getEnemyBases(game, bot)
+
+      // find a field which is empty and not inside the save zone of another base
+      return findFieldNearPosition(game, x, y, (game, x, y) => {
+        if (!isFieldEmpty(game, x, y)) {
+          return false
+        }
+
+        return _.every(bases, ({ position }) => {
+          const distance = Math.sqrt(Math.pow(position.x - x, 2) + Math.pow(position.y - y, 2))
+          return distance > SAVE_ZONE_SIZE
+        })
+      })
+    },
+
+    findEmptyFieldNearPosition: (state, id, x, y) => {
       const game = getGameState(state)
 
-
-      // expand search for walkable field in a square spiral around the target field
-
-      let direction = 0 // which direction we're moving
-      let length = 0 // how many steps we move, will be increased after two direction changes
-
-      let testX = x // x coordinate of the field we check
-      let testY = y // y coordinate
-
-      // keep expanding until we exceeded the board size
-      while (length <= game.tiles.length) {
-        for (let i = 0; i <= length; i++) {
-          // return if we found a walkable field
-          if (isFieldWalkable(game, testX, testY)) {
-            return { x: testX, y: testY }
-          }
-
-          switch (direction) {
-            case 0: // DOWN
-              testY += 1
-              break
-            case 1: // LEFT
-              testX -= 1
-              break
-            case 2: // UP
-              testY -= 1
-              break
-            case 3: // RIGHT
-
-              testX += 1
-              break
-          }
-        }
-
-        // increase spiral length after every 2 turns
-        if (direction % 2 === 1) {
-          length += 1
-        }
-
-        // turn clockwise
-        direction = (direction + 1) % 4
-      }
+      return findEmptyFieldNearPosition(game, x, y)
     },
 
     getPathTo: (state, id, x, y) => {
@@ -129,6 +134,25 @@ module.exports = {
       const entity = getEntity(id, game)
 
       return pathfinder.getPath(game, entity.position, { x, y })
+    },
+
+    getBasePosition: (state, id, x, y) => {
+      const game = getGameState(state)
+      const entity = getEntity(id, game)
+
+      return getBaseOfTeam(game, entity.team.id).position
     }
   }
+}
+
+function getBaseOfTeam (game, teamId) {
+  const bases = getAllEntities('robotSpawner', game)
+
+  return _.find(bases, ({ team }) => team.id === teamId)
+}
+
+function getEnemyBases (game, entity) {
+  const bases = getAllEntities('robotSpawner', game)
+
+  return _.filter(bases, ({ team }) => team.id !== entity.team.id)
 }

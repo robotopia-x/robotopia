@@ -39,7 +39,7 @@ module.exports = {
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
 
   toolbox: `
-    <xml id="toolbox" style="display: none">
+      <xml id="toolbox" style="display: none">
         <category name="Logic" colour="100">
           <block type="controls_repeat_ext"></block>
           <block type="math_number"></block>
@@ -48,7 +48,8 @@ module.exports = {
         <sep gap="8"></sep>
         
         <category name="Variables" colour="170">
-          <block type="marker"></block>
+          <block type="position_x"></block>
+          <block type="position_y"></block>
         </category>
         
         <sep gap="8"></sep>
@@ -64,6 +65,7 @@ module.exports = {
         <category name="Actions" colour="50">
           <block type="place_marker"></block>
           <block type="collect_resource"></block>
+          <block type="build_tower"></block>
         </category>
         
         <sep gap="8"></sep>

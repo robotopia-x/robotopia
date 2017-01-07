@@ -42,7 +42,8 @@ assets.load({
   ROBOT_LEFT: '../assets/img/robot-left.png',
   ROBOT_BACK: '../assets/img/robot-back.png',
   ROBOT_RIGHT: '../assets/img/robot-right.png',
-  BASE: '../assets/img/spawn.png'
+  BASE: '../assets/img/spawn.png',
+  TOWER: '../assets/img/tower.png'
 }).then(() => {
   document.body.appendChild(app.start())
 })

@@ -33,8 +33,8 @@ function create () {
         runtime.step()
       },
 
-      triggerEvent: (state, { name, args, groupId }) => {
-        runtime.triggerEvent(name, args, groupId)
+      triggerEvent: (state, { name, args, target }) => {
+        runtime.triggerEvent(name, args, target)
       }
     },
 

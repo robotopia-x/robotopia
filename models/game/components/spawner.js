@@ -13,7 +13,7 @@ const markerSpawner = {
       send('game:createEntity', { data: marker }, _.noop)
       send('runtime:triggerEvent', {
         name: 'createMarker',
-        groupId: team.id,
+        target: { groupId: team.id },
         args: [marker]
       }, _.noop)
     }
@@ -29,14 +29,14 @@ const towerSpawner = {
       const y = position.y
 
       if (isFieldEmpty(game, x, y)) {
-        const marker = entities.tower({ x, y, teamId: team.id })
+        const tower = entities.tower({ x, y, teamId: team.id })
 
         // TODO: check here if enough resources are available
 
         // TODO: check that tower is not near base, this is checked in the buildTowerNearPosition
         //       but could be circumvented by calling spawn direclty with custom Javascript code
 
-        send('game:createEntity', { data: marker }, _.noop)
+        send('game:createEntity', { data: tower }, _.noop)
       }
     }
   }

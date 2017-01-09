@@ -5,6 +5,14 @@ var globalConfig = {
   hub: 'http://localhost:8042',
   MAX: {
     codeHistory: 5
+  },
+  storagePrefix: 'disrobia',
+  connectivityStates: {
+    none: 0,
+    initialConnect: 1,
+    recovering: 2,
+    reconnecting: 3,
+    connected: 4
   }
 }
 
@@ -18,6 +26,8 @@ const runtime = require('./models/runtime').create()
 const level = require('./models/level')
 const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
 const presenter = require('./models/presenter')(globalConfig)
+const p2pClient = require('./models/P2PClient')(globalConfig)
+const client = require('./models/client')(globalConfig)
 
 const app = choo()
 
@@ -28,6 +38,8 @@ app.model(runtime.model)
 app.model(level)
 app.model(p2pPresenter)
 app.model(presenter)
+app.model(p2pClient)
+app.model(client)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 
@@ -41,8 +53,13 @@ app.router({ default: '/editor' }, [
   ['/editor', require('./pages/main')],
   ['/tutorial', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')(globalConfig)],
+  ['/client', require('./pages/client')(globalConfig)],
   ['/404', require('./pages/error')(globalConfig)],
-  ['/dashboard', require('./pages/dashboard')(globalConfig)]
+  ['/dashboard', require('./pages/dashboard')(globalConfig)],
+  ['/connecting', require('./pages/connecting')(globalConfig)],
+  ['/recovery', require('./pages/recovery')(globalConfig)],
+  ['/choseUsername', require('./pages/choseUsername')(globalConfig)],
+  ['/game', require('./pages/game')(globalConfig)]
 ])
 
 assets.load({

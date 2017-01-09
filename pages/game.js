@@ -2,17 +2,17 @@ const html = require('choo/html')
 
 module.exports = function (globalConfig) {
   return function (state, prev, send) {
-    if (state.connectivityState === globalConfig.connectivityStates.none) {
+    if (state.client.connectivityState === globalConfig.connectivityStates.none) {
       send('location:set', '/')
     }
 
     return html`
 <div>
     <div class="row">
-        <h1>Welcome ${state.username}!</h1>
+        <h1>Welcome ${state.client.username}!</h1>
     </div>
     <div class="row">
-        <textarea name="code" id="code">${state.code ? state.code : ''}</textarea>
+        <textarea name="code" id="code">${state.client.code ? state.client.code : ''}</textarea>
         <button onclick=${sendCode}>send as code</button>
     </div>
     <div class="row">
@@ -25,7 +25,7 @@ module.exports = function (globalConfig) {
       var code = document.getElementById('code').value
       event.preventDefault()
       if (!code || code.length === 0) return
-      send('sendCode', code)
+      send('client:sendCode', code)
     }
 
     function cleanExit (event) {

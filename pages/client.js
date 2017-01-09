@@ -6,10 +6,15 @@ module.exports = function (globalConfig) {
   return function (state, prev, send) {
     if (!checkedForRecovery) {
       checkedForRecovery = true
-      send('checkForPreviousSession', null)
+      send('client:checkForRecovery', null)
     }
 
-    if (state.recoveryPossible) {
+    if (state.client.connectivityState === globalConfig.connectivityStates.recovering) {
+      send('location:set', '/connecting', (err, res) => { if (err) done(err) })
+      return html`<div></div>`
+    }
+
+    if (state.client.recoveryPossible) {
       return html`
 <div id="login">
   <div class="center">
@@ -58,12 +63,12 @@ module.exports = function (globalConfig) {
 
     function startRecovery (event) {
       event.preventDefault()
-      send('recover', null)
+      send('client:recover', null)
     }
 
     function denyRecovery (event) {
       event.preventDefault()
-      send('denyRecovery', null)
+      send('client:denyRecovery', null)
     }
   }
 }

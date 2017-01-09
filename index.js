@@ -28,7 +28,7 @@ const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
 const presenter = require('./models/presenter')(globalConfig)
 const p2pClient = require('./models/P2PClient')(globalConfig)
 const client = require('./models/client')(globalConfig)
-const recovery = require('./models/recovery')(globalConfig)
+const storage = require('./models/storage')(globalConfig)
 
 const app = choo()
 
@@ -41,7 +41,7 @@ app.model(p2pPresenter)
 app.model(presenter)
 app.model(p2pClient)
 app.model(client)
-app.model(recovery)
+app.model(storage)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 

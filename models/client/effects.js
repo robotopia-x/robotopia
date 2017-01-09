@@ -1,7 +1,11 @@
 module.exports = globalConfig => ({
   messageIncoming: messageIncoming,
   setUsername: setUsername(globalConfig),
-  sendCode: sendCode(globalConfig)
+  sendCode: sendCode(globalConfig),
+  checkForRecovery: checkForRecovery, 
+  recover: recover(globalConfig),
+  saveLocally: saveLocally,
+  quit: quit(globalConfig)
 })
 
 function messageIncoming (state, data, send, done) {
@@ -55,4 +59,55 @@ function sendCode(globalConfig) {
     done()
   }
   
+}
+
+function checkForRecovery(state, data, send, done) {
+  send('storage:loadFromLocalStorage', null, (err, res) => {
+    if (err) done(err)
+    if (!res) done()
+    if (!res.id || !res.group || !res.username) return done()
+    send('client:suggestRecovery', res, (err, res) => { if(err) done(err) })
+  })
+}
+
+function recover(globalConfig) {
+  return inner
+  function inner (state, _, send, done) {
+    var opts
+    opts = {
+      GID: state.group,
+      CID: state.id
+    }
+    send('p2c:joinStar', opts, (err, res) => { if (err) done(err) })
+    send('client:activateRecovery', null, (err, res) => {if (err) done(err) })
+    done()
+  }
+
+}
+
+function saveLocally(state, _, send, done) {
+  var obj = {
+    username: state.username,
+    group: state.group,
+    id: state.id,
+    code: state.code
+  }
+  send('storage:saveToLocalStorage', obj, (err, res) => {if(err) done(err) })
+}
+
+function quit (globalConfig) {
+  return inner
+  function inner (state, __, send, done) {
+    if (state.connectivityState === globalConfig.connectivityStates.connected) {
+      var data = {
+        type: 'QUIT',
+        data: null
+      }
+      send('p2c:send', data, (err, res) => { if (err) done(err) })
+    }
+    send('p2c:stop', null, (err, res) => { if (err) done(err) })
+    send('storage:cleanLocalStorage', null, (err, res) => { if (err) done(err) })
+    send('client:denyRecovery', null, (err, res) => { if (err) done(err) })
+    done()
+  }
 }

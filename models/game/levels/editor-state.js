@@ -32,7 +32,7 @@ module.exports = {
 
     entities: [
       entities.base({ x: 3, y: 3, teamId: 'BLUE' }),
-      entities.base({ x: 21, y: 21, teamId: 'RED' }),
+      entities.base({ x: 21, y: 21, teamId: 'RED' })
     ]
   },
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
@@ -70,7 +70,8 @@ module.exports = {
         <sep gap="8"></sep>
         
         <category name="Events" colour="20">
-          <block type="event_logic"></block>
+          <block type="tower_discovered_event"></block>
+          <block type="marker_placed_event"></block>
         </category>
    </xml>`
 }

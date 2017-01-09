@@ -97,7 +97,7 @@ function simpleRenderer (ctx, { sprite }, { position }) {
 function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
   const x = interpolate(current.position.x, prev.position.x, progress)
   const y = interpolate(current.position.y, prev.position.y, progress)
-  // const y = prev.position.y + (current.position.y - prev.position.y) * progress
+
   const sprite = sprites[current.position.rotation]
 
   if (sprite === undefined) {

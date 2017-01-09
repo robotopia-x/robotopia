@@ -7,14 +7,15 @@ const markerSpawner = {
   requires: ['position', 'team'],
 
   effects: {
-    spawn: ({ position, team }, data, game, send) => {
+    spawn: (state, data, game, send) => {
+      const { position, team } = state
       const marker = entities.marker({ x: position.x, y: position.y, teamId: team.id })
 
       send('game:createEntity', { data: marker }, _.noop)
       send('runtime:triggerEvent', {
         name: 'createMarker',
         target: { groupId: team.id },
-        args: [marker]
+        args: [ state ]
       }, _.noop)
     }
   }
@@ -56,11 +57,6 @@ const robotSpawner = {
   effects: {
     update: ({ id, robotSpawner, position, team }, data, game, send) => {
       let stepsSinceLastSpawn = robotSpawner.stepsSinceLastSpawn
-
-      // TODO: add init event in game to handle initialization
-      if (stepsSinceLastSpawn === undefined) {
-        stepsSinceLastSpawn = 0
-      }
 
       // spawn entity on interval
       if ((stepsSinceLastSpawn % robotSpawner.interval) === 0) {

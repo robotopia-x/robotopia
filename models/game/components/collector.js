@@ -17,6 +17,7 @@ module.exports = {
         const hasResource = state.collector.hasResource
 
         if (!hasResource && isOnResource(state, game)) {
+          send('game:addResources', { teamId: state.team.id, amount: 10 }, _.noop)
           send('game:collector._setHasResource', {
             hasResource: true
           }, _.noop)
@@ -39,13 +40,13 @@ module.exports = {
 function isOnResource ({ position }, { entities }) {
   const resources = _.filter(entities, 'collectable')
 
-  return _.find(resources, { position: { x: position.x, y: position.y }})
+  return _.find(resources, { position: { x: position.x, y: position.y } })
 }
 
 function isOnBase ({ position, team }, { entities }) {
   const teamBase = _(entities)
                   .filter('robotSpawner')
-                  .find({ team: { id: team.id }})
+                  .find({ team: { id: team.id } })
 
   return _.isEqual(teamBase.position, { x: position.x, y: position.y })
 }

@@ -75,7 +75,12 @@ input {
 
 button {
   padding: 0.5em 0;
+}
+
+button.good,
+button.bad {
   min-width: 120px;
+  padding: 0.5em 0;
 }
 
 button.good {

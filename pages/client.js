@@ -87,10 +87,8 @@ module.exports = function (globalConfig) {
       }
     }
 
-    return html`
-<div class="center-child">
-  <div>
-    <div class="round_modal">
+    return modal(html`
+    <div>
       <div class="row">
           <h1>Connecting...</h1>
       </div>
@@ -101,9 +99,7 @@ module.exports = function (globalConfig) {
         <button class="bad" onclick=${cancel}>Cancel</button>
       </div>
     </div>
-  </div>
-</div>
-`
+`)
 
     function cancel (event) {
       event.preventDefault()
@@ -119,10 +115,8 @@ module.exports = function (globalConfig) {
       return html`<div></div>`
     }
 
-    return html`
-<div class="center-child">
-  <div>
-    <div class="round_modal">
+    return modal(html`
+    <div>
       <div class="row">
           <h1>Enter a Name</h1>
       </div>
@@ -131,9 +125,7 @@ module.exports = function (globalConfig) {
           <button class="good" onclick=${publishName}>Confirm</button>
       </div>
     </div>
-  </div>
-</div>
-`
+`)
 
     function publishName (event) {
       event.preventDefault()

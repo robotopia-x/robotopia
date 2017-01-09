@@ -40,9 +40,26 @@ module.exports = {
 
   toolbox: `
     <xml id="toolbox" style="display: none">
-        <category name="Logic" colour="100">
+        <category name="Logic" colour="210">
+          <block type="logic_compare"></block>
+          <block type="logic_operation"></block>
+          <block type="logic_negate"></block>
+          <block type="controls_if"></block>
+        </category>
+        
+        <sep gap="8"></sep>
+        
+        <category name="Loops" colour="100">
           <block type="controls_repeat_ext"></block>
+          <block type="controls_whileUntil"></block>
+        </category>
+        
+        <sep gap="8"></sep>
+        
+        <category name="Numbers" colour="230">
           <block type="math_number"></block>
+          <block type="random_number"></block>
+          <block type="math_arithmetic"></block>
         </category>
         
         <sep gap="8"></sep>

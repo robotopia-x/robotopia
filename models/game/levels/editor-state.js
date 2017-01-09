@@ -33,7 +33,6 @@ module.exports = {
     entities: [
       entities.base({ x: 3, y: 3, teamId: 'BLUE' }),
       entities.base({ x: 21, y: 21, teamId: 'RED' }),
-      entities.gem({ x: 10, y: 12 })
     ]
   },
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',

@@ -32,7 +32,7 @@
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "budo --live --host localhost index.js:bundle.js"
+    "start": "budo --live --host -P localhost index.js:bundle.js"
   },
   "repository": {
     "type": "git",

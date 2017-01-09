@@ -19,14 +19,14 @@ function createStar (globalConfig) {
     state.star.on('peer', (peer, id) => {
       console.log('connected to a new peer:', id)
       console.log('total peers:', state.star.peers.length)
-      send('clientAdded', {peer: peer, id: id}, (err, res) => { if (err) done(err) })
+      send('presenter:clientAdded', {peer: peer, id: id}, (err, res) => { if (err) done(err) })
       addListenersToPeer(send, peer, id)
     })
     state.star.on('disconnect', (peer, id) => {
       console.log('disconnected from a peer:', id)
       console.log('total peers:', state.star.peers.length)
       peer.destroy()
-      send('clientLeft', {peer: peer, id: id}, (err, res) => { if (err) done(err) })
+      send('presenter:clientLeft', {peer: peer, id: id}, (err, res) => { if (err) done(err) })
     })
     done()
   }
@@ -45,7 +45,7 @@ function addListenersToPeer (send, peer, id) {
       console.log(decoded)
       return
     }
-    send('messageIncoming', {
+    send('presenter:messageIncoming', {
       id: id,
       type: decoded.type,
       content: decoded.data

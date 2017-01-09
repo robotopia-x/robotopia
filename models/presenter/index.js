@@ -1,5 +1,5 @@
 module.exports = globalConfig => ({
-  namespace: null,
+  namespace: 'presenter',
   effects: require('./effects')(globalConfig),
   reducers: require('./reducers')(globalConfig),
   state: {

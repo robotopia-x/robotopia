@@ -16,14 +16,14 @@ module.exports = function (globalConfig) {
     </div>
     <div class="row">
     <ul>
-        ${state.clients.ids.map(clientToLi)}
+        ${state.presenter.clients.ids.map(clientToLi)}
     </ul>
     </div>
 </div>
 `
     function clientToLi (c) {
       return html`
-    <li>${state.clients.names[c] + ' [' + c + ']'}</li>
+    <li>${state.presenter.clients.names[c] + ' [' + c + ']'}</li>
   `
     }
   }

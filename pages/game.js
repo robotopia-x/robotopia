@@ -30,7 +30,7 @@ module.exports = function (globalConfig) {
 
     function cleanExit (event) {
       event.preventDefault()
-      send('cleanExit', null)
+      send('client:quit', null)
     }
   }
 }

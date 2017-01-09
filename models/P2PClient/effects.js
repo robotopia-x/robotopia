@@ -2,7 +2,7 @@ const ps = require('peer-star')
 
 module.exports = globalConfig => ({
   joinStar: joinStar(globalConfig),
-  stop: stop,
+  stop: stop(globalConfig),
   send: send
 })
 
@@ -15,18 +15,28 @@ function send (state, data, send, done) {
   done()
 }
 
-function stop (state, nextOptions, send, done) {
-  if (state.star) {
-    console.log('star present')
-    state.star.close(function () {
-      console.log('closed star')
-      state.star = null
-      if (nextOptions) {
-        send('p2c:joinStar', nextOptions, (err, res) => { if (err) done(err) })
-      }
-    })
+function stop (globalConfig) {
+  return inner
+  function inner (state, nextOptions, send, done) {
+    if (state.star) {
+      console.log('star present')
+      state.star.close(function () {
+        console.log('closed star')
+        state.star = null
+        var info = {
+          GID: null,
+          CID: null,
+          state: globalConfig.connectivityStates.none
+        }
+        send('client:connectivityChange', info, (err, res) => { if (err) done(err) })
+        if (nextOptions) {
+          send('p2c:joinStar', nextOptions, (err, res) => { if (err) done(err) })
+        }
+      })
+    }
+    done()
   }
-  done()
+
 }
 
 function joinStar (globalConfig) {
@@ -59,7 +69,7 @@ function joinStar (globalConfig) {
           state: globalConfig.connectivityStates.connected
         }
         send('client:connectivityChange', info, (err, res) => { if (err) done(err) })
-        send('saveLocally', true, (err, res) => { if (err) done(err) })
+        send('client:saveLocally', true, (err, res) => { if (err) done(err) })
         send('client:setUsername', null, (err, res) => { if (err) done(err) })
       }
     })

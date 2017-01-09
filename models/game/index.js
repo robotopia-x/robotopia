@@ -1,17 +1,22 @@
-const game = require('../../lib/utils/game')
+const game = require('../../lib/game')
 const { movable } = require('./components/movable')
+const { health } = require('./components/health')
 const { collector } = require('./components/collector')
-const { markerSpawner, robotSpawner } = require('./components/spawner')
+const { markerSpawner, towerSpawner, robotSpawner } = require('./components/spawner')
+const { shooter } = require('./components/shooter')
 const reducers = require('./reducers')
 const initialState = require('./initial-state')
 
-module.exports = game.engine({
+module.exports = game.model({
   state: initialState,
   components: {
     movable,
+    health,
     collector,
     markerSpawner,
-    robotSpawner
+    towerSpawner,
+    robotSpawner,
+    shooter
   },
   reducers
 })

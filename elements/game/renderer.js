@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const assets = require('../../lib/utils/assets')
-const game = require('../../lib/utils/game')
+const { getAllEntities, getEntity } = require('../../lib/game')
 const { RENDERER } = require('../../lib/utils/types')
 
 const TILE_HEIGHT = 80
@@ -39,7 +39,7 @@ function getTileImageType (type) {
 }
 
 function renderEntities (ctx, state, prev, progress) {
-  const entities = game.getAllEntities('renderer', state)
+  const entities = getAllEntities('id', state)
 
   _(entities)
   .sortBy(['position.y', 'position.x'])
@@ -51,16 +51,30 @@ function renderEntities (ctx, state, prev, progress) {
 
 function combineWithPrevEntityState (prev, entity) {
   if (!prev) {
-    return [entity, undefined]
+    return [entity, entity]
   }
 
-  const prevEntity = game.getEntity(entity.id, prev)
+  const prevEntity = getEntity(entity.id, prev)
+
+  if (!prevEntity) {
+    return [entity, entity]
+  }
 
   return [entity, prevEntity]
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
-  const { type, data } = entity.renderer
+  if (entity.sprite) {
+    renderSprite(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.health) {
+    renderHealth(ctx, entity, prevEntity, progress)
+  }
+}
+
+function renderSprite (ctx, entity, prevEntity, progress) {
+  const { type, data } = entity.sprite
 
   switch (type) {
     case RENDERER.SIMPLE:
@@ -76,21 +90,14 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   }
 }
 
-function simpleRenderer (ctx, { sprite }, { position }, progress) {
+function simpleRenderer (ctx, { sprite }, { position }) {
   drawSprite(ctx, sprite, position.x, position.y)
 }
 
 function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
-  let x, y
-
-  if (prev) {
-    x = prev.position.x + (current.position.x - prev.position.x) * progress
-    y = prev.position.y + (current.position.y - prev.position.y) * progress
-  } else {
-    x = current.position.x
-    y = current.position.y
-  }
-
+  const x = interpolate(current.position.x, prev.position.x, progress)
+  const y = interpolate(current.position.y, prev.position.y, progress)
+  // const y = prev.position.y + (current.position.y - prev.position.y) * progress
   const sprite = sprites[current.position.rotation]
 
   if (sprite === undefined) {
@@ -102,6 +109,47 @@ function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
 
 function drawSprite (ctx, type, x, y) {
   ctx.drawImage(assets.store[type], x * TILE_WIDTH, y * TILE_HEIGHT)
+}
+
+function interpolate (current, prev, progress) {
+  return prev + (current - prev) * progress
+}
+
+const HEALTH_BAR_WIDTH = 75
+const HEALTH_BAR_HEIGHT = 15
+const HEALTH_BAR_BACKGROUND = '#fff'
+const HEALTH_BAR_COLOR = '#00ff00'
+const HEALTH_BAR_BORDER = '#000'
+
+function renderHealth (ctx, current, prev, progress) {
+  ctx.fillStyle = 'red'
+
+  const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
+  const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT
+
+  const healthPercentage = interpolate(current.health.current, prev.health.current, progress) / current.health.max
+
+  // don't render health bar if entity has no damage
+  if (healthPercentage === 1) {
+    return
+  }
+
+  ctx.save()
+
+  // draw background
+  ctx.fillStyle = HEALTH_BAR_BACKGROUND
+  ctx.fillRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
+
+  // draw health percentage
+  ctx.fillStyle = HEALTH_BAR_COLOR
+  ctx.fillRect(x, y, HEALTH_BAR_WIDTH * healthPercentage, HEALTH_BAR_HEIGHT)
+
+  // draw border
+  ctx.strokeStyle = HEALTH_BAR_BORDER
+  ctx.lineWidth = 2
+  ctx.strokeRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
+
+  ctx.restore()
 }
 
 module.exports = {

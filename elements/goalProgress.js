@@ -1,6 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const { getGameState } = require('../lib/utils/game')
+const { getGameState } = require('../lib/game')
 const { getGoals } = require('../lib/utils/goal')
 
 const goalPrefix = sf`

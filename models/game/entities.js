@@ -3,12 +3,16 @@ const { ORIENTATION } = require('../../lib/utils/types')
 module.exports = {
   robot: ({ id, x, y, teamId }) => ({
     id,
+    health: {
+      current: 5,
+      max: 5
+    },
     team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},
-    collides: {},
     markerSpawner: {},
-    renderer: {
+    towerSpawner: {},
+    sprite: {
       type: 'ROTATING',
       data: {
         sprites: {
@@ -25,7 +29,7 @@ module.exports = {
     position: { x, y },
     collectable: {},
     item: { type: 'gem' },
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'GEM'
@@ -40,7 +44,7 @@ module.exports = {
     robotSpawner: {
       interval: 20
     },
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'BASE'
@@ -48,10 +52,27 @@ module.exports = {
     }
   }),
 
+  tower: ({ id, x, y, teamId }) => ({
+    id,
+    team: { id: teamId },
+    shooter: {
+      range: 2,
+      damage: 1
+    },
+    position: { x, y },
+    collides: {},
+    sprite: {
+      type: 'SIMPLE',
+      data: {
+        sprite: 'TOWER'
+      }
+    }
+  }),
+
   marker: ({ x, y, teamId }) => ({
     position: { x, y },
     team: { id: teamId },
-    renderer: {
+    sprite: {
       type: 'SIMPLE',
       data: {
         sprite: 'MARKER'

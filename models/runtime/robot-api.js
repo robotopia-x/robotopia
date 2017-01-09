@@ -141,6 +141,10 @@ module.exports = {
       const entity = getEntity(id, game)
 
       return getBaseOfTeam(game, entity.team.id).position
+    },
+
+    getRandomNumber: (state, id, min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min)
     }
   }
 }

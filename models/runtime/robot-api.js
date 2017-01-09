@@ -14,7 +14,11 @@ const SAVE_ZONE_SIZE = 4 // how far enemy towers have to build from base
 
 module.exports = {
   namespace: 'robot',
-  globals: {},
+  globals: {
+    getRandomNumber: (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+  },
   actionsPerRound: 1,
   actions: {
     move: (direction) => ({

@@ -26,7 +26,8 @@ function setUsername(globalConfig) {
       return done()
     }
     send('client:updateUsername', name, (err, res) => {
-      if (err) done(err)
+      if (err) return done(err)
+      send('client:saveLocally', true, (err, res) => { if (err) done(err) })
     })
     if (state.connectivityState < globalConfig.connectivityStates.connected) {
       console.log('did not publish Username, because we have no connection')
@@ -63,9 +64,9 @@ function sendCode(globalConfig) {
 
 function checkForRecovery(state, data, send, done) {
   send('storage:loadFromLocalStorage', null, (err, res) => {
-    if (err) done(err)
-    if (!res) done()
-    if (!res.id || !res.group || !res.username) return done()
+    if (err) return done(err)
+    if (!res) return done()
+    if (!res.id || !res.group) return done()
     send('client:suggestRecovery', res, (err, res) => { if(err) done(err) })
   })
 }
@@ -86,6 +87,7 @@ function recover(globalConfig) {
 }
 
 function saveLocally(state, _, send, done) {
+  if (!state.group) return done()
   var obj = {
     username: state.username,
     group: state.group,

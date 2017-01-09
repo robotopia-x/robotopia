@@ -7,9 +7,9 @@ const cuid = require('cuid')
 module.exports = function (globalConfig) {
   return function (state, prev, send) {
     return html`
-<div id="login">
-  <div class="center">
-    <div class="login_window">
+<div class="center-child">
+  <div>
+    <div class="round_modal">
       <div class="row">
           <h1>Welcome!</h1>
       </div>
@@ -19,7 +19,7 @@ module.exports = function (globalConfig) {
             <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
             <button class="random_id" onclick=${generateRandom}>Generate Name</button>
         </div>
-        <button class="login_start" value="Start" onclick=${start}>Start</button>
+        <button class="good" value="Start" onclick=${start}>Start</button>
       
     </div>
   </div>

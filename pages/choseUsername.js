@@ -10,15 +10,15 @@ module.exports = function (globalConfig) {
     }
 
     return html`
-<div id="login">
-  <div class="center">
-    <div class="login_window">
+<div class="center-child">
+  <div>
+    <div class="round_modal">
       <div class="row">
           <h1>Enter a Name</h1>
       </div>
       <div class="row">
           <input type="text" id="username" name="username" class="enter_id" value="${state.client.username ? state.client.username : ''}" autofocus="autofocus" >
-          <button class="login_start" onclick=${publishName}>Confirm</button>
+          <button class="good" onclick=${publishName}>Confirm</button>
       </div>
     </div>
   </div>

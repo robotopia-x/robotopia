@@ -16,16 +16,16 @@ module.exports = function (globalConfig) {
 
     if (state.client.recoveryPossible) {
       return html`
-<div id="login">
-  <div class="center">
-    <div class="login_window">
+<div class="center-child">
+  <div>
+    <div class="round_modal">
       <div class="row">
           <h1>Welcome!</h1>
       </div>
       <p>We found data from a previous session, would you like to recover?</p>
       <div class="row">
-          <button class="login_start" onclick=${startRecovery}>Yes</button>
-          <button class="login_cancel" onclick=${denyRecovery}>No</button>
+          <button class="good" onclick=${startRecovery}>Yes</button>
+          <button class="bad" onclick=${denyRecovery}>No</button>
       </div>
     </div>
   </div>
@@ -34,16 +34,16 @@ module.exports = function (globalConfig) {
     }
 
     return html`
-<div id="login">
-  <div class="center">
-    <div class="login_window">
+<div class="center-child">
+  <div>
+    <div class="round_modal">
       <div class="row">
           <h1>Welcome!</h1>
       </div>
       <p>To continue please enter the name of the group you would like to join</p>
       <div class="row">
           <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
-          <button class="login_start" onclick=${start}>Start</button>
+          <button class="good" onclick=${start}>Start</button>
       </div>
     </div>
   </div>

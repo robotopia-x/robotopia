@@ -17,17 +17,17 @@ module.exports = function (globalConfig) {
     }
 
     return html`
-<div id="login">
-  <div class="center">
-    <div class="login_window">
+<div class="center-child">
+  <div>
+    <div class="round_modal">
       <div class="row">
           <h1>Connecting...</h1>
       </div>
       <div class="row">
-          <img src="../assets/img/web/load.gif" alt="loading" class="login_loading">
+          <img src="../assets/img/web/load.gif" alt="loading" class="connecting">
       </div>
       <div class="row">
-        <button class="login_cancel" onclick=${cancel}>Cancel</button>
+        <button class="bad" onclick=${cancel}>Cancel</button>
       </div>
     </div>
   </div>

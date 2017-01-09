@@ -27,30 +27,31 @@ body {
   margin-bottom: 10px;
 }
 
-.center {
+.center-child > * {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
 }
 
-#login {
+.center-child {
   display: table;
-  background-color: #555;
-  background-image: url("../img/web/Robot.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
+  width: inherit;
+  height: inherit;
 }
 
-.login_window {
+.round_modal {
   width: 500px;
   background-color: rgba(255, 255, 255, 0.85);
   margin: 0 auto;
   padding: 1em;
   border-radius: 10px;
   overflow: hidden;
+}
+
+img.connecting {
+  width: 100px;
+  margin: 0 auto;
 }
 
 .enter_id {
@@ -64,12 +65,6 @@ body {
   padding: 0.5em 0;
 }
 
-.login_start {
-  width: 120px;
-  padding: 0.5em 0;
-  background-color: #66bb66;
-}
-
 button {
   padding: 0.5em;
 }
@@ -78,13 +73,15 @@ input {
   height: 2em;
 }
 
-.login_cancel {
-  width: 120px;
+button {
   padding: 0.5em 0;
-  background-color: #bb6666;
+  min-width: 120px;
 }
 
-.login_loading {
-  width: 100px;
-  margin: 0 auto;
+button.good {
+  background-color: #66bb66;
+}
+
+button.bad {
+  background-color: #bb6666;
 }

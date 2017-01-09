@@ -3,7 +3,7 @@ const sf = require('sheetify')
 const _ = require('lodash')
 const gameView = require('../elements/game/index')
 const blocklyView = require('../elements/blockly')
-const { spawnButton, speedSlider, playButtonView, resetButton } = require('../elements/runtime-controls')
+const { spawnButton, speedSlider, playButtonView, resetButton, addResourceButton, removeResourceButton } = require('../elements/runtime-controls')
 
 const mainPrefix = sf`
     :host {
@@ -80,6 +80,8 @@ const mainView = (state, prev, send) => {
         ${speedSlider(state, send)}
         ${spawnButton(state, send)}
         ${resetButton(state, send)}
+        ${addResourceButton(state, send)}
+        ${removeResourceButton(state, send)}
       </div>
     </div>
     <div class=${`${contentPrefix} content`}>

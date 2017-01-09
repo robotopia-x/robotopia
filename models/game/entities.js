@@ -78,5 +78,11 @@ module.exports = {
         sprite: 'MARKER'
       }
     }
+  }),
+
+  resourceStore: ({ teamId, amount }) => ({
+    resources: {
+      [teamId]: amount
+    }
   })
 }

@@ -29,6 +29,7 @@ const presenter = require('./models/presenter')(globalConfig)
 const p2pClient = require('./models/P2PClient')(globalConfig)
 const client = require('./models/client')(globalConfig)
 const storage = require('./models/storage')(globalConfig)
+const pageRouter = require('./models/pagerouter')(globalConfig)
 
 const app = choo()
 
@@ -42,6 +43,7 @@ app.model(presenter)
 app.model(p2pClient)
 app.model(client)
 app.model(storage)
+app.model(pageRouter)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 
@@ -56,12 +58,7 @@ app.router({ default: '/editor' }, [
   ['/tutorial', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')(globalConfig)],
   ['/client', require('./pages/client')(globalConfig)],
-  ['/404', require('./pages/error')(globalConfig)],
-  ['/dashboard', require('./pages/dashboard')(globalConfig)],
-  ['/connecting', require('./pages/connecting')(globalConfig)],
-  ['/recovery', require('./pages/recovery')(globalConfig)],
-  ['/choseUsername', require('./pages/choseUsername')(globalConfig)],
-  ['/game', require('./pages/game')(globalConfig)]
+  ['/404', require('./pages/error')(globalConfig)]
 ])
 
 assets.load({

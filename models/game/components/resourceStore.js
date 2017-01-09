@@ -16,10 +16,14 @@ module.exports = {
 
     effects: {
       addResources: (state, { teamId, amount }, send) => {
+        console.log(state)
+
         send('game:resourceStore._setResource', {
           teamId: teamId,
           amount: getTeamResources(state, teamId) + amount
         }, _.noop)
+
+        console.log(state)
       },
       removeResources: (state, { teamId, amount }, send) => {
         send('game:resourceStore._setResource', {

@@ -80,9 +80,8 @@ module.exports = {
     }
   }),
 
-  resourceStore: ({ teamId, amount }) => ({
-    resources: {
-      [teamId]: amount
-    }
+  resourceStore: ({ id }) => ({
+    id,
+    resources: {}
   })
 }

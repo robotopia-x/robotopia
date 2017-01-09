@@ -3,6 +3,7 @@ const uid = require('uid')
 const entities = require('../game/entities')
 
 function runSimulation (state, data, send) {
+  console.log(state)
   send('clock:start', {}, _.noop)
   send('setRunningState', { running: true }, _.noop)
 }

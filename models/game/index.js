@@ -4,6 +4,7 @@ const { health } = require('./components/health')
 const { collector } = require('./components/collector')
 const { markerSpawner, towerSpawner, robotSpawner } = require('./components/spawner')
 const { shooter } = require('./components/shooter')
+const { resourceStore } = require('./components/resourceStore')
 const reducers = require('./reducers')
 const initialState = require('./initial-state')
 
@@ -16,7 +17,8 @@ module.exports = game.model({
     markerSpawner,
     towerSpawner,
     robotSpawner,
-    shooter
+    shooter,
+    resourceStore
   },
   reducers
 })

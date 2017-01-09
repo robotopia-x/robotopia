@@ -33,7 +33,6 @@ module.exports = {
     entities: [
       entities.base({ x: 3, y: 3, teamId: 'BLUE' }),
       entities.base({ x: 21, y: 21, teamId: 'RED' }),
-      entities.gem({ x: 10, y: 12 })
     ]
   },
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
@@ -65,7 +64,8 @@ module.exports = {
         <sep gap="8"></sep>
         
         <category name="Variables" colour="170">
-          <block type="marker"></block>
+          <block type="position_x"></block>
+          <block type="position_y"></block>
         </category>
         
         <sep gap="8"></sep>
@@ -81,6 +81,7 @@ module.exports = {
         <category name="Actions" colour="50">
           <block type="place_marker"></block>
           <block type="collect_resource"></block>
+          <block type="build_tower"></block>
         </category>
         
         <sep gap="8"></sep>

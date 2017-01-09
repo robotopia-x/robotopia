@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const cuid = require('cuid')
 const modal = require('../elements/web/modal')
+const presenterView = require('../elements/web/presenter')
 // const sf = require('sheetify')
 // sf('css/game.css', {global: true})
 
@@ -22,9 +23,27 @@ function getIndexHtml(state, prev, send) {
           <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
           <button class="random_id" onclick=${generateRandomGroup}>Generate Name</button>
       </div>
-      <button class="good" value="Start" onclick=${startPeerstarMain(send)}>Start</button>
+      <button class="good" value="Start" onclick=${startPeerstarMain}>Start</button>
     </div>
 `)
+
+  function generateRandomGroup (event) {
+    event.preventDefault()
+    var group = cuid()
+    // extract client fingerprint
+    group = group.slice(13, 17)
+    document.getElementById('gid').value = group
+  }
+
+  function startPeerstarMain (event) {
+    event.preventDefault()
+    var group = document.getElementById('gid').value
+    if (group) {
+      send('p2p:createStar', group)
+      send('setPage', 'DASHBOARD')
+    }
+  }
+
 }
 
 function getDashboardHtml(state, prev, send) {
@@ -33,40 +52,5 @@ function getDashboardHtml(state, prev, send) {
     return html`<div></div>`
   }
 
-  return html`
-<div>
-    <div class="row">
-        <h1>Board of Dashiness! ${state.p2p.star.GID}</h1>
-    </div>
-    <div class="row">
-    <ul>
-        ${state.presenter.clients.ids.map((c) => {
-            return html`
-            <li>${state.presenter.clients.names[c] + ' [' + c + ']'}</li>
-          `
-        })}
-    </ul>
-    </div>
-</div>
-`
-}
-
-function startPeerstarMain(send) {
-  return inner
-  function inner (event) {
-    event.preventDefault()
-    var group = document.getElementById('gid').value
-    if (group) {
-      send('p2p:createStar', group)
-      send('setPage', 'DASHBOARD')
-    }
-  }
-}
-
-function generateRandomGroup (event) {
-  event.preventDefault()
-  var group = cuid()
-  // extract client fingerprint
-  group = group.slice(13, 17)
-  document.getElementById('gid').value = group
+  return presenterView(state, prev, send)
 }

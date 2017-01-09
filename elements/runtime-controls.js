@@ -58,20 +58,6 @@ function prevLevelButton (state, send) {
   })
 }
 
-function addResourceButton(state, send) {
-  return button({
-    onClick: () => send('game:resourceStore.addResources', { teamId: 'RED', amount: 10 }),
-    label: 'Add Resource'
-  })
-}
-
-function removeResourceButton(state, send) {
-  return button({
-    onClick: () => send('game:resourceStore.removeResources', { teamId: 'RED', amount: 10 }),
-    label: 'Remove Resource'
-  })
-}
-
 module.exports = {
   spawnButton,
   speedSlider,
@@ -79,6 +65,4 @@ module.exports = {
   resetButton,
   nextLevelButton,
   prevLevelButton,
-  addResourceButton,
-  removeResourceButton
 }

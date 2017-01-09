@@ -12,6 +12,7 @@ module.exports = {
     movable: {},
     markerSpawner: {},
     towerSpawner: {},
+    collector: { hasResource: false },
     sprite: {
       type: 'ROTATING',
       data: {
@@ -27,8 +28,8 @@ module.exports = {
 
   gem: ({ x, y }) => ({
     position: { x, y },
-    collectable: {},
     item: { type: 'gem' },
+    collectable: {},
     sprite: {
       type: 'SIMPLE',
       data: {
@@ -78,10 +79,5 @@ module.exports = {
         sprite: 'MARKER'
       }
     }
-  }),
-
-  resourceStore: ({ id }) => ({
-    id,
-    resources: {}
   })
 }

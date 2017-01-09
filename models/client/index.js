@@ -1,5 +1,5 @@
 module.exports = globalConfig => ({
-  namespace: null,
+  namespace: 'client',
   effects: require('./effects')(globalConfig),
   reducers: require('./reducers')(globalConfig),
   subscriptions: require('./subscriptions')(globalConfig),
@@ -8,7 +8,6 @@ module.exports = globalConfig => ({
     group: null,
     id: null,
     connectivityState: 0,
-    code: null,
-    recoveryPossible: false
+    code: null
   }
 })

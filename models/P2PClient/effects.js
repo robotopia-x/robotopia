@@ -16,7 +16,6 @@ function send (state, data, send, done) {
 }
 
 function stop (state, nextOptions, send, done) {
-  console.log('stopping?')
   if (state.star) {
     console.log('star present')
     state.star.close(function () {
@@ -48,7 +47,7 @@ function joinStar (globalConfig) {
       CID: state.star.CID
     }
     info.state = options.CID ? globalConfig.connectivityStates.recovering : globalConfig.connectivityStates.initialConnect
-    send('connectivityChange', info, (err, res) => { if (err) done(err) })
+    send('client:connectivityChange', info, (err, res) => { if (err) done(err) })
 
     state.star.on('peer', (peer, id) => {
       if (id === 'MAIN') {
@@ -59,9 +58,9 @@ function joinStar (globalConfig) {
           CID: state.star.CID,
           state: globalConfig.connectivityStates.connected
         }
-        send('connectivityChange', info, (err, res) => { if (err) done(err) })
+        send('client:connectivityChange', info, (err, res) => { if (err) done(err) })
         send('saveLocally', true, (err, res) => { if (err) done(err) })
-        send('setUsername', null, (err, res) => { if (err) done(err) })
+        send('client:setUsername', null, (err, res) => { if (err) done(err) })
       }
     })
     state.star.on('disconnect', (peer, id) => {
@@ -73,7 +72,7 @@ function joinStar (globalConfig) {
           CID: state.star.CID,
         }
         info.state = state.star.closed ? globalConfig.connectivityStates.none : globalConfig.connectivityStates.reconnecting
-        send('connectivityChange', false, (err, res) => { if (err) done(err) })
+        send('client:connectivityChange', false, (err, res) => { if (err) done(err) })
       }
     })
     done()

@@ -64,5 +64,5 @@ module.exports = {
   playButtonView,
   resetButton,
   nextLevelButton,
-  prevLevelButton,
+  prevLevelButton
 }

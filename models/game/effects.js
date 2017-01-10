@@ -16,6 +16,7 @@ function removeResources (state, { teamId, amount }, send) {
   }, _.noop)
 }
 
+//TODO move these to other, more appropriate place
 function getTeamResources ({ resources }, teamId) {
   return _.get(resources, teamId, 0)
 }

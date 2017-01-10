@@ -1,7 +1,9 @@
-const _ =require('lodash')
+const _ = require('lodash')
 
-function addResources (state, { teamId, amount }, game, send) {
-  send('setResource', {
+function addResources (state, { teamId, amount }, send) {
+  console.log(state)
+
+  send('game:setResource', {
     teamId: teamId,
     amount: getTeamResources(state, teamId) + amount
   }, _.noop)
@@ -14,12 +16,12 @@ function removeResources (state, { teamId, amount }, send) {
   }, _.noop)
 }
 
-function getTeamResources (state, teamId) {
-  return _.get(state, teamId, 0)
+function getTeamResources ({ resources }, teamId) {
+  return _.get(resources, teamId, 0)
 }
 
-function hasTeamResource (state, teamId, amount) {
-  return _.get(state, teamId, 0) >= amount
+function hasTeamResource ({ resources }, teamId, amount) {
+  return _.get(resources, teamId, 0) >= amount
 }
 
 module.exports = {

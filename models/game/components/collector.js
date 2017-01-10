@@ -1,5 +1,7 @@
 const _ = require('lodash')
 
+const RESOURCE_AMOUNT = 10
+
 module.exports = {
   collector: {
     requires: ['position'],
@@ -17,9 +19,9 @@ module.exports = {
         const hasResource = state.collector.hasResource
 
         if (!hasResource && isOnResource(state, game)) {
-          send('game:addResources', { teamId: state.team.id, amount: 10 }, _.noop)
           send('game:collector._setHasResource', {
-            hasResource: true
+            target: state.id,
+            data: { hasResource: true }
           }, _.noop)
         }
       },
@@ -28,6 +30,7 @@ module.exports = {
         const hasResource = state.collector.hasResource
 
         if (hasResource && isOnBase(state, game)) {
+          send('game:addResources', { teamId: state.team.id, amount: RESOURCE_AMOUNT }, _.noop)
           send('game:collector._setHasResource', {
             hasResource: false
           }, _.noop)

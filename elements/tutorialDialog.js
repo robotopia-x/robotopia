@@ -1,16 +1,18 @@
 const _ = require('lodash')
 const levels = require('../models/game/levels')
 const { getGameState } = require('../lib/game')
-const { getGoals, checkAllGoals } = require('../lib/utils/goal')
+const { getGoals, checkMandatoryGoals } = require('../lib/utils/goal')
 const { storyModal, winModal } = require('../elements/modals')
 
-const winningCondition = (gameState, level, send) => {
+const winningCondition = (gameState, level, workspace, send) => {
   const game = getGameState(gameState)
   const levelAmount = _.size(levels) - 1
   const story = level.storyModal
-  const goals = getGoals(game, level.goals)
 
-  if (checkAllGoals(game, level.goals)) {
+  const mandatoryGoals = getGoals({ game, workspace }, level.goals, { mandatory: true })
+  const optionalGoals = getGoals({ game, workspace }, level.goals, { mandatory: false })
+
+  if (checkMandatoryGoals({ game, workspace }, level.goals)) {
     const nextLevelButton = getNextLevelButton(send, level, levelAmount)
 
     // TODO move this to another place
@@ -20,7 +22,8 @@ const winningCondition = (gameState, level, send) => {
 
     return winModal({
       header: `Congratulations on finishing Level ${level.level}`,
-      goals: goals,
+      mandatoryGoals: mandatoryGoals,
+      optionalGoals: optionalGoals,
       buttonText: nextLevelButton.text,
       onClick: nextLevelButton.callback
     })
@@ -32,7 +35,8 @@ const winningCondition = (gameState, level, send) => {
       story: story.text,
       hint: story.hint,
       img: story.img,
-      goals: goals,
+      mandatoryGoals: mandatoryGoals,
+      optionalGoals: optionalGoals,
       buttonText: 'Start Tutorial',
       onClick: () => send('level:_setDisplayStoryModal', { displayStory: false })
     })

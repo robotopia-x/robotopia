@@ -3,11 +3,11 @@ const entities = require('../entities')
 module.exports = {
   state: {
     tiles: [
-      [1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [1, 1, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 1, 2]
+      [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 2],
+      [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1]
     ],
 
     entities: [
@@ -18,22 +18,22 @@ module.exports = {
   goals: [
     {
       type: 'moveTo',
-      params: { position: { x: 8, y: 4 }, entity: 'ROBOT' },
+      params: { position: { x: 10, y: 0 }, entity: 'ROBOT' },
       desc: 'Move the Robot to the grass',
       mandatory: true
     },
     {
       type: 'maxBlocks',
-      params: { amount: 6 },
-      desc: 'Use a maximum of 6 Blocks',
+      params: { amount: 14 },
+      desc: 'Use a maximum of 14 Blocks',
       mandatory: false
     }
   ],
 
   storyModal: {
-    text: 'Ohh no, this time Robot Rick has to travel longer... Good thing you now know how to use loops (Do you see the pattern?). Use the Move and Repeat Blocks',
+    text: 'Wow, this time the way is even longer... Use the Move and Repeat Blocks',
     hint: 'Try nesting loops to get the shortest possible solution',
-    img: '../assets/img/tutorials/tutorial3.png'
+    img: '../assets/img/tutorials/tutorial4.png'
   },
 
   workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',

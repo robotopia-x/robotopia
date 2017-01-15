@@ -13,23 +13,36 @@ const goalPrefix = sf`
     background-color: #DDDDDD;
     color: #404040;
     overflow: scroll;
-    padding: 25px;
+    padding: 0px 25px 25px 25px;
+  }
+  
+  :host h5, h6 {
+    margin: 0;
   }
   
   :host > .goals {
   }
 `
 
-const goalProgress = (gameState, level) => {
+const goalProgress = (gameState, level, workspace) => {
   const game = getGameState(gameState)
+
+  const mandatoryGoals = getGoals({ game, workspace }, level.goals, { mandatory: true })
+  const optionalGoals = getGoals({ game, workspace }, level.goals, { mandatory: false })
 
   if (!level.displayStory) {
     return html`
       <div class="${goalPrefix}">
         <h4>Level: ${level.level}</h4>
         <div class="goals">
-          <h3>Goals: </h3>
-          ${getGoals(game, level.goals)}
+          <div>
+            <h5>Goals: </h5>
+            ${mandatoryGoals}
+          </div>
+          <div>
+            <h6>Optional: </h6>
+            ${optionalGoals}
+          </div>
         </div>
       </div>
     `

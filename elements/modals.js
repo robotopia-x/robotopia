@@ -26,7 +26,8 @@ const winPrefix = sf`
   :host .storyTime {
   }
   
-  :host .goals {
+  :host .goals h5, h6 {
+    margin: 0;
   }
   
   button {
@@ -34,12 +35,12 @@ const winPrefix = sf`
   }
   
   img {
-    width: 50%;
+    max-height: 50%;
   }
 `
 
 function storyModal ({
-  header, story, hint, img, goals, buttonText,
+  header, story, hint, img, mandatoryGoals, optionalGoals, buttonText,
   onClick
 }) {
   return html`
@@ -51,8 +52,14 @@ function storyModal ({
       </div>
       ${img ? html`<img src="${img}"/>` : html``}
       <div class="goals">
-        <h2>Goals: </h2>
-        ${goals}
+        <div>
+          <h5>Goals: </h5>
+          ${mandatoryGoals}
+        </div>
+        <div>
+          <h6>Optional: </h6>
+          ${optionalGoals}
+        </div>
       </div>
       <button onclick=${onClick}>${buttonText}</button>
     </div>
@@ -60,15 +67,21 @@ function storyModal ({
 }
 
 function winModal ({
-  header, goals, buttonText,
+  header, mandatoryGoals, optionalGoals, buttonText,
   onClick
 }) {
   return html`
     <div class="${winPrefix}">
       <h1>${header}</h1>  
       <div class="goals">
-        <h2>Goals: </h2>
-        ${goals}
+        <div>
+          <h5>Goals: </h5>
+          ${mandatoryGoals}
+        </div>
+        <div>
+          <h6>Optional: </h6>
+          ${optionalGoals}
+        </div>
       </div>
       <button onclick=${onClick}>${buttonText}</button>
     </div>

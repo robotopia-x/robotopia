@@ -26,7 +26,14 @@ module.exports = {
     {
       type: 'moveTo',
       params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
-      desc: 'Move the Robot to the grass'
+      desc: 'Move the Robot to the grass',
+      mandatory: true
+    },
+    {
+      type: 'maxBlocks',
+      params: { amount: 4 },
+      desc: 'Use a maximum of 4 Blocks',
+      mandatory: false
     }
   ],
 
@@ -36,7 +43,7 @@ module.exports = {
     img: '../assets/img/tutorials/tutorial2.png'
   },
 
-  workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="rotate" id="bizsM0~3M?%9v:^sintR" x="235" y="155"><field name="Direction">LEFT</field></block></xml>',
+  workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
 
   toolbox: `<xml id="toolbox" style="display: none">
                 <category name="Movement" colour="250">

@@ -1,5 +1,6 @@
 const html = require('choo/html')
 
+
 function modal (content) {
   return html`
     <div class="center-child fullscreen_modal">

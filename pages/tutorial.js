@@ -1,8 +1,8 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../elements/game/index')
-const tutorialDialog = require('../elements/tutorialDialog')
-const goalProgress = require('../elements/goalProgress')
+//const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
+const goalProgressView = require('../elements/goal-progress')
 const blocklyWidget = require('../elements/blockly')
 const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
 
@@ -31,6 +31,7 @@ const contentPrefix = sf`
     :host {
       display: flex;
       flex-direction: row;
+      position: relative;
     }
 
     :host > .divider {
@@ -69,6 +70,19 @@ const controlsPrefix = sf`
 const blocklyView = blocklyWidget()
 
 const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) => {
+  let toolbox = editor.toolbox
+  let goalProgressHtml
+
+  if (tutorial.level !== null) {
+    toolbox = tutorial.level.editor.toolbox
+
+    goalProgressHtml = goalProgressView({
+      game: game.prev,
+      goals: tutorial.level.goals,
+      workspace: editor.workspace
+    })
+  }
+
   const playButtonHtml = playButtonView({
     running: clock.isRunning,
     onStart: () => {
@@ -84,10 +98,8 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
   })
 
-  console.log('render level', tutorial.level && tutorial.level.editor.toolbox)
-
   const blocklyHtml = blocklyView({
-    toolbox: tutorial.level !== null ? tutorial.level.editor.toolbox : editor.toolbox,
+    toolbox,
     workspace: editor.workspace,
     onChange: ({ code, workspace }) => {
       send('runtime:commitCode', { code })
@@ -108,15 +120,16 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
           ${speedSliderHtml}
         </div>
       </div>
-      <div class=${`${contentPrefix} content`}>
-        <div class="column">
-          ${blocklyHtml}
+        <div class=${`${contentPrefix} content`}>
+          <div class="column">
+            ${blocklyHtml}
+          </div>
+          <div class="divider"></div>
+          <div class="column">
+            ${gameHtml}         
+          </div>
+          ${goalProgressHtml} 
         </div>
-        <div class="divider"></div>
-        <div class="column">
-          ${gameHtml}
-        </div>
-      </div>
     </main>
   `
 
@@ -126,8 +139,8 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
 }
 
 /*
- ${tutorialDialog(state.game, state.level, state.workspace, send)}
+
  ${goalProgress(state.game, state.level, state.workspace)}
-*/
+ */
 
 module.exports = tutorialView

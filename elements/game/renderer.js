@@ -16,8 +16,8 @@ function render (ctx, state, progress) {
 
 // move origin to top left by half the size of the board so the game will be centered
 function moveOrigin (ctx, tiles) {
-  const offsetX = -(tiles.length / 2) * TILE_WIDTH
-  const offsetY = -(tiles[0].length / 2) * TILE_HEIGHT
+  const offsetX = -(tiles[0].length / 2) * TILE_WIDTH
+  const offsetY = -(tiles.length / 2) * TILE_HEIGHT
   ctx.translate(offsetX, offsetY)
 }
 

@@ -7,7 +7,6 @@ const goalProgress = require('../elements/goalProgress')
 const blocklyView = require('../elements/blockly')
 
 const {
-  spawnButton,
   speedSlider,
   playButtonView,
   resetButton,
@@ -86,7 +85,6 @@ const tutorialView = (state, prev, send) => {
       <div class="${controlsPrefix}">
         ${playButton}
         ${speedSlider(state, send)}
-        ${spawnButton(state, send)}
         ${prevLevelButton(state, send)}        
         ${resetButton(state, send)}
         ${nextLevelButton(state, send)}
@@ -101,8 +99,8 @@ const tutorialView = (state, prev, send) => {
         ${gameView(state.game, state.clock.progress)}
       </div>
       <div class="tutorialOverlay">
-        ${tutorialDialog(state.game, state.level, send)}
-        ${goalProgress(state.game, state.level)}
+        ${tutorialDialog(state.game, state.level, state.workspace, send)}
+        ${goalProgress(state.game, state.level, state.workspace)}
     </div>
     </div>
   </main>

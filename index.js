@@ -1,6 +1,21 @@
 require('./lib/utils/lodash-extension')
 require('./lib/blockly')
 
+var globalConfig = {
+  hub: 'http://localhost:8042',
+  MAX: {
+    codeHistory: 5
+  },
+  storagePrefix: 'disrobia',
+  connectivityStates: {
+    none: 0,
+    initialConnect: 1,
+    recovering: 2,
+    reconnecting: 3,
+    connected: 4
+  }
+}
+
 const _ = require('lodash')
 const choo = require('choo')
 const assets = require('./lib/utils/assets')
@@ -9,6 +24,12 @@ const gameModel = require('./models/game')
 const clock = require('./models/clock').create()
 const runtime = require('./models/runtime').create()
 const level = require('./models/level')
+const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
+const presenter = require('./models/presenter')(globalConfig)
+const p2pClient = require('./models/P2PClient')(globalConfig)
+const client = require('./models/client')(globalConfig)
+const storage = require('./models/storage')(globalConfig)
+const pageRouter = require('./models/pagerouter')(globalConfig)
 
 const app = choo()
 
@@ -17,6 +38,12 @@ app.model(gameModel)
 app.model(clock.model)
 app.model(runtime.model)
 app.model(level)
+app.model(p2pPresenter)
+app.model(presenter)
+app.model(p2pClient)
+app.model(client)
+app.model(storage)
+app.model(pageRouter)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 
@@ -28,7 +55,10 @@ clock.onTick((send) => {
 
 app.router({ default: '/editor' }, [
   ['/editor', require('./pages/main')],
-  ['/tutorial', require('./pages/tutorial')]
+  ['/tutorial', require('./pages/tutorial')],
+  ['/presenter', require('./pages/presenter')(globalConfig)],
+  ['/client', require('./pages/client')(globalConfig)],
+  ['/404', require('./pages/error')(globalConfig)]
 ])
 
 assets.load({

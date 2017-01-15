@@ -90,7 +90,8 @@ module.exports = {
         <sep gap="8"></sep>
         
         <category name="Events" colour="20">
-          <block type="event_logic"></block>
+          <block type="tower_discovered_event"></block>
+          <block type="marker_placed_event"></block>
         </category>
    </xml>`
 }

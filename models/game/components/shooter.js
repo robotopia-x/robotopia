@@ -21,8 +21,6 @@ module.exports = {
         if (target !== undefined) {
           targetId = target.id
 
-          console.log(targetId)
-
           send('game:health.damage', {
             target: targetId,
             data: { amount: state.shooter.damage }

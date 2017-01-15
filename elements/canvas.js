@@ -27,15 +27,31 @@ const prefix = sf`
   }
 `
 
-const canvasView = widget((update) => {
+function canvasView () {
+
   let ctx, render, canvas
   let canvasTransform = { zoom: 1, pan: { x: 0, y: 0 } }
 
+
+  return widget({
+
+    onupdate: () => {
+
+
+    },
+
+
+    onrender: () => {
+
+    }
+
+  })
+} /*=> {
   update(onupdate)
 
   return html`
     <div class=${prefix}>
-      <canvas onload=${onload}></canvas>
+      <canvas onload=${initCanvas}></canvas>
     </div>
   `
 
@@ -55,7 +71,7 @@ const canvasView = widget((update) => {
     ctx.restore()
   }
 
-  function onupdate (_render) {
+  function onUpdate (_render) {
     render = _render
 
     if (ctx) {
@@ -63,7 +79,7 @@ const canvasView = widget((update) => {
     }
   }
 
-  function onload (el) {
+  function initCanvas (el) {
     canvas = el
     ctx = canvas.getContext('2d')
 
@@ -113,7 +129,7 @@ const canvasView = widget((update) => {
 
     canvas.addEventListener('mousewheel', (evt) => {
       evt.preventDefault()
-      const zoom = canvasTransform.zoom + (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
+      const zoom = canvasTransform.zoom - (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
       canvasTransform.zoom = _.clamp(zoom, 0.1, 2)
 
       renderCanvas()
@@ -133,6 +149,6 @@ const canvasView = widget((update) => {
 
     renderCanvas()
   }
-})
+})*/
 
 module.exports = canvasView

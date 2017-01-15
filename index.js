@@ -19,9 +19,9 @@ var globalConfig = {
 const _ = require('lodash')
 const choo = require('choo')
 const assets = require('./lib/utils/assets')
-const ideModel = require('./models/ide')
+const editorModel = require('./models/editor')
 const gameModel = require('./models/game')
-const clock = require('./models/clock').create()
+const clock = require('./models/clock')()
 const runtime = require('./models/runtime').create()
 const level = require('./models/level')
 const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
@@ -33,7 +33,7 @@ const pageRouter = require('./models/pagerouter')(globalConfig)
 
 const app = choo()
 
-app.model(ideModel)
+app.model(editorModel)
 app.model(gameModel)
 app.model(clock.model)
 app.model(runtime.model)
@@ -54,7 +54,7 @@ clock.onTick((send) => {
 })
 
 app.router([
-  ['/editor', require('./pages/main')],
+  ['/editor', require('./pages/editor/index')],
   ['/tutorial', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')(globalConfig)],
   ['/client', require('./pages/client')(globalConfig)],

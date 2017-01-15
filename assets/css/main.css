@@ -13,15 +13,6 @@ html {
   box-sizing: inherit;
 }
 
-body {
-  overflow: hidden;
-  background-color: #ddd;
-  background-image: url("../img/web/Robot.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 0;
-}
-
 .row {
   width: 100%;
   margin-bottom: 10px;

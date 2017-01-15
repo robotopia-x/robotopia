@@ -1,5 +1,5 @@
 const html = require('choo/html')
-const main = require('../../pages/main')
+const main = require('../../pages/editor/index')
 
 function view (state, prev, send) {
   return main(state, prev, send)

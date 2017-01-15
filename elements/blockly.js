@@ -37,7 +37,7 @@ const options = {
 }
 
 function blocklyWidget () {
-  let initialParams = null
+  let prevParams = null
   let onChange = _.noop
   let toolbox, workspace, code
 
@@ -45,9 +45,12 @@ function blocklyWidget () {
     onupdate: (el, params) => {
       onChange = params.onChange
 
-      if (!workspace) {
+      // ignore if workspace isn't initialized or params haven't changed
+      if (!workspace || prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox) {
         return
       }
+
+      prevParams = params
 
       if (toolbox !== params.toolbox) {
         workspace.updateToolbox(params.toolbox)
@@ -64,29 +67,29 @@ function blocklyWidget () {
       workspace = Blockly.inject(el, options)
       workspace.addChangeListener(updateCode)
 
-      if (initialParams === null) {
+      if (prevParams === null) {
         return
       }
 
       // apply initial params
-      if (initialParams.toolbox) {
-        workspace.updateToolbox(initialParams.toolbox)
-        toolbox = initialParams.toolbox
+      if (prevParams.toolbox) {
+        workspace.updateToolbox(prevParams.toolbox)
+        toolbox = prevParams.toolbox
       }
-      if (initialParams.workspace) {
-        updateWorkspace(workspace, initialParams.workspace)
+      if (prevParams.workspace) {
+        updateWorkspace(workspace, prevParams.workspace)
       }
     },
 
     onunload: () => {
-      initialParams = null
+      prevParams = null
       onChange = _.noop
 
       workspace.removeChangeListener(updateCode)
     },
 
     render: (params) => {
-      initialParams = params
+      prevParams = params
 
       // setup onChange handler
       onChange = params.onChange

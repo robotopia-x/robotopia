@@ -4,14 +4,15 @@ const _ = require('lodash')
 const gameView = require('../elements/game/index')
 const tutorialDialog = require('../elements/tutorialDialog')
 const goalProgress = require('../elements/goalProgress')
-const blocklyView = require('../elements/blockly')
+const blocklyView = require('../elements/blockly/index')
 
 const {
   speedSlider,
   playButtonView,
   resetButton,
   nextLevelButton,
-  prevLevelButton } = require('../elements/runtime-controls')
+  prevLevelButton
+} = require('../elements/runtime-controls')
 
 const mainPrefix = sf`
     :host {

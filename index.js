@@ -57,8 +57,7 @@ app.router([
   ['/editor', require('./pages/editor/index')],
   ['/tutorial', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')(globalConfig)],
-  ['/client', require('./pages/client')(globalConfig)],
-  ['/404', require('./pages/error')(globalConfig)]
+  ['/client', require('./pages/client')(globalConfig)]
 ])
 
 assets.load({

@@ -4,7 +4,7 @@ const _ = require('lodash')
 const gameView = require('../elements/game/index')
 const tutorialDialog = require('../elements/tutorialDialog')
 const goalProgress = require('../elements/goalProgress')
-const blocklyView = require('../elements/blockly/index')
+const blocklyView = require('../elements/blockly')
 
 const {
   speedSlider,

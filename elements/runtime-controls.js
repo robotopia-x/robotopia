@@ -19,10 +19,10 @@ function spawnButton (state, send) {
 }
 
 function playButtonView ({
-  running,
+  isRunning,
   onStart, onStop
 }) {
-  if (running) {
+  if (isRunning) {
     return button({
       onClick: onStop,
       icon: 'stop',

@@ -1,18 +1,10 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const _ = require('lodash')
 const gameView = require('../elements/game/index')
 const tutorialDialog = require('../elements/tutorialDialog')
 const goalProgress = require('../elements/goalProgress')
-const blocklyView = require('../elements/blockly')
-
-const {
-  speedSlider,
-  playButtonView,
-  resetButton,
-  nextLevelButton,
-  prevLevelButton
-} = require('../elements/runtime-controls')
+const blocklyWidget = require('../elements/blockly')
+const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
 
 const mainPrefix = sf`
     :host {
@@ -73,39 +65,69 @@ const controlsPrefix = sf`
       margin-left: 0;
     }
 `
-const tutorialView = (state, prev, send) => {
-  const playButton = playButtonView({
-    running: state.running,
-    onStart: () => send('runTutorialSimulation'),
-    onStop: () => send('stopSimulation')
+
+const blocklyView = blocklyWidget()
+
+const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) => {
+  const playButtonHtml = playButtonView({
+    running: clock.isRunning,
+    onStart: () => {
+      send('clock:start')
+    },
+    onStop: () => send('clock:stop')
+  })
+
+  const speedSliderHtml = speedSliderView({
+    min: 100,
+    max: 1000,
+    intervalDuration: clock.intervalDuration,
+    onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
+  })
+
+  console.log('render level', tutorial.level && tutorial.level.editor.toolbox)
+
+  const blocklyHtml = blocklyView({
+    toolbox: tutorial.level !== null ? tutorial.level.editor.toolbox : editor.toolbox,
+    workspace: editor.workspace,
+    onChange: ({ code, workspace }) => {
+      send('runtime:commitCode', { code })
+      send('editor:update', { code, workspace })
+    }
+  })
+
+  const gameHtml = gameView({
+    state: game,
+    progress: clock.progress
   })
 
   return html`
-  <main onload=${() => send('level:loadLevel', { level: 1 }, _.noop)} class="${mainPrefix}">
-    <div class="header-bar">
-      <div class="${controlsPrefix}">
-        ${playButton}
-        ${speedSlider(state, send)}
-        ${prevLevelButton(state, send)}        
-        ${resetButton(state, send)}
-        ${nextLevelButton(state, send)}
+    <main onload=${initTutorial} class="${mainPrefix}">
+      <div class="header-bar">
+        <div class="${controlsPrefix}">
+          ${playButtonHtml}
+          ${speedSliderHtml}
+        </div>
       </div>
-    </div>
-    <div class=${`${contentPrefix} content`}>
-      <div class="column">
-        ${blocklyView(state, prev, send)}
+      <div class=${`${contentPrefix} content`}>
+        <div class="column">
+          ${blocklyHtml}
+        </div>
+        <div class="divider"></div>
+        <div class="column">
+          ${gameHtml}
+        </div>
       </div>
-      <div class="divider"></div>
-      <div class="column">
-        ${gameView(state.game, state.clock.progress)}
-      </div>
-      <div class="tutorialOverlay">
-        ${tutorialDialog(state.game, state.level, state.workspace, send)}
-        ${goalProgress(state.game, state.level, state.workspace)}
-    </div>
-    </div>
-  </main>
-`
+    </main>
+  `
+
+  function initTutorial () {
+    send('tutorial:loadLevel', { name: location.params.level })
+  }
 }
+
+/*
+ ${tutorialDialog(state.game, state.level, state.workspace, send)}
+ ${goalProgress(state.game, state.level, state.workspace)}
+*/
 
 module.exports = tutorialView

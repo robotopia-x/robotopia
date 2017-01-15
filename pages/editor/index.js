@@ -90,7 +90,7 @@ const editorView = ({ clock, editor, game }, prev, send) => {
     }
   })
 
-  const gameViewHtml = gameView({
+  const gameHtml = gameView({
     state: game,
     progress: clock.progress
   })
@@ -109,7 +109,7 @@ const editorView = ({ clock, editor, game }, prev, send) => {
         </div>
         <div class="divider"></div>
         <div class="column">
-          ${gameViewHtml}
+          ${gameHtml}
         </div>
       </div>
     </main>

@@ -7,10 +7,13 @@ const { shooter } = require('./components/shooter')
 const { discoverable } = require('./components/discoverable')
 const reducers = require('./reducers')
 const effects = require('./effects')
-const initialState = require('./initial-state')
 
 module.exports = game.model({
-  state: initialState,
+  state: {
+    tiles: [[]],
+    entities: [],
+    resources: {}
+  },
   components: {
     movable,
     health,

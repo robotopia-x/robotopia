@@ -14,7 +14,7 @@ function speedSliderView ({
          min="0" max="1"
          step="0.1"
          value="${percentage}"
-         onchange=${(evt) => onChange((1 - evt.target.value) * (max - min) + min)} />`
+         oninput=${(evt) => onChange((1 - evt.target.value) * (max - min) + min)} />`
 }
 
 function playButtonView ({

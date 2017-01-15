@@ -71,7 +71,7 @@ const editorView = ({ clock, editor, game }, prev, send) => {
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => send('clock:start'),
-    onStop: () => send('stopSimulation')
+    onStop: () => send('clock:stop')
   })
 
   const speedSliderHtml = speedSliderView({
@@ -85,6 +85,7 @@ const editorView = ({ clock, editor, game }, prev, send) => {
     toolbox: initialState.editor.toolbox,
     workspace: editor.workspace,
     onChange: ({ code, workspace }) => {
+      send('runtime:commitCode', { code })
       send('editor:update', { code, workspace })
     }
   })
@@ -115,7 +116,7 @@ const editorView = ({ clock, editor, game }, prev, send) => {
   `
 
   function initEditor () {
-    // send('game:loadGameState', initialState.game)
+    send('game:loadGameState', { loadState: initialState.game })
   }
 }
 

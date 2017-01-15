@@ -113,7 +113,7 @@ function canvasWidget () {
     canvas.width = canvas.parentNode.offsetWidth
     canvas.height = canvas.parentNode.offsetHeight
 
-    // zoom out if width or height of canvas are less than 1200
+    // zoom out if width or height of canvas are less than 1000
     canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
 
     renderCanvas()

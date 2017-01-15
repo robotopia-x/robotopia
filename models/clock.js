@@ -54,11 +54,11 @@ module.exports = () => {
     subscriptions: {
       clock: (send) => {
         clock.onTick(() => {
-          send('clock:setProgress', { progress: 0 }, _.noop)
+          send('clock:_setProgress', { progress: 0 }, _.noop)
           tickCallback(send)
         })
 
-        clock.onProgress((progress) => send('clock:setProgress', { progress }, _.noop))
+        clock.onProgress((progress) => send('clock:_setProgress', { progress }, _.noop))
       }
     }
   }

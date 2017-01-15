@@ -2,7 +2,7 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../../elements/game/index')
 const blocklyWidget = require('../../elements/blockly')
-const { speedSlider, playButtonView } = require('../../elements/runtime-controls')
+const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
 const initialState = require('./initial-state')
 
 const mainPrefix = sf`
@@ -74,6 +74,13 @@ const editorView = ({ clock, editor, game }, prev, send) => {
     onStop: () => send('stopSimulation')
   })
 
+  const speedSliderHtml = speedSliderView({
+    min: 100,
+    max: 1000,
+    intervalDuration: clock.intervalDuration,
+    onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
+  })
+
   const blocklyHtml = blocklyView({
     toolbox: initialState.editor.toolbox,
     workspace: editor.workspace,
@@ -91,7 +98,8 @@ const editorView = ({ clock, editor, game }, prev, send) => {
     <main class="${mainPrefix}" onload=${initEditor}>
       <div class="header-bar">
         <div class="${controlsPrefix}">
-          ${playButtonHtml}        
+          ${playButtonHtml}
+          ${speedSliderHtml}
         </div>
       </div>
       <div class=${`${contentPrefix} content`}>

@@ -1,21 +1,20 @@
 const html = require('choo/html')
 const button = require('./button')
 
-function speedSlider (state, send) {
+function speedSliderView ({
+  max, min, intervalDuration,
+  onChange
+}) {
+  // map intervalDuration to percentage, more speed => smaller interval
+  const percentage = (1 - (intervalDuration - min) / (max - min))
+
   return html`
       <input
          type="range"
          min="0" max="1"
-         value="${state.gameSpeed}"
-         oninput=${(evt) => send('changeGameSpeed', { speed: evt.target.value })} />
-  `
-}
-
-function spawnButton (state, send) {
-  return button({
-    onClick: () => send('spawnBot'),
-    label: 'Spawn Robot'
-  })
+         step="0.1"
+         value="${percentage}"
+         onchange=${(evt) => onChange((1 - evt.target.value) * (max - min) + min)} />`
 }
 
 function playButtonView ({
@@ -37,32 +36,7 @@ function playButtonView ({
   })
 }
 
-function resetButton (state, send) {
-  return button({
-    onClick: () => send('resetLevel'),
-    label: 'Reset'
-  })
-}
-
-function nextLevelButton (state, send) {
-  return button({
-    onClick: () => send('nextLevel'),
-    label: 'Next Level'
-  })
-}
-
-function prevLevelButton (state, send) {
-  return button({
-    onClick: () => send('prevLevel'),
-    label: 'Previous Level'
-  })
-}
-
 module.exports = {
-  spawnButton,
-  speedSlider,
-  playButtonView,
-  resetButton,
-  nextLevelButton,
-  prevLevelButton
+  speedSliderView,
+  playButtonView
 }

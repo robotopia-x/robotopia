@@ -64,8 +64,6 @@ function blocklyWidget () {
       workspace = Blockly.inject(el, options)
       workspace.addChangeListener(updateCode)
 
-      console.log('load', initialParams)
-
       if (initialParams === null) {
         return
       }

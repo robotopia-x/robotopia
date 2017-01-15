@@ -10,6 +10,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},
+    discoverer: { range: 3 },
     markerSpawner: {},
     towerSpawner: {},
     collector: { hasResource: false },
@@ -43,6 +44,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y },
     robotSpawner: {
+      stepsSinceLastSpawn: 0,
       interval: 20
     },
     sprite: {
@@ -60,6 +62,7 @@ module.exports = {
       range: 2,
       damage: 1
     },
+    discoverable: { discovererTeamIds: {} },
     position: { x, y },
     collides: {},
     sprite: {

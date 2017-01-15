@@ -23,7 +23,7 @@ const editorModel = require('./models/editor')
 const gameModel = require('./models/game')
 const clock = require('./models/clock')()
 const runtime = require('./models/runtime').create()
-const level = require('./models/level')
+const level = require('./models/tutorial/index')
 const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
 const presenter = require('./models/presenter')(globalConfig)
 const p2pClient = require('./models/P2PClient')(globalConfig)
@@ -55,7 +55,7 @@ clock.onTick((send) => {
 
 app.router([
   ['/editor', require('./pages/editor/index')],
-  ['/tutorial', require('./pages/tutorial')],
+  ['/tutorial/:level', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')(globalConfig)],
   ['/client', require('./pages/client')(globalConfig)]
 ])

@@ -2,7 +2,7 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
 const gameView = require('../elements/game/index')
-const blocklyView = require('../elements/blockly')
+const blocklyView = require('../elements/blockly/index')
 const { spawnButton, speedSlider, playButtonView, resetButton } = require('../elements/runtime-controls')
 
 const mainPrefix = sf`

@@ -48,13 +48,13 @@ module.exports = {
       type: 'moveTo',
       params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
       desc: 'Move the Robot to the grass',
-      mandatory: true
+      isMandatory: true
     },
     {
       type: 'maxBlocks',
       params: { amount: 4 },
       desc: 'Use a maximum of 4 Blocks',
-      mandatory: false
+      isMandatory: false
     }
   ],
 

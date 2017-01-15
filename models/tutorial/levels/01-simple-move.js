@@ -32,13 +32,13 @@ module.exports = {
       type: 'moveTo',
       params: { position: { x: 2, y: 0 }, entity: 'ROBOT' },
       desc: 'Move the Robot to the grass',
-      mandatory: true
+      isMandatory: true
     },
     {
       type: 'useBlock',
       params: { type: 'rotate' },
       desc: `Use at least 1 Rotate block`,
-      mandatory: false
+      isMandatory: false
     }
   ],
 

@@ -89,10 +89,10 @@ const editorView = ({ clock, editor, game }, prev, send) => {
     }
   })
 
-  const gameViewHtml = null /*gameView({
+  const gameViewHtml = gameView({
     state: game,
     progress: clock.progress
-  })*/
+  })
 
   return html`
     <main class="${mainPrefix}" onload=${initEditor}>

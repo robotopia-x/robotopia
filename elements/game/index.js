@@ -1,6 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const canvasView = require('../canvas')
+const canvasWidget = require('../canvas')
 const renderer = require('./renderer')
 
 const prefix = sf`
@@ -9,6 +9,8 @@ const prefix = sf`
     height: 100%;
   }
 `
+
+const canvasView = canvasWidget()
 
 const gameView = ({ state, progress }) => {
   return html`

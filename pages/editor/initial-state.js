@@ -83,6 +83,7 @@ const editor = {
         <category name="Actions" colour="50">
           <block type="place_marker"></block>
           <block type="collect_resource"></block>
+          <block type="deposit_resource"></block>
           <block type="build_tower"></block>
         </category>
         

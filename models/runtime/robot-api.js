@@ -44,6 +44,10 @@ module.exports = {
     collectResource: () => ({
       action: ['game:collector.collectResource'],
       cost: 1
+    }),
+    depositResource: () => ({
+      action: ['game:collector.depositResource'],
+      cost: 1
     })
   },
 

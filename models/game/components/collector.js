@@ -32,7 +32,8 @@ module.exports = {
         if (hasResource && isOnBase(state, game)) {
           send('game:addResources', { teamId: state.team.id, amount: RESOURCE_AMOUNT }, _.noop)
           send('game:collector._setHasResource', {
-            hasResource: false
+            target: state.id,
+            data: { hasResource: false }
           }, _.noop)
         }
       }

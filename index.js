@@ -1,7 +1,7 @@
 require('./lib/utils/lodash-extension')
 require('./lib/blockly')
 
-var globalConfig = {
+const globalConfig = {
   hub: 'http://localhost:8042',
   MAX: {
     codeHistory: 5

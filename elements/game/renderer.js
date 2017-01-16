@@ -2,6 +2,7 @@ const _ = require('lodash')
 const assets = require('../../lib/utils/assets')
 const { getAllEntities, getEntity } = require('../../lib/game')
 const { RENDERER } = require('../../lib/utils/types')
+const { ORIENTATION } = require('../../lib/utils/types')
 
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
@@ -70,6 +71,10 @@ function renderEntity (ctx, entity, prevEntity, progress) {
 
   if (entity.health) {
     renderHealth(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.collector) {
+    renderCarriesResource(ctx, entity, prevEntity, progress)
   }
 }
 
@@ -150,6 +155,41 @@ function renderHealth (ctx, current, prev, progress) {
   ctx.strokeRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
 
   ctx.restore()
+}
+
+const HAS_RESOURCE_RADIUS = 15
+const HAS_RESOURCE_COLOR = '#2245e3'
+
+function renderCarriesResource (ctx, current, prev, progress) {
+  // only render if robot carries resource
+  if (current.collector.hasResource && current.position.rotation !== ORIENTATION.BACK) {
+    let x = 0
+    let y = 0
+
+    if (current.position.rotation === ORIENTATION.FRONT) {
+      x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH
+      y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT + 115
+    }
+
+    if (current.position.rotation === ORIENTATION.RIGHT) {
+      x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH + 25
+      y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT + 115
+    }
+
+    if (current.position.rotation === ORIENTATION.LEFT) {
+      x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - 25
+      y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT + 115
+    }
+
+    ctx.save()
+
+    ctx.fillStyle = HAS_RESOURCE_COLOR
+    ctx.beginPath()
+    ctx.arc(x, y, HAS_RESOURCE_RADIUS, 0, 2 * Math.PI)
+    ctx.fill()
+
+    ctx.restore()
+  }
 }
 
 module.exports = {

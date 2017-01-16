@@ -1,15 +1,12 @@
 const html = require('choo/html')
 const cuid = require('cuid')
-const modal = require('../elements/web/modal')
-const presenterView = require('../elements/web/presenter')
-// const sf = require('sheetify')
-// sf('css/game.css', {global: true})
+const modal = require('./../elements/modal')
 
-module.exports = function (globalConfig) {
-  return function (state, prev, send) {
-    if (state.page === 'INDEX') return getIndexHtml(state, prev, send)
-    if (state.page === 'DASHBOARD') return getDashboardHtml(state, prev, send)
-  }
+module.exports = function (state, prev, send) {
+  const { connection } = state
+
+  if (connection.state === 'INDEX') return getIndexHtml(state, prev, send)
+  if (connection.state === 'DASHBOARD') return getDashboardHtml(state, prev, send)
 }
 
 function getIndexHtml (state, prev, send) {
@@ -40,16 +37,27 @@ function getIndexHtml (state, prev, send) {
     var group = document.getElementById('gid').value
     if (group) {
       send('p2p:createStar', group)
-      send('setPage', 'DASHBOARD')
+      send('connection:set', 'DASHBOARD')
     }
   }
+
+
 }
 
 function getDashboardHtml (state, prev, send) {
   if (!state.p2p.star || state.p2p.star.closed) {
-    send('setPage', 'INDEX')
+    send('connection:set', 'INDEX')
     return html`<div></div>`
   }
 
-  return presenterView(state, prev, send)
+  return html`<div>
+  ${state.presenter.clients.ids.map(clientListMaker)}
+
+</div>`
+
+  function clientListMaker (c) {
+    return html`<li>${state.presenter.clients.names[c] + ' [' + c + ']'}</li>`
+  }
 }
+
+

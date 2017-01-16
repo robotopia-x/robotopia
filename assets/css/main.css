@@ -3,91 +3,14 @@ html, body {
   width: 100%;
   height: 100%;
   font-family: sans-serif;
-}
-
-html {
-  min-width: 800px;
   box-sizing: border-box;
 }
 
 *, *:before, *:after {
-  box-sizing: inherit;
-}
-
-.row {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.center-child > * {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-
-.center-child {
-  display: table;
-  overflow: hidden;
-  width: inherit;
-  height: inherit;
-}
-
-.fullscreen_modal {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.round_modal {
-  width: 500px;
-  background-color: rgba(255, 255, 255, 0.85);
-  margin: 0 auto;
-  padding: 1em;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-img.connecting {
-  width: 100px;
-  margin: 0 auto;
-}
-
-.enter_id {
-  text-align: center;
-  width: 120px;
-  margin-right: 10px;
-}
-
-.random_id {
-  width: 120px;
-  padding: 0.5em 0;
-}
-
-button {
-  padding: 0.5em;
 }
 
 input {
   height: 2em;
-  box-sizing: content-box;
-}
-
-button {
-  padding: 0.5em 0;
-}
-
-button.good,
-button.bad {
-  min-width: 120px;
-  padding: 0.5em 0;
-}
-
-button.good {
-  background-color: #66bb66;
-}
-
-button.bad {
-  background-color: #bb6666;
+  width: 100%;
 }

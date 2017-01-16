@@ -68,8 +68,7 @@ const controlsPrefix = sf`
 
 const blocklyView = blocklyWidget()
 
-const editorView = (globalConfig) => (state, prev, send) => {
-  const { clock, editor, game } = state
+function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => send('clock:start'),
@@ -97,7 +96,12 @@ const editorView = (globalConfig) => (state, prev, send) => {
     progress: clock.progress
   })
 
-  const clientDialogHtml = clientDialogView(globalConfig)(state, prev, send)
+  const clientDialogHtml = clientDialogView({
+    client,
+    onSetUsername: (username) => send('client:setUsername', { username }),
+    onJoinGroup: (groupId) => send('client:joinGroup', { groupId }),
+    onDisconnect: () => send('client:disconnect')
+  })
 
   return html`
     <main class="${mainPrefix}" onload=${initEditor}>

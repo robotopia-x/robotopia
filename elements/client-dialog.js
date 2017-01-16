@@ -1,144 +1,100 @@
+/* globals FormData */
+
 const html = require('choo/html')
-const modal = require('./modal')
-const gameView = require('./game')
+const modalView = require('./modal')
+const buttonView = require('./button')
 
-var checkedForRecovery = false
-
-module.exports = function (globalConfig) {
-  return function (state, prev, send) {
-    const { connection } = state
-
-    if (connection.state === 'CONNECTING' || connection.state === 'RECOVERING') return getConnectingHtml(state, prev, send)
-    if (connection.state === 'USERNAME') return getUsernameHtml(state, prev, send)
-    if (connection.state === 'GAME') return getGameHtml(state, prev, send)
-    return getIndexHtml(state, prev, send)
+module.exports = function ({
+  client,
+  onSetUsername, onJoinGroup, onDisconnect
+}) {
+  if (client.username === null) {
+    return setUsernameDialog({ onSetUsername })
   }
 
-  function getIndexHtml (state, prev, send) {
-    if (!checkedForRecovery) {
-      checkedForRecovery = true
-      send('client:checkForRecovery', null)
-    }
+  if (client.groupId === null) {
+    return joinGroupDialog({ onJoinGroup })
+  }
 
-    if (state.client.connectivityState === globalConfig.connectivityStates.recovering) {
-      send('connection:set', 'CONNECTING')
-      return html`<div></div>`
-    }
+  if (client.connected === false) {
+    return waitForConnectionDialog({ onCancel: onDisconnect })
+  }
 
-    if (state.client.recoveryPossible) {
-      return modal(html`
+  return html`<div></div>`
+}
+
+function setUsernameDialog ({
+  onSetUsername
+}) {
+  const submitButtonHtml = buttonView({
+    label: 'save'
+  })
+
+  return modalView(html`
     <div>
-      <p>We found data from a previous session, would you like to recover?</p>
-      <button class="good" onclick=${startRecovery}>Yes</button>
-      <button class="bad" onclick=${denyRecovery}>No</button>
-    </div>
-`)
-    }
+      <p>Please enter your name</p>
 
-    return modal(html`
+    
+      <form onsubmit=${handleSubmit}>
+        <input name="username" type="text" autofocus minlength="2" maxlength="30" value="">
+        ${submitButtonHtml}
+      </form>
+    </div>
+  `)
+
+  function handleSubmit (evt) {
+    const formData = new FormData(evt.target)
+    const username = formData.get('username')
+
+    evt.preventDefault()
+
+    onSetUsername(username)
+  }
+}
+
+function joinGroupDialog ({
+  onJoinGroup
+}) {
+  const submitButtonHtml = buttonView({
+    label: 'join'
+  })
+
+  return modalView(html`
     <div>
-      <p>To continue please enter the name of the group you would like to join</p>
-      <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
-      <button class="good" onclick=${join}>Start</button>
+      <p>Please enter the name of the group you would like to join</p>
+        
+      <form onsubmit=${handleSubmit}>
+        <input name="groupId" type="text" autofocus minlength="2" maxlength="30" value="">
+        ${submitButtonHtml}
+      </form>
     </div>
-`)
+  `)
 
-    function join (event) {
-      event.preventDefault()
-      var group = document.getElementById('gid').value
-      console.log('join', group)
+  function handleSubmit (evt) {
+    const formData = new FormData(evt.target)
+    const groupId = formData.get('groupId')
 
-      if (group) {
-        var obj = {
-          GID: group
-        }
-        send('p2c:joinStar', obj)
-        send('connection:set', 'CONNECTING')
-      }
-    }
+    evt.preventDefault()
 
-    function startRecovery (event) {
-      event.preventDefault()
-      send('client:recover', null)
-      send('connection:set', 'RECOVERING')
-    }
-
-    function denyRecovery (event) {
-      event.preventDefault()
-      send('client:denyRecovery', null)
-    }
+    onJoinGroup(groupId)
   }
+}
 
-  function getConnectingHtml (state, prev, send) {
-    console.log('connecting')
+function waitForConnectionDialog ({
+  onCancel
+}) {
+  const cancelButtonHtml = buttonView({
+    label: 'cancel',
+    onClick: onCancel
+  })
 
-    if (state.client.connectivityState === globalConfig.connectivityStates.none) {
-      console.log('redirect index')
-      send('setPage', 'INDEX')
-    }
-
-    if (state.client.connectivityState === globalConfig.connectivityStates.connected) {
-      console.log('redirect foo')
-      if (!state.client.username) {
-        send('connection:set', 'USERNAME')
-      } else {
-        send('connection:set', 'GAME')
-      }
-    }
-
-    return modal(html`
+  return modalView(html`
     <div>
-      <div class="row">
-          <h1>Connecting...</h1>
-      </div>
-      <div class="row">
-          <img src="../assets/img/web/load.gif" alt="loading" class="connecting">
-      </div>
-      <div class="row">
-        <button class="bad" onclick=${cancel}>Cancel</button>
-      </div>
+      <h1>Connecting...</h1>
+      
+      <img src="../assets/img/web/load.gif" alt="loading" class="connecting">
+                  
+      ${cancelButtonHtml}
     </div>
-`)
-
-    function cancel (event) {
-      event.preventDefault()
-      send('p2c:stop', null)
-      send('connection:set', 'INDEX')
-    }
-  }
-
-  function getUsernameHtml (state, prev, send) {
-    if (state.client.connectivityState === globalConfig.connectivityStates.none) {
-      send('location:set', '/')
-      return html`<div></div>`
-    }
-
-    return modal(html`
-    <div>
-      <div class="row">
-          <h1>Enter a Name</h1>
-      </div>
-      <div class="row">
-          <input type="text" id="username" name="username" class="enter_id" value="${state.client.username ? state.client.username : ''}" autofocus="autofocus" >
-          <button class="good" onclick=${publishName}>Confirm</button>
-      </div>
-    </div>
-`)
-
-    function publishName (event) {
-      event.preventDefault()
-      var username = document.getElementById('username').value
-      if (username.length > 0) {
-        send('client:setUsername', username)
-        send('connection:set', 'GAME')
-      }
-    }
-  }
-
-  function getGameHtml (state, prev, send) {
-    if (state.client.connectivityState === globalConfig.connectivityStates.none) {
-      send('connection:set', 'INDEX')
-    }
-    return gameView(state, prev, send)
-  }
+  `)
 }

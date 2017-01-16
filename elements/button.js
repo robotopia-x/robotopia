@@ -51,7 +51,7 @@ const prefix = sf`
 
 function button ({
   icon, label,
-  onClick
+  onClick = _.noop
 }) {
   const classes = classNames(
     prefix,

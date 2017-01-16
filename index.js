@@ -26,8 +26,7 @@ const runtime = require('./models/runtime').create()
 const level = require('./models/tutorial/index')
 const p2pPresenter = require('./models/p2p-presenter')(globalConfig)
 const presenter = require('./models/presenter')(globalConfig)
-const p2pClient = require('./models/p2p-client')(globalConfig)
-const client = require('./models/client')(globalConfig)
+const client = require('./models/client')()
 const storage = require('./models/storage')(globalConfig)
 const connection = require('./models/connection')
 
@@ -40,7 +39,6 @@ app.model(runtime.model)
 app.model(level)
 app.model(p2pPresenter)
 app.model(presenter)
-app.model(p2pClient)
 app.model(client)
 app.model(storage)
 app.model(connection)
@@ -54,9 +52,9 @@ clock.onTick((send) => {
 })
 
 app.router([
-  ['/editor', require('./pages/editor/index')(globalConfig)],
+  ['/editor', require('./pages/editor')],
   ['/tutorial/:level', require('./pages/tutorial')],
-  ['/presenter', require('./pages/presenter')],
+  ['/presenter', require('./pages/presenter')]
 ])
 
 assets.load({

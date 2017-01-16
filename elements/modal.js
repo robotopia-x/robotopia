@@ -20,7 +20,7 @@ const prefix = sf`
   }
 `
 
-function modal (content) {
+function modalView (content) {
   return html`
     <div class="${prefix}">
       <div class="inner">${content}</div>
@@ -28,4 +28,4 @@ function modal (content) {
   `
 }
 
-module.exports = modal
+module.exports = modalView

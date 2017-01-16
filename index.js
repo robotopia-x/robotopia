@@ -19,11 +19,11 @@ var globalConfig = {
 const _ = require('lodash')
 const choo = require('choo')
 const assets = require('./lib/utils/assets')
-const ideModel = require('./models/ide')
+const editorModel = require('./models/editor')
 const gameModel = require('./models/game')
-const clock = require('./models/clock').create()
+const clock = require('./models/clock')()
 const runtime = require('./models/runtime').create()
-const level = require('./models/level')
+const level = require('./models/tutorial/index')
 const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
 const presenter = require('./models/presenter')(globalConfig)
 const p2pClient = require('./models/P2PClient')(globalConfig)
@@ -33,7 +33,7 @@ const pageRouter = require('./models/pagerouter')(globalConfig)
 
 const app = choo()
 
-app.model(ideModel)
+app.model(editorModel)
 app.model(gameModel)
 app.model(clock.model)
 app.model(runtime.model)
@@ -53,12 +53,11 @@ clock.onTick((send) => {
   send('game:completeStep', {}, _.noop)
 })
 
-app.router({ default: '/editor' }, [
-  ['/editor', require('./pages/main')],
-  ['/tutorial', require('./pages/tutorial')],
+app.router([
+  ['/editor', require('./pages/editor/index')],
+  ['/tutorial/:level', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')(globalConfig)],
-  ['/client', require('./pages/client')(globalConfig)],
-  ['/404', require('./pages/error')(globalConfig)]
+  ['/client', require('./pages/client')(globalConfig)]
 ])
 
 assets.load({

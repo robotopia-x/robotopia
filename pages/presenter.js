@@ -12,7 +12,7 @@ module.exports = function (globalConfig) {
   }
 }
 
-function getIndexHtml(state, prev, send) {
+function getIndexHtml (state, prev, send) {
   return modal(html`
     <div>
       <div class="row">
@@ -43,10 +43,9 @@ function getIndexHtml(state, prev, send) {
       send('setPage', 'DASHBOARD')
     }
   }
-
 }
 
-function getDashboardHtml(state, prev, send) {
+function getDashboardHtml (state, prev, send) {
   if (!state.p2p.star || state.p2p.star.closed) {
     send('setPage', 'INDEX')
     return html`<div></div>`

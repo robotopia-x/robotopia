@@ -1,8 +1,8 @@
 const _ = require('lodash')
 const levels = require('../models/game/levels')
-const { getGameState } = require('../lib/game')
-const { getGoals, checkMandatoryGoals } = require('../lib/utils/goal')
-const { storyModal, winModal } = require('../elements/modals')
+const { getGameState } = require('../../lib/game/index')
+const { getGoals, checkMandatoryGoals } = require('goal')
+const { storyModal, winModal } = require('modals')
 
 const winningCondition = (gameState, level, workspace, send) => {
   const game = getGameState(gameState)

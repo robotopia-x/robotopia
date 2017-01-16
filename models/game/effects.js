@@ -1,8 +1,6 @@
 const _ = require('lodash')
 
 function addResources (state, { teamId, amount }, send) {
-  console.log(state)
-
   send('game:setResource', {
     teamId: teamId,
     amount: getTeamResources(state, teamId) + amount
@@ -16,7 +14,7 @@ function removeResources (state, { teamId, amount }, send) {
   }, _.noop)
 }
 
-//TODO move these to other, more appropriate place
+// TODO: move these to other, more appropriate place
 function getTeamResources ({ resources }, teamId) {
   return _.get(resources, teamId, 0)
 }

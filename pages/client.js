@@ -12,19 +12,19 @@ module.exports = function (globalConfig) {
     return getIndexHtml(state, prev, send)
   }
 
-  function getIndexHtml(state, prev, send) {
-      if (!checkedForRecovery) {
-        checkedForRecovery = true
-        send('client:checkForRecovery', null)
-      }
+  function getIndexHtml (state, prev, send) {
+    if (!checkedForRecovery) {
+      checkedForRecovery = true
+      send('client:checkForRecovery', null)
+    }
 
-      if (state.client.connectivityState === globalConfig.connectivityStates.recovering) {
-        send('setPage', 'CONNECTING')
-        return html`<div></div>`
-      }
+    if (state.client.connectivityState === globalConfig.connectivityStates.recovering) {
+      send('setPage', 'CONNECTING')
+      return html`<div></div>`
+    }
 
-      if (state.client.recoveryPossible) {
-        return modal(html`
+    if (state.client.recoveryPossible) {
+      return modal(html`
     <div>
       <div class="row">
           <h1>Welcome!</h1>
@@ -36,9 +36,9 @@ module.exports = function (globalConfig) {
       </div>
     </div>
 `)
-      }
+    }
 
-      return modal(html`
+    return modal(html`
     <div>
       <div class="row">
           <h1>Welcome!</h1>
@@ -75,7 +75,7 @@ module.exports = function (globalConfig) {
     }
   }
 
-  function getConnectingHtml(state, prev, send) {
+  function getConnectingHtml (state, prev, send) {
     if (state.client.connectivityState === globalConfig.connectivityStates.none) {
       send('setPage', 'INDEX')
     }
@@ -107,10 +107,9 @@ module.exports = function (globalConfig) {
       send('p2c:stop', null)
       send('setPage', 'INDEX')
     }
-
   }
 
-  function getUsernameHtml(state, prev, send) {
+  function getUsernameHtml (state, prev, send) {
     if (state.client.connectivityState === globalConfig.connectivityStates.none) {
       send('location:set', '/')
       return html`<div></div>`
@@ -138,11 +137,10 @@ module.exports = function (globalConfig) {
     }
   }
 
-  function getGameHtml(state, prev, send) {
+  function getGameHtml (state, prev, send) {
     if (state.client.connectivityState === globalConfig.connectivityStates.none) {
       send('setPage', 'INDEX')
     }
     return gameView(state, prev, send)
   }
-
 }

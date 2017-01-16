@@ -1,87 +1,140 @@
-/* global Blockly localStorage */
+/* global Blockly */
+const _ = require('lodash')
 const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
-const toolbox = require('../lib/blockly/toolbox')
 
 const prefix = sf`
-  :host, :host > .editor {
+  :host {
     height:100%;
     width: 100%;
-  }  
+  }
 `
 
-const blocklyView = widget((update) => {
-  let send, workspace, editorElement, saveInterval
-
-  update(onupdate)
-
-  return html`   
-    <div class=${prefix}>
-      <div class='editor' onload=${onload} onunload=${onunload}></div>       
-    </div>
-  `
-
-  function onupdate (_state, prev, _send) {
-    if (prev && _state.toolbox !== prev.toolbox) {
-      updateToolbox(workspace, _state.toolbox)
-    }
-
-    /* TODO change workspace if workspace is updated externally
-      insted of only updating it when the level is changed
-      blockly shouldn't need to know about levels */
-    if (prev && _state.level.level !== prev.level.level) {
-      clearWorkspace(workspace)
-      updateWorkspace(workspace, _state.workspace)
-    }
-
-    send = _send
+const options = {
+  toolbox: '<xml id="toolbox" style="display: none"><category /></xml>',
+  collapse: true,
+  comments: true,
+  disable: true,
+  maxBlocks: Infinity,
+  trashcan: true,
+  scrollbars: true,
+  sounds: true,
+  grid: {
+    spacing: 10,
+    length: 1,
+    colour: '#DDD',
+    snap: true
+  },
+  zoom: {
+    controls: true,
+    wheel: false,
+    startScale: 1,
+    maxcale: 20,
+    minScale: 0.5,
+    scaleSpeed: 1.05
   }
+}
 
-  function onload (el) {
-    editorElement = el
-    workspace = Blockly.inject(editorElement, toolbox)
+function blocklyWidget () {
+  let prevParams = null
+  let onChange = _.noop
+  let toolbox, workspace, code
 
-    updateWorkspace(workspace, localStorage.getItem('workspace'))
+  return widget({
+    onupdate: (el, params) => {
+      onChange = params.onChange
 
-    workspace.addChangeListener(updateCode)
-    saveInterval = setInterval(saveWorkspaceFromDom, 1000)
-  }
+      // ignore if workspace isn't initialized or params haven't changed
+      if (!workspace || prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox) {
+        return
+      }
+
+      prevParams = params
+
+      if (toolbox !== params.toolbox) {
+        workspace.updateToolbox(params.toolbox)
+      }
+
+      const newWorkspace = stringToWorkspace(params.workspace)
+
+      if (!isWorkspaceEquivalentTo(workspace, newWorkspace)) {
+        updateWorkspace(workspace, params.workspace)
+      }
+    },
+
+    onload: (el) => {
+      workspace = Blockly.inject(el, options)
+      workspace.addChangeListener(updateCode)
+
+      if (prevParams === null) {
+        return
+      }
+
+      // apply initial params
+      if (prevParams.toolbox) {
+        workspace.updateToolbox(prevParams.toolbox)
+        toolbox = prevParams.toolbox
+      }
+      if (prevParams.workspace) {
+        updateWorkspace(workspace, prevParams.workspace)
+      }
+    },
+
+    onunload: () => {
+      prevParams = null
+      onChange = _.noop
+
+      workspace.removeChangeListener(updateCode)
+    },
+
+    render: (params) => {
+      prevParams = params
+
+      // setup onChange handler
+      onChange = params.onChange
+
+      return html`<div class="${prefix}"></div>`
+    }
+  })
 
   function updateCode () {
-    send('runtime:commitCode', {
-      code: Blockly.JavaScript.workspaceToCode(workspace)
-    })
+    const newCode = Blockly.JavaScript.workspaceToCode(workspace)
+
+    // only update call onChangeWorkspace if resulting code from workspace has changed
+    if (newCode !== code) {
+      code = newCode
+
+      onChange({
+        workspace: workspaceToString(workspace),
+        code
+      })
+    }
   }
+}
 
-  function saveWorkspaceFromDom () {
-    const xml = Blockly.Xml.workspaceToDom(workspace)
-    const xmlText = Blockly.Xml.domToText(xml)
-
-    send('updateWorkspace', {
-      workspace: xmlText
-    })
-
-    localStorage.setItem('workspace', xmlText)
-  }
-
-  function onunload () {
-    workspace.removeChangeListener(updateCode)
-    clearInterval(saveInterval)
-  }
-})
-
-function updateWorkspace (workspace, xml) {
-  const workspaceXml = Blockly.Xml.textToDom(xml)
+// reinitialize workspace with xml
+function updateWorkspace (workspace, xmlString) {
+  const workspaceXml = Blockly.Xml.textToDom(xmlString)
+  workspace.clear()
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
 }
 
-function clearWorkspace (workspace) {
-  workspace.clear()
+function stringToWorkspace (xmlString) {
+  const workspace = new Blockly.Workspace(options)
+  updateWorkspace(workspace, xmlString)
+  return workspace
 }
 
-function updateToolbox (workspace, toolbox) {
-  workspace.updateToolbox(toolbox)
+function workspaceToString (workspace) {
+  const xml = Blockly.Xml.workspaceToDom(workspace)
+  return Blockly.Xml.domToText(xml)
 }
 
-module.exports = blocklyView
+// checks if workspaces generate both the same code, ignoring position of blocks
+// you have to pass in an actual workspace not just strings
+function isWorkspaceEquivalentTo (workspace, compareWorkspace) {
+  return Blockly.JavaScript.workspaceToCode(workspace) === Blockly.JavaScript.workspaceToCode(compareWorkspace)
+}
+
+module.exports = blocklyWidget

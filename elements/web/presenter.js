@@ -14,10 +14,9 @@ function view (state, prev, send) {
 </div>
 `
 
-  function clientListMaker(c) {
+  function clientListMaker (c) {
     return html`<li>${state.presenter.clients.names[c] + ' [' + c + ']'}</li>`
   }
-
 }
 
 module.exports = view

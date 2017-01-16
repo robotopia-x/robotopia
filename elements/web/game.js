@@ -1,11 +1,11 @@
 const html = require('choo/html')
-const main = require('../../pages/main')
+const main = require('../../pages/editor/index')
 
 function view (state, prev, send) {
   return main(state, prev, send)
 
 //  return html`
-//<div>
+// <div>
 //    <div class="row">
 //        <h1>Welcome ${state.client.username}!</h1>
 //    </div>
@@ -16,8 +16,8 @@ function view (state, prev, send) {
 //    <div class="row">
 //        <button onclick=${cleanExit}>clean Exit</button>
 //    </div>
-//</div>
-//`
+// </div>
+// `
 
   function sendCode (event) {
     var code = document.getElementById('code').value

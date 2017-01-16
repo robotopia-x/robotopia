@@ -4,6 +4,7 @@ const gameView = require('../../elements/game/index')
 const blocklyWidget = require('../../elements/blockly')
 const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
 const initialState = require('./initial-state')
+const clientDialogView = require('../../elements/client-dialog')
 
 const mainPrefix = sf`
     :host {
@@ -67,7 +68,8 @@ const controlsPrefix = sf`
 
 const blocklyView = blocklyWidget()
 
-const editorView = ({ clock, editor, game }, prev, send) => {
+const editorView = (globalConfig) => (state, prev, send) => {
+  const { clock, editor, game } = state
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => send('clock:start'),
@@ -95,6 +97,8 @@ const editorView = ({ clock, editor, game }, prev, send) => {
     progress: clock.progress
   })
 
+  const clientDialogHtml = clientDialogView(globalConfig)(state, prev, send)
+
   return html`
     <main class="${mainPrefix}" onload=${initEditor}>
       <div class="header-bar">
@@ -102,7 +106,7 @@ const editorView = ({ clock, editor, game }, prev, send) => {
           ${playButtonHtml}
           ${speedSliderHtml}
         </div>
-      </div>
+      </div>      
       <div class=${`${contentPrefix} content`}>
         <div class="column">
           ${blocklyHtml}
@@ -111,7 +115,8 @@ const editorView = ({ clock, editor, game }, prev, send) => {
         <div class="column">
           ${gameHtml}
         </div>
-      </div>
+      </div>  
+      ${clientDialogHtml}
     </main>
   `
 

@@ -1,14 +1,16 @@
 const html = require('choo/html')
-const modal = require('../elements/web/modal')
-const gameView = require('../elements/web/game')
+const modal = require('./modal')
+const gameView = require('./game')
 
 var checkedForRecovery = false
 
 module.exports = function (globalConfig) {
   return function (state, prev, send) {
-    if (state.page === 'CONNECTING' || state.page === 'RECOVERING') return getConnectingHtml(state, prev, send)
-    if (state.page === 'USERNAME') return getUsernameHtml(state, prev, send)
-    if (state.page === 'GAME') return getGameHtml(state, prev, send)
+    const { connection } = state
+
+    if (connection.state === 'CONNECTING' || connection.state === 'RECOVERING') return getConnectingHtml(state, prev, send)
+    if (connection.state === 'USERNAME') return getUsernameHtml(state, prev, send)
+    if (connection.state === 'GAME') return getGameHtml(state, prev, send)
     return getIndexHtml(state, prev, send)
   }
 
@@ -19,54 +21,46 @@ module.exports = function (globalConfig) {
     }
 
     if (state.client.connectivityState === globalConfig.connectivityStates.recovering) {
-      send('setPage', 'CONNECTING')
+      send('connection:set', 'CONNECTING')
       return html`<div></div>`
     }
 
     if (state.client.recoveryPossible) {
       return modal(html`
     <div>
-      <div class="row">
-          <h1>Welcome!</h1>
-      </div>
       <p>We found data from a previous session, would you like to recover?</p>
-      <div class="row">
-          <button class="good" onclick=${startRecovery}>Yes</button>
-          <button class="bad" onclick=${denyRecovery}>No</button>
-      </div>
+      <button class="good" onclick=${startRecovery}>Yes</button>
+      <button class="bad" onclick=${denyRecovery}>No</button>
     </div>
 `)
     }
 
     return modal(html`
     <div>
-      <div class="row">
-          <h1>Welcome!</h1>
-      </div>
       <p>To continue please enter the name of the group you would like to join</p>
-      <div class="row">
-          <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
-          <button class="good" onclick=${join}>Start</button>
-      </div>
+      <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
+      <button class="good" onclick=${join}>Start</button>
     </div>
 `)
 
     function join (event) {
       event.preventDefault()
       var group = document.getElementById('gid').value
+      console.log('join', group)
+
       if (group) {
         var obj = {
           GID: group
         }
         send('p2c:joinStar', obj)
-        send('setPage', 'CONNECTING')
+        send('connection:set', 'CONNECTING')
       }
     }
 
     function startRecovery (event) {
       event.preventDefault()
       send('client:recover', null)
-      send('setPage', 'RECOVERING')
+      send('connection:set', 'RECOVERING')
     }
 
     function denyRecovery (event) {
@@ -76,15 +70,19 @@ module.exports = function (globalConfig) {
   }
 
   function getConnectingHtml (state, prev, send) {
+    console.log('connecting')
+
     if (state.client.connectivityState === globalConfig.connectivityStates.none) {
+      console.log('redirect index')
       send('setPage', 'INDEX')
     }
 
     if (state.client.connectivityState === globalConfig.connectivityStates.connected) {
+      console.log('redirect foo')
       if (!state.client.username) {
-        send('setPage', 'USERNAME')
+        send('connection:set', 'USERNAME')
       } else {
-        send('setPage', 'GAME')
+        send('connection:set', 'GAME')
       }
     }
 
@@ -105,7 +103,7 @@ module.exports = function (globalConfig) {
     function cancel (event) {
       event.preventDefault()
       send('p2c:stop', null)
-      send('setPage', 'INDEX')
+      send('connection:set', 'INDEX')
     }
   }
 
@@ -132,14 +130,14 @@ module.exports = function (globalConfig) {
       var username = document.getElementById('username').value
       if (username.length > 0) {
         send('client:setUsername', username)
-        send('setPage', 'GAME')
+        send('connection:set', 'GAME')
       }
     }
   }
 
   function getGameHtml (state, prev, send) {
     if (state.client.connectivityState === globalConfig.connectivityStates.none) {
-      send('setPage', 'INDEX')
+      send('connection:set', 'INDEX')
     }
     return gameView(state, prev, send)
   }

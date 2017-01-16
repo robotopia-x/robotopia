@@ -1,8 +1,8 @@
 module.exports = globalConfig => ({
-  updateUsername: updateUsername,
+  updateUsername,
   connectivityChange: connectivityChange(globalConfig),
-  suggestRecovery: suggestRecovery,
-  denyRecovery: denyRecovery,
+  suggestRecovery,
+  denyRecovery,
   activateRecovery: activateRecovery(globalConfig)
 })
 

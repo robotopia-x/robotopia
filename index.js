@@ -24,12 +24,12 @@ const gameModel = require('./models/game')
 const clock = require('./models/clock')()
 const runtime = require('./models/runtime').create()
 const level = require('./models/tutorial/index')
-const p2pPresenter = require('./models/P2PPresenter')(globalConfig)
+const p2pPresenter = require('./models/p2p-presenter')(globalConfig)
 const presenter = require('./models/presenter')(globalConfig)
-const p2pClient = require('./models/P2PClient')(globalConfig)
+const p2pClient = require('./models/p2p-client')(globalConfig)
 const client = require('./models/client')(globalConfig)
 const storage = require('./models/storage')(globalConfig)
-const pageRouter = require('./models/pagerouter')(globalConfig)
+const connection = require('./models/connection')
 
 const app = choo()
 
@@ -43,7 +43,7 @@ app.model(presenter)
 app.model(p2pClient)
 app.model(client)
 app.model(storage)
-app.model(pageRouter)
+app.model(connection)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 
@@ -54,10 +54,9 @@ clock.onTick((send) => {
 })
 
 app.router([
-  ['/editor', require('./pages/editor/index')],
+  ['/editor', require('./pages/editor/index')(globalConfig)],
   ['/tutorial/:level', require('./pages/tutorial')],
-  ['/presenter', require('./pages/presenter')(globalConfig)],
-  ['/client', require('./pages/client')(globalConfig)]
+  ['/presenter', require('./pages/presenter')],
 ])
 
 assets.load({

@@ -2,7 +2,7 @@ module.exports = globalConfig => ({
   messageIncoming: messageIncoming,
   setUsername: setUsername(globalConfig),
   sendCode: sendCode(globalConfig),
-  checkForRecovery: checkForRecovery, 
+  checkForRecovery: checkForRecovery,
   recover: recover(globalConfig),
   saveLocally: saveLocally,
   quit: quit(globalConfig)
@@ -16,7 +16,7 @@ function messageIncoming (state, data, send, done) {
   done()
 }
 
-function setUsername(globalConfig) {
+function setUsername (globalConfig) {
   return inner
   function inner (state, name, send, done) {
     if (!name) {
@@ -40,10 +40,9 @@ function setUsername(globalConfig) {
     send('p2c:send', data, (err, res) => { if (err) done(err) })
     done()
   }
-
 }
 
-function sendCode(globalConfig) {
+function sendCode (globalConfig) {
   return inner
   function inner (state, code, send, done) {
     // TODO: remove, testing purpose!!
@@ -59,19 +58,18 @@ function sendCode(globalConfig) {
     send('p2c:send', data, (err, res) => { if (err) done(err) })
     done()
   }
-  
 }
 
-function checkForRecovery(state, data, send, done) {
+function checkForRecovery (state, data, send, done) {
   send('storage:loadFromLocalStorage', null, (err, res) => {
     if (err) return done(err)
     if (!res) return done()
     if (!res.id || !res.group) return done()
-    send('client:suggestRecovery', res, (err, res) => { if(err) done(err) })
+    send('client:suggestRecovery', res, (err, res) => { if (err) done(err) })
   })
 }
 
-function recover(globalConfig) {
+function recover (globalConfig) {
   return inner
   function inner (state, _, send, done) {
     var opts
@@ -80,13 +78,12 @@ function recover(globalConfig) {
       CID: state.id
     }
     send('p2c:joinStar', opts, (err, res) => { if (err) done(err) })
-    send('client:activateRecovery', null, (err, res) => {if (err) done(err) })
+    send('client:activateRecovery', null, (err, res) => { if (err) done(err) })
     done()
   }
-
 }
 
-function saveLocally(state, _, send, done) {
+function saveLocally (state, _, send, done) {
   if (!state.group) return done()
   var obj = {
     username: state.username,
@@ -94,7 +91,7 @@ function saveLocally(state, _, send, done) {
     id: state.id,
     code: state.code
   }
-  send('storage:saveToLocalStorage', obj, (err, res) => {if(err) done(err) })
+  send('storage:saveToLocalStorage', obj, (err, res) => { if (err) done(err) })
 }
 
 function quit (globalConfig) {

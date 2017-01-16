@@ -36,7 +36,6 @@ function stop (globalConfig) {
     }
     done()
   }
-
 }
 
 function joinStar (globalConfig) {
@@ -79,7 +78,7 @@ function joinStar (globalConfig) {
         send('p2c:setPresenterPeer', null, (err, res) => { if (err) done(err) })
         var info = {
           GID: state.star.GID,
-          CID: state.star.CID,
+          CID: state.star.CID
         }
         info.state = state.star.closed ? globalConfig.connectivityStates.none : globalConfig.connectivityStates.reconnecting
         send('client:connectivityChange', false, (err, res) => { if (err) done(err) })

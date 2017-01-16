@@ -1,10 +1,9 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const gameView = require('../elements/game/index')
-//const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
-const goalProgressView = require('../elements/goal-progress')
-const blocklyWidget = require('../elements/blockly')
-const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
+const gameView = require('../../elements/game/index')
+const blocklyWidget = require('../../elements/blockly')
+const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
+const initialState = require('./initial-state')
 
 const mainPrefix = sf`
     :host {
@@ -23,7 +22,7 @@ const mainPrefix = sf`
     }
 
     :host .content {
-      height: 100%;  
+      height: 100%;        
     }
 `
 
@@ -31,7 +30,6 @@ const contentPrefix = sf`
     :host {
       display: flex;
       flex-direction: row;
-      position: relative;
     }
 
     :host > .divider {
@@ -69,25 +67,10 @@ const controlsPrefix = sf`
 
 const blocklyView = blocklyWidget()
 
-const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) => {
-  let toolbox = editor.toolbox
-  let goalProgressHtml
-
-  if (tutorial.level !== null) {
-    toolbox = tutorial.level.editor.toolbox
-
-    goalProgressHtml = goalProgressView({
-      game: game.prev,
-      goals: tutorial.level.goals,
-      workspace: editor.workspace
-    })
-  }
-
+const editorView = ({ clock, editor, game }, prev, send) => {
   const playButtonHtml = playButtonView({
-    running: clock.isRunning,
-    onStart: () => {
-      send('clock:start')
-    },
+    isRunning: clock.isRunning,
+    onStart: () => send('clock:start'),
     onStop: () => send('clock:stop')
   })
 
@@ -99,7 +82,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
   })
 
   const blocklyHtml = blocklyView({
-    toolbox,
+    toolbox: initialState.editor.toolbox,
     workspace: editor.workspace,
     onChange: ({ code, workspace }) => {
       send('runtime:commitCode', { code })
@@ -113,34 +96,28 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
   })
 
   return html`
-    <main onload=${initTutorial} class="${mainPrefix}">
+    <main class="${mainPrefix}" onload=${initEditor}>
       <div class="header-bar">
         <div class="${controlsPrefix}">
           ${playButtonHtml}
           ${speedSliderHtml}
         </div>
       </div>
-        <div class=${`${contentPrefix} content`}>
-          <div class="column">
-            ${blocklyHtml}
-          </div>
-          <div class="divider"></div>
-          <div class="column">
-            ${gameHtml}         
-          </div>
-          ${goalProgressHtml} 
+      <div class=${`${contentPrefix} content`}>
+        <div class="column">
+          ${blocklyHtml}
         </div>
+        <div class="divider"></div>
+        <div class="column">
+          ${gameHtml}
+        </div>
+      </div>
     </main>
   `
 
-  function initTutorial () {
-    send('tutorial:loadLevel', { name: location.params.level })
+  function initEditor () {
+    send('game:loadGameState', { loadState: initialState.game })
   }
 }
 
-/*
-
- ${goalProgress(state.game, state.level, state.workspace)}
- */
-
-module.exports = tutorialView
+module.exports = editorView

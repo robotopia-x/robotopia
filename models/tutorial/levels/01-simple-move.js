@@ -1,7 +1,7 @@
-const entities = require('../entities')
+const entities = require('../../../models/game/entities')
 
 module.exports = {
-  state: {
+  game: {
     tiles: [
       [1, 0, 2],
       [1, 0, 1],
@@ -10,8 +10,21 @@ module.exports = {
     ],
 
     entities: [
-      entities.robot({x: 0, y: 0, id: 'ROBOT'})
+      entities.robot({ x: 0, y: 0, id: 'ROBOT' })
     ]
+  },
+
+  editor: {
+    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+
+    toolbox: `
+      <xml id="toolbox" style="display: none">
+        <category name="Movement" colour="250">
+          <block type="move"></block>
+          <block type="rotate"></block>
+        </category>
+      </xml>
+    `
   },
 
   goals: [
@@ -19,13 +32,13 @@ module.exports = {
       type: 'moveTo',
       params: { position: { x: 2, y: 0 }, entity: 'ROBOT' },
       desc: 'Move the Robot to the grass',
-      mandatory: true
+      isMandatory: true
     },
     {
       type: 'useBlock',
       params: { type: 'rotate' },
       desc: `Use at least 1 Rotate block`,
-      mandatory: false
+      isMandatory: false
     }
   ],
 
@@ -35,13 +48,5 @@ module.exports = {
     img: '../assets/img/tutorials/tutorial1.png'
   },
 
-  workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
-
-  toolbox: `
-    <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
-          <block type="move"></block>
-          <block type="rotate"></block>
-        </category>
-   </xml>`
+  nextTutorial: 'simple-loops'
 }

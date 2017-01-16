@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   width: 100%;
   height: 100%;
+  font-family: sans-serif;
 }
 
 html {
@@ -11,15 +12,6 @@ html {
 
 *, *:before, *:after {
   box-sizing: inherit;
-}
-
-body {
-  overflow: hidden;
-  background-color: #ddd;
-  background-image: url("../img/web/Robot.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 0;
 }
 
 .row {

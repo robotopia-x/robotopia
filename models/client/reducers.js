@@ -21,9 +21,9 @@ function updateUsername (state, name) {
   return state
 }
 
-function activateRecovery(globalConfig) {
+function activateRecovery (globalConfig) {
   return inner
-  function inner(state, _) {
+  function inner (state, _) {
     state.connectivityState = globalConfig.connectivityStates.recovering
   }
 }

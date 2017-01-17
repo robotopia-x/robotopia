@@ -1,4 +1,7 @@
 /* global Blockly */
+require('./blocks')
+require('./javascript-commands')
+
 const _ = require('lodash')
 const widget = require('cache-element/widget')
 const html = require('choo/html')
@@ -10,7 +13,6 @@ const prefix = sf`
     width: 100%;
   }
 `
-
 const options = {
   toolbox: '<xml id="toolbox" style="display: none"><category /></xml>',
   collapse: true,

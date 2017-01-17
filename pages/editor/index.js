@@ -84,8 +84,9 @@ function editorView ({ clock, editor, game, client }, prev, send) {
 
   const blocklyHtml = blocklyView({
     toolbox: initialState.editor.toolbox,
-    workspace: editor.workspace,
+    workspace: localStorage.getItem('workspace') || editor.workspace,
     onChange: ({ code, workspace }) => {
+      localStorage.setItem('workspace', workspace)
       send('runtime:commitCode', { code })
       send('editor:update', { code, workspace })
     }
@@ -120,7 +121,6 @@ function editorView ({ clock, editor, game, client }, prev, send) {
           ${gameHtml}
         </div>
       </div>  
-      ${clientDialogHtml}
     </main>
   `
 

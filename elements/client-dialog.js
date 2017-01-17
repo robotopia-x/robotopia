@@ -33,7 +33,6 @@ function setUsernameDialog ({
   return modalView(html`
     <div>
       <p>Please enter your name</p>
-
     
       <form onsubmit=${handleSubmit}>
         <input name="username" type="text" autofocus minlength="2" maxlength="30" value="">

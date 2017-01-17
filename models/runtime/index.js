@@ -2,7 +2,7 @@ const update = require('immutability-helper')
 const Runtime = require('../../lib/runtime/runtime')
 const api = require('./robot-api')
 
-function create () {
+module.exports = () => {
   const runtime = new Runtime()
 
   const model = {
@@ -49,8 +49,4 @@ function create () {
     model,
     setState: (state) => runtime.setState(state)
   }
-}
-
-module.exports = {
-  create
 }

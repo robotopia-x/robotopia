@@ -19,10 +19,6 @@ function getTeamResources ({ resources }, teamId) {
   return _.get(resources, teamId, 0)
 }
 
-function hasTeamResource ({ resources }, teamId, amount) {
-  return _.get(resources, teamId, 0) >= amount
-}
-
 module.exports = {
   addResources,
   removeResources

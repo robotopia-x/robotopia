@@ -1,55 +1,51 @@
+/* globals FormData */
 const html = require('choo/html')
-const cuid = require('cuid')
-const modal = require('../elements/web/modal')
-const presenterView = require('../elements/web/presenter')
-// const sf = require('sheetify')
-// sf('css/game.css', {global: true})
+const modal = require('../elements/modal')
+const button = require('../elements/button')
 
-module.exports = function (globalConfig) {
-  return function (state, prev, send) {
-    if (state.page === 'INDEX') return getIndexHtml(state, prev, send)
-    if (state.page === 'DASHBOARD') return getDashboardHtml(state, prev, send)
+module.exports = function ({ presenter }, prev, send) {
+  if (presenter.groupId === null) {
+    return joinGroupDialog({
+      onJoinGroup: (groupId) => {
+        send('presenter:joinGroup', { groupId })
+      }
+    })
   }
+
+  const disconnectButtonHtml = button({
+    label: 'disconnect',
+    onClick: () => send('presenter:disconnect')
+  })
+
+  return html`
+    <div>
+      <pre>${JSON.stringify(presenter)}</pre>
+      ${disconnectButtonHtml}
+    </div>
+  `
 }
 
-function getIndexHtml (state, prev, send) {
+function joinGroupDialog ({ onJoinGroup }) {
+  const buttonHTML = button({
+    label: 'submit'
+  })
+
   return modal(html`
     <div>
-      <div class="row">
-          <h1>Welcome!</h1>
-      </div>
-      <p>To continue please enter a rather unique name for your group or create one</p>
-      <div class="row">
-          <input type="text" id="gid" name="gid" class="enter_id" autofocus="autofocus">
-          <button class="random_id" onclick=${generateRandomGroup}>Generate Name</button>
-      </div>
-      <button class="good" value="Start" onclick=${startPeerstarMain}>Start</button>
+      <p>To continue please enter a rather unique name for your group or create one!!</p>
+      <form onsubmit=${handleSubmit}>
+          <input type="text" name="groupId" autofocus>
+          ${buttonHTML}
+      </form>
     </div>
-`)
+  `)
 
-  function generateRandomGroup (event) {
-    event.preventDefault()
-    var group = cuid()
-    // extract client fingerprint
-    group = group.slice(13, 17)
-    document.getElementById('gid').value = group
+  function handleSubmit (evt) {
+    const formData = new FormData(evt.target)
+    const groupId = formData.get('groupId')
+
+    evt.preventDefault()
+
+    onJoinGroup(groupId)
   }
-
-  function startPeerstarMain (event) {
-    event.preventDefault()
-    var group = document.getElementById('gid').value
-    if (group) {
-      send('p2p:createStar', group)
-      send('setPage', 'DASHBOARD')
-    }
-  }
-}
-
-function getDashboardHtml (state, prev, send) {
-  if (!state.p2p.star || state.p2p.star.closed) {
-    send('setPage', 'INDEX')
-    return html`<div></div>`
-  }
-
-  return presenterView(state, prev, send)
 }

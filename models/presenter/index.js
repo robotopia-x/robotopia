@@ -77,6 +77,8 @@ module.exports = ({ hubUrl }) => {
       },
 
       handleMessage: ({ clients }, { id, message }, send) => {
+        console.log('handle message', id, message)
+
         if (!clients[id]) {
           return
         }
@@ -84,12 +86,12 @@ module.exports = ({ hubUrl }) => {
         switch (message.type) {
           case 'SET_USERNAME':
             const username = message.data.username
-            send('presenter:setUsername', { id, username })
+            send('presenter:setUsername', { id, username }, _.noop)
             return
 
           case 'COMMIT_CODE':
             const code = message.data.code
-            send('presenter:commitCode', { id, code })
+            send('presenter:commitCode', { id, code }, _.noop)
             return
 
           default:

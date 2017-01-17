@@ -57,7 +57,7 @@ module.exports = ({ hubUrl }) => {
         })
       },
 
-      _sendUserName: ({ username }) => {
+      sendUsername: ({ username }) => {
         client.send({
           type: 'SET_USERNAME',
           data: { username }
@@ -69,7 +69,7 @@ module.exports = ({ hubUrl }) => {
       p2pConnection: (send) => {
         client.onConnect(() => {
           send('client:_setConnectionStatus', { connected: true }, _.noop)
-          send('client:sendUsername', {}, _.noop)
+          send('client:sendUsername', { }, _.noop)
         })
 
         client.onDisconnect(() => {

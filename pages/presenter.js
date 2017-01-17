@@ -4,8 +4,6 @@ const modal = require('../elements/modal')
 const button = require('../elements/button')
 
 module.exports = function ({ presenter }, prev, send) {
-  console.log(presenter)
-
   if (presenter.groupId === null) {
     return joinGroupDialog({
       onJoinGroup: (groupId) => {

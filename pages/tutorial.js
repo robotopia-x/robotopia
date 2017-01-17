@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../elements/game/index')
-//const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
+// const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
 const goalProgressView = require('../elements/goal-progress')
 const blocklyWidget = require('../elements/blockly')
 const { speedSliderView, playButtonView } = require('../elements/runtime-controls')

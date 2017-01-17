@@ -3,9 +3,9 @@ const cuid = require('cuid')
 const update = require('immutability-helper')
 const p2pClient = require('./p2p-client')
 
-module.exports = () => {
+module.exports = ({ hubUrl }) => {
   const client = p2pClient({
-    hubUrl: 'http://localhost:8042',
+    hubUrl,
     cid: cuid()
   })
 
@@ -46,8 +46,8 @@ module.exports = () => {
           return
         }
 
-        send('client:_setGroupId', { groupId }, _.noop)
         client.joinStar({ gid: groupId })
+        send('client:_setGroupId', { groupId }, _.noop)
       },
 
       sendCode: (state, { code }) => {

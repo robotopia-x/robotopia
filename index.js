@@ -1,47 +1,30 @@
 require('./lib/utils/lodash-extension')
 require('./lib/blockly')
 
-const globalConfig = {
-  hub: 'http://localhost:8042',
-  MAX: {
-    codeHistory: 5
-  },
-  storagePrefix: 'disrobia',
-  connectivityStates: {
-    none: 0,
-    initialConnect: 1,
-    recovering: 2,
-    reconnecting: 3,
-    connected: 4
-  }
+const P2P_CONFIG = {
+  hubUrl: 'http://localhost:8042'
 }
 
 const _ = require('lodash')
 const choo = require('choo')
 const assets = require('./lib/utils/assets')
-const editorModel = require('./models/editor')
-const gameModel = require('./models/game')
 const clock = require('./models/clock')()
-const runtime = require('./models/runtime').create()
+const runtime = require('./models/runtime')()
+const gameModel = require('./models/game')
+const editorModel = require('./models/editor')
 const level = require('./models/tutorial/index')
-const p2pPresenter = require('./models/p2p-presenter')(globalConfig)
-const presenter = require('./models/presenter')(globalConfig)
-const client = require('./models/client')()
-const storage = require('./models/storage')(globalConfig)
-const connection = require('./models/connection')
+const client = require('./models/client')(P2P_CONFIG)
+const presenter = require('./models/presenter')(P2P_CONFIG)
 
 const app = choo()
 
-app.model(editorModel)
-app.model(gameModel)
 app.model(clock.model)
 app.model(runtime.model)
+app.model(gameModel)
+app.model(editorModel)
 app.model(level)
-app.model(p2pPresenter)
-app.model(presenter)
 app.model(client)
-app.model(storage)
-app.model(connection)
+app.model(presenter)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 

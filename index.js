@@ -1,5 +1,4 @@
 require('./lib/utils/lodash-extension')
-require('./lib/blockly')
 
 const P2P_CONFIG = {
   hubUrl: 'http://localhost:8042'

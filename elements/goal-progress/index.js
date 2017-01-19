@@ -78,4 +78,7 @@ function goalListView ({ goals, game, workspace }) {
   `
 }
 
-module.exports = goalProgressView
+module.exports = {
+  goalListView,
+  goalProgressView
+}

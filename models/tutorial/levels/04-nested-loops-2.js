@@ -1,7 +1,7 @@
 const entities = require('../../../models/game/entities')
 
 module.exports = {
-  state: {
+  game: {
     tiles: [
       [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 2],
       [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -15,9 +15,10 @@ module.exports = {
     ]
   },
 
-  workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+  editor: {
+    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
 
-  toolbox: `
+    toolbox: `
     <xml id="toolbox" style="display: none">
       <category name="Movement" colour="250">
         <block type="move"></block>
@@ -32,7 +33,10 @@ module.exports = {
         <block type="controls_repeat_ext"></block>
       </category>
     </xml>
-  `,
+  `
+  },
+
+  label: 'advanced nested loops',
 
   goals: [
     {
@@ -52,6 +56,6 @@ module.exports = {
   storyModal: {
     text: 'Wow, this time the way is even longer... Use the Move and Repeat Blocks',
     hint: 'Try nesting loops to get the shortest possible solution',
-    img: '../assets/img/tutorials/tutorial4.png'
+    img: '../../assets/img/tutorials/complex-loops-2.png'
   }
 }

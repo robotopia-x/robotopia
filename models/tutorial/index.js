@@ -32,6 +32,7 @@ module.exports = {
       if (level !== undefined) {
         send('tutorial:_setLevel', { level }, _.noop)
         send('game:loadGameState', { loadState: level.game }, _.noop)
+        send('editor:update', { workspace: level.editor.workspace }, _.noop)
       }
     }
   }

@@ -1,59 +1,54 @@
 const _ = require('lodash')
-const levels = require('../models/game/levels')
 const { getGameState } = require('../../lib/game/index')
-const { getGoals, checkMandatoryGoals } = require('goal')
-const { storyModal, winModal } = require('modals')
+const { checkGoals } = require('../goal-progress/goal-evaluator')
+const { storyModal, winModal } = require('./modals')
+const { goalListView } = require('../goal-progress')
 
-const winningCondition = (gameState, level, workspace, send) => {
-  const game = getGameState(gameState)
-  const levelAmount = _.size(levels) - 1
-  const story = level.storyModal
+const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
+  if (level) {
+    const game = getGameState(gameState)
+    const story = level.storyModal
 
-  const mandatoryGoals = getGoals({ game, workspace }, level.goals, { mandatory: true })
-  const optionalGoals = getGoals({ game, workspace }, level.goals, { mandatory: false })
+    const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
-  if (checkMandatoryGoals({ game, workspace }, level.goals)) {
-    const nextLevelButton = getNextLevelButton(send, level, levelAmount)
+    if (checkGoals({ game, workspace }, mandatoryGoals)) {
+      const nextLevelButton = getNextLevelButton(send, level)
 
-    // TODO move this to another place
-    // we shouldn't call send here because
-    // rerendering a component shouldn't have a side effect
-    send('stopSimulation')
+      return winModal({
+        header: `Congratulations on finishing level: ${level.label}`,
+        mandatoryGoals: goalListView({ goals: mandatoryGoals, game, workspace }),
+        optionalGoals: goalListView({ goals: optionalGoals, game, workspace }),
+        buttonText: nextLevelButton.text,
+        onClick: nextLevelButton.callback
+      })
+    }
 
-    return winModal({
-      header: `Congratulations on finishing Level ${level.level}`,
-      mandatoryGoals: mandatoryGoals,
-      optionalGoals: optionalGoals,
-      buttonText: nextLevelButton.text,
-      onClick: nextLevelButton.callback
-    })
-  }
-
-  if (level.displayStory) {
-    return storyModal({
-      header: `Tutorial - Level ${level.level}`,
-      story: story.text,
-      hint: story.hint,
-      img: story.img,
-      mandatoryGoals: mandatoryGoals,
-      optionalGoals: optionalGoals,
-      buttonText: 'Start Tutorial',
-      onClick: () => send('level:_setDisplayStoryModal', { displayStory: false })
-    })
+    if (isStoryModalOpen) {
+      return storyModal({
+        header: `Tutorial level: ${level.label}`,
+        story: story.text,
+        hint: story.hint,
+        img: story.img,
+        mandatoryGoals: goalListView({ goals: mandatoryGoals, game, workspace }),
+        optionalGoals: goalListView({ goals: optionalGoals, game, workspace }),
+        buttonText: 'Start Tutorial',
+        onClick: () => send('tutorial:setDisplayStoryModal', { displayStory: false })
+      })
+    }
   }
 }
 
-function getNextLevelButton (send, level, levelAmount) {
-  if (level.level < levelAmount) {
+function getNextLevelButton (send, level) {
+  if (level.nextTutorial) {
     return {
       text: 'Next Level',
-      callback: () => send('nextLevel')
+      callback: () => send('tutorial:loadLevel', { name: level.nextTutorial })
     }
   }
 
   return {
     text: 'Load Editor',
-    callback: () => send('location:set', '/')
+    callback: () => send('location:set', '/#editor')
   }
 }
 

@@ -1,4 +1,7 @@
 /* global Blockly */
+require('./blocks')
+require('./javascript-commands')
+
 const _ = require('lodash')
 const widget = require('cache-element/widget')
 const html = require('choo/html')
@@ -10,7 +13,6 @@ const prefix = sf`
     width: 100%;
   }
 `
-
 const options = {
   toolbox: '<xml id="toolbox" style="display: none"><category /></xml>',
   collapse: true,
@@ -86,6 +88,7 @@ function blocklyWidget () {
       onChange = _.noop
 
       workspace.removeChangeListener(updateCode)
+      workspace.dispose()
     },
 
     render: (params) => {
@@ -99,7 +102,7 @@ function blocklyWidget () {
   })
 
   function updateCode () {
-    const newCode = Blockly.JavaScript.workspaceToCode(workspace)
+    const newCode = workspaceToOrderedCode(workspace)
 
     // only update call onChangeWorkspace if resulting code from workspace has changed
     if (newCode !== code) {
@@ -134,7 +137,21 @@ function workspaceToString (workspace) {
 // checks if workspaces generate both the same code, ignoring position of blocks
 // you have to pass in an actual workspace not just strings
 function isWorkspaceEquivalentTo (workspace, compareWorkspace) {
-  return Blockly.JavaScript.workspaceToCode(workspace) === Blockly.JavaScript.workspaceToCode(compareWorkspace)
+  return workspaceToOrderedCode(workspace) === workspaceToOrderedCode(compareWorkspace)
+}
+
+// turns workspace into javascript
+// compared to Blockly.Javascript.workspaceToCode this function guarantees that event blocks will be inserted a start
+// of the generated JavaScript code
+function workspaceToOrderedCode (workspace) {
+  const blocks = workspace.getTopBlocks()
+  const [eventHandlerBlocks, otherBlocks] = _.partition(blocks, isBlockEventHandler)
+  const codeChunks = _.map(eventHandlerBlocks.concat(otherBlocks), (block) => Blockly.JavaScript.blockToCode(block))
+  return codeChunks.join('\n')
+}
+
+function isBlockEventHandler (block) {
+  return block.data === 'EVENT_HANDLER'
 }
 
 module.exports = blocklyWidget

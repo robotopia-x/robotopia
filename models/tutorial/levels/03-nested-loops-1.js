@@ -36,6 +36,8 @@ module.exports = {
     `
   },
 
+  label: 'easy nested loops',
+
   goals: [
     {
       type: 'moveTo',
@@ -54,7 +56,7 @@ module.exports = {
   storyModal: {
     text: 'Ohh no, this time Robot Rick has to travel longer... Good thing you now know how to use loops (Do you see the pattern?). Use the Move and Repeat Blocks',
     hint: 'Try nesting loops to get the shortest possible solution',
-    img: '../assets/img/tutorials/tutorial3.png'
+    img: '../../assets/img/tutorials/complex-loops-1.png'
   },
 
   nextTutorial: 'nested-loops-2'

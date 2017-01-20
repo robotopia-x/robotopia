@@ -78,6 +78,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     toolbox = tutorial.level.editor.toolbox
 
     goalProgressHtml = goalProgressView({
+      display: !tutorial.isStoryModalOpen,
       game: game.prev,
       goals: tutorial.level.goals,
       workspace: editor.workspace

@@ -14,3 +14,12 @@ input {
   height: 2em;
   width: 100%;
 }
+
+@keyframes move {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}

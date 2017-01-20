@@ -47,10 +47,11 @@ const goalListPrefix = sf`
   }
 `
 
-function goalProgressView ({ game, goals, workspace }) {
-  const [mandatoryGoals, optionalGoals] = _.partition(goals, (goal) => goal.isMandatory)
+function goalProgressView ({ display, game, goals, workspace }) {
+  if (display) {
+    const [mandatoryGoals, optionalGoals] = _.partition(goals, (goal) => goal.isMandatory)
 
-  return html`
+    return html`
     <div class="${goalPrefix}">
         <h2>Goals: </h2>
         ${goalListView({ goals: mandatoryGoals, game, workspace })}
@@ -59,7 +60,8 @@ function goalProgressView ({ game, goals, workspace }) {
         <h2>Bonus: </h2>
         ${goalListView({ goals: optionalGoals, game, workspace })}
     </div>
-  `
+    `
+  }
 }
 
 function goalListView ({ goals, game, workspace }) {
@@ -78,4 +80,7 @@ function goalListView ({ goals, game, workspace }) {
   `
 }
 
-module.exports = goalProgressView
+module.exports = {
+  goalListView,
+  goalProgressView
+}

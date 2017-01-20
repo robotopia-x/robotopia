@@ -1,59 +1,85 @@
+const html = require('choo/html')
 const _ = require('lodash')
-const levels = require('../models/game/levels')
 const { getGameState } = require('../../lib/game/index')
-const { getGoals, checkMandatoryGoals } = require('goal')
-const { storyModal, winModal } = require('modals')
+const { checkGoals } = require('../goal-progress/goal-evaluator')
+const buttonView = require('../button')
+const modalView = require('../modal')
+const { goalListView } = require('../goal-progress')
 
-const winningCondition = (gameState, level, workspace, send) => {
-  const game = getGameState(gameState)
-  const levelAmount = _.size(levels) - 1
-  const story = level.storyModal
+const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
+  if (level) {
+    const game = getGameState(gameState)
+    const story = level.storyModal
 
-  const mandatoryGoals = getGoals({ game, workspace }, level.goals, { mandatory: true })
-  const optionalGoals = getGoals({ game, workspace }, level.goals, { mandatory: false })
+    const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
-  if (checkMandatoryGoals({ game, workspace }, level.goals)) {
-    const nextLevelButton = getNextLevelButton(send, level, levelAmount)
+    if (checkGoals({ game, workspace }, mandatoryGoals)) {
+      const nextLevelButtonInfo = getNextLevelButton(send, level)
+      const nextLevelButton = buttonView({
+        label: nextLevelButtonInfo.text,
+        onClick: nextLevelButtonInfo.callback
+      })
 
-    // TODO move this to another place
-    // we shouldn't call send here because
-    // rerendering a component shouldn't have a side effect
-    send('stopSimulation')
+      return modalView(html`
+        <div class="animated content">
+          <h1>Congratulations on finishing level: ${level.label}</h1>  
+          <div class="goals">
+            <div>
+              <h5>Goals: </h5>
+              ${goalListView({ goals: mandatoryGoals, game, workspace })}
+            </div>
+            <div>
+              <h6>Optional: </h6>
+              ${goalListView({ goals: optionalGoals, game, workspace })}
+            </div>
+          </div>
+          ${nextLevelButton}
+        </div>
+      `)
+    }
 
-    return winModal({
-      header: `Congratulations on finishing Level ${level.level}`,
-      mandatoryGoals: mandatoryGoals,
-      optionalGoals: optionalGoals,
-      buttonText: nextLevelButton.text,
-      onClick: nextLevelButton.callback
-    })
-  }
+    if (isStoryModalOpen) {
+      const startButton = buttonView({
+        label: 'Start Tutorial',
+        onClick: () => send('tutorial:setDisplayStoryModal', { displayStory: false })
+      })
 
-  if (level.displayStory) {
-    return storyModal({
-      header: `Tutorial - Level ${level.level}`,
-      story: story.text,
-      hint: story.hint,
-      img: story.img,
-      mandatoryGoals: mandatoryGoals,
-      optionalGoals: optionalGoals,
-      buttonText: 'Start Tutorial',
-      onClick: () => send('level:_setDisplayStoryModal', { displayStory: false })
-    })
+      return modalView(html`
+        <div class="content animated">
+          <h1>Tutorial level: ${level.label}</h1> 
+          <div class="storyTime">
+            <p>${story.text}</p>
+            <p>(Hint: ${story.hint})</p>
+          </div>
+          ${story.img ? html`<img class="img" src="${story.img}"/>` : html``}
+          <div class="goals">
+            <div>
+              <h5>Goals: </h5>
+              ${goalListView({ goals: mandatoryGoals, game, workspace })}
+            </div>
+            <div>
+              <h6>Optional: </h6>
+              ${goalListView({ goals: optionalGoals, game, workspace })}
+            </div>
+          </div>
+          ${startButton}
+        </div>      
+      `)
+    }
   }
 }
 
-function getNextLevelButton (send, level, levelAmount) {
-  if (level.level < levelAmount) {
+function getNextLevelButton (send, level) {
+  if (level.nextTutorial) {
     return {
       text: 'Next Level',
-      callback: () => send('nextLevel')
+      callback: () => send('tutorial:loadLevel', { name: level.nextTutorial })
     }
   }
 
   return {
     text: 'Load Editor',
-    callback: () => send('location:set', '/')
+    callback: () => send('location:set', '/#editor')
   }
 }
 

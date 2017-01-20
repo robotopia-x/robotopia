@@ -2,6 +2,7 @@ const _ = require('lodash')
 const { getEntity } = require('../../lib/game/index')
 
 function checkGoal ({ goal, game, workspace }) {
+
   switch (goal.type) {
     case 'moveTo':
       if (game === null) {
@@ -29,13 +30,11 @@ function checkGoal ({ goal, game, workspace }) {
   }
 }
 
-function checkMandatoryGoals ({ game, workspace }, goals) {
-  return _(goals)
-    .filter('mandatory')
-    .every((goal) => checkGoal(goal.type, { game, workspace }, goal.params))
+function checkGoals ({ game, workspace }, goals) {
+  return _.every(goals, (goal) => checkGoal({ goal, game, workspace }))
 }
 
 module.exports = {
   checkGoal,
-  checkMandatoryGoals
+  checkGoals
 }

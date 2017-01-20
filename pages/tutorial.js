@@ -1,8 +1,9 @@
+/* global localStorage */
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../elements/game/index')
-// const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
-const goalProgressView = require('../elements/goal-progress')
+const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
+const { goalProgressView } = require('../elements/goal-progress')
 const blocklyWidget = require('../elements/blockly')
 const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
 
@@ -77,6 +78,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     toolbox = tutorial.level.editor.toolbox
 
     goalProgressHtml = goalProgressView({
+      display: !tutorial.isStoryModalOpen,
       game: game.prev,
       goals: tutorial.level.goals,
       workspace: editor.workspace
@@ -86,6 +88,9 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
   const playButtonHtml = playButtonView({
     running: clock.isRunning,
     onStart: () => {
+      send('game:loadGameState', { loadState: tutorial.level.game })
+      send('runtime:destroyRobot', { id: 'ROBOT' })
+      send('runtime:createRobot', { id: 'ROBOT', code: editor.code })
       send('clock:start')
     },
     onStop: () => send('clock:stop')
@@ -128,6 +133,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
           <div class="column">
             ${gameHtml}         
           </div>
+          ${tutorialDialogView(game, tutorial, editor.workspace, send)}
           ${goalProgressHtml} 
         </div>
     </main>

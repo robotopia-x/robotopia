@@ -7,16 +7,17 @@ const markerSpawner = {
   requires: ['position', 'team'],
 
   effects: {
-    spawn: (state, data, game, send) => {
+    spawn: (state, { type, requiredWorkers }, game, send) => {
       const { position, team } = state
-      const marker = entities.marker({ x: position.x, y: position.y, teamId: team.id })
+      const marker = entities.marker({
+        x: position.x,
+        y: position.y,
+        teamId: team.id,
+        taskType: type,
+        requiredWorkers
+      })
 
       send('game:createEntity', { data: marker }, _.noop)
-      send('runtime:triggerEvent', {
-        name: 'createMarker',
-        target: { groupId: team.id },
-        args: [ state ]
-      }, _.noop)
     }
   }
 }
@@ -47,11 +48,9 @@ const robotSpawner = {
   requires: ['position', 'team'],
 
   reducers: {
-    setStepsSinceLastSpawn: (state, { steps }) => {
-      return {
-        robotSpawner: { stepsSinceLastSpawn: { $set: steps } }
-      }
-    }
+    setStepsSinceLastSpawn: (state, { steps }) => ({
+      robotSpawner: { stepsSinceLastSpawn: { $set: steps } }
+    })
   },
 
   effects: {

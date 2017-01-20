@@ -68,7 +68,6 @@ module.exports = ({ hubUrl }) => {
     subscriptions: {
       p2pConnection: (send) => {
         client.onConnect(() => {
-
           send('client:_setConnectionStatus', { connected: true }, _.noop)
           send('client:sendUsername', { }, _.noop)
         })

@@ -31,7 +31,7 @@ const game = {
 
   entities: [
     entities.base({ x: 3, y: 3, teamId: 'BLUE' }),
-    entities.base({ x: 21, y: 21, teamId: 'RED' }),
+    // entities.base({ x: 21, y: 21, teamId: 'RED' }),
     entities.gem({ x: 20, y: 20 })
   ],
 

@@ -33,8 +33,8 @@ module.exports = {
       action: ['game:movable.setRotation', { direction: ORIENTATION[direction] }],
       cost: 0
     }),
-    placeMarker: () => ({
-      action: ['game:markerSpawner.spawn'],
+    placeMarker: (type, requiredWorkers) => ({
+      action: ['game:markerSpawner.spawn', { type, requiredWorkers }],
       cost: 1
     }),
     buildTower: () => ({

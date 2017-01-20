@@ -22,6 +22,8 @@ module.exports = () => {
 
     effects: {
       createRobot: ({ code }, { id, groupId }) => {
+        console.log('bot', code)
+
         runtime.createAgent({ id, api, code, groupId })
       },
 
@@ -35,6 +37,10 @@ module.exports = () => {
 
       triggerEvent: (state, { name, args, target }) => {
         runtime.triggerEvent(name, args, target)
+      },
+
+      switchMode: (state, { name, args, target }) => {
+        runtime.switchMode(name, args, target)
       }
     },
 

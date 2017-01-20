@@ -14,6 +14,7 @@ module.exports = {
     markerSpawner: {},
     towerSpawner: {},
     collector: { hasResource: false },
+    worker: { assignedTaskId: null },
     sprite: {
       type: 'ROTATING',
       data: {
@@ -45,7 +46,7 @@ module.exports = {
     position: { x, y },
     robotSpawner: {
       stepsSinceLastSpawn: 0,
-      interval: 20
+      interval: 50
     },
     sprite: {
       type: 'SIMPLE',
@@ -73,9 +74,14 @@ module.exports = {
     }
   }),
 
-  marker: ({ x, y, teamId }) => ({
+  marker: ({ x, y, teamId, requiredWorkers, taskType }) => ({
     position: { x, y },
     team: { id: teamId },
+    task: {
+      type: taskType,
+      requiredWorkers,
+      assignedWorkers: 0
+    },
     sprite: {
       type: 'SIMPLE',
       data: {

@@ -2,7 +2,6 @@ const _ = require('lodash')
 const { getEntity } = require('../../lib/game/index')
 
 function checkGoal ({ goal, game, workspace }) {
-
   switch (goal.type) {
     case 'moveTo':
       if (game === null) {

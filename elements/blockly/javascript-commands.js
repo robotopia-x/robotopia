@@ -4,8 +4,8 @@ Blockly.JavaScript.marker_event_handler = function (block) {
   const statements = Blockly.JavaScript.statementToCode(block, 'body')
 
   return (
-    `robot.on('${type} marker', function (marker) {
-  ${statements}
+    `robot.onMode('${type}', function (marker) {
+${statements}
 })\n`)
 }
 
@@ -13,8 +13,8 @@ Blockly.JavaScript.tower_event_handler = function (block) {
   const statements = Blockly.JavaScript.statementToCode(block, 'body')
 
   return (
-   `robot.on('tower discovered', function (tower) {
-  ${statements}
+   `robot.onEvent('tower discovered', function (tower) {
+${statements}
 })\n`)
 }
 

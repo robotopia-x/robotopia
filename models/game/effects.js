@@ -1,4 +1,5 @@
 const _ = require('lodash')
+const { getTeamResources, getTeamGamePoints } = require('../../lib/game')
 
 function addResources (state, { teamId, amount }, send) {
   send('game:setResource', {
@@ -26,15 +27,6 @@ function decreaseGamePoints (state, { teamId, amount }, send) {
     teamId: teamId,
     amount: getTeamGamePoints(state, teamId) - amount
   }, _.noop)
-}
-
-// TODO: move these to other, more appropriate place
-function getTeamResources ({ resources }, teamId) {
-  return _.get(resources, teamId, 0)
-}
-
-function getTeamGamePoints ({ gamePoints }, teamId) {
-  return _.get(gamePoints, teamId, 0)
 }
 
 module.exports = {

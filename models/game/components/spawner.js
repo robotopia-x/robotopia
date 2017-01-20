@@ -2,6 +2,7 @@ const _ = require('lodash')
 const uid = require('uid')
 const entities = require('../entities')
 const { isFieldEmpty } = require('../../../lib/game')
+const { hasEnoughResources } = require('../../../lib/game')
 
 const markerSpawner = {
   requires: ['position', 'team'],
@@ -33,11 +34,15 @@ const towerSpawner = {
         const tower = entities.tower({ x, y, teamId: team.id })
 
         // TODO: check here if enough resources are available
+        if (!hasEnoughResources(game, team.id, 10)) {
+          console.log('too few')
+        }
 
         // TODO: check that tower is not near base, this is checked in the buildTowerNearPosition
         //       but could be circumvented by calling spawn direclty with custom Javascript code
 
         send('game:createEntity', { data: tower }, _.noop)
+        send('game:increaseGamePoints', { teamId: team.id, amount: 100 }, _.noop)
       }
     }
   }

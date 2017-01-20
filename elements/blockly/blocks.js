@@ -1,7 +1,11 @@
 /* global Blockly */
-
 // adds the bow on top of event blocks
 Blockly.BlockSvg.START_HAT = true
+
+// Defines saturation and lightness
+// of the given block colors
+Blockly.HSV_SATURATION = 0.6
+Blockly.HSV_VALUE = 0.75
 
 Blockly.Blocks.marker_event_handler = {
   init: function () {

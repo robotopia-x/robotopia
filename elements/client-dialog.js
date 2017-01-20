@@ -31,7 +31,7 @@ function setUsernameDialog ({
   })
 
   return modalView(html`
-    <div>
+    <div class="content">
       <p>Please enter your name</p>
     
       <form onsubmit=${handleSubmit}>
@@ -59,7 +59,7 @@ function joinGroupDialog ({
   })
 
   return modalView(html`
-    <div>
+    <div class="content">
       <p>Please enter the name of the group you would like to join</p>
         
       <form onsubmit=${handleSubmit}>
@@ -88,7 +88,7 @@ function waitForConnectionDialog ({
   })
 
   return modalView(html`
-    <div>
+    <div class="content">
       <h1>Connecting...</h1>
       
       <img src="../assets/img/web/load.gif" alt="loading" class="connecting">

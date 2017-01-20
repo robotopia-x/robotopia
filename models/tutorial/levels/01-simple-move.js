@@ -27,6 +27,8 @@ module.exports = {
     `
   },
 
+  label: 'simple move',
+
   goals: [
     {
       type: 'moveTo',
@@ -45,7 +47,7 @@ module.exports = {
   storyModal: {
     text: 'Robot Rick got lost in his laboratory, help him find the way to his garden by moving him onto the grass field. Use the Move and Rotate Blocks',
     hint: 'You can also only use Move with the different directions',
-    img: '../assets/img/tutorials/tutorial1.png'
+    img: '../../assets/img/tutorials/simple-move.png'
   },
 
   nextTutorial: 'simple-loops'

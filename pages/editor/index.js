@@ -67,6 +67,7 @@ const controlsPrefix = sf`
 `
 
 const blocklyView = blocklyWidget()
+const dev_editor = true           //set to true to dev on the editor and not be bothered with multiplayer
 
 function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
@@ -122,7 +123,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
           ${gameHtml}
         </div>
       </div>
-      ${clientDialogHtml}
+      ${!dev_editor ? clientDialogHtml : ''}
     </main>
   `
 

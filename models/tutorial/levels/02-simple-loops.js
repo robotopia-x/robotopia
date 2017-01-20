@@ -43,6 +43,8 @@ module.exports = {
     `
   },
 
+  label: 'simple loops',
+
   goals: [
     {
       type: 'moveTo',
@@ -61,7 +63,7 @@ module.exports = {
   storyModal: {
     text: 'Look at that way to the goal... It looks like we need a lot of blocks to get there. But wait, there are repeat blocks, which will make the work easier. Use the Move and Repeat Blocks',
     hint: 'You can also do this without the repeat block.',
-    img: '../assets/img/tutorials/tutorial2.png'
+    img: '../../assets/img/tutorials/simple-loops.png'
   },
 
   nextStory: 'nested-loops-1'

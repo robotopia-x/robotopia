@@ -101,7 +101,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     client,
     onSetUsername: (username) => send('client:setUsername', { username }),
     onJoinGroup: (groupId) => send('client:joinGroup', { groupId }),
-    onDisconnect: () => send('client:disconnect')
+    onDisconnect: () => send('client:disconnect'),
+    onDenyRecovery: () => send('client:denyRecovery')
   })
 
   return html`
@@ -120,7 +121,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
         <div class="column">
           ${gameHtml}
         </div>
-      </div>  
+      </div>
+      ${clientDialogHtml}
     </main>
   `
 

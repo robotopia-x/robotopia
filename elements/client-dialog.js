@@ -6,8 +6,26 @@ const buttonView = require('./button')
 
 module.exports = function ({
   client,
-  onSetUsername, onJoinGroup, onDisconnect
+  onSetUsername, onJoinGroup, onDisconnect, onDenyRecovery
 }) {
+
+  if (client.connected) {
+    return html`<div></div>`
+  }
+
+  if (client.connecting === true) {
+    return waitForConnectionDialog({ onCancel: onDisconnect })
+  }
+
+  if (client.recoveryPossible) {
+    return recoveryDialog({
+      recover: () => {
+        onJoinGroup(client.groupId)
+      },
+      cancel: onDenyRecovery
+    })
+  }
+
   if (client.username === null) {
     return setUsernameDialog({ onSetUsername })
   }
@@ -16,12 +34,36 @@ module.exports = function ({
     return joinGroupDialog({ onJoinGroup })
   }
 
-  if (client.connected === false) {
-    return waitForConnectionDialog({ onCancel: onDisconnect })
-  }
-
   return html`<div></div>`
 }
+
+function recoveryDialog ({
+  recover,
+  cancel
+}) {
+  const recoverButtonHtml = buttonView({
+    label: 'recover',
+    onClick: (evt) => {
+      recover()
+    }
+  })
+  const cancelButtonHtml = buttonView({
+    label: 'cancel',
+    onClick: (evt) => {
+      cancel()
+    }
+  })
+
+  return modalView(html`
+    <div class="content">
+      <p>I found a previous Session on your Browser, would you like to recover?</p>
+        ${recoverButtonHtml}
+        ${cancelButtonHtml}
+    </div>
+  `)
+
+}
+
 
 function setUsernameDialog ({
   onSetUsername

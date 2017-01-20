@@ -96,6 +96,22 @@ module.exports = {
 
       this.moveTo(towerPosition.x, towerPosition.y)
       this.buildTower()
+    },
+
+    onMode: function (name, handler) {
+      if (this.__modeHandlers === undefined) {
+        this.__modeHandlers = {}
+      }
+
+      this.__modeHandlers = {}
+    },
+
+    onEvent: function (name, handler) {
+      if (this.__eventHandlers === undefined) {
+        this.__eventHandlers = {}
+      }
+
+      this.__eventHandlers[name] = handler
     }
   },
 

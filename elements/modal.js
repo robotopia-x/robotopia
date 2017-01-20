@@ -10,7 +10,8 @@ const prefix = sf`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);    
+    background: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
   }
   
   :host > .inner {

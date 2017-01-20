@@ -17,7 +17,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
       const nextLevelButtonInfo = getNextLevelButton(send, level)
       const nextLevelButton = buttonView({
         label: nextLevelButtonInfo.text,
-        onClick: nextLevelButton.callback
+        onClick: nextLevelButtonInfo.callback
       })
 
       return modalView(html`

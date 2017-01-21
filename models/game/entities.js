@@ -46,7 +46,7 @@ module.exports = {
     position: { x, y },
     robotSpawner: {
       stepsSinceLastSpawn: 0,
-      interval: 50
+      interval: 5
     },
     sprite: {
       type: 'SIMPLE',
@@ -74,11 +74,11 @@ module.exports = {
     }
   }),
 
-  marker: ({ x, y, teamId, requiredWorkers, taskType }) => ({
+  marker: ({ x, y, teamId, requiredWorkers, taskName }) => ({
     position: { x, y },
     team: { id: teamId },
     task: {
-      type: taskType,
+      name: taskName,
       requiredWorkers,
       assignedWorkers: 0
     },

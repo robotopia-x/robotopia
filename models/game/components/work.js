@@ -13,7 +13,9 @@ const task = {
   },
 
   effects: {
-    update: ({ id, task, team }, data, game, send) => {
+    update: (state, data, game, send) => {
+      const { id, task, team } = state
+
       if (task.requiredWorkers === task.assignedWorkers) {
         return
       }
@@ -32,7 +34,7 @@ const task = {
       _.forEach(assignableWorkers, ({ id }) => {
         send('game:worker.assignToTask', {
           target: id,
-          data: { task }
+          data: { taskEntity: state }
         }, _.noop)
       })
     }
@@ -57,16 +59,18 @@ const worker = {
   },
 
   effects: {
-    assignToTask: ({ id }, { task }, game, send) => {
-      /* send('runtime:switchMode', {
+    assignToTask: ({ id }, { taskEntity }, game, send) => {
+      const { task } = taskEntity
+
+      send('runtime:switchMode', {
         name: task.name,
-        target: id,
-        args: [ task ]
-      }, _.noop) */
+        target: { id },
+        args: [ taskEntity ]
+      }, _.noop)
 
       send('game:worker._assignTaskId', {
         target: id,
-        data: { taskId: task.id }
+        data: { taskId: taskEntity.id }
       }, _.noop)
     }
   }

@@ -5,6 +5,7 @@ const blocklyWidget = require('../../elements/blockly')
 const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
 const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
+const gameStatsView = require('../../elements/gameStats')
 
 const mainPrefix = sf`
     :host {
@@ -106,6 +107,11 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     onDenyRecovery: () => send('client:denyRecovery')
   })
 
+  const gameStatsHtml = gameStatsView({
+    gamePoints: game.current.gamePoints,
+    resources: game.current.resources
+  })
+
   return html`
     <main class="${mainPrefix}" onload=${initEditor}>
       <div class="header-bar">
@@ -121,6 +127,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
         <div class="divider"></div>
         <div class="column">
           ${gameHtml}
+          ${gameStatsHtml}
         </div>
       </div>
       ${!dev_editor ? clientDialogHtml : ''}

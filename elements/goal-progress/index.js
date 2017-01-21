@@ -12,6 +12,9 @@ const goalPrefix = sf`
     background-color: #DDDDDD;
     color: #404040;
     padding: 25px;
+    border-width: 0px 0px 10px 10px;
+    border-style: solid;
+    border-color: #404040;
   }
 
   :host > h2 {

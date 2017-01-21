@@ -167,7 +167,7 @@ Blockly.Blocks.move_to = {
 }
 
 const entityOptions = [
-  ['marker', 'entity.position'],
+  ['marker', 'marker.position'],
   ['tower', 'entity.position'],
   ['base', 'robot.getBasePosition()']
 ]

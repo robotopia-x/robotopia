@@ -13,7 +13,7 @@ const markerSpawner = {
         x: position.x,
         y: position.y,
         teamId: team.id,
-        taskType: type,
+        taskName: type,
         requiredWorkers
       })
 

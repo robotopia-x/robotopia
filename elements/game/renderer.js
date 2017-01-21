@@ -222,12 +222,14 @@ function renderTask (ctx, current, prev, progress) {
     ctx.arc(x, y, (TASK_CIRCLE_WIDTH / 2) + TASK_PADDING, percentage === 1 ? 0 : angle, Math.PI * 2, true) // inner (unfills it)
     ctx.closePath()
     ctx.fill()
+    ctx.stroke()
   }
 
   // draw circle
   ctx.beginPath()
   ctx.arc(x, y, (TASK_CIRCLE_WIDTH / 2), 0, Math.PI * 2, true)
   ctx.fill()
+  ctx.stroke()
 
   ctx.restore()
 }

@@ -67,6 +67,7 @@ const controlsPrefix = sf`
 `
 
 const blocklyView = blocklyWidget()
+const dev_editor = true           //set to true to dev on the editor and not be bothered with multiplayer
 
 function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
@@ -101,7 +102,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     client,
     onSetUsername: (username) => send('client:setUsername', { username }),
     onJoinGroup: (groupId) => send('client:joinGroup', { groupId }),
-    onDisconnect: () => send('client:disconnect')
+    onDisconnect: () => send('client:disconnect'),
+    onDenyRecovery: () => send('client:denyRecovery')
   })
 
   return html`
@@ -120,7 +122,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
         <div class="column">
           ${gameHtml}
         </div>
-      </div>  
+      </div>
+      ${!dev_editor ? clientDialogHtml : ''}
     </main>
   `
 

@@ -12,41 +12,54 @@ module.exports = ({ hubUrl }) => {
   return {
     namespace: 'client',
 
-    state: {
-      username: null,
-      groupId: null,
-      connected: false
-    },
+    state: getStateFromLocalStorage(),
 
     reducers: {
-      setUsername: (state, { username }) =>
+      setUsername: (state, { username }) => {
+        state.username = username
+        localStorage.setItem('roboSession', JSON.stringify(state))
+        return state
+      },
+
+      _setGroupId: (state, { groupId }) => {
+        state.groupId = groupId
+        localStorage.setItem('roboSession', JSON.stringify(state))
+        return state
+      },
+
+      _setConnectionStatus: (state, { connected, connecting }) =>
         update(state, {
-          username: { $set: username }
+          connected: { $set: connected },
+          connecting: { $set: connecting }
         }),
 
-      _setGroupId: (state, { groupId }) =>
-        update(state, {
-          groupId: { $set: groupId }
-        }),
+      denyRecovery: (state) => {
+        localStorage.setItem('roboSession', '')
+        state.username = null
+        state.groupId= null
+        state.clientId= null
+        state.connecting= false
+        state.recoveryPossible= false
+        return state
+      },
 
-      _setConnectionStatus: (state, { connected }) =>
-        update(state, {
-          connected: { $set: connected }
-        })
+      _setClientId: (state, { clientId }) => {
+        console.log(clientId)
+        state.clientId = clientId
+        localStorage.setItem('roboSession', JSON.stringify(state))
+        return state
+      }
     },
 
     effects: {
       disconnect: (state, data, send) => {
         client.stop()
         send('client:_setGroupId', { groupId: null }, _.noop)
+        send('client:setUsername', { username: null }, _.noop)
       },
 
       joinGroup: (state, { groupId }, send) => {
-        if (state.username === null || state.groupId !== null) {
-          return
-        }
-
-        client.joinStar({ gid: groupId })
+        client.joinStar(groupId, state.clientId)
         send('client:_setGroupId', { groupId }, _.noop)
       },
 
@@ -67,15 +80,45 @@ module.exports = ({ hubUrl }) => {
 
     subscriptions: {
       p2pConnection: (send) => {
-        client.onConnect(() => {
-          send('client:_setConnectionStatus', { connected: true }, _.noop)
+        client.onConnect((groupId, clientId) => {
+          send('client:_setConnectionStatus', { connected: true, connecting: false }, _.noop)
+          send('client:_setClientId', { clientId: clientId }, _.noop)
           send('client:sendUsername', { }, _.noop)
         })
 
         client.onDisconnect(() => {
-          send('client:_setConnectionStatus', { connected: false }, _.noop)
+          send('client:_setConnectionStatus', { connected: false, connecting: true }, _.noop)
+        })
+
+        client.onConnecting(() => {
+          send('client:_setConnectionStatus', { connected: false, connecting: true }, _.noop)
         })
       }
     }
   }
+}
+
+function getStateFromLocalStorage() {
+  let localState = {
+    username: null,
+    groupId: null,
+    clientId: null,
+    connecting: false,
+    recoveryPossible: false
+  }
+  try {
+    let session = JSON.parse(localStorage.getItem('roboSession'))
+    if (!session || !session.username || !session.groupId || !session.clientId) {
+      console.log('No valid previous Session present... ' + JSON.stringify(session))
+      return localState
+    }
+    localState.username = session.username
+    localState.groupId = session.groupId
+    localState.clientId = session.clientId
+    localState.recoveryPossible = true
+    console.log('Loaded group "' + localState.groupId + '" for user "' + localState.username + '[' + localState.clientId + ']"')
+  } catch (e) {
+    console.log('Error loading local Storage')
+  }
+  return localState
 }

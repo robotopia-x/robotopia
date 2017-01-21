@@ -72,7 +72,7 @@ module.exports = ({ hubUrl }) => {
       },
 
       joinGroup: (state, { groupId }, send) => {
-        presenter.joinStar({ gid: groupId })
+        presenter.joinStar(groupId)
         send('presenter:_setGroupId', { groupId }, _.noop)
       },
 

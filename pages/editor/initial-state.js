@@ -35,7 +35,8 @@ const game = {
     entities.gem({ x: 20, y: 20 })
   ],
 
-  resources: {}
+  resources: {},
+  gamePoints: {}
 }
 
 const editor = {

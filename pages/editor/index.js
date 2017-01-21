@@ -6,6 +6,7 @@ const blocklyWidget = require('../../elements/blockly')
 const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
 const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
+const gameStatsView = require('../../elements/gameStats')
 
 const mainPrefix = sf`
     :host {
@@ -68,6 +69,7 @@ const controlsPrefix = sf`
 `
 
 const blocklyView = blocklyWidget()
+const dev_editor = true           //set to true to dev on the editor and not be bothered with multiplayer
 
 function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
@@ -102,7 +104,13 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     client,
     onSetUsername: (username) => send('client:setUsername', { username }),
     onJoinGroup: (groupId) => send('client:joinGroup', { groupId }),
-    onDisconnect: () => send('client:disconnect')
+    onDisconnect: () => send('client:disconnect'),
+    onDenyRecovery: () => send('client:denyRecovery')
+  })
+
+  const gameStatsHtml = gameStatsView({
+    gamePoints: game.current.gamePoints,
+    resources: game.current.resources
   })
 
   return html`
@@ -120,8 +128,10 @@ function editorView ({ clock, editor, game, client }, prev, send) {
         <div class="divider"></div>
         <div class="column">
           ${gameHtml}
+          ${gameStatsHtml}
         </div>
-      </div>  
+      </div>
+      ${!dev_editor ? clientDialogHtml : ''}
     </main>
   `
 

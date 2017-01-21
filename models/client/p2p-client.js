@@ -2,12 +2,13 @@ const _ = require('lodash')
 const ps = require('peer-star')
 
 module.exports = ({
-  hubUrl, cid
+  hubUrl
 }) => {
   let star = null
   let presenterPeer = null
   let connectCallback = _.noop
   let disconnectCallback = _.noop
+  let onConnectingCallback = _.noop
 
   function send (data) {
     if (presenterPeer === null) {
@@ -17,40 +18,46 @@ module.exports = ({
     presenterPeer.send(JSON.stringify(data))
   }
 
-  function stop () {
+  function stop (cb) {
     if (star === null) {
       return
     }
 
-    star.close()
+    star.close(cb)
     star = null
   }
 
-  function joinStar (gid) {
+  function joinStar (gid, cid) {
     if (star !== null) {
-      stop()
+      return stop(createNew)
     }
 
-    star = ps({
-      hubURL: hubUrl,
-      GID: gid,
-      CID: cid,
-      isMain: false
-    })
+    createNew()
 
-    star.on('peer', (peer, id) => {
-      if (id === 'MAIN') {
-        presenterPeer = peer
-        connectCallback({ gid })
-      }
-    })
+    function createNew() {
+      star = ps({
+        hubURL: hubUrl,
+        GID: gid,
+        CID: cid,
+        isMain: false
+      })
 
-    star.on('disconnect', (peer, id) => {
-      if (id === 'MAIN') {
-        disconnectCallback({ gid })
-        presenterPeer = peer
-      }
-    })
+      onConnectingCallback()
+
+      star.on('peer', (peer, id) => {
+        if (id === 'MAIN') {
+          presenterPeer = peer
+          connectCallback( gid, star.CID)
+        }
+      })
+
+      star.on('disconnect', (peer, id) => {
+        if (id === 'MAIN') {
+          disconnectCallback({ gid })
+          presenterPeer = peer
+        }
+      })
+    }
   }
 
   function onConnect (callback) {
@@ -61,11 +68,16 @@ module.exports = ({
     disconnectCallback = callback
   }
 
+  function onConnecting(callback) {
+    onConnectingCallback = callback
+  }
+
   return {
     send,
     joinStar,
     stop,
     onConnect,
-    onDisconnect
+    onDisconnect,
+    onConnecting
   }
 }

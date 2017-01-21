@@ -81,12 +81,6 @@ module.exports = {
       name: taskName,
       requiredWorkers,
       assignedWorkers: 0
-    },
-    sprite: {
-      type: 'SIMPLE',
-      data: {
-        sprite: 'MARKER'
-      }
     }
   })
 }

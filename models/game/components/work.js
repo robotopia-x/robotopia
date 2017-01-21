@@ -5,16 +5,22 @@ const task = {
   requires: ['team'],
 
   reducers: {
-    _setAssignedWorkers: (state, { assignedWorkers }) => {
-      return {
-        task: { assignedWorkers: { $set: assignedWorkers } }
-      }
-    }
+    setWorkerCompleted: ({ task }) => ({
+      task: { completedWorkers: { $set: task.completedWorkers + 1 } }
+    }),
+
+    _setAssignedWorkers: (state, { assignedWorkers }) => ({
+      task: { assignedWorkers: { $set: assignedWorkers } }
+    })
   },
 
   effects: {
     update: (state, data, game, send) => {
       const { id, task, team } = state
+
+      if (task.completedWorkers === task.requiredWorkers) {
+        send('game:deleteEntity', { data: { id: state.id } }, _.noop)
+      }
 
       if (task.requiredWorkers === task.assignedWorkers) {
         return
@@ -65,12 +71,24 @@ const worker = {
       send('runtime:switchMode', {
         name: task.name,
         target: { id },
-        args: [ taskEntity ]
+        args: [taskEntity]
       }, _.noop)
 
       send('game:worker._assignTaskId', {
         target: id,
         data: { taskId: taskEntity.id }
+      }, _.noop)
+    },
+
+    completeTask: ({ id, worker }, data, game, send) => {
+      send('game:task.setWorkerCompleted', {
+        target: worker.assignedTaskId,
+        data: { taskId: null }
+      }, _.noop)
+
+      send('game:worker._assignTaskId', {
+        target: id,
+        data: { taskId: null }
       }, _.noop)
     }
   }

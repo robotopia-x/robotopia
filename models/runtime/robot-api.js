@@ -106,8 +106,6 @@ module.exports = {
     },
 
     onMode: function (name, handler) {
-      console.log('add mode handler', name)
-
       if (this.__modeHandlers === undefined) {
         this.__modeHandlers = {}
       }

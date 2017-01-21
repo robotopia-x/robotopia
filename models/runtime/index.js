@@ -22,8 +22,6 @@ module.exports = () => {
 
     effects: {
       createRobot: ({ code }, { id, groupId }) => {
-        console.log('bot', code)
-
         runtime.createAgent({ id, api, code, groupId })
       },
 

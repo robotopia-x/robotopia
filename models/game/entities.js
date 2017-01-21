@@ -80,7 +80,8 @@ module.exports = {
     task: {
       name: taskName,
       requiredWorkers,
-      assignedWorkers: 0
+      assignedWorkers: 0,
+      completedWorkers: 0
     }
   })
 }

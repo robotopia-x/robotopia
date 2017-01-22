@@ -31,6 +31,7 @@ module.exports = {
   gem: ({ x, y }) => ({
     position: { x, y },
     item: { type: 'gem' },
+    collides: {},
     collectable: {},
     sprite: {
       type: 'SIMPLE',

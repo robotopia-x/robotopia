@@ -18,7 +18,7 @@ module.exports = {
       collectResource: (state, data, game, send) => {
         const hasResource = state.collector.hasResource
 
-        if (!hasResource && isOnResource(state, game)) {
+        if (!hasResource && isNearResource(state, game)) {
           send('game:collector._setHasResource', {
             target: state.id,
             data: { hasResource: true }
@@ -41,16 +41,19 @@ module.exports = {
   }
 }
 
-function isOnResource ({ position }, { entities }) {
+function isNearResource ({ position }, { entities }) {
   const resources = _.filter(entities, 'collectable')
 
-  return _.find(resources, { position: { x: position.x, y: position.y } })
+  return _.find(resources, (resource) => {
+    const distance = Math.abs(resource.position.x - position.x) + Math.abs(resource.position.y - position.y)
+    return distance <= 1
+  })
 }
 
 function isOnBase ({ position, team }, { entities }) {
   const teamBase = _(entities)
-                  .filter('robotSpawner')
-                  .find({ team: { id: team.id } })
+    .filter('robotSpawner')
+    .find({ team: { id: team.id } })
 
-  return _.isEqual(teamBase.position, { x: position.x, y: position.y })
+  return teamBase.position.x === position.x && teamBase.position.y === position.y
 }

@@ -82,7 +82,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
 
   const resetButtonHtml = button({
     label: 'Reset',
-    onClick: initEditor
+    onClick: init
   })
 
   const speedSliderHtml = speedSliderView({
@@ -121,7 +121,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
   })
 
   return html`
-    <main class="${mainPrefix}" onload=${initEditor}>
+    <main class="${mainPrefix}" onload=${init}>
       <div class="header-bar">
         <div class="${controlsPrefix}">
           ${playButtonHtml}
@@ -143,10 +143,11 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     </main>
   `
 
-  function initEditor () {
+  function init () {
     send('clock:stop')
     send('runtime:reset')
     send('game:loadGameState', { loadState: initialState.game })
+    send('game:initializeResourceSpots', { numberOfSpots: 4 })
   }
 }
 

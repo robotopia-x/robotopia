@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
 const p2pPresenter = require('./p2p-presenter')
+const OneonOne = require('../../assets/levels/1on1')
 
 module.exports = ({ hubUrl }) => {
   const presenter = p2pPresenter({
@@ -55,10 +56,14 @@ module.exports = ({ hubUrl }) => {
           }
         }),
 
-      setToGameState: ( state, players ) =>
+      setPlayers: ( state, players ) =>
         update(state, {
-          playerNumbers: { $set: players },
-          gameActive: { $set: true}
+          playerNumbers: { $set: players }
+        }),
+
+      _setGameState: ( state, gameRunning ) =>
+        update(state, {
+          gameActive: { $set: gameRunning }
         }),
 
       _setGroupId: (state, { groupId }) => {
@@ -88,16 +93,27 @@ module.exports = ({ hubUrl }) => {
         let clientIds = Object.keys(clients)
         let players = {}
         if (clientIds.length < playerCount) {
-          return done()
+          return
         }
         for (var i = 1; i <= playerCount; i++) {
           let nextIndex = Math.random() * clientIds.length
           let nextPlayer = clientIds.splice(nextIndex, 1)
           players[i] = nextPlayer[0]
         }
-        
-        send('presenter:setToGameState', players, _.noop)
-        done()
+        send('presenter:setPlayers', players, _.noop)
+
+        for (var p in players) {
+          send('runtime:commitCode', { code: clients[players[p]].code, groupId: p }, _.noop)
+        }
+        send('presenter:_setGameState', true, _.noop)
+        send('clock:start', null, _.noop)
+      },
+
+      stopMatch: ( { clients }, data, send ) => {
+        send('presenter:_setGameState', false, _.noop)
+        send('clock:stop', null, _.noop)
+        send('runtime:reset', { loadState: OneonOne }, _.noop)
+        send('game:loadGameState', { loadState: OneonOne }, _.noop)
       },
 
       handleMessage: ({ clients }, { id, message }, send) => {

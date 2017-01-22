@@ -1,11 +1,14 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const modal = require('../elements/modal')
-const button = require('../elements/button')
+const modal = require('../../elements/modal')
+const button = require('../../elements/button')
 const _ = require('lodash')
-const { startButtonView } = require('../elements/presenter-controls')
+const { startButtonView } = require('../../elements/presenter-controls')
+const gameView = require('../../elements/game/index')
+const gameStatsView = require('../../elements/gameStats')
+const OneonOne = require('../../assets/levels/1on1')
 
-module.exports = function ({ presenter }, prev, send) {
+module.exports = function ({ presenter, game, clock }, prev, send) {
   if (presenter.groupId === null) {
     return joinGroupDialog({
       onJoinGroup: (groupId) => {
@@ -13,6 +16,16 @@ module.exports = function ({ presenter }, prev, send) {
       }
     })
   }
+
+  const gameHtml = gameView({
+    state: game,
+    progress: clock.progress
+  })
+
+  const gameStatsHtml = gameStatsView({
+    gamePoints: game.current.gamePoints,
+    resources: game.current.resources
+  })
 
   const disconnectButtonHtml = button({
     label: 'Exit',
@@ -22,7 +35,7 @@ module.exports = function ({ presenter }, prev, send) {
   const startButtonHtml = startButtonView({
     isRunning: presenter.gameActive,
     onStart: () => send('presenter:startMatch', 2),
-    onStop: () => {console.log('should stop now.')}
+    onStop: () => send('presenter:stopMatch')
   })
 
   return html`
@@ -32,14 +45,20 @@ module.exports = function ({ presenter }, prev, send) {
   <h3>Clients</h3>
     ${listClients (presenter)}
   </div>
-    <div class="gameView">
-    
+    <div class="gameView" onload=${initGame}>
+        ${gameHtml}
+        ${gameStatsHtml}
     </div>
     <div class="footer">
       ${disconnectButtonHtml} ${startButtonHtml}
     </div>
   </div>
 `
+
+  function initGame () {
+    send('game:loadGameState', { loadState: OneonOne })
+  }
+
 }
 
 function joinGroupDialog ({ onJoinGroup }) {

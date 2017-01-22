@@ -91,6 +91,14 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     intervalDuration: clock.intervalDuration,
     onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
   })
+  
+  const commitButtonHtml = button({
+    onClick: () => {
+      send('client:sendCode', {code: editor.code})
+    },
+    icon: 'upload',
+    label: 'Upload'
+  })
 
   const blocklyHtml = blocklyView({
     toolbox: initialState.editor.toolbox,
@@ -127,6 +135,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
           ${playButtonHtml}
           ${resetButtonHtml}
           ${speedSliderHtml}
+          ${commitButtonHtml}
         </div>
       </div>      
       <div class=${`${contentPrefix} content`}>

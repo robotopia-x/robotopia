@@ -4,9 +4,12 @@ const sf = require('sheetify')
 const gameView = require('../../elements/game/index')
 const blocklyWidget = require('../../elements/blockly')
 const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
+const button = require('../../elements/button')
 const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
 const gameStatsView = require('../../elements/gameStats')
+
+const DEV_MODE = true //set to true to dev on the editor and not be bothered with multiplayer
 
 const mainPrefix = sf`
     :host {
@@ -69,13 +72,17 @@ const controlsPrefix = sf`
 `
 
 const blocklyView = blocklyWidget()
-const dev_editor = true           //set to true to dev on the editor and not be bothered with multiplayer
 
 function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => send('clock:start'),
-    onStop: () => send('clock:stop')
+    onPause: () => send('clock:stop')
+  })
+
+  const resetButtonHtml = button({
+    label: 'Reset',
+    onClick: initEditor
   })
 
   const speedSliderHtml = speedSliderView({
@@ -118,6 +125,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
       <div class="header-bar">
         <div class="${controlsPrefix}">
           ${playButtonHtml}
+          ${resetButtonHtml}
           ${speedSliderHtml}
         </div>
       </div>      
@@ -131,11 +139,13 @@ function editorView ({ clock, editor, game, client }, prev, send) {
           ${gameStatsHtml}
         </div>
       </div>
-      ${!dev_editor ? clientDialogHtml : ''}
+      ${!DEV_MODE ? clientDialogHtml : ''}
     </main>
   `
 
   function initEditor () {
+    send('clock:stop')
+    send('runtime:reset')
     send('game:loadGameState', { loadState: initialState.game })
   }
 }

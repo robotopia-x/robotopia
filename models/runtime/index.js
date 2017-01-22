@@ -30,16 +30,20 @@ module.exports = () => {
         runtime.destroyAgent(id)
       },
 
-      step: () => {
-        runtime.step()
-      },
-
       triggerEvent: (state, { type, args, target }) => {
         runtime.triggerEvent(type, args, target)
       },
 
       switchMode: (state, { type, args, target }) => {
         runtime.switchMode(type, args, target)
+      },
+
+      step: () => {
+        runtime.step()
+      },
+
+      reset: () => {
+        runtime.reset()
       }
     },
 

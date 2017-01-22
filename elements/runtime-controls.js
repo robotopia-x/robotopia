@@ -19,13 +19,13 @@ function speedSliderView ({
 
 function playButtonView ({
   isRunning,
-  onStart, onStop
+  onStart, onPause
 }) {
   if (isRunning) {
     return button({
-      onClick: onStop,
-      icon: 'stop',
-      label: 'Stop'
+      onClick: onPause,
+      icon: 'pause',
+      label: 'Pause'
     })
   }
 

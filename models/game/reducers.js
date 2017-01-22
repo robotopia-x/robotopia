@@ -1,12 +1,23 @@
-const setResource = (state, { teamId, amount }) => {
-  return { resources: { [teamId]: { $set: amount } } }
+function addResources ({ resources }, { teamId, amount }) {
+  return {
+    resources: { [teamId]: { $set: resources[teamId] + amount } }
+  }
 }
 
-const setGamePoints = (state, { teamId, amount }) => {
-  return { gamePoints: { [teamId]: { $set: amount } } }
+function removeResources ({ resources }, { teamId, amount }) {
+  return {
+    resources: { [teamId]: { $set: resources[teamId] + amount } }
+  }
+}
+
+function addGamePoints ({ gamePoints }, { teamId, amount }) {
+  return {
+    gamePoints: { [teamId]: { $set: gamePoints[teamId] + amount } }
+  }
 }
 
 module.exports = {
-  setResource,
-  setGamePoints
+  addResources,
+  removeResources,
+  addGamePoints
 }

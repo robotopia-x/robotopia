@@ -1,6 +1,5 @@
 const _ = require('lodash')
 const entites = require('./entities')
-const { getTeamResources, getTeamGamePoints, isFieldEmpty } = require('../../lib/game')
 
 function initializeResourceSpots (state, { numberOfSpots }, send) {
   const { tiles } = state
@@ -24,38 +23,6 @@ function initializeResourceSpots (state, { numberOfSpots }, send) {
   })
 }
 
-function addResources (state, { teamId, amount }, send) {
-  send('game:setResource', {
-    teamId: teamId,
-    amount: getTeamResources(state, teamId) + amount
-  }, _.noop)
-}
-
-function removeResources (state, { teamId, amount }, send) {
-  send('game:setResource', {
-    teamId: teamId,
-    amount: _.clamp(getTeamResources(state, teamId) - amount, 0, 10000)
-  }, _.noop)
-}
-
-function increaseGamePoints (state, { teamId, amount }, send) {
-  send('game:setGamePoints', {
-    teamId: teamId,
-    amount: getTeamGamePoints(state, teamId) + amount
-  }, _.noop)
-}
-
-function decreaseGamePoints (state, { teamId, amount }, send) {
-  send('game:setGamePoints', {
-    teamId: teamId,
-    amount: getTeamGamePoints(state, teamId) - amount
-  }, _.noop)
-}
-
 module.exports = {
-  initializeResourceSpots,
-  addResources,
-  removeResources,
-  increaseGamePoints,
-  decreaseGamePoints
+  initializeResourceSpots
 }

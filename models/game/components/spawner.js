@@ -37,7 +37,7 @@ const towerSpawner = {
         // TODO: remove ! / insert real cost of tower
         if (!hasEnoughResources(game, team.id, 10)) {
           send('game:createEntity', { data: tower }, _.noop)
-          send('game:addGamePoints', { teamId: team.id, amount: 100 }, _.noop)
+          send('game:addPoints', { teamId: team.id, amount: 100 }, _.noop)
         }
 
         // TODO: check that tower is not near base, this is checked in the buildTowerNearPosition

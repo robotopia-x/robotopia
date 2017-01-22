@@ -1,23 +1,23 @@
-function addResources ({ resources }, { teamId, amount }) {
+function addResources ({ teams }, { teamId, amount }) {
   return {
-    resources: { [teamId]: { $set: resources[teamId] + amount } }
+    teams: { [teamId]: { resources: { $set: teams[teamId].resources + amount } } }
   }
 }
 
-function removeResources ({ resources }, { teamId, amount }) {
+function removeResources ({ teams }, { teamId, amount }) {
   return {
-    resources: { [teamId]: { $set: resources[teamId] + amount } }
+    teams: { [teamId]: { resources: { $set: teams[teamId].resources + amount } } }
   }
 }
 
-function addGamePoints ({ gamePoints }, { teamId, amount }) {
+function addPoints ({ teams }, { teamId, amount }) {
   return {
-    gamePoints: { [teamId]: { $set: gamePoints[teamId] + amount } }
+    teams: { [teamId]: { points: { $set: teams[teamId].points + amount } } }
   }
 }
 
 module.exports = {
   addResources,
   removeResources,
-  addGamePoints
+  addPoints
 }

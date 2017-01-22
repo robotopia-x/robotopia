@@ -43,11 +43,8 @@ const game = {
     entities.base({ x: 17, y: 17, teamId: 'BLUE' })
   ],
 
-  resources: {
-    BLUE: 0
-  },
-  gamePoints: {
-    BLUE: 0
+  teams: {
+    BLUE: { resources: 0, points: 0 }
   }
 }
 

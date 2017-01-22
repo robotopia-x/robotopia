@@ -17,8 +17,6 @@ module.exports = {
         const discoverers = getNewDiscoverersInRange(game, state)
 
         _.forEach(discoverers, (discoverer) => {
-          console.log('discovered', discoverer.team.id, state.id)
-
           send('game:discoverable.markAsDiscoveredByTeam', {
             target: state.id,
             data: {
@@ -27,7 +25,7 @@ module.exports = {
           }, _.noop)
 
           send('runtime:triggerEvent', {
-            name: 'discoverEntity',
+            type: `discover ${state.discoverable.type}`,
             target: { id: discoverer.id },
             args: [ state ]
           }, _.noop)

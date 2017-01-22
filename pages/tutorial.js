@@ -84,7 +84,6 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     })
   }
 
-
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => {

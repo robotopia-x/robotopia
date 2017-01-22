@@ -9,11 +9,11 @@ ${statements}
 })\n`)
 }
 
-Blockly.JavaScript.tower_event_handler = function (block) {
+Blockly.JavaScript.resource_event_handler = function (block) {
   const statements = Blockly.JavaScript.statementToCode(block, 'body')
 
   return (
-    `robot.onEvent('tower discovered', function (tower) {
+    `robot.onEvent('discover resource', function (resource) {
 ${statements}
 })\n`)
 }

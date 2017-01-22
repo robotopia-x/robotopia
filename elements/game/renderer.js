@@ -39,10 +39,11 @@ function renderTiles (ctx, tiles) {
 
 function getTileImageType (type) {
   return {
-    0: 'WATER_BLOCK',
-    1: 'PLAIN_BLOCK',
-    2: 'GRASS_BLOCK',
-    3: 'STONE_BLOCK'
+    1: 'WATER_TILE',
+    2: 'DIRT_TILE',
+    3: 'GRASS_TILE',
+    4: 'PLAIN_TILE',
+    5: 'STONE_TILE'
   }[type]
 }
 

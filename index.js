@@ -44,10 +44,10 @@ assets.load({
   PLAIN_TILE: '../assets/img/tiles/plain-tile.png',
   STONE_TILE: '../assets/img/tiles/stone-tile.png',
   GEM: '../assets/img/gem-blue.png',
-  ROBOT_FRONT: '../assets/img/robot-front.png',
-  ROBOT_LEFT: '../assets/img/robot-left.png',
-  ROBOT_BACK: '../assets/img/robot-back.png',
-  ROBOT_RIGHT: '../assets/img/robot-right.png',
+  ROBOT_FRONT: '../assets/img/cyborg/cyborg-morty-front.png',
+  ROBOT_LEFT: '../assets/img/cyborg/cyborg-morty-left.png',
+  ROBOT_BACK: '../assets/img/cyborg/cyborg-morty-back.png',
+  ROBOT_RIGHT: '../assets/img/cyborg/cyborg-morty-right.png',
   BASE: '../assets/img/base.png',
   TOWER: '../assets/img/tower.png'
 }).then(() => {

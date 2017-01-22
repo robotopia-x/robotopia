@@ -51,6 +51,10 @@ const prefix = sf`
   :host.icon-stop:before {
     background-image: url('assets/icons/stop.svg');
   }
+  
+  :host.icon-upload:before {
+    background-image: url('assets/icons/upload.svg');
+  }
 `
 
 function button ({

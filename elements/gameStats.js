@@ -1,7 +1,6 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
-const { getTeamGamePoints, getTeamResources } = require('../lib/game')
 
 const gameStatsPrefix = sf`
   :host {
@@ -37,7 +36,7 @@ function gamePointsDisplay ({
 }) {
   const gamePointsHtml = _.map(gamePoints, (gamePoint, id) => {
     return html`
-      <tr><td>${id}</td><td>${getTeamGamePoints({ gamePoints }, id)}</td><td>${getTeamResources(resources, id)}</td></tr>
+      <tr><td>${id}</td><td>${gamePoints[id]}</td><td>${resources[id]}</td></tr>
     `
   })
 

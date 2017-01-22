@@ -51,7 +51,7 @@ function getUnassignedWorkers (teamId, game) {
   const workers = getAllEntities('worker', game)
 
   return _.filter(workers, ({ team, worker }) =>
-    team.id === teamId && worker.assignedTaskId === null
+    team.id === teamId && worker.assignedTask === null
   )
 }
 
@@ -59,9 +59,11 @@ const worker = {
   requires: ['team'],
 
   reducers: {
-    _assignTaskId: (state, { taskId }) => (
-      { worker: { assignedTaskId: { $set: taskId } } }
-    )
+    _assignTask: (state, { task }) => ({
+      worker: {
+        assignedTask: { $set: task }
+      }
+    })
   },
 
   effects: {
@@ -69,26 +71,26 @@ const worker = {
       const { task } = taskEntity
 
       send('runtime:switchMode', {
-        name: task.name,
+        type: task.type,
         target: { id },
         args: [taskEntity]
       }, _.noop)
 
-      send('game:worker._assignTaskId', {
+      send('game:worker._assignTask', {
         target: id,
-        data: { taskId: taskEntity.id }
+        data: { task: { id: taskEntity.id, type: taskEntity.task.type } }
       }, _.noop)
     },
 
     completeTask: ({ id, worker }, data, game, send) => {
       send('game:task.setWorkerCompleted', {
-        target: worker.assignedTaskId,
-        data: { taskId: null }
+        target: worker.assignedTask.id,
+        data: {}
       }, _.noop)
 
-      send('game:worker._assignTaskId', {
+      send('game:worker._assignTask', {
         target: id,
-        data: { taskId: null }
+        data: { task: null }
       }, _.noop)
     }
   }

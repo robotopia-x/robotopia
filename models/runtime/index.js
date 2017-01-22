@@ -34,12 +34,12 @@ module.exports = () => {
         runtime.step()
       },
 
-      triggerEvent: (state, { name, args, target }) => {
-        runtime.triggerEvent(name, args, target)
+      triggerEvent: (state, { type, args, target }) => {
+        runtime.triggerEvent(type, args, target)
       },
 
-      switchMode: (state, { name, args, target }) => {
-        runtime.switchMode(name, args, target)
+      switchMode: (state, { type, args, target }) => {
+        runtime.switchMode(type, args, target)
       }
     },
 

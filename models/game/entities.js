@@ -50,6 +50,8 @@ module.exports = {
     team: { id: teamId },
     position: { x, y },
     robotSpawner: {
+      spawnedRobots: 0,
+      maxRobots: 15,
       stepsSinceLastSpawn: 0,
       interval: 5
     },

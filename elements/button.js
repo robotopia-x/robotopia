@@ -23,6 +23,10 @@ const prefix = sf`
     background-color: white;
   }
 
+  :host[disabled] {
+    opacity: 0.5
+  }
+
   :host.has-icon:before {
     content: '';
     width: 16px;
@@ -50,7 +54,7 @@ const prefix = sf`
 `
 
 function button ({
-  icon, label,
+  icon, label, disabled = false,
   onClick = _.noop
 }) {
   const classes = classNames(
@@ -62,7 +66,7 @@ function button ({
   )
 
   return html`
-    <button class="${classes}" onclick=${onClick}>
+    <button class="${classes}" onclick=${onClick} disabled=${disabled}>
       ${label}
     </button>
   `

@@ -84,15 +84,16 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     })
   }
 
+
   const playButtonHtml = playButtonView({
-    running: clock.isRunning,
+    isRunning: clock.isRunning,
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
       send('runtime:destroyRobot', { id: 'ROBOT' })
       send('runtime:createRobot', { id: 'ROBOT', code: editor.code })
       send('clock:start')
     },
-    onStop: () => send('clock:stop')
+    onPause: () => send('clock:stop')
   })
 
   const speedSliderHtml = speedSliderView({

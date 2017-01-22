@@ -38,17 +38,17 @@ app.router([
 ])
 
 assets.load({
-  GRASS_BLOCK: '../assets/img/grass-block.png',
-  PLAIN_BLOCK: '../assets/img/plain-block.png',
-  WATER_BLOCK: '../assets/img/water-block.png',
-  STONE_BLOCK: '../assets/img/stone-block.png',
+  WATER_TILE: '../assets/img/tiles/water-tile.png',
+  DIRT_TILE: '../assets/img/tiles/dirt-tile.png',
+  GRASS_TILE: '../assets/img/tiles/grass-tile.png',
+  PLAIN_TILE: '../assets/img/tiles/plain-tile.png',
+  STONE_TILE: '../assets/img/tiles/stone-tile.png',
   GEM: '../assets/img/gem-blue.png',
-  MARKER: '../assets/img/star.png',
   ROBOT_FRONT: '../assets/img/robot-front.png',
   ROBOT_LEFT: '../assets/img/robot-left.png',
   ROBOT_BACK: '../assets/img/robot-back.png',
   ROBOT_RIGHT: '../assets/img/robot-right.png',
-  BASE: '../assets/img/spawn.png',
+  BASE: '../assets/img/base.png',
   TOWER: '../assets/img/tower.png'
 }).then(() => {
   document.body.appendChild(app.start())

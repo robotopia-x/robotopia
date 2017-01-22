@@ -9,7 +9,7 @@ const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
 const gameStatsView = require('../../elements/gameStats')
 
-const DEV_MODE = true //set to true to dev on the editor and not be bothered with multiplayer
+const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
 
 const mainPrefix = sf`
     :host {

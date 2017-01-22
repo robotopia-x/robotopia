@@ -1,4 +1,3 @@
-/* globals Path2D */
 const _ = require('lodash')
 const assets = require('../../lib/utils/assets')
 const { getAllEntities, getEntity } = require('../../lib/game')

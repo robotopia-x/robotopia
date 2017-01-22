@@ -55,6 +55,7 @@ const editor = {
   toolbox: `
     <xml id="toolbox" style="display: none">
         <category name="Logic" colour="210">
+          <block type="logic_boolean"></block>          
           <block type="logic_compare"></block>
           <block type="logic_operation"></block>
           <block type="logic_negate"></block>
@@ -64,6 +65,7 @@ const editor = {
         <sep gap="8"></sep>
         
         <category name="Loops" colour="100">
+          <block type="controls_repeat"></block>
           <block type="controls_repeat_ext"></block>
           <block type="controls_whileUntil"></block>
         </category>
@@ -103,7 +105,7 @@ const editor = {
         <sep gap="8"></sep>
         
         <category name="Events" colour="20">
-          <block type="tower_event_handler"></block>
+          <block type="resource_event_handler"></block>
           <block type="marker_event_handler"></block>
         </category>
    </xml>`

@@ -12,7 +12,9 @@ module.exports = ({ hubUrl }) => {
 
     state: {
       groupId: null,
-      clients: {} // clients [{ id, code, username }] mapped to their id
+      clients: {}, // clients [{ id, code, username }] mapped to their id
+      playerNumbers: {}, //maps playerNumbers to Client. eg.: 1->eflajsnf1248dsnf
+      gameActive: false
     },
 
     reducers: {
@@ -53,6 +55,12 @@ module.exports = ({ hubUrl }) => {
           }
         }),
 
+      setToGameState: ( state, players ) =>
+        update(state, {
+          playerNumbers: { $set: players },
+          gameActive: { $set: true}
+        }),
+
       _setGroupId: (state, { groupId }) => {
         console.log('set GroupId', groupId, update(state, {
           groupId: { $set: groupId },
@@ -74,6 +82,22 @@ module.exports = ({ hubUrl }) => {
       joinGroup: (state, { groupId }, send) => {
         presenter.joinStar(groupId)
         send('presenter:_setGroupId', { groupId }, _.noop)
+      },
+
+      startMatch: ( { clients }, playerCount, send, done ) => {
+        let clientIds = Object.keys(clients)
+        let players = {}
+        if (clientIds.length < playerCount) {
+          return done()
+        }
+        for (var i = 1; i <= playerCount; i++) {
+          let nextIndex = Math.random() * clientIds.length
+          let nextPlayer = clientIds.splice(nextIndex, 1)
+          players[i] = nextPlayer[0]
+        }
+        
+        send('presenter:setToGameState', players, _.noop)
+        done()
       },
 
       handleMessage: ({ clients }, { id, message }, send) => {

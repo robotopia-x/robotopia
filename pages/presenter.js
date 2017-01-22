@@ -1,7 +1,9 @@
-/* globals FormData */
 const html = require('choo/html')
+const sf = require('sheetify')
 const modal = require('../elements/modal')
 const button = require('../elements/button')
+const _ = require('lodash')
+const { startButtonView } = require('../elements/presenter-controls')
 
 module.exports = function ({ presenter }, prev, send) {
   if (presenter.groupId === null) {
@@ -13,16 +15,31 @@ module.exports = function ({ presenter }, prev, send) {
   }
 
   const disconnectButtonHtml = button({
-    label: 'disconnect',
+    label: 'Exit',
     onClick: () => send('presenter:disconnect')
   })
 
+  const startButtonHtml = startButtonView({
+    isRunning: presenter.gameActive,
+    onStart: () => send('presenter:startMatch', 2),
+    onStop: () => {console.log('should stop now.')}
+  })
+
   return html`
-    <div>
-      <pre>${JSON.stringify(presenter)}</pre>
-      ${disconnectButtonHtml}
+<div class="presenter">
+
+  <div class="clientList">
+  <h3>Clients</h3>
+    ${listClients (presenter)}
+  </div>
+    <div class="gameView">
+    
     </div>
-  `
+    <div class="footer">
+      ${disconnectButtonHtml} ${startButtonHtml}
+    </div>
+  </div>
+`
 }
 
 function joinGroupDialog ({ onJoinGroup }) {
@@ -48,4 +65,21 @@ function joinGroupDialog ({ onJoinGroup }) {
 
     onJoinGroup(groupId)
   }
+}
+
+function listClients( {clients, playerNumbers} ) {
+  return html`
+    <ul>
+        ${Object.keys(clients).map(clientToLi)}
+    </ul>
+  `
+
+  function clientToLi(key) {
+    let isPlayer = false
+    if (_.valuesIn(playerNumbers).indexOf(key) >= 0) {
+      isPlayer = true
+    }
+    return html`<li>${clients[key].username} ${isPlayer ? 'p' : ''}</li>`
+  }
+
 }

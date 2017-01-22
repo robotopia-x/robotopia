@@ -14,10 +14,12 @@ module.exports = () => {
     },
 
     reducers: {
-      commitCode: (state, { code, groupId }) => {
-        state.code[groupId] = code
-        return state
-      }
+      commitCode: (state, { code, groupId }) =>
+        update(state, {
+          code: {
+            [groupId]: { $set: code }
+          }
+        })
     },
 
     effects: {

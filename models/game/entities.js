@@ -35,6 +35,7 @@ module.exports = {
       type: 'resource',
       discovererTeamIds: {}
     },
+    collides: {},
     collectable: {},
     sprite: {
       type: 'SIMPLE',

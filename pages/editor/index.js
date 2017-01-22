@@ -7,7 +7,7 @@ const { speedSliderView, playButtonView } = require('../../elements/runtime-cont
 const button = require('../../elements/button')
 const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
-const gameStatsView = require('../../elements/gameStats')
+const gameStatsView = require('../../elements/game-stats')
 
 const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
 
@@ -116,8 +116,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
   })
 
   const gameStatsHtml = gameStatsView({
-    gamePoints: game.current.gamePoints,
-    resources: game.current.resources
+    game,
+    progress: clock.progress
   })
 
   return html`

@@ -3,6 +3,7 @@ const assets = require('../../lib/utils/assets')
 const { getAllEntities, getEntity } = require('../../lib/game')
 const { RENDERER } = require('../../lib/utils/types')
 const { ORIENTATION } = require('../../lib/utils/types')
+const { interpolate } = require('../../lib/game')
 
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
@@ -91,10 +92,6 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   if (entity.worker) {
     renderWorker(ctx, entity, prevEntity, progress)
   }
-}
-
-function interpolate (current, prev, progress) {
-  return prev + (current - prev) * progress
 }
 
 function renderSprite (ctx, entity, prevEntity, progress) {

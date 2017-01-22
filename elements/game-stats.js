@@ -1,6 +1,7 @@
+const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const _ = require('lodash')
+const { interpolate } = require('../lib/game')
 
 const gameStatsPrefix = sf`
   :host {
@@ -32,20 +33,32 @@ const gameStatsPrefix = sf`
 `
 
 function gamePointsDisplay ({
-  gamePoints, resources
+  game, progress
 }) {
-  const gamePointsHtml = _.map(gamePoints, (gamePoint, id) => {
-    return html`
-      <tr><td>${id}</td><td>${gamePoints[id]}</td><td>${resources[id]}</td></tr>
-    `
-  })
+  const gameTeamStatsHtml = _(game.current.teams)
+    .keys()
+    .map((teamId) => {
+      const currentTeam = game.current.teams[teamId]
+      const prevTeam = game.prev === null ? currentTeam : game.prev.teams[teamId]
+      const points = Math.round(interpolate(currentTeam.points, prevTeam.points, progress))
+      const resources = Math.round(interpolate(currentTeam.resources, prevTeam.resources, progress))
+
+      return html`
+        <tr>
+          <td>${teamId}</td>
+          <td>${points}</td>
+          <td>${resources}</td>
+        </tr>
+      `
+    })
+    .value()
 
   return html`
     <div class="${gameStatsPrefix}">
       <h2>Game Stats</h2>
       <table>
         <tr><th>Team</th><th>Game Points</th><th>Resources</th></tr>
-        ${gamePointsHtml}
+        ${gameTeamStatsHtml}
       </table>
     </div>
   `

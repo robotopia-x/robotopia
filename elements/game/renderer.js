@@ -125,7 +125,20 @@ function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
     throw new Error(`rotatingRenderer: no sprite defined for rotation = ${current.position.rotation} `)
   }
 
-  drawSprite(ctx, sprite, x, y)
+  const image = assets.store[sprite]
+  const width = image.width / 4
+  const height = image.height
+
+  let frame
+
+  if (current.position.x === prev.position.x && current.position.y === prev.position.y) {
+    frame = 0
+  } else {
+    frame = Math.floor(4 * progress)
+  }
+
+  ctx.drawImage(image, frame * width, 0, width, height, x * TILE_WIDTH, y * TILE_HEIGHT, width, height)
+  // drawSprite(ctx, sprite, x, y)
 }
 
 function drawSprite (ctx, type, x, y) {

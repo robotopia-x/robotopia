@@ -15,6 +15,7 @@ module.exports = {
     towerSpawner: {},
     collector: { hasResource: false },
     worker: { assignedTask: null },
+    zIndex: 1,
     sprite: {
       type: 'ROTATING',
       data: {
@@ -37,6 +38,7 @@ module.exports = {
     },
     collides: {},
     collectable: {},
+    zIndex: 1,
     sprite: {
       type: 'SIMPLE',
       data: {
@@ -55,6 +57,7 @@ module.exports = {
       stepsSinceLastSpawn: 0,
       interval: 5
     },
+    zIndex: 1,
     sprite: {
       type: 'SIMPLE',
       data: {
@@ -73,6 +76,7 @@ module.exports = {
     discoverable: { discovererTeamIds: {} },
     position: { x, y },
     collides: {},
+    zIndex: 1,
     sprite: {
       type: 'SIMPLE',
       data: {
@@ -84,6 +88,7 @@ module.exports = {
   marker: ({ x, y, teamId, requiredWorkers, taskType }) => ({
     position: { x, y },
     team: { id: teamId },
+    zIndex: 0,
     task: {
       type: taskType,
       requiredWorkers,

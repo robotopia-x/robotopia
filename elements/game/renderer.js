@@ -50,7 +50,7 @@ function renderEntities (ctx, state, prev, progress) {
   const entities = getAllEntities('id', state)
 
   _(entities)
-    .sortBy(['position.y', 'position.x'])
+    .sortBy(['position.y', 'position.x', 'zIndex'])
     .map((entity) => combineWithPrevEntityState(prev, entity))
     .each(([entity, prevEntity]) => {
       renderEntity(ctx, entity, prevEntity, progress)
@@ -174,9 +174,10 @@ const HAS_RESOURCE_COLOR = '#2245e3'
 
 function renderCarriesResource (ctx, current, prev, progress) {
   // only render if robot carries resource
-  if (current.collector.hasResource && current.position.rotation !== ORIENTATION.BACK) {
+  if ((current.collector.hasResource || prev.collector.hasResource) && current.position.rotation !== ORIENTATION.BACK) {
     let x = 0
     let y = 0
+    const radius = HAS_RESOURCE_RADIUS * interpolate(current.collector.hasResource, prev.collector.hasResource, progress)
 
     if (current.position.rotation === ORIENTATION.FRONT) {
       x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH
@@ -197,7 +198,7 @@ function renderCarriesResource (ctx, current, prev, progress) {
 
     ctx.fillStyle = HAS_RESOURCE_COLOR
     ctx.beginPath()
-    ctx.arc(x, y, HAS_RESOURCE_RADIUS, 0, 2 * Math.PI)
+    ctx.arc(x, y, radius, 0, 2 * Math.PI)
     ctx.fill()
 
     ctx.restore()
@@ -218,7 +219,7 @@ function renderTask (ctx, current, prev, progress) {
   const y = (current.position.y + 1.55) * TILE_HEIGHT * 1.25
 
   ctx.save()
-  ctx.fillStyle = current.task.name
+  ctx.fillStyle = current.task.type
 
   // skew circle to make it look like a side it's viewed from the side
   ctx.scale(1, 0.8)

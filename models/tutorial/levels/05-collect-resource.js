@@ -3,22 +3,16 @@ const entities = require('../../../models/game/entities')
 module.exports = {
   game: {
     tiles: [
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 1],
-      [2, 3]
+      [1, 4, 4, 4, 4, 4],
+      [1, 1, 1, 1, 1, 4],
+      [1, 1, 1, 1, 1, 4],
+      [1, 1, 1, 1, 1, 4],
+      [3, 4, 4, 4, 4, 4]
     ],
 
     entities: [
-      entities.robot({ x: 0, y: 0, id: 'ROBOT' })
+      entities.robot({ x: 1, y: 0, id: 'ROBOT' }),
+      entities.gem({ x: 0, y: 4 })
     ]
   },
 
@@ -43,30 +37,42 @@ module.exports = {
         <category name="Loops" colour="120">
           <block type="controls_repeat_ext"></block>
         </category>
+        
+        <sep gap="8"></sep>
+        
+        <category name="Actions" colour="50">
+          <block type="collect_resource"></block>
+        </category>
       </xml>
     `
   },
 
-  label: 'simple loops',
+  label: 'collect a resource',
 
   goals: [
     {
-      type: 'moveTo',
-      params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
-      desc: 'Move the Robot to the grass',
+      type: 'carryResource',
+      params: { hasResource: true },
+      desc: 'Collect 1 Resource',
       isMandatory: true
     },
     {
+      type: 'useBlock',
+      params: { type: 'controls_repeat' },
+      desc: 'Use at least 1 repeat Block',
+      isMandatory: false
+    },
+    {
       type: 'maxBlocks',
-      params: { amount: 4 },
-      desc: 'Use a maximum of 4 Blocks',
+      params: { amount: 8 },
+      desc: 'Use a maximum of 8 Blocks',
       isMandatory: false
     }
   ],
 
   storyModal: {
-    text: 'Look at that way to the goal... It looks like we need a lot of blocks to get there. But wait, there are repeat blocks, which will make the work easier. Use the Move and Repeat Blocks',
-    hint: 'You can also do this without the repeat block.',
+    text: 'Ohh no, you are running low on resources... Go to the gem and collect a resource',
+    hint: '',
     img: '../../assets/img/tutorials/simple-loops.png'
   },
 

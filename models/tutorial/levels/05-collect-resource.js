@@ -7,7 +7,7 @@ module.exports = {
       [1, 1, 1, 1, 1, 4],
       [1, 1, 1, 1, 1, 4],
       [1, 1, 1, 1, 1, 4],
-      [3, 4, 4, 4, 4, 4]
+      [2, 4, 4, 4, 4, 4]
     ],
 
     entities: [
@@ -75,6 +75,4 @@ module.exports = {
     hint: '',
     img: '../../assets/img/tutorials/simple-loops.png'
   },
-
-  nextStory: 'nested-loops-1'
 }

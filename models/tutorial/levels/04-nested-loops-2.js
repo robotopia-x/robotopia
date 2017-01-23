@@ -58,8 +58,10 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Wow, this time the way is even longer... Use the Move and Repeat Blocks',
-    hint: 'Try nesting loops to get the shortest possible solution',
-    img: '../../assets/img/tutorials/complex-loops-2.png'
-  }
+    text: 'Ohh no, looks like you are running out of resources... Quick, go to the gem and collect 1',
+    hint: 'Note that you do not need to walk on the gem, around it is perfectly fine.',
+    img: '../../assets/img/tutorials/collect-resource.png'
+  },
+
+  nextTutorial: 'collect-resources'
 }

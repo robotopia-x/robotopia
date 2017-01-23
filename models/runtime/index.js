@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const update = require('immutability-helper')
 const Runtime = require('../../lib/runtime/runtime')
 const api = require('./robot-api')
@@ -35,12 +36,17 @@ module.exports = () => {
 
       triggerEvent: (state, { name, args, target }) => {
         runtime.triggerEvent(name, args, target)
+      },
+
+      switchMode: (state, { name, args, target }) => {
+        runtime.switchMode(name, args, target)
       }
     },
 
     subscriptions: {
       runtime: (send) => {
-        runtime.connect(send)
+        runtime.onAction((id, name, data) => send(name, { target: id, data }, _.noop))
+        runtime.onCompleteMode((id) => send('game:worker.completeTask', { target: id, data: {} }, _.noop))
       }
     }
   }

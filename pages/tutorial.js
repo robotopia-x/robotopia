@@ -1,4 +1,3 @@
-/* global localStorage */
 const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('../elements/game/index')

@@ -43,11 +43,11 @@ function renderEntities (ctx, state, prev, progress) {
   const entities = getAllEntities('id', state)
 
   _(entities)
-  .sortBy(['position.y', 'position.x'])
-  .map((entity) => combineWithPrevEntityState(prev, entity))
-  .each(([entity, prevEntity]) => {
-    renderEntity(ctx, entity, prevEntity, progress)
-  })
+    .sortBy(['position.y', 'position.x'])
+    .map((entity) => combineWithPrevEntityState(prev, entity))
+    .each(([entity, prevEntity]) => {
+      renderEntity(ctx, entity, prevEntity, progress)
+    })
 }
 
 function combineWithPrevEntityState (prev, entity) {
@@ -76,6 +76,14 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   if (entity.collector) {
     renderCarriesResource(ctx, entity, prevEntity, progress)
   }
+
+  if (entity.task) {
+    renderTask(ctx, entity, prevEntity, progress)
+  }
+}
+
+function interpolate (current, prev, progress) {
+  return prev + (current - prev) * progress
 }
 
 function renderSprite (ctx, entity, prevEntity, progress) {
@@ -116,10 +124,6 @@ function drawSprite (ctx, type, x, y) {
   ctx.drawImage(assets.store[type], x * TILE_WIDTH, y * TILE_HEIGHT)
 }
 
-function interpolate (current, prev, progress) {
-  return prev + (current - prev) * progress
-}
-
 const HEALTH_BAR_WIDTH = 75
 const HEALTH_BAR_HEIGHT = 15
 const HEALTH_BAR_BACKGROUND = '#fff'
@@ -129,7 +133,7 @@ const HEALTH_BAR_BORDER = '#000'
 function renderHealth (ctx, current, prev, progress) {
   ctx.fillStyle = 'red'
 
-  const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - HEALTH_BAR_WIDTH / 2 // align in center
+  const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - (HEALTH_BAR_WIDTH / 2) // align in center
   const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT
 
   const healthPercentage = interpolate(current.health.current, prev.health.current, progress) / current.health.max
@@ -190,6 +194,44 @@ function renderCarriesResource (ctx, current, prev, progress) {
 
     ctx.restore()
   }
+}
+
+const TASK_RING_WIDTH = 15
+const TASK_CIRCLE_WIDTH = 25
+const TASK_PADDING = 10
+
+function renderTask (ctx, current, prev, progress) {
+  const assignedWorkers = interpolate(current.task.assignedWorkers, prev.task.assignedWorkers, progress)
+  const requiredWorkers = current.task.requiredWorkers
+
+  const percentage = assignedWorkers / requiredWorkers
+  const angle = percentage * Math.PI * 2
+  const x = (current.position.x + 0.5) * TILE_WIDTH
+  const y = (current.position.y + 1.55) * TILE_HEIGHT * 1.25
+
+  ctx.save()
+  ctx.fillStyle = current.task.name
+
+  // skew circle to make it look like a side it's viewed from the side
+  ctx.scale(1, 0.8)
+
+  if (percentage > 0) {
+    // draw ring
+    ctx.beginPath()
+    ctx.arc(x, y, (TASK_CIRCLE_WIDTH / 2) + TASK_RING_WIDTH + TASK_PADDING, 0, angle, false) // outer (filled)
+    ctx.arc(x, y, (TASK_CIRCLE_WIDTH / 2) + TASK_PADDING, percentage === 1 ? 0 : angle, Math.PI * 2, true) // inner (unfills it)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+  }
+
+  // draw circle
+  ctx.beginPath()
+  ctx.arc(x, y, (TASK_CIRCLE_WIDTH / 2), 0, Math.PI * 2, true)
+  ctx.fill()
+  ctx.stroke()
+
+  ctx.restore()
 }
 
 module.exports = {

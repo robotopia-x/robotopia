@@ -20,7 +20,7 @@ Blockly.Blocks.marker_event_handler = {
         ]),
         'type'
       )
-      .appendField('marker is assigned')
+      .appendField('mode')
 
     this.appendStatementInput('body')
       .setCheck(null)
@@ -90,8 +90,18 @@ Blockly.Blocks.rotate = {
 Blockly.Blocks.place_marker = {
   init: function () {
     this.appendDummyInput()
-      .appendField('Place marker')
+      .appendField('Place')
+      .appendField(new Blockly.FieldDropdown([
+        ['red marker', 'red'],
+        ['green marker', 'green'],
+        ['blue marker', 'blue'],
+        ['yellow marker', 'yellow']
+      ]), 'type')
 
+    this.appendValueInput('numberOfRobots')
+      .setCheck(null)
+
+    this.setInputsInline(true)
     this.setTooltip('place a marker that triggers an event which other robots can react to')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
@@ -157,7 +167,7 @@ Blockly.Blocks.move_to = {
 }
 
 const entityOptions = [
-  ['marker', 'entity.position'],
+  ['marker', 'marker.position'],
   ['tower', 'entity.position'],
   ['base', 'robot.getBasePosition()']
 ]

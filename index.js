@@ -1,5 +1,3 @@
-require('./lib/utils/lodash-extension')
-
 const P2P_CONFIG = {
   hubUrl: 'http://localhost:8042'
 }

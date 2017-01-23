@@ -34,16 +34,16 @@ Blockly.Blocks.marker_event_handler = {
   }
 }
 
-Blockly.Blocks.tower_event_handler = {
+Blockly.Blocks.resource_event_handler = {
   init: function () {
     this.appendDummyInput()
-      .appendField('when tower is discovered')
+      .appendField('when resource is discovered')
 
     this.appendStatementInput('body')
       .setCheck(null)
 
     this.setColour(20)
-    this.setTooltip('code which is executed when an tower is discovered')
+    this.setTooltip('code which is executed when a new resource is discovered')
 
     // mark block as event handler
     this.data = 'EVENT_HANDLER'
@@ -168,7 +168,7 @@ Blockly.Blocks.move_to = {
 
 const entityOptions = [
   ['marker', 'marker.position'],
-  ['tower', 'entity.position'],
+  ['resource', 'resource.position'],
   ['base', 'robot.getBasePosition()']
 ]
 

@@ -1,37 +1,28 @@
 const _ = require('lodash')
-const { getTeamResources, getTeamGamePoints } = require('../../lib/game')
+const entites = require('./entities')
 
-function addResources (state, { teamId, amount }, send) {
-  send('game:setResource', {
-    teamId: teamId,
-    amount: getTeamResources(state, teamId) + amount
-  }, _.noop)
-}
+function initializeResourceSpots (state, { numberOfSpots }, send) {
+  const { tiles } = state
+  const mapHeight = tiles.length
+  const mapWidth = tiles[0].length
 
-function removeResources (state, { teamId, amount }, send) {
-  send('game:setResource', {
-    teamId: teamId,
-    amount: _.clamp(getTeamResources(state, teamId) - amount, 0, 10000)
-  }, _.noop)
-}
+  const resourcePlaces = {}
 
-function increaseGamePoints (state, { teamId, amount }, send) {
-  send('game:setGamePoints', {
-    teamId: teamId,
-    amount: getTeamGamePoints(state, teamId) + amount
-  }, _.noop)
-}
+  _.times(numberOfSpots, () => {
+    let x, y
 
-function decreaseGamePoints (state, { teamId, amount }, send) {
-  send('game:setGamePoints', {
-    teamId: teamId,
-    amount: getTeamGamePoints(state, teamId) - amount
-  }, _.noop)
+    // search for empty random dirt spot
+    do {
+      x = _.random(0, mapWidth - 1)
+      y = _.random(0, mapHeight - 1)
+    } while (tiles[y][x] !== 2 || resourcePlaces[`${x},${y}`] === true)
+
+    resourcePlaces[`${x},${y}`] = true
+
+    send('game:createEntity', { data: entites.gem({ x, y }) }, _.noop)
+  })
 }
 
 module.exports = {
-  addResources,
-  removeResources,
-  increaseGamePoints,
-  decreaseGamePoints
+  initializeResourceSpots
 }

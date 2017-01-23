@@ -16,6 +16,9 @@ function checkGoal ({ goal, game, workspace }) {
     case 'useBlock':
       return workspace.indexOf(goal.params.type) > -1
 
+    case 'doNotUseBlock':
+      return workspace.indexOf(goal.params.type) === -1
+
     case 'maxBlocks':
       const workspaceMatch = workspace.match(/<block/g)
 
@@ -23,12 +26,14 @@ function checkGoal ({ goal, game, workspace }) {
         return workspaceMatch.length <= goal.params.amount
       }
       return false
+
     case 'carryResource':
       console.log(workspace)
       if (game) {
         return game.entities.ROBOT.collector.hasResource === goal.params.hasResource
       }
       return false
+
     default:
       return false
   }

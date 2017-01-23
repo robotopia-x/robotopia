@@ -1,0 +1,67 @@
+const entities = require('../../../models/game/entities')
+
+module.exports = {
+  game: {
+    tiles: [
+      [4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 4],
+      [1, 4, 4, 4, 4, 4, 4, 4, 1, 4],
+      [1, 4, 1, 1, 1, 1, 1, 4, 1, 4],
+      [1, 4, 1, 4, 4, 4, 1, 4, 1, 4],
+      [1, 4, 1, 4, 1, 4, 1, 4, 1, 4],
+      [1, 4, 1, 4, 1, 1, 1, 4, 1, 4],
+      [1, 4, 1, 4, 4, 4, 4, 4, 1, 4],
+      [1, 4, 1, 1, 1, 1, 1, 1, 1, 4],
+      [1, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+    ],
+
+    entities: [
+      entities.robot({ x: 0, y: 0, id: 'ROBOT' }),
+      entities.base({ x: 5, y: 5, id: 'BASE' })
+    ]
+  },
+
+  editor: {
+    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+
+    toolbox: `
+      <xml id="toolbox" style="display: none">
+        <category name="Movement" colour="250">
+          <block type="move_to"></block>
+        </category>
+        
+        <sep gap="8"></sep>
+        
+        <category name="Variables" colour="170">
+          <block type="position_x"></block>
+          <block type="position_y"></block>
+        </category>
+      </xml>
+    `
+  },
+
+  label: 'move to the base',
+
+  goals: [
+    {
+      type: 'moveTo',
+      params: { position: { x: 10, y: 0 }, entity: 'ROBOT' },
+      desc: 'Move the Robot to his base',
+      isMandatory: true
+    },
+    {
+      type: 'maxBlocks',
+      params: { amount: 2 },
+      desc: 'Use a maximum of 2 Blocks',
+      isMandatory: false
+    }
+  ],
+
+  storyModal: {
+    text: 'Look at that path... We would need a whole lot of blocks for that. Good thing we have a Move To Block which will make things way easier',
+    hint: 'Observe the behaviour of the move to block.',
+    img: '../../assets/img/tutorials/collect-resource.png'
+  },
+
+  nextTutorial: 'collect-resources'
+}

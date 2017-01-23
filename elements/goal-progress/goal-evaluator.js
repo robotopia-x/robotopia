@@ -23,7 +23,12 @@ function checkGoal ({ goal, game, workspace }) {
         return workspaceMatch.length <= goal.params.amount
       }
       return false
-
+    case 'carryResource':
+      console.log(workspace)
+      if (game) {
+        return game.entities.ROBOT.collector.hasResource === goal.params.hasResource
+      }
+      return false
     default:
       return false
   }

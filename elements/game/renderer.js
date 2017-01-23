@@ -1,3 +1,4 @@
+/* globals Path2D */
 const _ = require('lodash')
 const assets = require('../../lib/utils/assets')
 const { getAllEntities, getEntity } = require('../../lib/game')
@@ -10,9 +11,15 @@ const TILE_WIDTH = 100
 function render (ctx, state, progress) {
   const { tiles } = state.current
 
+  ctx.save()
+  ctx.strokeStyle = '#000'
+  ctx.lineWidth = 2
+
   moveOrigin(ctx, tiles)
   renderTiles(ctx, tiles)
   renderEntities(ctx, state.current, state.prev, progress)
+
+  ctx.restore()
 }
 
 // move origin to top left by half the size of the board so the game will be centered
@@ -80,6 +87,10 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   if (entity.task) {
     renderTask(ctx, entity, prevEntity, progress)
   }
+
+  if (entity.worker) {
+    renderWorker(ctx, entity, prevEntity, progress)
+  }
 }
 
 function interpolate (current, prev, progress) {
@@ -125,16 +136,15 @@ function drawSprite (ctx, type, x, y) {
 }
 
 const HEALTH_BAR_WIDTH = 75
-const HEALTH_BAR_HEIGHT = 15
+const HEALTH_BAR_HEIGHT = 10
 const HEALTH_BAR_BACKGROUND = '#fff'
 const HEALTH_BAR_COLOR = '#00ff00'
-const HEALTH_BAR_BORDER = '#000'
 
 function renderHealth (ctx, current, prev, progress) {
   ctx.fillStyle = 'red'
 
   const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - (HEALTH_BAR_WIDTH / 2) // align in center
-  const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT
+  const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT + 20
 
   const healthPercentage = interpolate(current.health.current, prev.health.current, progress) / current.health.max
 
@@ -154,8 +164,6 @@ function renderHealth (ctx, current, prev, progress) {
   ctx.fillRect(x, y, HEALTH_BAR_WIDTH * healthPercentage, HEALTH_BAR_HEIGHT)
 
   // draw border
-  ctx.strokeStyle = HEALTH_BAR_BORDER
-  ctx.lineWidth = 2
   ctx.strokeRect(x, y, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
 
   ctx.restore()
@@ -228,6 +236,38 @@ function renderTask (ctx, current, prev, progress) {
   // draw circle
   ctx.beginPath()
   ctx.arc(x, y, (TASK_CIRCLE_WIDTH / 2), 0, Math.PI * 2, true)
+  ctx.fill()
+  ctx.stroke()
+
+  ctx.restore()
+}
+
+const WORKER_ICON_SIZE = 50
+
+function renderWorker (ctx, current, prev, progress) {
+  if (current.worker.assignedTask === null) {
+    return
+  }
+
+  const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - (WORKER_ICON_SIZE / 2)
+  const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT - 35
+
+  const scaleFactor = WORKER_ICON_SIZE / 512
+
+  ctx.save()
+
+  ctx.fillStyle = current.worker.assignedTask.type
+  ctx.translate(x, y)
+
+  // adapted from ionicions: https://raw.githubusercontent.com/driftyco/ionicons/master/src/flash.svg
+  ctx.beginPath()
+  ctx.moveTo(10, 29)
+  ctx.lineTo(24, 29)
+  ctx.lineTo(19, 48)
+  ctx.lineTo(42, 22)
+  ctx.lineTo(27, 22)
+  ctx.lineTo(32, 3)
+  ctx.closePath()
   ctx.fill()
   ctx.stroke()
 

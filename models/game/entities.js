@@ -14,7 +14,7 @@ module.exports = {
     markerSpawner: {},
     towerSpawner: {},
     collector: { hasResource: false },
-    worker: { assignedTaskId: null },
+    worker: { assignedTask: null },
     sprite: {
       type: 'ROTATING',
       data: {
@@ -74,11 +74,11 @@ module.exports = {
     }
   }),
 
-  marker: ({ x, y, teamId, requiredWorkers, taskName }) => ({
+  marker: ({ x, y, teamId, requiredWorkers, taskType }) => ({
     position: { x, y },
     team: { id: teamId },
     task: {
-      name: taskName,
+      type: taskType,
       requiredWorkers,
       assignedWorkers: 0,
       completedWorkers: 0

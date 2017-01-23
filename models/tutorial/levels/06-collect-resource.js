@@ -58,21 +58,17 @@ module.exports = {
     },
     {
       type: 'useBlock',
-      params: { type: 'controls_repeat' },
-      desc: 'Use at least 1 repeat Block',
-      isMandatory: false
-    },
-    {
-      type: 'maxBlocks',
-      params: { amount: 8 },
-      desc: 'Use a maximum of 8 Blocks',
+      params: { type: 'move_to' },
+      desc: 'Use the Move to Block',
       isMandatory: false
     }
   ],
 
   storyModal: {
     text: 'Ohh no, you are running low on resources... Go to the gem and collect a resource',
-    hint: '',
-    img: '../../assets/img/tutorials/simple-loops.png'
+    hint: 'You do not have to stand on the gem, around it is good enough.',
+    img: '../../assets/img/tutorials/collect-resource.png'
   },
+
+  nextTutorial: 'deposit-resources'
 }

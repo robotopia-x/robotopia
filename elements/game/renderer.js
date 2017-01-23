@@ -1,9 +1,9 @@
-/* globals Path2D */
 const _ = require('lodash')
 const assets = require('../../lib/utils/assets')
 const { getAllEntities, getEntity } = require('../../lib/game')
 const { RENDERER } = require('../../lib/utils/types')
 const { ORIENTATION } = require('../../lib/utils/types')
+const { interpolate } = require('../../lib/game')
 
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
@@ -39,10 +39,11 @@ function renderTiles (ctx, tiles) {
 
 function getTileImageType (type) {
   return {
-    0: 'WATER_BLOCK',
-    1: 'PLAIN_BLOCK',
-    2: 'GRASS_BLOCK',
-    3: 'STONE_BLOCK'
+    1: 'WATER_TILE',
+    2: 'DIRT_TILE',
+    3: 'GRASS_TILE',
+    4: 'PLAIN_TILE',
+    5: 'STONE_TILE'
   }[type]
 }
 
@@ -50,7 +51,7 @@ function renderEntities (ctx, state, prev, progress) {
   const entities = getAllEntities('id', state)
 
   _(entities)
-    .sortBy(['position.y', 'position.x'])
+    .sortBy(['position.y', 'position.x', 'zIndex'])
     .map((entity) => combineWithPrevEntityState(prev, entity))
     .each(([entity, prevEntity]) => {
       renderEntity(ctx, entity, prevEntity, progress)
@@ -93,10 +94,6 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   }
 }
 
-function interpolate (current, prev, progress) {
-  return prev + (current - prev) * progress
-}
-
 function renderSprite (ctx, entity, prevEntity, progress) {
   const { type, data } = entity.sprite
 
@@ -128,7 +125,20 @@ function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
     throw new Error(`rotatingRenderer: no sprite defined for rotation = ${current.position.rotation} `)
   }
 
-  drawSprite(ctx, sprite, x, y)
+  const image = assets.store[sprite]
+  const width = image.width / 4
+  const height = image.height
+
+  let frame
+
+  if (current.position.x === prev.position.x && current.position.y === prev.position.y) {
+    frame = 0
+  } else {
+    frame = Math.floor(4 * progress)
+  }
+
+  ctx.drawImage(image, frame * width, 0, width, height, x * TILE_WIDTH, y * TILE_HEIGHT, width, height)
+  // drawSprite(ctx, sprite, x, y)
 }
 
 function drawSprite (ctx, type, x, y) {
@@ -174,9 +184,10 @@ const HAS_RESOURCE_COLOR = '#2245e3'
 
 function renderCarriesResource (ctx, current, prev, progress) {
   // only render if robot carries resource
-  if (current.collector.hasResource && current.position.rotation !== ORIENTATION.BACK) {
+  if ((current.collector.hasResource || prev.collector.hasResource) && current.position.rotation !== ORIENTATION.BACK) {
     let x = 0
     let y = 0
+    const radius = HAS_RESOURCE_RADIUS * interpolate(current.collector.hasResource, prev.collector.hasResource, progress)
 
     if (current.position.rotation === ORIENTATION.FRONT) {
       x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH
@@ -197,7 +208,7 @@ function renderCarriesResource (ctx, current, prev, progress) {
 
     ctx.fillStyle = HAS_RESOURCE_COLOR
     ctx.beginPath()
-    ctx.arc(x, y, HAS_RESOURCE_RADIUS, 0, 2 * Math.PI)
+    ctx.arc(x, y, radius, 0, 2 * Math.PI)
     ctx.fill()
 
     ctx.restore()
@@ -218,7 +229,7 @@ function renderTask (ctx, current, prev, progress) {
   const y = (current.position.y + 1.55) * TILE_HEIGHT * 1.25
 
   ctx.save()
-  ctx.fillStyle = current.task.name
+  ctx.fillStyle = current.task.type
 
   // skew circle to make it look like a side it's viewed from the side
   ctx.scale(1, 0.8)

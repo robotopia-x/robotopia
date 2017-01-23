@@ -37,7 +37,7 @@ const towerSpawner = {
         // TODO: remove ! / insert real cost of tower
         if (!hasEnoughResources(game, team.id, 10)) {
           send('game:createEntity', { data: tower }, _.noop)
-          send('game:increaseGamePoints', { teamId: team.id, amount: 100 }, _.noop)
+          send('game:addPoints', { teamId: team.id, amount: 100 }, _.noop)
         }
 
         // TODO: check that tower is not near base, this is checked in the buildTowerNearPosition
@@ -51,26 +51,42 @@ const robotSpawner = {
   requires: ['position', 'team'],
 
   reducers: {
-    setStepsSinceLastSpawn: (state, { steps }) => ({
-      robotSpawner: { stepsSinceLastSpawn: { $set: steps } }
+    _setStepsSinceLastSpawn: (state, { steps }) => ({
+      robotSpawner: {
+        stepsSinceLastSpawn: { $set: steps }
+      }
+    }),
+
+    _incSpawnedRobots: ({ robotSpawner }) => ({
+      robotSpawner: {
+        spawnedRobots: { $set: robotSpawner.spawnedRobots + 1 }
+      }
     })
   },
 
   effects: {
     update: ({ id, robotSpawner, position, team }, data, game, send) => {
-      let stepsSinceLastSpawn = robotSpawner.stepsSinceLastSpawn
+      let { stepsSinceLastSpawn, maxRobots, spawnedRobots } = robotSpawner
+
+      if (spawnedRobots === maxRobots) {
+        return
+      }
 
       // spawn entity on interval
       if ((stepsSinceLastSpawn % robotSpawner.interval) === 0) {
-        const id = uid()
-        const robot = entities.robot({ id, x: position.x, y: position.y, teamId: team.id })
+        const robotId = uid()
+        const robot = entities.robot({ id: robotId, x: position.x, y: position.y, teamId: team.id })
 
+        send('game:robotSpawner._incSpawnedRobots', {
+          target: id,
+          data: {}
+        }, _.noop)
+        send('runtime:createRobot', { id: robotId, groupId: team.id }, _.noop)
         send('game:createEntity', { data: robot }, _.noop)
-        send('runtime:createRobot', { id, groupId: team.id }, _.noop)
       }
 
       // increment stepsSinceLastSpawn
-      send('game:robotSpawner.setStepsSinceLastSpawn', {
+      send('game:robotSpawner._setStepsSinceLastSpawn', {
         target: id,
         data: { steps: stepsSinceLastSpawn + 1 }
       }, _.noop)

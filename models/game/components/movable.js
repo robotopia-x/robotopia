@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const { MOVE } = require('../../../lib/utils/types')
+const { isFieldEmpty } = require('../../../lib/game')
 
 module.exports = {
   movable: {
@@ -30,9 +31,7 @@ module.exports = {
             break
         }
 
-        // TODO: extract general is walkable function instead of referecing specific tile numbers
-        if (game.tiles[nextY] &&
-          game.tiles[nextY][nextX] === 0) {
+        if (!isFieldEmpty(game, nextX, nextY)) {
           return {}
         }
 

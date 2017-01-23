@@ -36,10 +36,10 @@ module.exports = ({ hubUrl }) => {
       denyRecovery: (state) => {
         localStorage.setItem('roboSession', '')
         state.username = null
-        state.groupId= null
-        state.clientId= null
-        state.connecting= false
-        state.recoveryPossible= false
+        state.groupId = null
+        state.clientId = null
+        state.connecting = false
+        state.recoveryPossible = false
         return state
       },
 
@@ -98,7 +98,7 @@ module.exports = ({ hubUrl }) => {
   }
 }
 
-function getStateFromLocalStorage() {
+function getStateFromLocalStorage () {
   let localState = {
     username: null,
     groupId: null,

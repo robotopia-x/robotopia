@@ -25,26 +25,32 @@ module.exports = {
       action: ['game:movable.move', { direction: MOVE[direction] }],
       cost: 1
     }),
+
     rotate: (direction) => ({
       action: ['game:movable.rotate', { direction: ROTATE[direction] }],
       cost: 0
     }),
+
     setRotation: (direction) => ({
       action: ['game:movable.setRotation', { direction: ORIENTATION[direction] }],
       cost: 0
     }),
-    placeMarker: () => ({
-      action: ['game:markerSpawner.spawn'],
+
+    placeMarker: (type, requiredWorkers) => ({
+      action: ['game:markerSpawner.spawn', { type, requiredWorkers }],
       cost: 1
     }),
+
     buildTower: () => ({
       action: ['game:towerSpawner.spawn'],
       cost: 1
     }),
+
     collectResource: () => ({
       action: ['game:collector.collectResource'],
       cost: 1
     }),
+
     depositResource: () => ({
       action: ['game:collector.depositResource'],
       cost: 1
@@ -54,6 +60,7 @@ module.exports = {
   // Be careful here, the methods are converted to strings and interpreted by esper
   // that's because we need to execute them step by step
   // inside the scope of the methods only the specified actions and sensors are available
+  // es6 is also not fully supported by esper.js yet. Don't use things like: let, const or arrow functions
   //
   // Examples:
   //   robot.rotate(1)
@@ -96,6 +103,22 @@ module.exports = {
 
       this.moveTo(towerPosition.x, towerPosition.y)
       this.buildTower()
+    },
+
+    onMode: function (name, handler) {
+      if (this.__modeHandlers === undefined) {
+        this.__modeHandlers = {}
+      }
+
+      this.__modeHandlers[name] = handler
+    },
+
+    onEvent: function (name, handler) {
+      if (this.__eventHandlers === undefined) {
+        this.__eventHandlers = {}
+      }
+
+      this.__eventHandlers[name] = handler
     }
   },
 

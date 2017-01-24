@@ -22,20 +22,13 @@ module.exports = {
     toolbox: `
       <xml id="toolbox" style="display: none">
         <category name="Movement" colour="250">
-          <block type="move"></block>
-          <block type="rotate"></block>
+          <block type="move_to"></block>
         </category>
         
         <sep gap="8"></sep>
         
         <category name="Numbers" colour="230">
           <block type="math_number"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Loops" colour="120">
-          <block type="controls_repeat_ext"></block>
         </category>
         
         <sep gap="8"></sep>
@@ -66,9 +59,9 @@ module.exports = {
 
   storyModal: {
     text: 'Ohh no, you are running low on resources... Go to the gem and collect a resource',
-    hint: 'You do not have to stand on the gem, around it is good enough.',
+    hint: 'You can use the move to Block with x and y positions, too. Just start counting at 0.',
     img: '../../assets/img/tutorials/collect-resource.png'
   },
 
-  nextTutorial: 'deposit-resources'
+  nextTutorial: 'deposit-resource'
 }

@@ -28,7 +28,6 @@ function checkGoal ({ goal, game, workspace }) {
       return false
 
     case 'carryResource':
-      console.log(workspace)
       if (game) {
         return game.entities.ROBOT.collector.hasResource === goal.params.hasResource
       }

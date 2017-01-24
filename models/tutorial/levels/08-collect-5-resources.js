@@ -3,17 +3,18 @@ const entities = require('../../../models/game/entities')
 module.exports = {
   game: {
     tiles: [
+      [2, 4, 4, 4, 4, 4],
+      [1, 1, 1, 1, 1, 4],
       [1, 4, 4, 4, 4, 4],
-      [1, 1, 1, 1, 1, 4],
-      [1, 1, 1, 1, 1, 4],
-      [1, 1, 1, 1, 1, 4],
-      [2, 4, 4, 4, 4, 4]
+      [1, 4, 1, 1, 1, 1],
+      [1, 4, 1, 1, 1, 1],
+      [4, 4, 1, 1, 1, 1]
     ],
 
     entities: [
-      entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', teamId: 'RED' }),
-      entities.gem({ x: 0, y: 4 }),
-      entities.tutorialBase({ x: 1, y: 0, id: 'BASE', teamId: 'RED' })
+      entities.tutorialRobot({ x: 0, y: 5, id: 'ROBOT', teamId: 'RED', hasResource: false }),
+      entities.gem({ x: 0, y: 0 }),
+      entities.tutorialBase({ x: 0, y: 5, id: 'BASE', teamId: 'RED' })
     ],
 
     teams: {
@@ -54,38 +55,39 @@ module.exports = {
         <sep gap="8"></sep>
         
         <category name="Actions" colour="50">
+          <block type="collect_resource"></block>
           <block type="deposit_resource"></block>
         </category>
       </xml>
     `
   },
 
-  label: 'deposit a resource',
+  label: 'collect 50 resources',
 
   goals: [
     {
-      type: 'carryResource',
-      params: { hasResource: false },
-      desc: 'Collect 1 Resource',
+      type: 'collectResources',
+      params: { amount: 50 },
+      desc: 'Collect 50 resources',
       isMandatory: true
-    },
-    {
-      type: 'doNotUseBlock',
-      params: { type: 'controls_repeat' },
-      desc: 'Do not use any repeat Block',
-      isMandatory: false
     },
     {
       type: 'useBlock',
       params: { type: 'move_to' },
-      desc: 'Use the Move to Block',
+      desc: 'Use the move to Block',
+      isMandatory: false
+    },
+    {
+      type: 'useBlock',
+      params: { type: 'controls_repeat_ext' },
+      desc: 'Use at least 1 repeat Block',
       isMandatory: false
     }
   ],
 
   storyModal: {
-    text: 'Now that you have a resource, go back to your base and deposit it there.',
-    hint: 'A robot can only hold 1 resource, that can only be deposited in the base',
-    img: '../../assets/img/tutorials/collect-resource.png'
+    text: 'Now that you have learned how to collect resources, go for it and get 5 pieces.',
+    hint: 'Do not forget that a robot can only carry 1 resource at a time',
+    img: '../../assets/img/tutorials/collect-5-resources.png'
   }
 }

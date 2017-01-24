@@ -33,6 +33,12 @@ function checkGoal ({ goal, game, workspace }) {
       }
       return false
 
+    case 'collectResources':
+      if (game) {
+        return game.teams[game.entities.ROBOT.team.id].resources === goal.params.amount
+      }
+      return false
+
     default:
       return false
   }

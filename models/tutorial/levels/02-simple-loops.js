@@ -53,7 +53,7 @@ module.exports = {
     {
       type: 'moveTo',
       params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
-      desc: 'Move the Robot to the grass',
+      desc: 'Move the robot to the grass',
       isMandatory: true
     },
     {

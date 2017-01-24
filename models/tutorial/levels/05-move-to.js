@@ -16,8 +16,8 @@ module.exports = {
     ],
 
     entities: [
-      entities.robot({ x: 0, y: 0, id: 'ROBOT' }),
-      entities.base({ x: 5, y: 5, id: 'BASE' })
+      entities.robot({ x: 0, y: 0, id: 'ROBOT', teamId: 'RED' }),
+      entities.tutorialBase({ x: 5, y: 5, id: 'BASE', teamId: 'RED' })
     ]
   },
 
@@ -33,8 +33,8 @@ module.exports = {
         <sep gap="8"></sep>
         
         <category name="Variables" colour="170">
-          <block type="position_x"></block>
-          <block type="position_y"></block>
+          <block type="base_position_x"></block>
+          <block type="base_position_y"></block>
         </category>
       </xml>
     `
@@ -45,14 +45,14 @@ module.exports = {
   goals: [
     {
       type: 'moveTo',
-      params: { position: { x: 10, y: 0 }, entity: 'ROBOT' },
+      params: { position: { x: 5, y: 5 }, entity: 'ROBOT' },
       desc: 'Move the Robot to his base',
       isMandatory: true
     },
     {
       type: 'maxBlocks',
-      params: { amount: 2 },
-      desc: 'Use a maximum of 2 Blocks',
+      params: { amount: 3 },
+      desc: 'Use a maximum of 3 Blocks',
       isMandatory: false
     }
   ],
@@ -60,8 +60,8 @@ module.exports = {
   storyModal: {
     text: 'Look at that path... We would need a whole lot of blocks for that. Good thing we have a Move To Block which will make things way easier',
     hint: 'Observe the behaviour of the move to block.',
-    img: '../../assets/img/tutorials/collect-resource.png'
+    img: '../../assets/img/tutorials/move-to.png'
   },
 
-  nextTutorial: 'collect-resources'
+  nextTutorial: 'collect-resource'
 }

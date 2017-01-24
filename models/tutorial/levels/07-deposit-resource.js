@@ -11,7 +11,7 @@ module.exports = {
     ],
 
     entities: [
-      entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', teamId: 'RED' }),
+      entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', teamId: 'RED', hasResource: true }),
       entities.gem({ x: 0, y: 4 }),
       entities.tutorialBase({ x: 1, y: 0, id: 'BASE', teamId: 'RED' })
     ],
@@ -60,13 +60,13 @@ module.exports = {
     `
   },
 
-  label: 'deposit a resource',
+  label: 'deposit the resources',
 
   goals: [
     {
       type: 'carryResource',
       params: { hasResource: false },
-      desc: 'Collect 1 Resource',
+      desc: 'Deposit 1 resource',
       isMandatory: true
     },
     {
@@ -78,7 +78,7 @@ module.exports = {
     {
       type: 'useBlock',
       params: { type: 'move_to' },
-      desc: 'Use the Move to Block',
+      desc: 'Use the move to Block',
       isMandatory: false
     }
   ],
@@ -87,5 +87,7 @@ module.exports = {
     text: 'Now that you have a resource, go back to your base and deposit it there.',
     hint: 'A robot can only hold 1 resource, that can only be deposited in the base',
     img: '../../assets/img/tutorials/collect-resource.png'
-  }
+  },
+
+  nextTutorial: 'collect-5-resources'
 }

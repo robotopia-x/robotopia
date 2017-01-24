@@ -29,21 +29,15 @@ module.exports = {
     }
   }),
 
-  tutorialRobot: ({ id, x, y, teamId }) => ({
+  tutorialRobot: ({ id, x, y, teamId, hasResource }) => ({
     id,
-    health: {
-      current: 5,
-      max: 5
-    },
     team: { id: teamId },
     position: { x, y, rotation: 0 },
     movable: {},
     discoverer: { range: 3 },
-    markerSpawner: {},
-    towerSpawner: {},
-    collector: { hasResource: true },
+    collector: { hasResource: hasResource },
     worker: { assignedTask: null },
-    zIndex: 1,
+    zIndex: 5,
     sprite: {
       type: 'ROTATING',
       data: {

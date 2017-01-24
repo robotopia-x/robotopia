@@ -40,19 +40,19 @@ module.exports = {
     `
   },
 
-  label: 'collect a resource',
+  label: 'collect resources',
 
   goals: [
     {
       type: 'carryResource',
       params: { hasResource: true },
-      desc: 'Collect 1 Resource',
+      desc: 'Collect 10 resources',
       isMandatory: true
     },
     {
       type: 'useBlock',
       params: { type: 'move_to' },
-      desc: 'Use the Move to Block',
+      desc: 'Use the move to Block',
       isMandatory: false
     }
   ],

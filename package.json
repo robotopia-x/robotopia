@@ -29,14 +29,14 @@
     "babel-preset-stage-2": "^6.17.0",
     "babelify": "^7.3.0",
     "browserify-hmr": "^0.3.5",
-    "budo": "^9.2.1",
+    "budo": "^9.4.5",
     "signalhub": "^4.8.0",
     "standard": "^8.5.0"
   },
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "budo --live --host -P localhost index.js:bundle.js",
+    "start": "budo --live --host -P localhost index.js:bundle.js --pushstate",
     "devhub": "signalhub listen -p 8042"
   },
   "repository": {

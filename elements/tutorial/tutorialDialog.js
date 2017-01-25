@@ -73,13 +73,13 @@ function getNextLevelButton (send, level) {
   if (level.nextTutorial) {
     return {
       text: 'Next Level',
-      callback: () => send('tutorial:loadLevel', { name: level.nextTutorial })
+      callback: () => send('location:set', `/tutorial/${level.nextTutorial}`)
     }
   }
 
   return {
     text: 'Load Editor',
-    callback: () => send('location:set', '/#editor')
+    callback: () => send('location:set', '/editor')
   }
 }
 

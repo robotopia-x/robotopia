@@ -5,7 +5,7 @@ const button = require('../../elements/button')
 const _ = require('lodash')
 const { startButtonView } = require('../../elements/presenter-controls')
 const gameView = require('../../elements/game/index')
-const gameStatsView = require('../../elements/gameStats')
+const gameStatsView = require('../../elements/game-stats')
 const OneonOne = require('../../assets/levels/1on1')
 
 module.exports = function ({ presenter, game, clock }, prev, send) {
@@ -56,6 +56,8 @@ module.exports = function ({ presenter, game, clock }, prev, send) {
 `
 
   function initGame () {
+    send('clock:stop')
+    send('runtime:reset')
     send('game:loadGameState', { loadState: OneonOne })
   }
 

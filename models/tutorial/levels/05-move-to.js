@@ -26,33 +26,26 @@ module.exports = {
 
     toolbox: `
       <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
+        <category name="Movement" colour="40">
           <block type="move_to"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Variables" colour="170">
-          <block type="base_position_x"></block>
-          <block type="base_position_y"></block>
         </category>
       </xml>
     `
   },
 
-  label: 'move to the base',
+  label: 'Move to the base',
 
   goals: [
     {
       type: 'moveTo',
       params: { position: { x: 5, y: 5 }, entity: 'ROBOT' },
-      desc: 'Move the robot to his base',
+      desc: 'Move Morty to his base',
       isMandatory: true
     },
     {
       type: 'maxBlocks',
-      params: { amount: 3 },
-      desc: 'Use a maximum of 3 Blocks',
+      params: { amount: 1 },
+      desc: 'Use a maximum of 1 Blocks',
       isMandatory: false
     }
   ],

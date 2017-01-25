@@ -27,39 +27,33 @@ module.exports = {
 
     toolbox: `
       <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
+        <category name="Loops" colour="100">
+          <block type="controls_repeat"></block>
+        </category>
+
+        <sep gap="8"></sep>
+        
+        <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Numbers" colour="230">
-          <block type="math_number"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Loops" colour="120">
-          <block type="controls_repeat_ext"></block>
         </category>
       </xml>
     `
   },
 
-  label: 'simple loops',
+  label: 'Simple loops',
 
   goals: [
     {
       type: 'moveTo',
       params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
-      desc: 'Move the robot to the grass',
+      desc: 'Move Morty to the grass',
       isMandatory: true
     },
     {
       type: 'maxBlocks',
       params: { amount: 4 },
-      desc: 'Use a maximum of 4 Blocks',
+      desc: 'Use at most 4 blocks',
       isMandatory: false
     }
   ],
@@ -70,5 +64,5 @@ module.exports = {
     img: '../../assets/img/tutorials/simple-loops.png'
   },
 
-  nextStory: 'nested-loops-1'
+  nextTutorial: 'nested-loops-1'
 }

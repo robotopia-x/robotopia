@@ -27,29 +27,17 @@ module.exports = {
 
     toolbox: `
       <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
+        <category name="Loops" colour="100">
+          <block type="controls_repeat"></block>
+        </category>
+        
+        <sep gap="8"></sep>
+        
+        <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
-          <block type="move_to"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Numbers" colour="230">
-          <block type="math_number"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Variables" colour="170">
-          <block type="base_position_x"></block>
-          <block type="base_position_y"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Loops" colour="120">
-          <block type="controls_repeat_ext"></block>
+          <block type="move_to"></block>          
+          <block type="move_to_entity"></block>
         </category>
         
         <sep gap="8"></sep>
@@ -62,7 +50,7 @@ module.exports = {
     `
   },
 
-  label: 'collect 50 resources',
+  label: 'Collect resources',
 
   goals: [
     {
@@ -74,13 +62,13 @@ module.exports = {
     {
       type: 'useBlock',
       params: { type: 'move_to' },
-      desc: 'Use the move to Block',
+      desc: 'Use the move to block',
       isMandatory: false
     },
     {
       type: 'useBlock',
-      params: { type: 'controls_repeat_ext' },
-      desc: 'Use at least 1 repeat Block',
+      params: { type: 'controls_repeat' },
+      desc: 'Use at least 1 repeat block',
       isMandatory: false
     }
   ],

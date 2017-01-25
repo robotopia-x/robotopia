@@ -19,7 +19,7 @@ module.exports = {
 
     toolbox: `
       <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
+        <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
         </category>
@@ -27,13 +27,13 @@ module.exports = {
     `
   },
 
-  label: 'simple move',
+  label: 'Simple movement',
 
   goals: [
     {
       type: 'moveTo',
-      params: { position: { x: 0, y: 1 }, entity: 'ROBOT' },
-      desc: 'Move the robot to the grass',
+      params: { position: { x: 2, y: 0 }, entity: 'ROBOT' },
+      desc: 'Move Morty to the grass',
       isMandatory: true
     },
     {

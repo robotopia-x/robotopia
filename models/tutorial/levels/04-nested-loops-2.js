@@ -20,39 +20,33 @@ module.exports = {
 
     toolbox: `
     <xml id="toolbox" style="display: none">
-      <category name="Movement" colour="250">
+      <category name="Loops" colour="100">
+        <block type="controls_repeat"></block>
+      </category>
+    
+      <sep gap="8"></sep>
+    
+      <category name="Movement" colour="40">
         <block type="move"></block>
         <block type="rotate"></block>
-      </category>
-      
-      <sep gap="8"></sep>
-      
-      <category name="Numbers" colour="230">
-        <block type="math_number"></block>
-      </category>
-      
-      <sep gap="8"></sep>
-      
-      <category name="Loops" colour="120">
-        <block type="controls_repeat_ext"></block>
-      </category>
+      </category>      
     </xml>
   `
   },
 
-  label: 'advanced nested loops',
+  label: 'Advanced nested loops',
 
   goals: [
     {
       type: 'moveTo',
       params: { position: { x: 10, y: 0 }, entity: 'ROBOT' },
-      desc: 'Move the robot to the grass',
+      desc: 'Move Morty to the grass',
       isMandatory: true
     },
     {
       type: 'maxBlocks',
       params: { amount: 14 },
-      desc: 'Use a maximum of 14 Blocks',
+      desc: 'Use at most 14 blocks',
       isMandatory: false
     }
   ],

@@ -13,7 +13,7 @@ const prefix = sf`
     width: 100%;
   }
 `
-const options = {
+const DEFAULT_OPTIONS = {
   toolbox: '<xml id="toolbox" style="display: none"><category /></xml>',
   collapse: true,
   comments: true,
@@ -41,33 +41,33 @@ const options = {
 function blocklyWidget () {
   let prevParams = null
   let onChange = _.noop
-  let toolbox, workspace, code
+  let toolbox, blocklyWorkspace, code
 
   return widget({
     onupdate: (el, params) => {
       onChange = params.onChange
 
       // ignore if workspace isn't initialized or params haven't changed
-      if (!workspace || prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox) {
+      if (!blocklyWorkspace || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
         return
       }
 
       prevParams = params
 
       if (toolbox !== params.toolbox) {
-        workspace.updateToolbox(params.toolbox)
+        blocklyWorkspace.updateToolbox(params.toolbox)
       }
 
-      const newWorkspace = stringToWorkspace(params.workspace)
+      const newBlocklyWorkspace = stringToWorkspace(params.workspace)
 
-      if (!isWorkspaceEquivalentTo(workspace, newWorkspace)) {
-        updateWorkspace(workspace, params.workspace)
+      if (!isWorkspaceEquivalentTo(blocklyWorkspace, newBlocklyWorkspace)) {
+        updateWorkspace(blocklyWorkspace, params.workspace)
       }
     },
 
     onload: (el) => {
-      workspace = Blockly.inject(el, options)
-      workspace.addChangeListener(updateCode)
+      blocklyWorkspace = Blockly.inject(el, DEFAULT_OPTIONS)
+      blocklyWorkspace.addChangeListener(updateCode)
 
       if (prevParams === null) {
         return
@@ -75,11 +75,11 @@ function blocklyWidget () {
 
       // apply initial params
       if (prevParams.toolbox) {
-        workspace.updateToolbox(prevParams.toolbox)
+        blocklyWorkspace.updateToolbox(prevParams.toolbox)
         toolbox = prevParams.toolbox
       }
       if (prevParams.workspace) {
-        updateWorkspace(workspace, prevParams.workspace)
+        updateWorkspace(blocklyWorkspace, prevParams.workspace)
       }
     },
 
@@ -87,8 +87,8 @@ function blocklyWidget () {
       prevParams = null
       onChange = _.noop
 
-      workspace.removeChangeListener(updateCode)
-      workspace.dispose()
+      blocklyWorkspace.removeChangeListener(updateCode)
+      blocklyWorkspace.dispose()
     },
 
     render: (params) => {
@@ -102,14 +102,14 @@ function blocklyWidget () {
   })
 
   function updateCode () {
-    const newCode = workspaceToOrderedCode(workspace)
+    const newCode = workspaceToOrderedCode(blocklyWorkspace)
 
     // only update call onChangeWorkspace if resulting code from workspace has changed
     if (newCode !== code) {
       code = newCode
 
       onChange({
-        workspace: workspaceToString(workspace),
+        workspace: workspaceToString(blocklyWorkspace),
         code
       })
     }
@@ -124,7 +124,7 @@ function updateWorkspace (workspace, xmlString) {
 }
 
 function stringToWorkspace (xmlString) {
-  const workspace = new Blockly.Workspace(options)
+  const workspace = new Blockly.Workspace(DEFAULT_OPTIONS)
   updateWorkspace(workspace, xmlString)
   return workspace
 }
@@ -146,8 +146,38 @@ function isWorkspaceEquivalentTo (workspace, compareWorkspace) {
 function workspaceToOrderedCode (workspace) {
   const blocks = workspace.getTopBlocks()
   const [eventHandlerBlocks, otherBlocks] = _.partition(blocks, isBlockEventHandler)
-  const codeChunks = _.map(eventHandlerBlocks.concat(otherBlocks), (block) => Blockly.JavaScript.blockToCode(block))
+
+  // TODO: remove this hack
+  // blocks that create new variables need to access the variableDB to ensure they don't override existing variables
+  // the variableDB is provided by the workspace but since we are generating the code block wise we need to provide
+  // our own variableDB
+
+  // safe reference to original value
+  const originalVariableDB_ = Blockly.JavaScript.variableDB_
+
+  // monkey patch variableDB
+  Blockly.JavaScript.variableDB_ = getFakeVariableDB()
+
+  const codeChunks = _.map(eventHandlerBlocks.concat(otherBlocks), (block) => {
+    return Blockly.JavaScript.blockToCode(block)
+  })
+
+  // restore variableDB
+  Blockly.JavaScript.variableDB_ = originalVariableDB_
+
   return codeChunks.join('\n')
+}
+
+function getFakeVariableDB () {
+  let counter = 0
+
+  return {
+    getDistinctName: () => {
+      const name = `i_${counter}`
+      counter += 1
+      return name
+    }
+  }
 }
 
 function isBlockEventHandler (block) {

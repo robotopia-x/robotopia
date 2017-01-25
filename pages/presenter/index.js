@@ -1,5 +1,5 @@
+/* globals FormData */
 const html = require('choo/html')
-const sf = require('sheetify')
 const modal = require('../../elements/modal')
 const button = require('../../elements/button')
 const _ = require('lodash')
@@ -60,7 +60,7 @@ module.exports = function (state, prev, send) {
   ${prepfightHtml}
   <div class="clientList">
   <h3>Clients</h3>
-    ${listClients (presenter)}
+    ${listClients(presenter)}
   </div>
     <div class="gameView" onload=${onLoad}>
         ${gameHtml}
@@ -75,12 +75,11 @@ module.exports = function (state, prev, send) {
   function onLoad () {
     send('clock:stop')
     send('game:loadGameState', { loadState: OneonOne })
-    send( 'prepfight:setLeft', {img: '../../assets/img/robot/robot_rick_right.png'})
-    send( 'prepfight:setRight', {img: '../../assets/img/cyborg/cyborg_rick_left.png'})
-    send( 'prepfight:setVS', {img: 'http://vignette2.wikia.nocookie.net/mortalkombat/images/6/64/Vs.png/revision/latest?cb=20150319161124&path-prefix=de'})
-    send( 'prepfight:setDurations', {up: 1000, down: 1000, stay: 1500})
+    send('prepfight:setLeft', {img: '../../assets/img/robot/robot_rick_right.png'})
+    send('prepfight:setRight', {img: '../../assets/img/cyborg/cyborg_rick_left.png'})
+    send('prepfight:setVS', {img: 'http://vignette2.wikia.nocookie.net/mortalkombat/images/6/64/Vs.png/revision/latest?cb=20150319161124&path-prefix=de'})
+    send('prepfight:setDurations', {up: 1000, down: 1000, stay: 1500})
   }
-
 }
 
 function joinGroupDialog ({ onJoinGroup }) {
@@ -108,19 +107,18 @@ function joinGroupDialog ({ onJoinGroup }) {
   }
 }
 
-function listClients( {clients, playerNumbers} ) {
+function listClients ({clients, playerNumbers}) {
   return html`
     <ul>
         ${Object.keys(clients).map(clientToLi)}
     </ul>
   `
 
-  function clientToLi(key) {
+  function clientToLi (key) {
     let isPlayer = false
     if (_.valuesIn(playerNumbers).indexOf(key) >= 0) {
       isPlayer = true
     }
     return html`<li>${clients[key].username} ${isPlayer ? 'p' : ''}</li>`
   }
-
 }

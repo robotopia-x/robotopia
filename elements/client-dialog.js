@@ -8,7 +8,6 @@ module.exports = function ({
   client,
   onSetUsername, onJoinGroup, onDisconnect, onDenyRecovery
 }) {
-
   if (client.connected) {
     return html`<div></div>`
   }
@@ -61,9 +60,7 @@ function recoveryDialog ({
         ${cancelButtonHtml}
     </div>
   `)
-
 }
-
 
 function setUsernameDialog ({
   onSetUsername

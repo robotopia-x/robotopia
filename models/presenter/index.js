@@ -15,7 +15,7 @@ module.exports = ({ hubUrl }) => {
     state: {
       groupId: null,
       clients: {}, // clients [{ id, code, username }] mapped to their id
-      playerNumbers: {}, //maps playerNumbers to Client. eg.: 1->eflajsnf1248dsnf
+      playerNumbers: {}, // maps playerNumbers to Client. eg.: 1->eflajsnf1248dsnf
       gameActive: false
     },
 
@@ -57,12 +57,12 @@ module.exports = ({ hubUrl }) => {
           }
         }),
 
-      setPlayers: ( state, players ) =>
+      setPlayers: (state, players) =>
         update(state, {
           playerNumbers: { $set: players }
         }),
 
-      _setGameState: ( state, gameRunning ) =>
+      _setGameState: (state, gameRunning) =>
         update(state, {
           gameActive: { $set: gameRunning }
         }),
@@ -90,7 +90,7 @@ module.exports = ({ hubUrl }) => {
         send('presenter:_setGroupId', { groupId }, _.noop)
       },
 
-      startMatch: ( { clients }, playerCount, send, done ) => {
+      startMatch: ({ clients }, playerCount, send, done) => {
         let clientIds = Object.keys(clients)
         let players = {}
         if (clientIds.length < playerCount) {
@@ -107,8 +107,8 @@ module.exports = ({ hubUrl }) => {
           send('runtime:commitCode', { code: clients[players[p]].code, groupId: p }, _.noop)
         }
 
-        send('prepfight:setLeft', { name: clients[players[1]].username}, _.noop)
-        send('prepfight:setRight', { name: clients[players[2]].username}, _.noop)
+        send('prepfight:setLeft', { name: clients[players[1]].username }, _.noop)
+        send('prepfight:setRight', { name: clients[players[2]].username }, _.noop)
         send('prepfight:start', null, _.noop)
         setTimeout(() => {
           send('presenter:_setGameState', true, _.noop)
@@ -119,7 +119,7 @@ module.exports = ({ hubUrl }) => {
         }, 4000)
       },
 
-      stopMatch: ( { clients }, data, send ) => {
+      stopMatch: ({ clients }, data, send) => {
         send('presenter:_setGameState', false, _.noop)
         send('clock:stop', null, _.noop)
       },

@@ -16,8 +16,8 @@ module.exports = {
     ],
 
     entities: [
-      entities.robot({ x: 0, y: 0, id: 'ROBOT', teamId: 'RED' }),
-      entities.tutorialBase({ x: 5, y: 5, id: 'BASE', teamId: 'RED' })
+      entities.robot({ x: 0, y: 0, id: 'ROBOT', teamId: 1 }),
+      entities.tutorialBase({ x: 5, y: 5, id: 'BASE', teamId: 1 })
     ]
   },
 

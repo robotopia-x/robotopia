@@ -12,13 +12,13 @@ module.exports = {
     ],
 
     entities: [
-      entities.tutorialRobot({ x: 0, y: 5, id: 'ROBOT', teamId: 'RED', hasResource: false }),
+      entities.tutorialRobot({ x: 0, y: 5, id: 'ROBOT', teamId: 1, hasResource: false }),
       entities.gem({ x: 0, y: 0 }),
-      entities.tutorialBase({ x: 0, y: 5, id: 'BASE', teamId: 'RED' })
+      entities.tutorialBase({ x: 0, y: 5, id: 'BASE', teamId: 1 })
     ],
 
     teams: {
-      RED: { resources: 0, points: 0 }
+      1: { resources: 0, points: 0 }
     }
   },
 

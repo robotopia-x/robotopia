@@ -4,7 +4,7 @@ Blockly.BlockSvg.START_HAT = true
 
 // Defines saturation and lightness
 // of the given block colors
-Blockly.HSV_SATURATION = 0.6
+Blockly.HSV_SATURATION = 0.7
 Blockly.HSV_VALUE = 0.75
 
 Blockly.Blocks.marker_event_handler = {
@@ -67,7 +67,7 @@ Blockly.Blocks.move = {
     this.setTooltip('move the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(240)
+    this.setColour(40)
   }
 }
 
@@ -83,7 +83,7 @@ Blockly.Blocks.rotate = {
     this.setTooltip('rotate the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(240)
+    this.setColour(40)
   }
 }
 
@@ -162,7 +162,7 @@ Blockly.Blocks.move_to = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
-    this.setColour(240)
+    this.setColour(40)
   }
 }
 

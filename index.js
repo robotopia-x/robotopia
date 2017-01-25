@@ -32,8 +32,8 @@ clock.onTick((send) => {
 })
 
 app.router([
+  ['/', require('./pages/overview')],
   ['/editor', require('./pages/editor')],
-  ['/tutorial', require('./pages/overview')],
   ['/tutorial/:level', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')]
 ])

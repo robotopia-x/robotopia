@@ -31,9 +31,13 @@ const game = {
 
   entities: [
     entities.base({ x: 3, y: 3, teamId: 1 }),
-    entities.base({ x: 21, y: 21, teamId: 2 }),
-    entities.gem({ x: 20, y: 20 })
+    entities.base({ x: 21, y: 21, teamId: 2 })
   ],
+
+  teams: {
+    1: { resources: 0, points: 0 },
+    2: { resources: 0, points: 0 }
+  },
 
   resources: {},
   gamePoints: {}

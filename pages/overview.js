@@ -30,6 +30,7 @@ const prefix = sf`
   
   li {
     font-size: 1.5em;
+    padding: 3px;
   }
   
   :host a {

@@ -29,6 +29,28 @@ module.exports = {
     }
   }),
 
+  tutorialRobot: ({ id, x, y, teamId, hasResource }) => ({
+    id,
+    team: { id: teamId },
+    position: { x, y, rotation: 0 },
+    movable: {},
+    discoverer: { range: 3 },
+    collector: { hasResource: hasResource },
+    worker: { assignedTask: null },
+    zIndex: 5,
+    sprite: {
+      type: 'ROTATING',
+      data: {
+        sprites: {
+          [ORIENTATION.FRONT]: 'ROBOT_FRONT',
+          [ORIENTATION.BACK]: 'ROBOT_BACK',
+          [ORIENTATION.LEFT]: 'ROBOT_LEFT',
+          [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
+        }
+      }
+    }
+  }),
+
   gem: ({ x, y }) => ({
     position: { x, y },
     item: { type: 'gem' },
@@ -57,6 +79,20 @@ module.exports = {
       stepsSinceLastSpawn: 0,
       interval: 5
     },
+    zIndex: 1,
+    sprite: {
+      type: 'SIMPLE',
+      data: {
+        sprite: 'BASE'
+      }
+    }
+  }),
+
+  tutorialBase: ({ x, y, id, teamId }) => ({
+    id,
+    team: { id: teamId },
+    position: { x, y },
+    robotSpawner: {},
     zIndex: 1,
     sprite: {
       type: 'SIMPLE',

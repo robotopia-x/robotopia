@@ -32,9 +32,13 @@ module.exports = {
           <block type="rotate"></block>
         </category>
         
+        <sep gap="8"></sep>
+        
         <category name="Numbers" colour="230">
           <block type="math_number"></block>
         </category>
+        
+        <sep gap="8"></sep>
         
         <category name="Loops" colour="120">
           <block type="controls_repeat_ext"></block>
@@ -49,7 +53,7 @@ module.exports = {
     {
       type: 'moveTo',
       params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
-      desc: 'Move the Robot to the grass',
+      desc: 'Move the robot to the grass',
       isMandatory: true
     },
     {

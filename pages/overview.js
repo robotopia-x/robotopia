@@ -23,9 +23,13 @@ const prefix = sf`
     margin-bottom: 25px;
   } 
   
-  :host ul {
+  :host ol {
+    padding-top: 0;
     margin-top: 0;
-    list-style-type: upper-roman;
+  }
+  
+  li {
+    font-size: 1.5em;
   }
   
   :host a {

@@ -1,6 +1,8 @@
 /* global Blockly */
 require('./blocks')
 require('./javascript-commands')
+require('./tutorialBlocks')
+require('./tutorial-javascript-commands')
 
 const _ = require('lodash')
 const widget = require('cache-element/widget')

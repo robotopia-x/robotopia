@@ -4,7 +4,7 @@ Blockly.BlockSvg.START_HAT = true
 
 // Defines saturation and lightness
 // of the given block colors
-Blockly.HSV_SATURATION = 0.6
+Blockly.HSV_SATURATION = 0.7
 Blockly.HSV_VALUE = 0.75
 
 Blockly.Blocks.marker_event_handler = {
@@ -67,7 +67,7 @@ Blockly.Blocks.move = {
     this.setTooltip('move the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(240)
+    this.setColour(40)
   }
 }
 
@@ -83,7 +83,7 @@ Blockly.Blocks.rotate = {
     this.setTooltip('rotate the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(240)
+    this.setColour(40)
   }
 }
 
@@ -162,7 +162,7 @@ Blockly.Blocks.move_to = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
-    this.setColour(240)
+    this.setColour(40)
   }
 }
 
@@ -175,8 +175,8 @@ const entityOptions = [
 Blockly.Blocks.position_x = {
   init: function () {
     this.appendDummyInput()
-      .appendField('x position of')
       .appendField(new Blockly.FieldDropdown(entityOptions), 'entity')
+      .appendField(' x-position')
 
     this.setOutput(true, null)
     this.setColour(170)
@@ -187,15 +187,14 @@ Blockly.Blocks.position_x = {
 Blockly.Blocks.random_number = {
   init: function () {
     this.appendDummyInput()
-      .appendField('Random number')
+      .appendField('Random between')
 
     this.appendValueInput('MIN')
       .setCheck('Number')
-      .appendField('from')
 
     this.appendValueInput('MAX')
       .setCheck('Number')
-      .appendField('to')
+      .appendField('and')
 
     this.setInputsInline(true)
     this.setOutput(true, 'Number')
@@ -207,8 +206,8 @@ Blockly.Blocks.random_number = {
 Blockly.Blocks.position_y = {
   init: function () {
     this.appendDummyInput()
-      .appendField('y position of')
       .appendField(new Blockly.FieldDropdown(entityOptions), 'entity')
+      .appendField(' y-position')
 
     this.setOutput(true, null)
     this.setColour(170)

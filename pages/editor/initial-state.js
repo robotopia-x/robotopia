@@ -53,8 +53,6 @@ const editor = {
     <xml id="toolbox" style="display: none">
         <category name="Logic" colour="210">
           <block type="logic_boolean"></block>          
-          <block type="logic_compare"></block>
-          <block type="logic_operation"></block>
           <block type="logic_negate"></block>
           <block type="controls_if"></block>
         </category>
@@ -62,7 +60,6 @@ const editor = {
         <sep gap="8"></sep>
         
         <category name="Loops" colour="100">
-          <block type="controls_repeat"></block>
           <block type="controls_repeat_ext"></block>
           <block type="controls_whileUntil"></block>
         </category>
@@ -84,7 +81,7 @@ const editor = {
         
         <sep gap="8"></sep>
         
-        <category name="Movement" colour="250">
+        <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
           <block type="move_to"></block>
@@ -96,7 +93,6 @@ const editor = {
           <block type="place_marker"></block>
           <block type="collect_resource"></block>
           <block type="deposit_resource"></block>
-          <block type="build_tower"></block>
         </category>
         
         <sep gap="8"></sep>

@@ -2,6 +2,7 @@ const _ = require('lodash')
 const update = require('immutability-helper')
 const p2pPresenter = require('./p2p-presenter')
 const OneonOne = require('../../assets/levels/1on1')
+const testCode = 'robot.onEvent(\'discover resource\', function (resource) {\n  robot.moveTo((resource.position.x), (resource.position.y))\n robot.placeMarker(\'green\', 2)\n\n})\n\nrobot.onMode(\'green\', function (marker) {\n  robot.moveTo((marker.position.x), (marker.position.y))\n  robot.collectResource()\n  robot.moveTo((robot.getBasePosition().x), (robot.getBasePosition().y))\n  robot.depositResource()\n\n})\n\nif (1 < getRandomNumber(1, 4)) {\n  robot.rotate("LEFT")\n  if (1 < getRandomNumber(1, 3)) {\n    robot.rotate("LEFT")\n    if (1 < getRandomNumber(1, 2)) {\n      robot.rotate("LEFT")\n    }\n  }\n}\nwhile (true) {\n  robot.move("FORWARD")\n  if (10 == getRandomNumber(1, 8)) {\n    robot.rotate("LEFT")\n  }\n}\n'
 
 module.exports = ({ hubUrl }) => {
   const presenter = p2pPresenter({
@@ -105,15 +106,29 @@ module.exports = ({ hubUrl }) => {
         for (var p in players) {
           send('runtime:commitCode', { code: clients[players[p]].code, groupId: p }, _.noop)
         }
-        send('presenter:_setGameState', true, _.noop)
-        send('clock:start', null, _.noop)
+        send('prepfight:start', null, _.noop)
+        setTimeout(() => {
+          send('presenter:_setGameState', true, _.noop)
+          send('runtime:reset', { loadState: OneonOne }, _.noop)
+          send('game:loadGameState', { loadState: OneonOne }, _.noop)
+          send('game:initializeResourceSpots', { numberOfSpots: 8 }, _.noop)
+          send('clock:start', null, _.noop)
+        }, 2500)
       },
 
       stopMatch: ( { clients }, data, send ) => {
         send('presenter:_setGameState', false, _.noop)
         send('clock:stop', null, _.noop)
-        send('runtime:reset', { loadState: OneonOne }, _.noop)
-        send('game:loadGameState', { loadState: OneonOne }, _.noop)
+      },
+
+      _testMode: (state, data, send) => {
+        console.log('WARNING: Adding Test-Clients and TestCode!')
+        send('presenter:addClient', { id: 1 }, _.noop)
+        send('presenter:setUsername', {id: 1, username: 'p1'}, _.noop)
+        send('presenter:commitCode', {id: 1, code: testCode}, _.noop)
+        send('presenter:addClient', { id: 2 }, _.noop)
+        send('presenter:setUsername', {id: 2, username: 'p2'}, _.noop)
+        send('presenter:commitCode', {id: 2, code: testCode}, _.noop)
       },
 
       handleMessage: ({ clients }, { id, message }, send) => {

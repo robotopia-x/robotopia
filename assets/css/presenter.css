@@ -50,3 +50,16 @@
 .presenter .footer > :first-child {
     margin-left: 0;
 }
+
+#actionO_right > .actionO_Line {
+    background: none !important;
+}
+
+#actionO_left > .actionO_Line {
+    background: none !important;
+}
+
+.actionO_Name {
+    color: #ffa241 !important;
+    text-shadow: 4px 4px 8px #930804;
+}

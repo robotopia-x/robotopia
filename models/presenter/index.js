@@ -106,6 +106,9 @@ module.exports = ({ hubUrl }) => {
         for (var p in players) {
           send('runtime:commitCode', { code: clients[players[p]].code, groupId: p }, _.noop)
         }
+
+        send('prepfight:setLeft', { name: clients[players[1]].username}, _.noop)
+        send('prepfight:setRight', { name: clients[players[2]].username}, _.noop)
         send('prepfight:start', null, _.noop)
         setTimeout(() => {
           send('presenter:_setGameState', true, _.noop)
@@ -113,7 +116,7 @@ module.exports = ({ hubUrl }) => {
           send('game:loadGameState', { loadState: OneonOne }, _.noop)
           send('game:initializeResourceSpots', { numberOfSpots: 8 }, _.noop)
           send('clock:start', null, _.noop)
-        }, 2500)
+        }, 3500)
       },
 
       stopMatch: ( { clients }, data, send ) => {
@@ -124,10 +127,10 @@ module.exports = ({ hubUrl }) => {
       _testMode: (state, data, send) => {
         console.log('WARNING: Adding Test-Clients and TestCode!')
         send('presenter:addClient', { id: 1 }, _.noop)
-        send('presenter:setUsername', {id: 1, username: 'p1'}, _.noop)
+        send('presenter:setUsername', {id: 1, username: 'Rick'}, _.noop)
         send('presenter:commitCode', {id: 1, code: testCode}, _.noop)
         send('presenter:addClient', { id: 2 }, _.noop)
-        send('presenter:setUsername', {id: 2, username: 'p2'}, _.noop)
+        send('presenter:setUsername', {id: 2, username: 'Morty'}, _.noop)
         send('presenter:commitCode', {id: 2, code: testCode}, _.noop)
       },
 

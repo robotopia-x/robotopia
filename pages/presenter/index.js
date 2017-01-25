@@ -8,7 +8,7 @@ const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
-const DEV_MODE = true
+const DEV_MODE = false
 
 module.exports = function (state, prev, send) {
   let presenter = state.presenter
@@ -53,6 +53,10 @@ module.exports = function (state, prev, send) {
 
   return html`
 <div class="presenter">
+<div style="visibility: hidden; width: 0; height: 0; position: fixed">
+<img src="../../assets/img/robot/robot_rick_right.png"/>
+<img src="../../assets/img/cyborg/cyborg_rick_left.png"/>
+</div>
   ${prepfightHtml}
   <div class="clientList">
   <h3>Clients</h3>
@@ -71,9 +75,8 @@ module.exports = function (state, prev, send) {
   function onLoad () {
     send('clock:stop')
     send('game:loadGameState', { loadState: OneonOne })
-
-    send( 'prepfight:setLeft', {img: '../../assets/img/robot/robot_rick_right.png', name: 'left'})
-    send( 'prepfight:setRight', {img: '../../assets/img/cyborg/cyborg_rick_left.png', name: 'right'})
+    send( 'prepfight:setLeft', {img: '../../assets/img/robot/robot_rick_right.png'})
+    send( 'prepfight:setRight', {img: '../../assets/img/cyborg/cyborg_rick_left.png'})
     send( 'prepfight:setVS', {img: 'http://vignette2.wikia.nocookie.net/mortalkombat/images/6/64/Vs.png/revision/latest?cb=20150319161124&path-prefix=de'})
     send( 'prepfight:setDurations', {up: 1000, down: 1000, stay: 1500})
   }

@@ -106,7 +106,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     toolbox,
     workspace: editor.workspace,
     onChange: ({ code, workspace }) => {
-      send('runtime:commitCode', { code })
+      send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })
     }
   })

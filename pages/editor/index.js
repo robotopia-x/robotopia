@@ -106,7 +106,6 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     onChange: ({ code, workspace }) => {
       localStorage.setItem('workspace', workspace)
       send('runtime:commitCode', { code, groupId: 1 })
-      send('runtime:commitCode', { code, groupId: 2 })
       send('editor:update', { code, workspace })
     }
   })

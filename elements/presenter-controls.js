@@ -1,4 +1,3 @@
-const html = require('choo/html')
 const button = require('./button')
 
 function startButtonView ({

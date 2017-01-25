@@ -63,5 +63,5 @@ module.exports = {
     img: '../../assets/img/tutorials/move-to.png'
   },
 
-  nextTutorial: 'collect-resource'
+  nextTutorial: 'collect-5-resources'
 }

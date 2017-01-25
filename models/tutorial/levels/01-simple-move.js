@@ -3,10 +3,10 @@ const entities = require('../../../models/game/entities')
 module.exports = {
   game: {
     tiles: [
-      [2, 1, 3],
-      [2, 1, 2],
-      [2, 1, 2],
-      [2, 2, 2]
+      [4, 1, 3],
+      [4, 1, 4],
+      [4, 1, 4],
+      [4, 4, 4]
     ],
 
     entities: [

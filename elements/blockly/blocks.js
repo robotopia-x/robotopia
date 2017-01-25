@@ -175,8 +175,8 @@ const entityOptions = [
 Blockly.Blocks.position_x = {
   init: function () {
     this.appendDummyInput()
-      .appendField('x position of')
       .appendField(new Blockly.FieldDropdown(entityOptions), 'entity')
+      .appendField(' x-position')
 
     this.setOutput(true, null)
     this.setColour(170)
@@ -187,15 +187,14 @@ Blockly.Blocks.position_x = {
 Blockly.Blocks.random_number = {
   init: function () {
     this.appendDummyInput()
-      .appendField('Random number')
+      .appendField('Random between')
 
     this.appendValueInput('MIN')
       .setCheck('Number')
-      .appendField('from')
 
     this.appendValueInput('MAX')
       .setCheck('Number')
-      .appendField('to')
+      .appendField('and')
 
     this.setInputsInline(true)
     this.setOutput(true, 'Number')
@@ -207,8 +206,8 @@ Blockly.Blocks.random_number = {
 Blockly.Blocks.position_y = {
   init: function () {
     this.appendDummyInput()
-      .appendField('y position of')
       .appendField(new Blockly.FieldDropdown(entityOptions), 'entity')
+      .appendField(' y-position')
 
     this.setOutput(true, null)
     this.setColour(170)

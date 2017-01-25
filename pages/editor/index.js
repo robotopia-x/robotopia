@@ -104,6 +104,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     toolbox: initialState.editor.toolbox,
     workspace: localStorage.getItem('workspace') || editor.workspace,
     onChange: ({ code, workspace }) => {
+
+      console.log(code)
       localStorage.setItem('workspace', workspace)
       send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })

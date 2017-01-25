@@ -60,23 +60,18 @@ const editor = {
         <sep gap="8"></sep>
         
         <category name="Loops" colour="100">
+          <block type="controls_repeat"></block>
           <block type="controls_repeat_ext"></block>
           <block type="controls_whileUntil"></block>
         </category>
         
         <sep gap="8"></sep>
         
-        <category name="Numbers" colour="230">
+        <category name="Math" colour="230">
           <block type="math_number"></block>
           <block type="random_number"></block>
+          <block type="random_number_ext"></block>
           <block type="math_arithmetic"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Variables" colour="170">
-          <block type="position_x"></block>
-          <block type="position_y"></block>
         </category>
         
         <sep gap="8"></sep>
@@ -85,14 +80,17 @@ const editor = {
           <block type="move"></block>
           <block type="rotate"></block>
           <block type="move_to"></block>
+          <block type="move_to_ext"></block>
+          <block type="move_to_entity"></block>
         </category>
         
         <sep gap="8"></sep>
         
         <category name="Actions" colour="50">
-          <block type="place_marker"></block>
           <block type="collect_resource"></block>
           <block type="deposit_resource"></block>
+          <block type="place_marker"></block>
+          <block type="place_marker_ext"></block>          
         </category>
         
         <sep gap="8"></sep>

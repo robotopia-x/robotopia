@@ -1,6 +1,8 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
 const p2pPresenter = require('./p2p-presenter')
+const OneonOne = require('../../assets/levels/1on1')
+const testCode = 'robot.onEvent(\'discover resource\', function (resource) {\n  robot.moveTo((resource.position.x), (resource.position.y))\n robot.placeMarker(\'green\', 2)\n\n})\n\nrobot.onMode(\'green\', function (marker) {\n  robot.moveTo((marker.position.x), (marker.position.y))\n  robot.collectResource()\n  robot.moveTo((robot.getBasePosition().x), (robot.getBasePosition().y))\n  robot.depositResource()\n\n})\n\nif (1 < getRandomNumber(1, 4)) {\n  robot.rotate("LEFT")\n  if (1 < getRandomNumber(1, 3)) {\n    robot.rotate("LEFT")\n    if (1 < getRandomNumber(1, 2)) {\n      robot.rotate("LEFT")\n    }\n  }\n}\nwhile (true) {\n  robot.move("FORWARD")\n  if (10 == getRandomNumber(1, 8)) {\n    robot.rotate("LEFT")\n  }\n}\n'
 
 module.exports = ({ hubUrl }) => {
   const presenter = p2pPresenter({
@@ -12,7 +14,9 @@ module.exports = ({ hubUrl }) => {
 
     state: {
       groupId: null,
-      clients: {} // clients [{ id, code, username }] mapped to their id
+      clients: {}, // clients [{ id, code, username }] mapped to their id
+      playerNumbers: {}, // maps playerNumbers to Client. eg.: 1->eflajsnf1248dsnf
+      gameActive: false
     },
 
     reducers: {
@@ -53,6 +57,16 @@ module.exports = ({ hubUrl }) => {
           }
         }),
 
+      setPlayers: (state, players) =>
+        update(state, {
+          playerNumbers: { $set: players }
+        }),
+
+      _setGameState: (state, gameRunning) =>
+        update(state, {
+          gameActive: { $set: gameRunning }
+        }),
+
       _setGroupId: (state, { groupId }) => {
         console.log('set GroupId', groupId, update(state, {
           groupId: { $set: groupId },
@@ -74,6 +88,50 @@ module.exports = ({ hubUrl }) => {
       joinGroup: (state, { groupId }, send) => {
         presenter.joinStar(groupId)
         send('presenter:_setGroupId', { groupId }, _.noop)
+      },
+
+      startMatch: ({ clients }, playerCount, send, done) => {
+        let clientIds = Object.keys(clients)
+        let players = {}
+        if (clientIds.length < playerCount) {
+          return
+        }
+        for (var i = 1; i <= playerCount; i++) {
+          let nextIndex = Math.random() * clientIds.length
+          let nextPlayer = clientIds.splice(nextIndex, 1)
+          players[i] = nextPlayer[0]
+        }
+        send('presenter:setPlayers', players, _.noop)
+
+        for (var p in players) {
+          send('runtime:commitCode', { code: clients[players[p]].code, groupId: p }, _.noop)
+        }
+
+        send('prepfight:setLeft', { name: clients[players[1]].username }, _.noop)
+        send('prepfight:setRight', { name: clients[players[2]].username }, _.noop)
+        send('prepfight:start', null, _.noop)
+        setTimeout(() => {
+          send('presenter:_setGameState', true, _.noop)
+          send('runtime:reset', { loadState: OneonOne }, _.noop)
+          send('game:loadGameState', { loadState: OneonOne }, _.noop)
+          send('game:initializeResourceSpots', { numberOfSpots: 8 }, _.noop)
+          send('clock:start', null, _.noop)
+        }, 4000)
+      },
+
+      stopMatch: ({ clients }, data, send) => {
+        send('presenter:_setGameState', false, _.noop)
+        send('clock:stop', null, _.noop)
+      },
+
+      _testMode: (state, data, send) => {
+        console.log('WARNING: Adding Test-Clients and TestCode!')
+        send('presenter:addClient', { id: 1 }, _.noop)
+        send('presenter:setUsername', {id: 1, username: 'Rick'}, _.noop)
+        send('presenter:commitCode', {id: 1, code: testCode}, _.noop)
+        send('presenter:addClient', { id: 2 }, _.noop)
+        send('presenter:setUsername', {id: 2, username: 'Morty'}, _.noop)
+        send('presenter:commitCode', {id: 2, code: testCode}, _.noop)
       },
 
       handleMessage: ({ clients }, { id, message }, send) => {

@@ -89,7 +89,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
       send('runtime:destroyRobot', { id: 'ROBOT' })
-      send('runtime:createRobot', { id: 'ROBOT', code: editor.code })
+      send('runtime:createRobot', { id: 'ROBOT', groupId: 1 })
       send('clock:start')
     },
     onPause: () => send('clock:stop')
@@ -106,7 +106,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     toolbox,
     workspace: editor.workspace,
     onChange: ({ code, workspace }) => {
-      send('runtime:commitCode', { code })
+      send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })
     }
   })

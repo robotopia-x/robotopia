@@ -10,20 +10,25 @@ module.exports = () => {
     namespace: 'runtime',
 
     state: {
-      code: ''
+      code: {}
     },
 
     reducers: {
-      commitCode: (state, { code }) => {
-        return update(state, {
-          code: { $set: code }
+      commitCode: (state, { code, groupId }) =>
+        update(state, {
+          code: {
+            [groupId]: { $set: code }
+          }
         })
-      }
     },
 
     effects: {
       createRobot: ({ code }, { id, groupId }) => {
-        runtime.createAgent({ id, api, code, groupId })
+        runtime.createAgent({
+          id: id,
+          api: api,
+          code: code[groupId],
+          groupId: groupId })
       },
 
       destroyRobot: (state, { id }) => {

@@ -1,3 +1,4 @@
+/* globals localStorage */
 const _ = require('lodash')
 const cuid = require('cuid')
 const update = require('immutability-helper')

@@ -59,7 +59,6 @@ function goalProgressView ({ display, game, goals, workspace }) {
         <h2>Goals: </h2>
         ${goalListView({ goals: mandatoryGoals, game, workspace })}
       
-      
         <h2>Bonus: </h2>
         ${goalListView({ goals: optionalGoals, game, workspace })}
     </div>

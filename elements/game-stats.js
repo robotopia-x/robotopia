@@ -35,6 +35,9 @@ const gameStatsPrefix = sf`
 function gamePointsDisplay ({
   game, progress
 }) {
+  if (!game) {
+    return null
+  }
   const gameTeamStatsHtml = _(game.current.teams)
     .keys()
     .map((teamId) => {

@@ -73,6 +73,10 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
   let toolbox = editor.toolbox
   let goalProgressHtml
 
+  if (prev !== null && location.params.level !== prev.location.params.level) {
+    initLevel()
+  }
+
   if (tutorial.level !== null) {
     toolbox = tutorial.level.editor.toolbox
 
@@ -117,7 +121,7 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
   })
 
   return html`
-    <main onload=${initTutorial} class="${mainPrefix}">
+    <main onload=${initLevel} class="${mainPrefix}" foo=${location.params.level}>
       <div class="header-bar">
         <div class="${controlsPrefix}">
           ${playButtonHtml}
@@ -138,14 +142,10 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
     </main>
   `
 
-  function initTutorial () {
+  function initLevel () {
+    send('clock:stop')
     send('tutorial:loadLevel', { name: location.params.level })
   }
 }
-
-/*
-
- ${goalProgress(state.game, state.level, state.workspace)}
- */
 
 module.exports = tutorialView

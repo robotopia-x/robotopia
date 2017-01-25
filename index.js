@@ -33,7 +33,7 @@ clock.onTick((send) => {
   send('game:completeStep', {}, _.noop)
 })
 
-app.router([
+app.router({ default: '/' }, [
   ['/', require('./pages/overview')],
   ['/editor', require('./pages/editor')],
   ['/tutorial/:level', require('./pages/tutorial')],

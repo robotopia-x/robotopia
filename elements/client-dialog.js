@@ -14,7 +14,7 @@ module.exports = function ({
   }
 
   if (client.connecting === true) {
-    return waitForConnectionDialog({ onCancel: onDisconnect })
+    return waitForConnectionDialog({ onCancel: onDenyRecovery })
   }
 
   if (client.recoveryPossible) {

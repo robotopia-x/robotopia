@@ -116,7 +116,7 @@ module.exports = ({ hubUrl }) => {
           send('game:loadGameState', { loadState: OneonOne }, _.noop)
           send('game:initializeResourceSpots', { numberOfSpots: 8 }, _.noop)
           send('clock:start', null, _.noop)
-        }, 3500)
+        }, 4000)
       },
 
       stopMatch: ( { clients }, data, send ) => {

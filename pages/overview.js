@@ -23,6 +23,16 @@ const prefix = sf`
     margin-bottom: 25px;
   } 
   
+  :host > .logo {
+    width: 100%;
+    height: 35%;
+    background-image: url('../assets/icons/robotopia.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 0;
+  }
+  
   :host ol {
     padding-top: 0;
     margin-top: 0;
@@ -51,6 +61,7 @@ const overviewView = (state, prev, send) => {
 
   return html`
     <div class="${prefix}">
+      <div class="logo"></div>
       <div class="tutorials">
         <h2>Tutorials:</h2>
         ${tutorialLinks}

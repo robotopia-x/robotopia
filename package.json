@@ -18,7 +18,8 @@
     "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
     "pathfinding": "0.4.18",
-    "peer-star": "git://github.com/hdm-project/networking.git",
+    "peer-star": "git://github.com/robotopia-x/networking.git",
+    "prep-fight": "git://github.com/robotopia-x/start_action_screen.git",
     "raf": "3.3.0",
     "sheetify": "5.1.1",
     "uid": "0.0.2"

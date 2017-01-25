@@ -12,6 +12,7 @@ const editorModel = require('./models/editor')
 const level = require('./models/tutorial/index')
 const client = require('./models/client')(P2P_CONFIG)
 const presenter = require('./models/presenter')(P2P_CONFIG)
+const prepfight = require('./node_modules/action-overlay')('prepfight')
 
 const app = choo()
 
@@ -22,6 +23,7 @@ app.model(editorModel)
 app.model(level)
 app.model(client)
 app.model(presenter)
+app.model(prepfight.model)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 

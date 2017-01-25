@@ -6,10 +6,19 @@ const _ = require('lodash')
 const { startButtonView } = require('../../elements/presenter-controls')
 const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
+const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
+const DEV_MODE = true
 
-module.exports = function ({ presenter, game, clock }, prev, send) {
+module.exports = function (state, prev, send) {
+  let presenter = state.presenter
+  let game = state.game
+  let clock = state.clock
   if (presenter.groupId === null) {
+    if (DEV_MODE) {
+      send('presenter:joinGroup', { groupId: 'asd' })
+      send('presenter:_testMode')
+    }
     return joinGroupDialog({
       onJoinGroup: (groupId) => {
         send('presenter:joinGroup', { groupId })
@@ -27,6 +36,8 @@ module.exports = function ({ presenter, game, clock }, prev, send) {
     resources: game.current.resources
   })
 
+  const prepfightHtml = prepfight(state, prev, send)
+
   const disconnectButtonHtml = button({
     label: 'Exit',
     onClick: () => send('presenter:disconnect')
@@ -34,18 +45,20 @@ module.exports = function ({ presenter, game, clock }, prev, send) {
 
   const startButtonHtml = startButtonView({
     isRunning: presenter.gameActive,
-    onStart: () => send('presenter:startMatch', 2),
+    onStart: () => {
+      send('presenter:startMatch', 2)
+    },
     onStop: () => send('presenter:stopMatch')
   })
 
   return html`
 <div class="presenter">
-
+  ${prepfightHtml}
   <div class="clientList">
   <h3>Clients</h3>
     ${listClients (presenter)}
   </div>
-    <div class="gameView" onload=${initGame}>
+    <div class="gameView" onload=${onLoad}>
         ${gameHtml}
         ${gameStatsHtml}
     </div>
@@ -55,10 +68,14 @@ module.exports = function ({ presenter, game, clock }, prev, send) {
   </div>
 `
 
-  function initGame () {
+  function onLoad () {
     send('clock:stop')
-    send('runtime:reset')
     send('game:loadGameState', { loadState: OneonOne })
+
+    send( 'prepfight:setLeft', {img: '../../assets/img/robot/robot_rick_right.png', name: 'left'})
+    send( 'prepfight:setRight', {img: '../../assets/img/cyborg/cyborg_rick_left.png', name: 'right'})
+    send( 'prepfight:setVS', {img: 'http://vignette2.wikia.nocookie.net/mortalkombat/images/6/64/Vs.png/revision/latest?cb=20150319161124&path-prefix=de'})
+    send( 'prepfight:setDurations', {up: 1000, down: 1000, stay: 1500})
   }
 
 }

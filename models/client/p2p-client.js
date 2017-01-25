@@ -34,7 +34,7 @@ module.exports = ({
 
     createNew()
 
-    function createNew() {
+    function createNew () {
       star = ps({
         hubURL: hubUrl,
         GID: gid,
@@ -47,7 +47,7 @@ module.exports = ({
       star.on('peer', (peer, id) => {
         if (id === 'MAIN') {
           presenterPeer = peer
-          connectCallback( gid, star.CID)
+          connectCallback(gid, star.CID)
         }
       })
 
@@ -68,7 +68,7 @@ module.exports = ({
     disconnectCallback = callback
   }
 
-  function onConnecting(callback) {
+  function onConnecting (callback) {
     onConnectingCallback = callback
   }
 

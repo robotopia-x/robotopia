@@ -9,7 +9,7 @@ const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
 const gameStatsView = require('../../elements/game-stats')
 
-const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
+const DEV_MODE = false // set to true to dev on the editor and not be bothered with multiplayer
 
 const mainPrefix = sf`
     :host {
@@ -92,12 +92,20 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
   })
 
+  const commitButtonHtml = button({
+    onClick: () => {
+      send('client:sendCode', {code: editor.code})
+    },
+    icon: 'upload',
+    label: 'Upload'
+  })
+
   const blocklyHtml = blocklyView({
     toolbox: initialState.editor.toolbox,
     workspace: localStorage.getItem('workspace') || editor.workspace,
     onChange: ({ code, workspace }) => {
       localStorage.setItem('workspace', workspace)
-      send('runtime:commitCode', { code })
+      send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })
     }
   })
@@ -127,6 +135,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
           ${playButtonHtml}
           ${resetButtonHtml}
           ${speedSliderHtml}
+          ${commitButtonHtml}
         </div>
       </div>      
       <div class=${`${contentPrefix} content`}>

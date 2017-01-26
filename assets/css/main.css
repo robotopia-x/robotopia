@@ -24,3 +24,15 @@ input {
     transform: translateY(0%);
   }
 }
+
+.header-bar {
+  height: 50px;
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  background: #404040;
+  overflow: hidden;
+  z-index: 10;
+  width: 100%;
+  position: relative;
+}

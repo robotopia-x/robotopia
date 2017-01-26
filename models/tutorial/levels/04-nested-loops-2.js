@@ -56,5 +56,5 @@ module.exports = {
     img: '../../assets/img/tutorials/complex-loops-2.png'
   },
 
-  nextTutorial: 'move-to'
+  nextTutorial: 'collect-resources'
 }

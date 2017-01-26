@@ -30,15 +30,13 @@ module.exports = {
         <category name="Loops" colour="100">
           <block type="controls_repeat"></block>
         </category>
-        
+    
         <sep gap="8"></sep>
-        
+    
         <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
-          <block type="move_to"></block>          
-          <block type="move_to_entity"></block>
-        </category>
+        </category> 
         
         <sep gap="8"></sep>
         
@@ -61,12 +59,6 @@ module.exports = {
     },
     {
       type: 'useBlock',
-      params: { type: 'move_to' },
-      desc: 'Use the move to block',
-      isMandatory: false
-    },
-    {
-      type: 'useBlock',
       params: { type: 'controls_repeat' },
       desc: 'Use at least 1 repeat block',
       isMandatory: false
@@ -74,8 +66,8 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Let\'s get the robot to do some actual work for us. Move it to the resource spot, collect some resources and deposit them back at the base.',
-    hint: 'The robot can only carry 10 resource at a time',
+    text: 'Alright Morty. Let\'s get the robot to do some actual work for us. Move it to the resource spot, collect some resources and deposit them back at the base.',
+    hint: 'The robot can only carry 10 resource units at a time',
     img: '../../assets/img/tutorials/collect-5-resources.png'
   }
 }

@@ -2,13 +2,14 @@
 const html = require('choo/html')
 const modal = require('../../elements/modal')
 const button = require('../../elements/button')
+const timerDisplay = require('../../elements/timer')
 const _ = require('lodash')
 const { startButtonView } = require('../../elements/presenter-controls')
 const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
-const DEV_MODE = false
+const DEV_MODE = true
 
 module.exports = function (state, prev, send) {
   let presenter = state.presenter
@@ -34,6 +35,10 @@ module.exports = function (state, prev, send) {
   const gameStatsHtml = gameStatsView({
     gamePoints: game.current.gamePoints,
     resources: game.current.resources
+  })
+
+  const timerHtml = timerDisplay({
+    seconds: presenter.time
   })
 
   const prepfightHtml = prepfight(state, prev, send)
@@ -62,6 +67,7 @@ module.exports = function (state, prev, send) {
   <h3>Clients</h3>
     ${listClients(presenter)}
   </div>
+  <div style="position: absolute; z-index: 90; right: 0; top: 0; overflow: hidden">${timerHtml}</div>
     <div class="gameView" onload=${onLoad}>
         ${gameHtml}
         ${gameStatsHtml}

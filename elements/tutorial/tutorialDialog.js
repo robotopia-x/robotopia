@@ -89,7 +89,8 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
           </div>
-          <br>
+          <br>          
+          
           ${nextLevelButton}
         </div>
       `)

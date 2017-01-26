@@ -9,6 +9,11 @@ function checkGoal ({ goal, game, workspace }) {
       }
 
       const entity = getEntity(goal.params.entity, game)
+
+      if (entity === undefined) {
+        return false
+      }
+
       const entityPos = { x: entity.position.x, y: entity.position.y }
 
       return _.isEqual(entityPos, goal.params.position)
@@ -34,7 +39,7 @@ function checkGoal ({ goal, game, workspace }) {
       return false
 
     case 'collectResources':
-      if (game) {
+      if (game && game.teams && game.entities.ROBOT) {
         return game.teams[game.entities.ROBOT.team.id].resources === goal.params.amount
       }
       return false

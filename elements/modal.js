@@ -15,7 +15,7 @@ const prefix = sf`
   }
   
   :host > .inner {
-    max-width: 750px;
+    max-width: 800px;
     background: #fff;
     color: #404040;
     padding: 30px;
@@ -24,8 +24,7 @@ const prefix = sf`
     overflow: scroll;
     z-index: 100;
     animation: move 1s 1 ease;
-    animation-delay: 10;
-    background: #f0f0f0
+    animation-delay: 10;    
   }
   
   :host > .inner > .content {

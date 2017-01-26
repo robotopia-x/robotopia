@@ -55,8 +55,8 @@ module.exports = {
   goals: [
     {
       type: 'collectResources',
-      params: { amount: 50 },
-      desc: 'Collect 50 resources',
+      params: { amount: 30 },
+      desc: 'Collect 30 resources',
       isMandatory: true
     },
     {
@@ -74,8 +74,8 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Now that you have learned how to collect resources, go for it and get 5 pieces.',
-    hint: 'Do not forget that a robot can only carry 1 resource at a time',
+    text: 'Let\'s get the robot to do some actual work for us. Move it to the resource spot, collect some resources and deposit them back at the base.',
+    hint: 'The robot can only carry 10 resource at a time',
     img: '../../assets/img/tutorials/collect-5-resources.png'
   }
 }

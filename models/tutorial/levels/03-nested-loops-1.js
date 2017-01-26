@@ -52,7 +52,7 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Ohh no, this time Robot Rick has to travel longer... Good thing you now know how to use loops (Do you see the pattern?). Use the Move and Repeat Blocks',
+    text: 'Things are getting a little bit more complicated Morty ... Good thing you now know how to use repeat blocks. Do you see the pattern?',
     hint: 'Try nesting loops to get the shortest possible solution',
     img: '../../assets/img/tutorials/complex-loops-1.png'
   },

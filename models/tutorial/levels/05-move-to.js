@@ -51,7 +51,7 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Look at that path... We would need a whole lot of blocks for that. Good thing we have a Move To Block which will make things way easier',
+    text: 'This is getting out of hand Morty. I added a new command which let\'s you tell the robot the exact position you want it to move to. Try it out!',
     hint: 'Observe the behaviour of the move to block.',
     img: '../../assets/img/tutorials/move-to.png'
   },

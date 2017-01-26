@@ -7,10 +7,14 @@ const buttonView = require('../button')
 const modalView = require('../modal')
 const { goalListView } = require('../goal-progress')
 
-const introPrefix = sf`
+const prefix = sf`
+  :host {
+    min-width: 700px;
+  }
+
   :host > .story-text {
     height: 80px;
-    background: #fff;
+    background: #dedede;
     position: relative;
     border-radius: 10px;
     padding: 15px;
@@ -38,7 +42,7 @@ const introPrefix = sf`
      width: 0;
      height: 0;
      border-top: 13px solid transparent;
-     border-right: 26px solid #fff;
+     border-right: 26px solid #dedede;
      border-bottom: 13px solid transparent;
   }
   
@@ -73,41 +77,52 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
       })
 
       return modalView(html`
-        <div class="animated content">
-          <h1>Congratulations on finishing level: ${level.label}</h1>  
+        <div class="${prefix} animated content">
+          <h1>Congratulations, you finished the level!</h1>  
           <div class="goals">
             <div>
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
             <div>
-              <h6>Optional: </h6>
+              <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
           </div>
+          <br>
           ${nextLevelButton}
         </div>
       `)
     }
 
     if (isStoryModalOpen) {
+      let hintHtml
+
       const startButton = buttonView({
         label: 'Start Tutorial',
         onClick: () => send('tutorial:setDisplayStoryModal', { displayStory: false })
       })
 
+      if (story.hint) {
+        hintHtml = html`
+          <p class="story-hint">
+            ${story.hint}
+          </p>
+        `
+      }
+
       return modalView(html`
-        <div class="${introPrefix} content animated">
+        <div class="${prefix} content animated">
           <h1>${level.label}</h1> 
+          
           <p class="story-text">
             ${story.text}            
           </p>
           
-          <p class="story-hint">
-            ${story.hint}
-          </p>
-          
           ${story.img ? html`<img class="img" src="${story.img}"/>` : html``}
+          
+         ${hintHtml}
+          
           <div class="goals">
             <div>
               <h5>Goals: </h5>

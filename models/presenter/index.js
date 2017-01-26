@@ -2,13 +2,13 @@ const _ = require('lodash')
 const effects = require('./effects')
 const reducers = require('./reducers')
 const p2pPresenter = require('./p2p-presenter')
-const Clock = require ('../../lib/time/clock')
+const Clock = require('../../lib/time/clock')
 
 module.exports = ({ hubUrl }) => {
   const presenter = p2pPresenter({
     hubUrl
   })
-  
+
   const timer = new Clock()
   timer.setIntervalDuration(1000)
 
@@ -25,7 +25,7 @@ module.exports = ({ hubUrl }) => {
 
     reducers: reducers(presenter),
 
-    effects: effects( {presenter, timer} ),
+    effects: effects({presenter, timer}),
 
     subscriptions: {
       p2pConnection: (send) => {

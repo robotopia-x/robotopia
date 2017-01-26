@@ -11,7 +11,8 @@ const prefix = sf`
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.5);
-    overflow: hidden;    
+    overflow: hidden;
+    z-index: 500;
   }
   
   :host > .inner {
@@ -22,7 +23,7 @@ const prefix = sf`
     border-radius: 3px;
     border: 10px solid #404040;    
     overflow: scroll;
-    z-index: 100;
+    z-index: 501;
     animation: move 1s 1 ease;
     animation-delay: 10;    
   }

@@ -1,5 +1,6 @@
 /* globals FormData */
 const html = require('choo/html')
+const sf = require('sheetify')
 const modal = require('../../elements/modal')
 const button = require('../../elements/button')
 const timerDisplay = require('../../elements/timer')
@@ -11,6 +12,21 @@ const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
 const DEV_MODE = true
+
+const controlsPrefix = sf`
+    :host {
+      display: flex;
+      flex-direction: row;
+    }
+    
+    :host > * {
+      margin-left: 20px;
+    }
+    
+    :host > :first-child {
+      margin-left: 0;
+    }
+`
 
 module.exports = function (state, prev, send) {
   let presenter = state.presenter
@@ -71,17 +87,21 @@ module.exports = function (state, prev, send) {
 <img src="../../assets/img/cyborg/cyborg_rick_left.png"/>
 </div>
   ${prepfightHtml}
+  <div class="header-bar">
+        <div class="${controlsPrefix}">
+          ${disconnectButtonHtml}
+          ${startButtonHtml}
+          ${speedSliderHtml}
+        </div>
+      </div>
   <div class="clientList">
   <h3>Clients</h3>
     ${listClients(presenter)}
   </div>
-  <div style="position: absolute; z-index: 90; right: 0; top: 0; overflow: hidden">${timerHtml}</div>
+  <div style="position: absolute; z-index: 90; right: 20px; bottom: 20px; overflow: hidden">${timerHtml}</div>
     <div class="gameView" onload=${onLoad}>
         ${gameHtml}
         ${gameStatsHtml}
-    </div>
-    <div class="footer">
-      ${disconnectButtonHtml} ${startButtonHtml} ${speedSliderHtml}
     </div>
   </div>
 `

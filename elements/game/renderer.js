@@ -102,8 +102,8 @@ function renderSprite (ctx, entity, prevEntity, progress) {
       simpleRenderer(ctx, data, entity)
       break
 
-    case RENDERER.ROTATING:
-      rotatingRenderer(ctx, data, entity, prevEntity, progress)
+    case RENDERER.ROBOT:
+      robotRenderer(ctx, data, entity, prevEntity, progress)
       break
 
     default:
@@ -115,11 +115,10 @@ function simpleRenderer (ctx, { sprite }, { position }) {
   drawSprite(ctx, sprite, position.x, position.y)
 }
 
-function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
+function robotRenderer (ctx, data, current, prev, progress) {
   const x = interpolate(current.position.x, prev.position.x, progress)
   const y = interpolate(current.position.y, prev.position.y, progress)
-
-  const sprite = sprites[current.position.rotation]
+  const sprite = getRobotSprite(current)
 
   if (sprite === undefined) {
     throw new Error(`rotatingRenderer: no sprite defined for rotation = ${current.position.rotation} `)
@@ -139,6 +138,20 @@ function rotatingRenderer (ctx, { sprites }, current, prev, progress) {
 
   ctx.drawImage(image, frame * width, 0, width, height, x * TILE_WIDTH, y * TILE_HEIGHT, width, height)
   // drawSprite(ctx, sprite, x, y)
+}
+
+function getRobotSprite ({ position, team }) {
+  const positionName = ({
+    [ORIENTATION.FRONT]: 'ROBOT_FRONT',
+    [ORIENTATION.BACK]: 'ROBOT_BACK',
+    [ORIENTATION.LEFT]: 'ROBOT_LEFT',
+    [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
+  })[position.rotation]
+
+  const teamId = (team && team.id) === 2 ? 2 : 1
+  const teamName = `TEAM_${teamId}`
+
+  return `${positionName}_${teamName}`
 }
 
 function drawSprite (ctx, type, x, y) {

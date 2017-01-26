@@ -59,7 +59,7 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Look at that way to the goal... It looks like we need a lot of blocks to get there. But wait, there are repeat blocks, which will make the work easier. Use the Move and Repeat Blocks',
+    text: 'Looks like we need a lot of blocks to get to the grass field Morty. Good thing I added a new repeat block which let\'s the robot do commands multiple times.',
     hint: 'You can also do this without the repeat block.',
     img: '../../assets/img/tutorials/simple-loops.png'
   },

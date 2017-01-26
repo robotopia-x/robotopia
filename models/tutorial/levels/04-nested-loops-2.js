@@ -52,8 +52,7 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Ohh no, looks like you are running out of resources... Quick, go to the gem and collect 1',
-    hint: 'Note that you do not need to walk on the gem, around it is perfectly fine.',
+    text: 'I think we are going to need even more repeat blocks for this one Morty. Can you find the shortest solution?',
     img: '../../assets/img/tutorials/complex-loops-2.png'
   },
 

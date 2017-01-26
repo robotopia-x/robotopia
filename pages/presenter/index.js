@@ -21,6 +21,7 @@ const controlsPrefix = sf`
     
     :host > * {
       margin-left: 20px;
+      height: 32px;
     }
     
     :host > :first-child {
@@ -91,7 +92,7 @@ module.exports = function (state, prev, send) {
   <div class="header-bar">
         <div class="${controlsPrefix}">
           ${disconnectButtonHtml}
-          ${startButtonHtml}
+          <div stlye="width: 200px;">${startButtonHtml}</div>
           ${speedSliderHtml}
         </div>
       </div>      

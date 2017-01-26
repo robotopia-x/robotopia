@@ -28,7 +28,7 @@ input {
 .header-bar {
   height: 50px;
   display: flex;
-  padding: 20px;
+  padding: 5px 20px;
   align-items: center;
   background: #404040;
   overflow: hidden;

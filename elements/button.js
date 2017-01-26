@@ -70,9 +70,7 @@ function button ({
   )
 
   return html`
-    <button class="${classes}" onclick=${onClick} disabled=${disabled}>
-      ${label}
-    </button>
+    <button class="${classes}" onclick=${onClick} disabled=${disabled}>${label}</button>
   `
 }
 

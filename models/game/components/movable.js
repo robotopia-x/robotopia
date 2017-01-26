@@ -14,7 +14,7 @@ module.exports = {
         const mapHeight = tiles.length
         let nextX = position.x
         let nextY = position.y
-        let rotatedDirection = applyRotation(direction, position.rotation)
+        let rotatedDirection = mod((direction), 4)
 
         switch (rotatedDirection) {
           case MOVE.BACKWARD:
@@ -66,10 +66,6 @@ module.exports = {
       }
     }
   }
-}
-
-function applyRotation (direction, rotation) {
-  return mod((direction + rotation), 4)
 }
 
 function mod (x, n) {

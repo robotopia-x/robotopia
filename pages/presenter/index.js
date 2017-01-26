@@ -11,7 +11,7 @@ const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
-const DEV_MODE = true
+const DEV_MODE = false
 
 const controlsPrefix = sf`
     :host {
@@ -159,6 +159,6 @@ function listClients ({clients, playerNumbers}) {
     if (_.valuesIn(playerNumbers).indexOf(key) >= 0) {
       isPlayer = true
     }
-    return html`<li>${clients[key].username} ${isPlayer ? 'p' : ''}</li>`
+    return html`<li style="${isPlayer ? 'list-style: disc; color: green;' : ''}">${clients[key].username}</li>`
   }
 }

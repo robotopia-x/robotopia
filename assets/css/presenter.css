@@ -32,10 +32,22 @@
     margin: 20px;
     width: 200px;
     overflow: hidden;
+    font-size: 30px;
+}
+
+.clientList h3 {
+    margin: 15px 0;
+}
+
+.clientList ul {
+    padding-left: 10px;
+    margin: 0;
 }
 
 .clientList li {
-    list-style-image: none;
+    font-size: 70%;
+    list-style: none;
+    margin-bottom: 0.3em;
 }
 
 #actionO_right > .actionO_Line {

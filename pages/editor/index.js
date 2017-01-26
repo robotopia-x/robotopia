@@ -9,7 +9,7 @@ const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
 const gameStatsView = require('../../elements/game-stats')
 
-const DEV_MODE = false // set to true to dev on the editor and not be bothered with multiplayer
+const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
 
 const mainPrefix = sf`
     :host {
@@ -104,6 +104,8 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     toolbox: initialState.editor.toolbox,
     workspace: localStorage.getItem('workspace') || editor.workspace,
     onChange: ({ code, workspace }) => {
+
+      console.log(code)
       localStorage.setItem('workspace', workspace)
       send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })

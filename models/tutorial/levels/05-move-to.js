@@ -26,39 +26,32 @@ module.exports = {
 
     toolbox: `
       <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
+        <category name="Movement" colour="40">
           <block type="move_to"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Variables" colour="170">
-          <block type="base_position_x"></block>
-          <block type="base_position_y"></block>
         </category>
       </xml>
     `
   },
 
-  label: 'move to the base',
+  label: 'Move to the base',
 
   goals: [
     {
       type: 'moveTo',
       params: { position: { x: 5, y: 5 }, entity: 'ROBOT' },
-      desc: 'Move the robot to his base',
+      desc: 'Move Morty to his base',
       isMandatory: true
     },
     {
       type: 'maxBlocks',
-      params: { amount: 3 },
-      desc: 'Use a maximum of 3 Blocks',
+      params: { amount: 1 },
+      desc: 'Use a maximum of 1 Blocks',
       isMandatory: false
     }
   ],
 
   storyModal: {
-    text: 'Look at that path... We would need a whole lot of blocks for that. Good thing we have a Move To Block which will make things way easier',
+    text: 'This is getting out of hand Morty. I added a new command which let\'s you tell the robot the exact position you want it to move to. Try it out!',
     hint: 'Observe the behaviour of the move to block.',
     img: '../../assets/img/tutorials/move-to.png'
   },

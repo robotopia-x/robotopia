@@ -20,33 +20,27 @@ module.exports = {
 
     toolbox: `
       <xml id="toolbox" style="display: none">
-        <category name="Movement" colour="250">
+        <category name="Loops" colour="100">
+          <block type="controls_repeat"></block>
+        </category>
+        
+        <sep gap="8"></sep>
+        
+        <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Numbers" colour="230">
-          <block type="math_number"></block>
-        </category>
-        
-        <sep gap="8"></sep>
-        
-        <category name="Loops" colour="120">
-          <block type="controls_repeat_ext"></block>
         </category>
       </xml>
     `
   },
 
-  label: 'easy nested loops',
+  label: 'Nested loops',
 
   goals: [
     {
       type: 'moveTo',
       params: { position: { x: 8, y: 4 }, entity: 'ROBOT' },
-      desc: 'Move the robot to the grass',
+      desc: 'Move Morty to the grass',
       isMandatory: true
     },
     {
@@ -58,7 +52,7 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'Ohh no, this time Robot Rick has to travel longer... Good thing you now know how to use loops (Do you see the pattern?). Use the Move and Repeat Blocks',
+    text: 'Things are getting a little bit more complicated Morty ... Good thing you now know how to use repeat blocks. Do you see the pattern?',
     hint: 'Try nesting loops to get the shortest possible solution',
     img: '../../assets/img/tutorials/complex-loops-1.png'
   },

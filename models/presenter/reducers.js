@@ -13,7 +13,7 @@ module.exports = (presenter) => {
     _updateTime
   }
 
-  function addClient(state, {id}) {
+  function addClient (state, {id}) {
     const client = {
       id,
       username: 'unknown',
@@ -27,13 +27,13 @@ module.exports = (presenter) => {
     })
   }
 
-  function removeClient(state, {id}) {
+  function removeClient (state, {id}) {
     return update(state, {
       clients: {$set: _.omit(state.clients, [id])}
     })
   }
 
-  function setUsername(state, {id, username}) {
+  function setUsername (state, {id, username}) {
     return update(state, {
       clients: {
         [id]: {
@@ -43,7 +43,7 @@ module.exports = (presenter) => {
     })
   }
 
-  function commitCode(state, {id, code}) {
+  function commitCode (state, {id, code}) {
     return update(state, {
       clients: {
         [id]: {
@@ -53,19 +53,19 @@ module.exports = (presenter) => {
     })
   }
 
-  function setPlayers(state, players) {
+  function setPlayers (state, players) {
     return update(state, {
       playerNumbers: {$set: players}
     })
   }
 
-  function _setGameState(state, gameRunning) {
+  function _setGameState (state, gameRunning) {
     return update(state, {
       gameActive: {$set: gameRunning}
     })
   }
 
-  function _setGroupId(state, {groupId}) {
+  function _setGroupId (state, {groupId}) {
     console.log('set GroupId', groupId, update(state, {
       groupId: {$set: groupId},
       clients: {$set: {}}
@@ -76,7 +76,7 @@ module.exports = (presenter) => {
     })
   }
 
-  function _updateTime(state, newTime) {
+  function _updateTime (state, newTime) {
     return update(state, {
       time: {$set: newTime}
     })

@@ -2,7 +2,7 @@ const _ = require('lodash')
 const map = require('../../assets/levels/1on1')
 const testCode = 'robot.onEvent(\'discover resource\', function (resource) {\n  robot.moveTo((resource.position.x), (resource.position.y))\n robot.placeMarker(\'green\', 2)\n\n})\n\nrobot.onMode(\'green\', function (marker) {\n  robot.moveTo((marker.position.x), (marker.position.y))\n  robot.collectResource()\n  robot.moveTo((robot.getBasePosition().x), (robot.getBasePosition().y))\n  robot.depositResource()\n\n})\n\nif (1 < getRandomNumber(1, 4)) {\n  robot.rotate("LEFT")\n  if (1 < getRandomNumber(1, 3)) {\n    robot.rotate("LEFT")\n    if (1 < getRandomNumber(1, 2)) {\n      robot.rotate("LEFT")\n    }\n  }\n}\nwhile (true) {\n  robot.move("FORWARD")\n  if (10 == getRandomNumber(1, 8)) {\n    robot.rotate("LEFT")\n  }\n}\n'
 
-module.exports = ( {presenter, timer}) => {
+module.exports = ({presenter, timer}) => {
   return {
     disconnect,
     joinGroup,
@@ -94,7 +94,7 @@ module.exports = ( {presenter, timer}) => {
   }
 }
 
-function updateTime(send) {
+function updateTime (send) {
   let timePassed = 0
   return () => {
     timePassed += 1

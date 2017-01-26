@@ -76,13 +76,11 @@ const blocklyView = blocklyWidget()
 function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
-    onStart: () => send('clock:start'),
-    onPause: () => send('clock:stop')
-  })
-
-  const resetButtonHtml = button({
-    label: 'Reset',
-    onClick: init
+    onStart: () => {
+      send('runtime:commitCode', { code: editor.code, groupId: 1 })
+      send('clock:start')
+    },
+    onStop: () => init()
   })
 
   const speedSliderHtml = speedSliderView({
@@ -104,10 +102,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     toolbox: initialState.editor.toolbox,
     workspace: localStorage.getItem('workspace') || editor.workspace,
     onChange: ({ code, workspace }) => {
-
-      console.log(code)
       localStorage.setItem('workspace', workspace)
-      send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })
     }
   })
@@ -135,7 +130,6 @@ function editorView ({ clock, editor, game, client }, prev, send) {
       <div class="header-bar">
         <div class="${controlsPrefix}">
           ${playButtonHtml}
-          ${resetButtonHtml}
           ${speedSliderHtml}
           ${commitButtonHtml}
         </div>
@@ -158,7 +152,7 @@ function editorView ({ clock, editor, game, client }, prev, send) {
     send('clock:stop')
     send('runtime:reset')
     send('game:loadGameState', { loadState: initialState.game })
-    send('game:initializeResourceSpots', { numberOfSpots: 20 })
+    send('game:initializeResourceSpots', { numberOfSpots: 10 })
   }
 }
 

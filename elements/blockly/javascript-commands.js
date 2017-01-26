@@ -47,7 +47,7 @@ Blockly.JavaScript.move_to_ext = function (block) {
 Blockly.JavaScript.move_to_entity = function (block) {
   const entity = block.getFieldValue('entity')
 
-  return `robot.moveTo(${entity}.x, ${entity}.y)`
+  return `robot.moveTo(${entity}.x, ${entity}.y)\n`
 }
 
 /* ACTIONS */
@@ -64,14 +64,14 @@ Blockly.JavaScript.build_tower = function (block) {
   return 'robot.buildTowerNearPosition()\n'
 }
 
-Blockly.JavaScript.place_marker_ext = function (block) {
+Blockly.JavaScript.place_marker = function (block) {
   const type = block.getFieldValue('type')
   const numberOfRobots = block.getFieldValue('numberOfRobots')
 
   return `robot.placeMarker('${type}', ${numberOfRobots})\n`
 }
 
-Blockly.JavaScript.place_marker = function (block) {
+Blockly.JavaScript.place_marker_ext = function (block) {
   const type = block.getFieldValue('type')
   const numberOfRobots = Blockly.JavaScript.valueToCode(block, 'numberOfRobots', Blockly.JavaScript.ORDER_ATOMIC)
 

@@ -73,6 +73,8 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
   let toolbox = editor.toolbox
   let goalProgressHtml
 
+  // we need to check if level param has changed because onLoad will not be triggered if tutorial page
+  // has already been loaded
   if (prev !== null && location.params.level !== prev.location.params.level) {
     initLevel()
   }
@@ -96,7 +98,11 @@ const tutorialView = ({ game, clock, editor, tutorial, location }, prev, send) =
       send('runtime:createRobot', { id: 'ROBOT', groupId: 1 })
       send('clock:start')
     },
-    onPause: () => send('clock:stop')
+    onStop: () => {
+      send('clock:stop')
+      send('runtime:destroyRobot', { id: 'ROBOT' })
+      send('game:loadGameState', { loadState: tutorial.level.game })
+    }
   })
 
   const speedSliderHtml = speedSliderView({

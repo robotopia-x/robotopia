@@ -58,9 +58,8 @@ function gamePointsDisplay ({
 
   return html`
     <div class="${gameStatsPrefix}">
-      <h2>Game Stats</h2>
       <table>
-        <tr><th>Team</th><th>Game Points</th><th>Resources</th></tr>
+        <tr><th>Team</th><th>Points</th><th>Resources</th></tr>
         ${gameTeamStatsHtml}
       </table>
     </div>

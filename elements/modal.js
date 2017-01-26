@@ -25,7 +25,8 @@ const prefix = sf`
     overflow: scroll;
     z-index: 501;
     animation: move 1s 1 ease;
-    animation-delay: 10;    
+    animation-delay: 10;
+    overflow: hidden;
   }
   
   :host > .inner > .content {

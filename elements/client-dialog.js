@@ -1,8 +1,21 @@
 /* globals FormData */
 
 const html = require('choo/html')
+const sf = require('sheetify')
 const modalView = require('./modal')
 const buttonView = require('./button')
+
+const buttons = sf`
+
+  :host > :first-child {
+      margin-left: 0;
+    }
+  
+  button {
+    display: inline-block;
+    margin-left: 10px;
+  }
+`
 
 module.exports = function ({
   client,
@@ -56,8 +69,7 @@ function recoveryDialog ({
   return modalView(html`
     <div class="content">
       <p>I found a previous Session on your Browser, would you like to recover?</p>
-        ${recoverButtonHtml}
-        ${cancelButtonHtml}
+      <div class="${buttons}">${recoverButtonHtml}${cancelButtonHtml}</div>
     </div>
   `)
 }

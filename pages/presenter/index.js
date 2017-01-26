@@ -11,7 +11,7 @@ const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
-const DEV_MODE = true
+const DEV_MODE = false
 
 const controlsPrefix = sf`
     :host {
@@ -32,6 +32,7 @@ module.exports = function (state, prev, send) {
   let presenter = state.presenter
   let game = state.game
   let clock = state.clock
+
   if (presenter.groupId === null) {
     if (DEV_MODE) {
       send('presenter:joinGroup', { groupId: 'asd' })
@@ -50,8 +51,8 @@ module.exports = function (state, prev, send) {
   })
 
   const gameStatsHtml = gameStatsView({
-    gamePoints: game.current.gamePoints,
-    resources: game.current.resources
+    game,
+    progress: clock.progress
   })
 
   const timerHtml = timerDisplay({
@@ -93,14 +94,18 @@ module.exports = function (state, prev, send) {
           ${startButtonHtml}
           ${speedSliderHtml}
         </div>
-      </div>
-  <div class="clientList">
-  <h3>Clients</h3>
-    ${listClients(presenter)}
+      </div>      
+  <div class="overlay">
+
+    <div class="clientList">
+    <h3>Clients</h3>
+      ${listClients(presenter)}
+    </div>
   </div>
+  
   <div style="position: absolute; z-index: 90; right: 20px; bottom: 20px; overflow: hidden">${timerHtml}</div>
     <div class="gameView" onload=${onLoad}>
-        ${gameHtml}
+        ${gameHtml} 
         ${gameStatsHtml}
     </div>
   </div>

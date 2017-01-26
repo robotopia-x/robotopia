@@ -17,15 +17,21 @@
     background-color: #aaaaaa;
 }
 
-.presenter .clientList {
+.presenter .overlay {
     position: relative;
     top: 0;
     z-index: 10;
-    background-color: rgba(255, 255, 255, 0.8);
-    width: 150px;
+    display: flex;
+}
+
+.presenter .clientList {
+    background-color: rgba(221,221,221,0.85);
+    color: #404040;
+    padding: 20px;
+    border-radius: 3px;
+    margin: 20px;
+    width: 200px;
     overflow: hidden;
-    height: auto;
-    padding: 8px;
 }
 
 .clientList li {

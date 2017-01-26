@@ -1,10 +1,62 @@
-const html = require('choo/html')
 const _ = require('lodash')
+const html = require('choo/html')
+const sf = require('sheetify')
 const { getGameState } = require('../../lib/game/index')
 const { checkGoals } = require('../goal-progress/goal-evaluator')
 const buttonView = require('../button')
 const modalView = require('../modal')
 const { goalListView } = require('../goal-progress')
+
+const introPrefix = sf`
+  :host > .story-text {
+    height: 80px;
+    background: #fff;
+    position: relative;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 50px 0 75px 125px;
+  }
+  
+  :host > .story-text:before {
+    content: '';
+    width: 100px;
+    height: 175px;
+    position: absolute;
+    top: -50px;
+    left: -130px;
+    background: url('../../assets/img/rick-avatar.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  :host > .story-text:after {
+     content: '';
+     position: absolute;
+     right: 100%;
+     top: 26px;
+     width: 0;
+     height: 0;
+     border-top: 13px solid transparent;
+     border-right: 26px solid #fff;
+     border-bottom: 13px solid transparent;
+  }
+  
+  :host > .story-hint {
+    width: 100%;
+    color: #8a6d3b;
+    border: 1px solid #faebcc;
+    padding: 15px;
+    border-radius: 3px;
+    padding-left: 50px;
+    display: inline-block;
+    background-color: #fcf8e3;
+    background-image: url(../../assets/icons/info.svg);
+    background-size: 32px 32px;
+    background-position: 10px center;
+    background-repeat: no-repeat;
+  }
+`
 
 const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
   if (level) {
@@ -45,12 +97,16 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
       })
 
       return modalView(html`
-        <div class="content animated">
-          <h1>Tutorial level: ${level.label}</h1> 
-          <div class="storyTime">
-            <p>${story.text}</p>
-            <p>(Hint: ${story.hint})</p>
-          </div>
+        <div class="${introPrefix} content animated">
+          <h1>${level.label}</h1> 
+          <p class="story-text">
+            ${story.text}            
+          </p>
+          
+          <p class="story-hint">
+            ${story.hint}
+          </p>
+          
           ${story.img ? html`<img class="img" src="${story.img}"/>` : html``}
           <div class="goals">
             <div>

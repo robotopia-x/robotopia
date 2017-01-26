@@ -8,6 +8,7 @@ const button = require('../../elements/button')
 const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
 const gameStatsView = require('../../elements/game-stats')
+const Runtime = require('../../lib/runtime/runtime')
 
 const DEV_MODE = false // set to true to dev on the editor and not be bothered with multiplayer
 
@@ -77,8 +78,12 @@ function editorView ({ clock, editor, game, client }, prev, send) {
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => {
-      send('runtime:commitCode', { code: editor.code, groupId: 1 })
-      send('clock:start')
+      if (Runtime.parseCheck(editor.code)) {
+        send('runtime:commitCode', { code: editor.code, groupId: 1 })
+        send('clock:start')
+      } else {
+        alert('It look like there is an error in your programm')
+      }
     },
     onStop: () => init()
   })

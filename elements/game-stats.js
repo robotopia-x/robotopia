@@ -43,13 +43,12 @@ function gamePointsDisplay ({
     .map((teamId) => {
       const currentTeam = game.current.teams[teamId]
       const prevTeam = game.prev === null ? currentTeam : game.prev.teams[teamId]
-      const points = Math.round(interpolate(currentTeam.points, prevTeam.points, progress))
+      // const points = Math.round(interpolate(currentTeam.points, prevTeam.points, progress))
       const resources = Math.round(interpolate(currentTeam.resources, prevTeam.resources, progress))
 
       return html`
         <tr>
-          <td>${teamId}</td>
-          <td>${points}</td>
+          <td>${teamId}</td>          
           <td>${resources}</td>
         </tr>
       `
@@ -59,7 +58,7 @@ function gamePointsDisplay ({
   return html`
     <div class="${gameStatsPrefix}">
       <table>
-        <tr><th>Team</th><th>Points</th><th>Resources</th></tr>
+        <tr><th>Team</th><th>Resources</th></tr>
         ${gameTeamStatsHtml}
       </table>
     </div>

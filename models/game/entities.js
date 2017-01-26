@@ -17,15 +17,8 @@ module.exports = {
     worker: { assignedTask: null },
     zIndex: 1,
     sprite: {
-      type: 'ROTATING',
-      data: {
-        sprites: {
-          [ORIENTATION.FRONT]: 'ROBOT_FRONT',
-          [ORIENTATION.BACK]: 'ROBOT_BACK',
-          [ORIENTATION.LEFT]: 'ROBOT_LEFT',
-          [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
-        }
-      }
+      type: 'ROBOT',
+      data: {}
     }
   }),
 
@@ -39,15 +32,8 @@ module.exports = {
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {
-      type: 'ROTATING',
-      data: {
-        sprites: {
-          [ORIENTATION.FRONT]: 'ROBOT_FRONT',
-          [ORIENTATION.BACK]: 'ROBOT_BACK',
-          [ORIENTATION.LEFT]: 'ROBOT_LEFT',
-          [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
-        }
-      }
+      type: 'ROBOT',
+      data: {}
     }
   }),
 

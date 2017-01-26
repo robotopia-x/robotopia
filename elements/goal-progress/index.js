@@ -11,10 +11,11 @@ const goalPrefix = sf`
     right: 0;
     background-color: #DDDDDD;
     color: #404040;
+    background-color: rgba(221,221,221,0.85);
+    color: #404040;
+    margin: 20px;
     padding: 25px;
-    border-width: 0px 0px 10px 10px;
-    border-style: solid;
-    border-color: #404040;
+    border-radius: 3px;
   }
 
   :host > h2 {

@@ -32,7 +32,7 @@ module.exports = {
   goals: [
     {
       type: 'moveTo',
-      params: { position: { x: 0, y: 2 }, entity: 'ROBOT' },
+      params: { position: { x: 2, y: 0 }, entity: 'ROBOT' },
       desc: 'Move the robot to the grass',
       isMandatory: true
     },

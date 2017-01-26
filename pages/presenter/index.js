@@ -11,7 +11,7 @@ const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
 const OneonOne = require('../../assets/levels/1on1')
-const DEV_MODE = false
+const DEV_MODE = true
 
 const controlsPrefix = sf`
     :host {

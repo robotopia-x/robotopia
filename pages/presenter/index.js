@@ -5,6 +5,7 @@ const button = require('../../elements/button')
 const timerDisplay = require('../../elements/timer')
 const _ = require('lodash')
 const { startButtonView } = require('../../elements/presenter-controls')
+const { speedSliderView } = require('../../elements/runtime-controls')
 const gameView = require('../../elements/game/index')
 const gameStatsView = require('../../elements/game-stats')
 const prepfight = require('../../node_modules/action-overlay')('prepfight').view
@@ -56,6 +57,13 @@ module.exports = function (state, prev, send) {
     onStop: () => send('presenter:stopMatch')
   })
 
+  const speedSliderHtml = speedSliderView({
+    min: 100,
+    max: 1000,
+    intervalDuration: clock.intervalDuration,
+    onChange: (value) => send('clock:setIntervalDuration', {intervalDuration: value})
+  })
+
   return html`
 <div class="presenter">
 <div style="visibility: hidden; width: 0; height: 0; position: fixed">
@@ -73,7 +81,7 @@ module.exports = function (state, prev, send) {
         ${gameStatsHtml}
     </div>
     <div class="footer">
-      ${disconnectButtonHtml} ${startButtonHtml}
+      ${disconnectButtonHtml} ${startButtonHtml} ${speedSliderHtml}
     </div>
   </div>
 `

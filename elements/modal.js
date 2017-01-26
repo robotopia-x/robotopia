@@ -11,21 +11,20 @@ const prefix = sf`
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.5);
-    overflow: hidden;
+    overflow: hidden;    
   }
   
   :host > .inner {
-    max-width: 50%;
+    max-width: 800px;
     background: #fff;
     color: #404040;
-    padding: 25px;
+    padding: 30px;
     border-radius: 3px;
-    border: 10px solid #404040;
-    text-align: center;
+    border: 10px solid #404040;    
     overflow: scroll;
     z-index: 100;
     animation: move 1s 1 ease;
-    animation-delay: 10;
+    animation-delay: 10;    
   }
   
   :host > .inner > .content {

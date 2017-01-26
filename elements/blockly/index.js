@@ -41,6 +41,7 @@ const DEFAULT_OPTIONS = {
 }
 
 function blocklyWidget () {
+  let container = null
   let prevParams = null
   let onChange = _.noop
   let toolbox, blocklyWorkspace, code
@@ -67,8 +68,9 @@ function blocklyWidget () {
       }
     },
 
-    onload: (el) => {
-      blocklyWorkspace = Blockly.inject(el, DEFAULT_OPTIONS)
+    onload: (_container) => {
+      container = _container
+      blocklyWorkspace = Blockly.inject(container, DEFAULT_OPTIONS)
       blocklyWorkspace.addChangeListener(updateCode)
 
       if (prevParams === null) {
@@ -105,6 +107,11 @@ function blocklyWidget () {
 
   function updateCode () {
     const newCode = workspaceToOrderedCode(blocklyWorkspace)
+
+    // don't trigger update code if block is beeing dragged
+    if (container.querySelector('.blocklyDragging') !== null) {
+      return
+    }
 
     // only update call onChangeWorkspace if resulting code from workspace has changed
     if (newCode !== code) {

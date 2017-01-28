@@ -3,25 +3,41 @@
   "version": "0.1.0",
   "description": "interactive development environment to learn programming with robots",
   "main": "src/client.js",
+  "browserify": {
+    "transform": [
+      "sheetify/transform"
+    ]
+  },
   "dependencies": {
     "blockly": "1.0.0",
-    "choo": "3.3.0",
+    "cache-element": "2.0.1",
+    "choo": "4.0.1",
+    "classnames": "2.2.5",
+    "cuid": "1.3.8",
+    "esper.js": "0.1.7",
     "immutability-helper": "2.0.0",
     "lodash": "4.16.4",
-    "sheetify": "5.1.1"
+    "pathfinding": "0.4.18",
+    "peer-star": "git://github.com/robotopia-x/networking.git",
+    "prep-fight": "git://github.com/robotopia-x/start_action_screen.git",
+    "raf": "3.3.0",
+    "sheetify": "5.1.1",
+    "uid": "0.0.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-stage-2": "^6.17.0",
     "babelify": "^7.3.0",
     "browserify-hmr": "^0.3.5",
-    "budo": "^9.2.1",
+    "budo": "^9.4.5",
+    "signalhub": "^4.8.0",
     "standard": "^8.5.0"
   },
   "scripts": {
-    "install": "napa https://github.com/NeilFraser/JS-Interpreter.git",
     "test": "standard",
-    "start": "node server.js"
+    "lint": "standard --fix",
+    "start": "budo --live --host -P localhost index.js:bundle.js --pushstate",
+    "devhub": "signalhub listen -p 8042"
   },
   "repository": {
     "type": "git",

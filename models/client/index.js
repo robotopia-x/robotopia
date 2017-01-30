@@ -110,14 +110,12 @@ function getStateFromLocalStorage () {
   try {
     let session = JSON.parse(localStorage.getItem('roboSession'))
     if (!session || !session.username || !session.groupId || !session.clientId) {
-      console.log('No valid previous Session present... ' + JSON.stringify(session))
       return localState
     }
     localState.username = session.username
     localState.groupId = session.groupId
     localState.clientId = session.clientId
     localState.recoveryPossible = true
-    console.log('Loaded group "' + localState.groupId + '" for user "' + localState.username + '[' + localState.clientId + ']"')
   } catch (e) {
     console.log('Error loading local Storage')
   }

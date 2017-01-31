@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
+const panelGroup = require('../components/panel-group')
 
 const mainPrefix = sf`
   :host {
@@ -12,13 +13,19 @@ const mainPrefix = sf`
 `
 
 function pageLayout ({
-  header, panels,
-  onload = _.noop
+  header, panels, context,
+  send, onload = _.noop
 }) {
+  const panelGroupHtml = panelGroup.component(...context)('page-layout', {
+    props: {
+      panelViews: panels
+    }
+  })
+
   return html`
     <div class="${mainPrefix}" onload=${onload}>
       ${getHeaderHtml(header)}
-      ${getPanelsHtml(panels)}
+      ${panelGroupHtml}
     </div>
   `
 }
@@ -68,43 +75,5 @@ function getHeaderHtml ({ left, right }) {
   `
 }
 
-const panelsPrefix = sf`
-  :host {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-  }
-
-  :host > * {
-    height: 100%;
-    width: 100%;
-  }
-
-  :host > .divider {
-    background: #404040;
-    width: 10px;
-    height: 100%;
-    cursor: ew-resize;
-    flex-shrink: 0;
-  }
-
-  :host > .divider:hover {
-    background: #848484;
-  }
-`
-
-function getPanelsHtml (panels) {
-  const panelsHtml = _(panels)
-    .map((panelHtml) => [panelHtml, html`<div class="divider"></div>`]) // add divider elements between panels
-    .flatten()
-    .value()
-    .slice(0, -1) // omit divider after last panel
-
-  return html`
-    <div class="${panelsPrefix}">
-      ${panelsHtml}
-    </div>
-  `
-}
 
 module.exports = pageLayout

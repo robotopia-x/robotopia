@@ -9,21 +9,26 @@ const clock = require('./models/clock')()
 const runtime = require('./models/runtime')()
 const gameModel = require('./models/game')
 const editorModel = require('./models/editor')
-const level = require('./models/tutorial/index')
-const client = require('./models/client')(P2P_CONFIG)
-const presenter = require('./models/presenter')(P2P_CONFIG)
+const panelGroupModel = require('./components/panel-group').model
+const levelModel = require('./models/tutorial')
+const clientModel = require('./models/client')(P2P_CONFIG)
+const presenterModel = require('./models/presenter')(P2P_CONFIG)
 const prepfight = require('./node_modules/action-overlay')('prepfight')
 
 const app = choo()
 
+// app models
 app.model(clock.model)
 app.model(runtime.model)
 app.model(gameModel)
 app.model(editorModel)
-app.model(level)
-app.model(client)
-app.model(presenter)
+app.model(levelModel)
+app.model(clientModel)
+app.model(presenterModel)
 app.model(prepfight.model)
+
+// component models
+app.model(panelGroupModel)
 
 app.use({ onStateChange: (state) => runtime.setState(state.game) })
 

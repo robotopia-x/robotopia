@@ -14,7 +14,8 @@ const DEV_MODE = true // set to true to dev on the editor and not be bothered wi
 
 const blocklyView = blocklyWidget()
 
-function editorView ({ clock, editor, game, client }, prev, send) {
+function editorView (state, prev, send) {
+  const { clock, editor, game, client } = state
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
     onStart: () => {
@@ -67,23 +68,36 @@ function editorView ({ clock, editor, game, client }, prev, send) {
   })
 
   return pageLayout({
+    context: [ state, prev, send ],
     onload: init,
     header: {
       left: [
         playButtonHtml,
         speedSliderHtml,
         commitButtonHtml
-      ],
+      ]
     },
-
     panels: [
+      html`
+        <div><h1>Hier könnte ihr Tutorial stehen !</h1></div>
+      `,
+
+      html`
+        <div><h1>Editor</h1></div>
+      `,
+
+      html`
+        <div><h1>Game</h1></div>
+      `
+      /*
       blocklyHtml,
       html`
-          <div class="column">
-            ${gameHtml}
-            ${gameStatsHtml}
+        <div class="column">
+          ${gameHtml}
+          ${gameStatsHtml}
         </div>
-        `
+      `
+      */
     ]
   })
 

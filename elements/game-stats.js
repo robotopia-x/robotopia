@@ -7,7 +7,7 @@ const gameStatsPrefix = sf`
   :host {
     position: absolute;
     right: 0;
-    top: 50px;
+    top: 0;
     background-color: rgba(221,221,221,0.85);
     color: #404040;
     padding: 10px;

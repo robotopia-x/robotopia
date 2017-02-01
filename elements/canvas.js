@@ -60,7 +60,6 @@ function canvasWidget () {
 
     onunload: () => {
       ctx = null
-      canvas = null
       isDragging = false
       canvasTransform = INITIAL_TRANSFORM
 
@@ -69,6 +68,8 @@ function canvasWidget () {
       canvas.removeEventListener('mouseup', handleDragEnd)
       canvas.removeEventListener('mouseleave', handleDragEnd)
       canvas.removeEventListener('mousewheel', handleZoom)
+      canvas = null
+
       window.removeEventListener('resize', resize)
     },
 

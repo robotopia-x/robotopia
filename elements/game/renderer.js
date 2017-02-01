@@ -276,8 +276,6 @@ function renderWorker (ctx, current, prev, progress) {
   const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - (WORKER_ICON_SIZE / 2)
   const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT - 35
 
-  const scaleFactor = WORKER_ICON_SIZE / 512
-
   ctx.save()
 
   ctx.fillStyle = current.worker.assignedTask.type

@@ -1,6 +1,5 @@
 /* globals localStorage */
 const html = require('choo/html')
-const sf = require('sheetify')
 const gameView = require('../../elements/game/index')
 const blocklyWidget = require('../../elements/blockly')
 const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
@@ -67,7 +66,7 @@ function editorView (state, prev, send) {
     progress: clock.progress
   })
 
-  return pageLayout({
+  const pageHtml = pageLayout({
     context: [ state, prev, send ],
     onload: init,
     header: {
@@ -75,31 +74,24 @@ function editorView (state, prev, send) {
         playButtonHtml,
         speedSliderHtml,
         commitButtonHtml
-      ]
+      ],
+      right: []
     },
     panels: [
-      html`
-        <div><h1>Hier könnte ihr Tutorial stehen !</h1></div>
-      `,
-
-      html`
-        <div><h1>Editor</h1></div>
-      `,
-
-      html`
-        <div><h1>Game</h1></div>
-      `
-      /*
       blocklyHtml,
-      html`
-        <div class="column">
-          ${gameHtml}
-          ${gameStatsHtml}
-        </div>
-      `
-      */
+      [
+        gameHtml,
+        gameStatsHtml
+      ]
     ]
   })
+
+  return html`
+    <div>
+      ${pageHtml}
+      ${DEV_MODE ? null : clientDialogHtml}
+    </div>
+  `
 
   function init () {
     send('clock:stop')

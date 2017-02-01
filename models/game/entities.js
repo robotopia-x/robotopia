@@ -1,5 +1,3 @@
-const { ORIENTATION } = require('../../lib/utils/types')
-
 module.exports = {
   robot: ({ id, x, y, teamId }) => ({
     id,

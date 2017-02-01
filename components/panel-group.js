@@ -1,3 +1,4 @@
+/* globals Event */
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
@@ -22,11 +23,16 @@ const prefix = sf`
     cursor: ew-resize;
   }
 
-  :host > * {
+  :host > .panel, :host > .divider {
     height: 100%;
     flex-grow: 0;
-    flex-shrink: 0;
     overflow: auto;
+  }
+
+  :host > .panel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
   }
 
   :host > .divider {
@@ -72,7 +78,7 @@ module.exports = component({
         })
       },
 
-      resizePanel: (state, { position }) => {
+      _resizePanel: (state, { position }) => {
         const { panelSizes, selectedPanelIndex } = state
 
         if (selectedPanelIndex === null) {
@@ -91,6 +97,13 @@ module.exports = component({
           }
         })
       }
+    },
+
+    effects: {
+      resizePanel: (state, { position }, send) => {
+        window.dispatchEvent(new Event('resize'))
+        send('panelGroup:_resizePanel', { position }, _.noop)
+      }
     }
   },
 
@@ -98,20 +111,21 @@ module.exports = component({
     panelSizes, selectedPanelIndex, panelViews,
     initPanelSizes, resizeGroup, selectPanel, resizePanel
   }) => {
-    let panelsHtml, windowResizeHandler
+    let windowResizeHandler
 
-    // skip rendering of panelViews on first render, because we need to know the size of the container first
-    if (panelSizes !== null) {
-      // add divider elements between panels
-      panelsHtml = _(panelViews)
-        .map((panelHtml, index) => [
-          html`<div class="panel" style="width: ${panelSizes[index]}px">${panelHtml}</div>`,
+    // add divider elements between panels
+    const panelsHtml = _(panelViews)
+      .map((panelHtml, index) => {
+        const width = panelSizes !== null ? `${panelSizes[index]}px` : '100%'
+
+        return [
+          html`<div class="panel" style="width: ${width}">${panelHtml}</div>`,
           html`<div class="divider" onmousedown=${() => selectPanel({ panelIndex: index })}></div>`
-        ])
-        .flatten()
-        .value()
-        .slice(0, -1) // omit divider after last panel
-    }
+        ]
+      })
+      .flatten()
+      .value()
+      .slice(0, -1) // omit divider after last panel
 
     const className = classNames(prefix, {
       resizing: selectedPanelIndex !== null

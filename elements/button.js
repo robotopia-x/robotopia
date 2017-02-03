@@ -9,6 +9,7 @@ const prefix = sf`
     flex-direction: row;
     align-items: center;
     padding: 8px 10px;
+    margin: 10px;
     border: none;
     border-radius: 3px;
     font-size: 1em;

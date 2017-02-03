@@ -53,6 +53,8 @@ function canvasWidget () {
       canvas.addEventListener('mousewheel', handleZoom)
       window.addEventListener('resize', resize)
 
+      canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
+
       resize()
 
       renderCanvas()
@@ -62,7 +64,6 @@ function canvasWidget () {
       ctx = null
       isDragging = false
       canvasTransform = INITIAL_TRANSFORM
-
       canvas.removeEventListener('mousedown', handleDragStart)
       canvas.removeEventListener('mousemove', handleDragMove)
       canvas.removeEventListener('mouseup', handleDragEnd)
@@ -113,9 +114,6 @@ function canvasWidget () {
   function resize () {
     canvas.width = canvas.parentNode.offsetWidth
     canvas.height = canvas.parentNode.offsetHeight
-
-    // zoom out if width or height of canvas are less than 1000
-    canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
 
     renderCanvas()
   }

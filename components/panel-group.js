@@ -72,17 +72,16 @@ module.exports = component({
         })
       },
 
-      selectPanel: (state, { panelIndex }) => {
-        return update(state, {
+      selectPanel: (state, { panelIndex }) =>
+        update(state, {
           selectedPanelIndex: { $set: panelIndex }
-        })
-      },
+        }),
 
       _resizePanel: (state, { position }) => {
         const { panelSizes, selectedPanelIndex } = state
 
         if (selectedPanelIndex === null) {
-          return state
+          return
         }
 
         const size = panelSizes[selectedPanelIndex]
@@ -100,8 +99,16 @@ module.exports = component({
     },
 
     effects: {
-      resizePanel: (state, { position }, send) => {
+      resizePanel: (state, { instanceId, position }, send) => {
+        const { selectedPanelIndex } = state.instances[instanceId]
+
+        if (selectedPanelIndex === null) {
+          return
+        }
+
+        // trigger resize event on window to make dynamic panels work which have javascript resize logic
         window.dispatchEvent(new Event('resize'))
+
         send('panelGroup:_resizePanel', { position }, _.noop)
       }
     }

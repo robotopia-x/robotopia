@@ -3,7 +3,7 @@ const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
 
-const MIN_INITAL_VIEWPORT_SIZE = 1000 // inital zoom is set so viewport will have at least this height and width
+const MIN_INITAL_VIEWPORT_SIZE = 200 // inital zoom is set so viewport will have at least this height and width
 const MIN_SCALE = 0.1
 const MAX_SCALE = 1
 const INITIAL_TRANSFORM = {
@@ -125,7 +125,7 @@ function canvasWidget () {
 
   function handleZoom (evt) {
     evt.preventDefault()
-    const scale = transform.scale - (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
+    const scale = transform.scale - (evt.deltaY / 2000)
     transform.scale = _.clamp(scale, MIN_SCALE, MAX_SCALE)
 
     renderCanvas()

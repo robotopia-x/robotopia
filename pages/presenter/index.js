@@ -1,6 +1,5 @@
 /* globals FormData */
 const html = require('choo/html')
-const _ = require('lodash')
 const modal = require('../../elements/modal')
 const button = require('../../elements/button')
 const timerDisplay = require('../../elements/timer')
@@ -9,6 +8,7 @@ const { speedSliderView } = require('../../elements/runtime-controls')
 const overlayView = require('../../elements/overlay')
 const gameView = require('../../elements/game')
 const gameStatsView = require('../../elements/game-stats')
+const clientsList = require('../../elements/clients-list')
 const pageLayout = require('../../elements/page-layout')
 const prepfight = require('action-overlay')('prepfight').view
 const initialState = require('./initial-state')
@@ -43,7 +43,7 @@ module.exports = function (state, prev, send) {
   })
 
   const timerHtml = overlayView({
-    position: 'bottom left',
+    position: 'top right',
     hasFrame: false,
     content: timerDisplay({ seconds: presenter.time })
   })
@@ -92,9 +92,9 @@ module.exports = function (state, prev, send) {
       [
         gameHtml,
         gameStatsHtml,
-        prepfightHtml,
         clientsListHtml,
-        timerHtml
+        timerHtml,
+        prepfightHtml
       ]
     ]
   })
@@ -133,23 +133,3 @@ function joinGroupDialog ({ onJoinGroup }) {
     onJoinGroup(groupId)
   }
 }
-
-function clientsList ({ clients, playerNumbers }) {
-  return html`
-    <div>
-      <h3>Clients</h3>
-      <ul>
-        ${Object.keys(clients).map(clientToLi)}
-      </ul>
-    </div>
-  `
-
-  function clientToLi (key) {
-    let isPlayer = false
-    if (_.valuesIn(playerNumbers).indexOf(key) >= 0) {
-      isPlayer = true
-    }
-    return html`<li>${clients[key].username} ${isPlayer ? 'p' : ''}</li>`
-  }
-}
-

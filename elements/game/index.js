@@ -3,12 +3,9 @@ const renderer = require('./renderer')
 
 const canvasView = canvasWidget()
 
-const gameView = ({ state, progress }) =>
-  canvasView((ctx, width, height) => render(ctx, width, height, state, progress))
+module.exports = ({ state, progress }) =>
+  canvasView({
+    render: (ctx, viewport) =>
+      renderer.render(ctx, viewport, state, progress)
+  })
 
-function render (ctx, width, height, state, progress) {
-  ctx.clearRect(0, 0, width, height)
-  renderer.render(ctx, state, progress)
-}
-
-module.exports = gameView

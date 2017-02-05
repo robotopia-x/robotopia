@@ -45,6 +45,7 @@ function gamePointsDisplay ({
       let teamFieldHtml
       const currentTeam = game.current.teams[teamId]
       const prevTeam = game.prev === null ? currentTeam : game.prev.teams[teamId]
+      // TODO: Uncomment when points are implemented
       // const points = Math.round(interpolate(currentTeam.points, prevTeam.points, progress))
       const resources = Math.round(interpolate(currentTeam.resources, prevTeam.resources, progress))
 

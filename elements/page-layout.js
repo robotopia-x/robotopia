@@ -13,7 +13,8 @@ const mainPrefix = sf`
 `
 
 function pageLayout ({
-  header, panels, context, id,
+  id, // used to get unique instance of panel group
+  header, panels, context,
   send, onload = _.noop
 }) {
   const panelGroupHtml = panelGroup.component(...context)(id, {

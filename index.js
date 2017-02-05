@@ -42,7 +42,7 @@ app.router({ default: '/' }, [
   ['/', require('./pages/overview')],
   ['/editor', require('./pages/editor')],
   ['/tutorial/:level', require('./pages/tutorial')],
-  ['/presenter', require('./pages/presenter')]
+  ['/presenter', require('./pages/presenter/index')]
 ])
 
 assets.load({

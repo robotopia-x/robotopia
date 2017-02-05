@@ -13,10 +13,10 @@ const mainPrefix = sf`
 `
 
 function pageLayout ({
-  header, panels, context,
+  header, panels, context, id,
   send, onload = _.noop
 }) {
-  const panelGroupHtml = panelGroup.component(...context)('page-layout', {
+  const panelGroupHtml = panelGroup.component(...context)(id, {
     props: {
       panelViews: panels
     }

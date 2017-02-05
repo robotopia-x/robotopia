@@ -67,6 +67,7 @@ function editorView (state, prev, send) {
   })
 
   const pageHtml = pageLayout({
+    id: 'editor-page',
     context: [ state, prev, send ],
     onload: init,
     header: {

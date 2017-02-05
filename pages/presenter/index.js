@@ -6,7 +6,8 @@ const button = require('../../elements/button')
 const timerDisplay = require('../../elements/timer')
 const { startButtonView } = require('../../elements/presenter-controls')
 const { speedSliderView } = require('../../elements/runtime-controls')
-const gameView = require('../../elements/game/index')
+const overlayView = require('../../elements/overlay')
+const gameView = require('../../elements/game')
 const gameStatsView = require('../../elements/game-stats')
 const pageLayout = require('../../elements/page-layout')
 const prepfight = require('action-overlay')('prepfight').view
@@ -41,11 +42,11 @@ module.exports = function (state, prev, send) {
     resources: game.current.resources
   })
 
-  const timerHtml = html`
-    <div style="position: absolute; z-index: 90; right: 20px; bottom: 20px; overflow: hidden">
-      ${timerDisplay({ seconds: presenter.time })}
-    </div>
-  `
+  const timerHtml = overlayView({
+    position: 'bottom left',
+    hasFrame: false,
+    content: timerDisplay({ seconds: presenter.time })
+  })
 
   const prepfightHtml = prepfight(state, prev, send)
 
@@ -67,9 +68,12 @@ module.exports = function (state, prev, send) {
     onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
   })
 
-  const clientsListHtml = clientsList({
-    clients: presenter.clients,
-    playerNumbers: presenter.playerNumbers
+  const clientsListHtml = overlayView({
+    position: 'top left',
+    content: clientsList({
+      clients: presenter.clients,
+      playerNumbers: presenter.playerNumbers
+    })
   })
 
   return pageLayout({
@@ -132,7 +136,7 @@ function joinGroupDialog ({ onJoinGroup }) {
 
 function clientsList ({ clients, playerNumbers }) {
   return html`
-    <div class="clientList">
+    <div>
       <h3>Clients</h3>
       <ul>
         ${Object.keys(clients).map(clientToLi)}

@@ -44,7 +44,7 @@ function blocklyWidget () {
   let container = null
   let prevParams = null
   let onChange = _.noop
-  let toolbox, blocklyWorkspace, code
+  let toolbox, blocklyWorkspace
 
   return widget({
     onupdate: (el, params) => {
@@ -77,13 +77,14 @@ function blocklyWidget () {
         return
       }
 
-      // apply initial params
       if (prevParams.toolbox) {
         blocklyWorkspace.updateToolbox(prevParams.toolbox)
         toolbox = prevParams.toolbox
       }
+      // apply initial params
       if (prevParams.workspace) {
         updateWorkspace(blocklyWorkspace, prevParams.workspace)
+        Blockly.svgResize(blocklyWorkspace)
       }
     },
 
@@ -106,22 +107,15 @@ function blocklyWidget () {
   })
 
   function updateCode () {
-    const newCode = workspaceToOrderedCode(blocklyWorkspace)
-
-    // don't trigger update code if block is beeing dragged
+    // don't trigger update code if block is being dragged
     if (container.querySelector('.blocklyDragging') !== null) {
       return
     }
 
-    // only update call onChangeWorkspace if resulting code from workspace has changed
-    if (newCode !== code) {
-      code = newCode
-
-      onChange({
-        workspace: workspaceToString(blocklyWorkspace),
-        code
-      })
-    }
+    onChange({
+      workspace: workspaceToString(blocklyWorkspace),
+      code: workspaceToOrderedCode(blocklyWorkspace)
+    })
   }
 }
 
@@ -146,7 +140,10 @@ function workspaceToString (workspace) {
 // checks if workspaces generate both the same code, ignoring position of blocks
 // you have to pass in an actual workspace not just strings
 function isWorkspaceEquivalentTo (workspace, compareWorkspace) {
-  return workspaceToOrderedCode(workspace) === workspaceToOrderedCode(compareWorkspace)
+  const workspaceCode = workspaceToOrderedCode(workspace)
+  const compareCode = workspaceToOrderedCode(compareWorkspace)
+
+  return workspaceCode === compareCode
 }
 
 // turns workspace into javascript
@@ -161,7 +158,7 @@ function workspaceToOrderedCode (workspace) {
   // the variableDB is provided by the workspace but since we are generating the code block wise we need to provide
   // our own variableDB
 
-  // safe reference to original value
+  // save reference to original value
   const originalVariableDB_ = Blockly.JavaScript.variableDB_
 
   // monkey patch variableDB

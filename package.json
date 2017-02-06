@@ -9,6 +9,7 @@
     ]
   },
   "dependencies": {
+    "@robotopia/assets-loader": "^1.0.0",
     "@robotopia/clock": "^1.0.0",
     "blockly": "1.0.0",
     "cache-element": "2.0.1",

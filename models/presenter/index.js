@@ -23,7 +23,7 @@ module.exports = ({ hubUrl }) => {
       time: 0
     },
 
-    reducers: reducers(presenter),
+    reducers,
 
     effects: effects({presenter, timer}),
 

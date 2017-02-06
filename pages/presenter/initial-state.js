@@ -43,4 +43,6 @@ const game = {
   gamePoints: {}
 }
 
-module.exports = game
+module.exports = {
+  game
+}

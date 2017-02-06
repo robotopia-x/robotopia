@@ -5,10 +5,12 @@ const classNames = require('classnames')
 
 const prefix = sf`
   :host {
-    display: flex;
+    display: flex;    
+    white-space: nowrap;
     flex-direction: row;
     align-items: center;
     padding: 8px 10px;
+    margin: 10px;
     border: none;
     border-radius: 3px;
     font-size: 1em;

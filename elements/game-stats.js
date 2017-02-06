@@ -7,7 +7,7 @@ const gameStatsPrefix = sf`
   :host {
     position: absolute;
     right: 0;
-    top: 50px;
+    top: 0;
     background-color: rgba(221,221,221,0.85);
     color: #404040;
     padding: 10px;
@@ -45,6 +45,7 @@ function gamePointsDisplay ({
       let teamFieldHtml
       const currentTeam = game.current.teams[teamId]
       const prevTeam = game.prev === null ? currentTeam : game.prev.teams[teamId]
+      // TODO: Uncomment when points are implemented
       // const points = Math.round(interpolate(currentTeam.points, prevTeam.points, progress))
       const resources = Math.round(interpolate(currentTeam.resources, prevTeam.resources, progress))
 

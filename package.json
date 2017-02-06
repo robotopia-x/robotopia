@@ -12,6 +12,7 @@
     "blockly": "1.0.0",
     "cache-element": "2.0.1",
     "choo": "4.0.1",
+    "choo-component": "git+https://github.com/ohgoodlord/choo-component.git",
     "classnames": "2.2.5",
     "cuid": "1.3.8",
     "esper.js": "0.1.7",

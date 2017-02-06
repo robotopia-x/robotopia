@@ -3,9 +3,11 @@ const sf = require('sheetify')
 
 const prefix = sf`
   :host {
-    position: absolute;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: center;

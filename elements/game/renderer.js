@@ -8,31 +8,67 @@ const { interpolate } = require('../../lib/game')
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
 
-function render (ctx, state, progress) {
+// 80 / 100 = 4 / 5 => width has to be divisible by 5
+const TILE_DIVISOR = 5
+
+function render (ctx, viewport, state, progress) {
   const { tiles } = state.current
 
   ctx.save()
   ctx.strokeStyle = '#000'
   ctx.lineWidth = 2
 
-  moveOrigin(ctx, tiles)
-  renderTiles(ctx, tiles)
+  applyViewportTransforms({
+    ctx,
+    viewport,
+    gameWidth: tiles[0].length,
+    gameHeight: tiles.length
+  })
+
+  renderTiles(ctx, viewport, tiles)
   renderEntities(ctx, state.current, state.prev, progress)
 
   ctx.restore()
 }
 
-// move origin to top left by half the size of the board so the game will be centered
-function moveOrigin (ctx, tiles) {
-  const offsetX = -(tiles[0].length / 2) * TILE_WIDTH
-  const offsetY = -(tiles.length / 2) * TILE_HEIGHT
-  ctx.translate(offsetX, offsetY)
+function applyViewportTransforms ({ ctx, viewport, gameWidth, gameHeight }) {
+  // move origin to center of canvas
+  ctx.translate(viewport.width / 2, viewport.height / 2)
+
+  // apply scale
+  const scale = getEvenScale(viewport.scale)
+  ctx.scale(scale, scale)
+
+  // center game field
+  ctx.translate(-(gameWidth / 2) * TILE_WIDTH, -(gameHeight / 2) * TILE_WIDTH)
+
+  // apply viewport translate
+  ctx.translate(viewport.translate.x, viewport.translate.y)
 }
 
-function renderTiles (ctx, tiles) {
+// enforce that scale always results in integer tile dimensions (no subpixel rendering)
+// if scale doesn't full fill this requirement find the next smaller scale that does
+function getEvenScale (scale) {
+  const width = Math.floor(scale * TILE_WIDTH)
+
+  if (width % TILE_DIVISOR === 0) {
+    return width / TILE_WIDTH
+  }
+
+  let divisibleWidth = 0
+
+  while ((divisibleWidth + TILE_DIVISOR) < width) {
+    divisibleWidth += TILE_DIVISOR
+  }
+
+  return divisibleWidth / TILE_WIDTH
+}
+
+function renderTiles (ctx, viewport, tiles) {
   for (let y = 0; y < tiles.length; y++) {
     for (let x = 0; x < tiles[y].length; x++) {
-      ctx.drawImage(assets.store[getTileImageType(tiles[y][x])], x * TILE_WIDTH, y * TILE_HEIGHT + 40)
+      const image = assets.store[getTileImageType(tiles[y][x])]
+      ctx.drawImage(image, x * TILE_WIDTH, y * TILE_HEIGHT + 40)
     }
   }
 }
@@ -275,8 +311,6 @@ function renderWorker (ctx, current, prev, progress) {
 
   const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - (WORKER_ICON_SIZE / 2)
   const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT - 35
-
-  const scaleFactor = WORKER_ICON_SIZE / 512
 
   ctx.save()
 

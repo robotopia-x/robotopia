@@ -71,8 +71,8 @@ Blockly.Blocks.rotate = {
     this.appendDummyInput()
       .appendField('Rotate')
       .appendField(new Blockly.FieldDropdown([
-        ['↻ Left', 'LEFT'],
-        ['↺ Right', 'RIGHT']
+        ['↺ Left', 'LEFT'],
+        ['↻ Right', 'RIGHT']
       ]), 'direction')
 
     this.setTooltip('rotate the robot in the given direction')

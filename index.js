@@ -4,7 +4,7 @@ const P2P_CONFIG = {
 
 const _ = require('lodash')
 const choo = require('choo')
-const assets = require('./lib/asset-loader/index')
+const assets = require('@robotopia/assets-loader')
 const clock = require('./models/clock')()
 const runtime = require('./models/runtime')()
 const gameModel = require('./models/game')

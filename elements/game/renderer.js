@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const assets = require('../../lib/asset-loader/index')
+const assets = require('@robotopia/assets-loader')
 const { getAllEntities, getEntity } = require('../../lib/game')
 const { RENDERER } = require('../../lib/utils/types')
 const { ORIENTATION } = require('../../lib/utils/types')

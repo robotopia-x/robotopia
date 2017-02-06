@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
-const Clock = require('../lib/time/clock')
+const Clock = require('@robotopia/clock')
 
 module.exports = () => {
   let tickCallback = _.noop

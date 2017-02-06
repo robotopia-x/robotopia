@@ -9,6 +9,7 @@
     ]
   },
   "dependencies": {
+    "@robotopia/clock": "^1.0.0",
     "blockly": "1.0.0",
     "cache-element": "2.0.1",
     "choo": "4.0.1",
@@ -49,5 +50,6 @@
   "bugs": {
     "url": "https://github.com/hdm-project/robot-ide/issues"
   },
-  "homepage": "https://github.com/hdm-project/robot-ide#readme"
+  "homepage": "https://github.com/hdm-project/robot-ide#readme",
+  "private": true
 }

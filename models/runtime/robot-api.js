@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
-const pathfinder = require('../../lib/utils/pathfinder')
+const pathfinder = require('./../../lib/pathfinder')
 const {
   getGameState,
   getEntity,

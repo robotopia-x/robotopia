@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const assets = require('../../lib/utils/assets')
+const assets = require('../../lib/asset-loader/index')
 const { getAllEntities, getEntity } = require('../../lib/game')
 const { RENDERER } = require('../../lib/utils/types')
 const { ORIENTATION } = require('../../lib/utils/types')

@@ -1,5 +1,5 @@
 const P2P_CONFIG = {
-  hubUrl: 'http://localhost:8042'
+  hubUrl: 'https://signalhub.perguth.de:65300/'
 }
 
 const _ = require('lodash')

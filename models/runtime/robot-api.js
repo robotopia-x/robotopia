@@ -8,7 +8,7 @@ const {
   isFieldEmpty,
   findFieldNearPosition,
   findEmptyFieldNearPosition
-} = require('../../lib/game')
+} = require('@robotopia/choo-game')
 
 const SAVE_ZONE_SIZE = 4 // how far enemy towers have to build from base
 

@@ -1,4 +1,4 @@
-const game = require('../../lib/game')
+const game = require('@robotopia/choo-game')
 const { movable } = require('./components/movable')
 const { health } = require('./components/health')
 const { collector } = require('./components/collector')

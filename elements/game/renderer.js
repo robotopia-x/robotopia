@@ -1,9 +1,8 @@
 const _ = require('lodash')
 const assets = require('@robotopia/assets-loader')
-const { getAllEntities, getEntity } = require('../../lib/game')
+const { getAllEntities, getEntity, interpolate } = require('@robotopia/choo-game')
 const { RENDERER } = require('../../lib/utils/types')
 const { ORIENTATION } = require('../../lib/utils/types')
-const { interpolate } = require('../../lib/game')
 
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100

@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { getAllEntities } = require('../../../lib/game')
+const { getAllEntities } = require('@robotopia/choo-game')
 
 const task = {
   requires: ['team'],

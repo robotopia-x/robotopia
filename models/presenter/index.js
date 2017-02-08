@@ -2,15 +2,14 @@ const _ = require('lodash')
 const effects = require('./effects')
 const reducers = require('./reducers')
 const p2pPresenter = require('./p2p-presenter')
-const Clock = require('../../lib/time/clock')
+const Clock = require('@robotopia/clock')
 
 module.exports = ({ hubUrl }) => {
   const presenter = p2pPresenter({
     hubUrl
   })
 
-  const timer = new Clock()
-  timer.setIntervalDuration(1000)
+  const timer = new Clock(1000)
 
   return {
     namespace: 'presenter',

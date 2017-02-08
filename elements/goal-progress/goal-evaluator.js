@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { getEntity } = require('../../lib/game/index')
+const { getEntity } = require('@robotopia/choo-game')
 
 function checkGoal ({ goal, game, workspace }) {
   switch (goal.type) {

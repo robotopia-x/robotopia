@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
-const pathfinder = require('../../lib/utils/pathfinder')
+const pathfinder = require('./../../lib/pathfinder')
 const {
   getGameState,
   getEntity,
@@ -8,7 +8,7 @@ const {
   isFieldEmpty,
   findFieldNearPosition,
   findEmptyFieldNearPosition
-} = require('../../lib/game')
+} = require('@robotopia/choo-game')
 
 const SAVE_ZONE_SIZE = 4 // how far enemy towers have to build from base
 

@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { MOVE } = require('../../../lib/utils/types')
-const { isFieldEmpty } = require('../../../lib/game')
+const { isFieldEmpty } = require('@robotopia/choo-game')
 
 module.exports = {
   movable: {

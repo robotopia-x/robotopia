@@ -9,20 +9,23 @@
     ]
   },
   "dependencies": {
-    "blockly": "1.0.0",
-    "cache-element": "2.0.1",
-    "choo": "4.0.1",
+    "@robotopia/agent-runtime": "^1.0.0",
+    "@robotopia/assets-loader": "^1.0.0",
+    "@robotopia/choo-game": "^1.0.0",
+    "@robotopia/clock": "^1.0.0",
+    "blockly": "^1.0.0",
+    "cache-element": "^2.0.1",
+    "choo": "^4.0.1",
     "choo-component": "git+https://github.com/ohgoodlord/choo-component.git",
-    "classnames": "2.2.5",
-    "cuid": "1.3.8",
-    "esper.js": "0.1.7",
-    "immutability-helper": "2.0.0",
-    "lodash": "4.16.4",
+    "classnames": "^2.2.5",
+    "cuid": "^1.3.8",
+    "esper.js": "^0.1.7",
+    "immutability-helper": "^2.0.0",
+    "lodash": "^4.16.4",
     "pathfinding": "0.4.18",
     "peer-star": "git://github.com/robotopia-x/networking.git",
     "prep-fight": "git://github.com/robotopia-x/start_action_screen.git",
-    "raf": "3.3.0",
-    "sheetify": "5.1.1",
+    "sheetify": "^5.1.1",
     "uid": "0.0.2"
   },
   "devDependencies": {
@@ -37,7 +40,7 @@
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "budo --live --host -P localhost index.js:bundle.js --pushstate",
+    "start": "budo index.js:bundle.js --live --pushstate",
     "devhub": "signalhub listen -p 8042"
   },
   "repository": {
@@ -49,5 +52,6 @@
   "bugs": {
     "url": "https://github.com/hdm-project/robot-ide/issues"
   },
-  "homepage": "https://github.com/hdm-project/robot-ide#readme"
+  "homepage": "https://github.com/hdm-project/robot-ide#readme",
+  "private": true
 }

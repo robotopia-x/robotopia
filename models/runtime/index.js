@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
-const Runtime = require('../../lib/runtime/runtime')
+const Runtime = require('@robotopia/agent-runtime')
 const api = require('./robot-api')
 
 module.exports = () => {

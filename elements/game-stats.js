@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const { interpolate } = require('../lib/game')
+const { interpolate } = require('@robotopia/choo-game')
 
 const gameStatsPrefix = sf`
   :host {

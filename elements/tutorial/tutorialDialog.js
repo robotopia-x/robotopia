@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const { getGameState } = require('../../lib/game/index')
+const { getGameState } = require('@robotopia/choo-game')
 const { checkGoals } = require('../goal-progress/goal-evaluator')
 const buttonView = require('../button')
 const modalView = require('../modal')

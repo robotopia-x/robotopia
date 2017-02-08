@@ -1,8 +1,7 @@
 const _ = require('lodash')
 const uid = require('uid')
 const entities = require('../entities')
-const { isFieldEmpty } = require('../../../lib/game')
-const { hasEnoughResources } = require('../../../lib/game')
+const { isFieldEmpty, hasEnoughResources } = require('@robotopia/choo-game')
 
 const markerSpawner = {
   requires: ['position', 'team'],

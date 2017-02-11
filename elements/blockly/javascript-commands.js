@@ -80,6 +80,10 @@ Blockly.JavaScript.place_marker_ext = function (block) {
 
 /* EVENTS */
 
+Blockly.JavaScript.start_handler = function (block) {
+  return Blockly.JavaScript.statementToCode(block, 'body')
+}
+
 Blockly.JavaScript.marker_event_handler = function (block) {
   const type = block.getFieldValue('type')
   const statements = Blockly.JavaScript.statementToCode(block, 'body')

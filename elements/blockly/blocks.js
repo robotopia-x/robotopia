@@ -228,6 +228,21 @@ Blockly.Blocks.place_marker_ext = {
 
 /* EVENTS */
 
+Blockly.Blocks.start_handler = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('when start')
+
+    this.appendStatementInput('body')
+      .setCheck(null)
+
+    this.set
+
+    this.setColour(20)
+    this.setTooltip('code which is executed when programm starts')
+  }
+}
+
 Blockly.Blocks.marker_event_handler = {
   init: function () {
     this.appendDummyInput()

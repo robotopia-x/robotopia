@@ -28,7 +28,7 @@ const prefix = sf`
     position: absolute;
     top: -50px;
     left: -130px;
-    background: url('../../assets/img/rick-avatar.png');
+    background: url('assets/img/rick-avatar.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -55,7 +55,7 @@ const prefix = sf`
     padding-left: 50px;
     display: inline-block;
     background-color: #fcf8e3;
-    background-image: url(../../assets/icons/info.svg);
+    background-image: url('assets/icons/info.svg');
     background-size: 32px 32px;
     background-position: 10px center;
     background-repeat: no-repeat;
@@ -70,11 +70,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
-      const nextLevelButtonInfo = getNextLevelButton(send, level)
-      const nextLevelButton = buttonView({
-        label: nextLevelButtonInfo.text,
-        onClick: nextLevelButtonInfo.callback
-      })
+      const nextLevelButtonHtml = getNextLevelButton(send, level)
 
       return modalView(html`
         <div class="${prefix} animated content">
@@ -90,7 +86,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
             </div>
           </div>
           <br>
-          ${nextLevelButton}
+          ${nextLevelButtonHtml}
         </div>
       `)
     }
@@ -142,16 +138,16 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 
 function getNextLevelButton (send, level) {
   if (level.nextTutorial) {
-    return {
-      text: 'Next Level',
-      callback: () => send('location:set', `/tutorial/${level.nextTutorial}`)
-    }
+    return buttonView({
+      label: 'Next Level',
+      onClick: () => send('location:set', `/tutorial/${level.nextTutorial}`)
+    })
   }
 
-  return {
-    text: 'Load Editor',
-    callback: () => send('location:set', '/editor')
-  }
+  return buttonView({
+    label: 'Load Editor',
+    onClick: () => send('location:set', '/editor')
+  })
 }
 
 module.exports = winningCondition

@@ -35,14 +35,15 @@
     "babelify": "^7.3.0",
     "browserify-hmr": "^0.3.5",
     "budo": "^9.4.5",
-    "standard": "^8.5.0"
+    "standard": "^8.5.0",
+    "surge": "^0.18.0"
   },
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
     "start": "budo index.js:bundle.js --live --pushstate --dir ../robotopia",
-    "build": "browserify index.js -t sheetify/transform -t [ babelify --presets [ es2015 stage-2 ] ] > | bundle.js",
-    "babel": "babel"
+    "build": "browserify index.js -t sheetify/transform -t [ babelify --presets [ es2015 stage-2 ] ] > bundle.js",
+    "deploy": "npm run build && surge"
   },
   "repository": {
     "type": "git",

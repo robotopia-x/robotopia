@@ -26,7 +26,7 @@ const prefix = sf`
   :host > .logo {
     width: 100%;
     height: 35%;
-    background-image: url('../assets/icons/robotopia.svg');
+    background-image: url('assets/icons/robotopia.svg');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -56,7 +56,7 @@ const overviewView = (state, prev, send) => {
   const tutorialLinks = getAllTutorialRoutes()
   const editorButton = buttonView({
     label: 'Load Editor',
-    onClick: () => send('location:set', '/#editor')
+    onClick: () => send('location:set', '/editor')
   })
 
   return html`

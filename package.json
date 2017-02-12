@@ -9,17 +9,16 @@
     ]
   },
   "dependencies": {
-    "@robotopia/agent-runtime": "^1.0.0",
-    "@robotopia/assets-loader": "^1.0.0",
-    "@robotopia/choo-game": "^1.0.0",
-    "@robotopia/clock": "^1.0.0",
+    "@robotopia/agent-runtime": "^1.0.1",
+    "@robotopia/assets-loader": "^1.0.1",
+    "@robotopia/choo-game": "^1.0.1",
+    "@robotopia/clock": "^1.0.2",
     "blockly": "^1.0.0",
     "cache-element": "^2.0.1",
     "choo": "^4.0.1",
     "choo-component": "git+https://github.com/ohgoodlord/choo-component.git",
     "classnames": "^2.2.5",
     "cuid": "^1.3.8",
-    "esper.js": "^0.1.7",
     "immutability-helper": "^2.0.0",
     "lodash": "^4.16.4",
     "pathfinding": "0.4.18",
@@ -29,19 +28,22 @@
     "uid": "0.0.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-stage-2": "^6.17.0",
     "babelify": "^7.3.0",
     "browserify-hmr": "^0.3.5",
     "budo": "^9.4.5",
-    "signalhub": "^4.8.0",
-    "standard": "^8.5.0"
+    "standard": "^8.5.0",
+    "surge": "^0.18.0"
   },
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "budo index.js:bundle.js --live --pushstate",
-    "devhub": "signalhub listen -p 8042"
+    "start": "budo index.js:bundle.js --live --pushstate --dir ../robotopia",
+    "build": "browserify index.js -t sheetify/transform -t [ babelify --presets [ es2015 stage-2 ] ] > bundle.js",
+    "deploy": "npm run build && surge"
   },
   "repository": {
     "type": "git",

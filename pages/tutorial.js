@@ -1,5 +1,4 @@
 const html = require('choo/html')
-const sf = require('sheetify')
 const pageLayout = require('../elements/page-layout')
 const gameView = require('../elements/game/index')
 const tutorialDialogView = require('../elements/tutorial/tutorialDialog')

@@ -31,7 +31,7 @@ function disableBlockIfNotConnected (block) {
 _.forEach([
   'logic_boolean', 'logic_negate',
   'controls_if', 'controls_repeat', 'controls_repeat_ext', 'controls_whileUntil',
-  'math_number', 'math_arithmetic',
+  'math_number', 'math_arithmetic'
 ], (blockName) => {
   Blockly.Blocks[blockName].onchange = function () {
     disableBlockIfNotConnected(this)

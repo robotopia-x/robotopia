@@ -10,10 +10,15 @@ npm install
 
 ```
 
-
 # Development
 
 ```bash
 npm start
 
+```
+
+# Deployment
+
+```bash
+npm deploy
 ```

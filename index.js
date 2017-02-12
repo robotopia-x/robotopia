@@ -1,5 +1,5 @@
 const P2P_CONFIG = {
-  hubUrl: 'http://localhost:8042'
+  hubUrl: 'https://signalhub.perguth.de:65300/'
 }
 
 const _ = require('lodash')
@@ -46,22 +46,22 @@ app.router({ default: '/' }, [
 ])
 
 assets.load({
-  WATER_TILE: '../assets/img/tiles/water-tile.png',
-  DIRT_TILE: '../assets/img/tiles/dirt-tile.png',
-  GRASS_TILE: '../assets/img/tiles/grass-tile.png',
-  PLAIN_TILE: '../assets/img/tiles/plain-tile.png',
-  STONE_TILE: '../assets/img/tiles/stone-tile.png',
-  GEM: '../assets/img/gem-blue.png',
-  ROBOT_FRONT_TEAM_1: '../assets/img/cyborg/cyborg-morty-front.png',
-  ROBOT_LEFT_TEAM_1: '../assets/img/cyborg/cyborg-morty-left.png',
-  ROBOT_BACK_TEAM_1: '../assets/img/cyborg/cyborg-morty-back.png',
-  ROBOT_RIGHT_TEAM_1: '../assets/img/cyborg/cyborg-morty-right.png',
-  ROBOT_FRONT_TEAM_2: '../assets/img/robot/robot-morty-front.png',
-  ROBOT_LEFT_TEAM_2: '../assets/img/robot/robot-morty-left.png',
-  ROBOT_BACK_TEAM_2: '../assets/img/robot/robot-morty-back.png',
-  ROBOT_RIGHT_TEAM_2: '../assets/img/robot/robot-morty-right.png',
-  BASE: '../assets/img/base.png',
-  TOWER: '../assets/img/tower.png'
+  WATER_TILE: 'assets/img/tiles/water-tile.png',
+  DIRT_TILE: 'assets/img/tiles/dirt-tile.png',
+  GRASS_TILE: 'assets/img/tiles/grass-tile.png',
+  PLAIN_TILE: 'assets/img/tiles/plain-tile.png',
+  STONE_TILE: 'assets/img/tiles/stone-tile.png',
+  GEM: 'assets/img/gem-blue.png',
+  ROBOT_FRONT_TEAM_1: 'assets/img/cyborg/cyborg-morty-front.png',
+  ROBOT_LEFT_TEAM_1: 'assets/img/cyborg/cyborg-morty-left.png',
+  ROBOT_BACK_TEAM_1: 'assets/img/cyborg/cyborg-morty-back.png',
+  ROBOT_RIGHT_TEAM_1: 'assets/img/cyborg/cyborg-morty-right.png',
+  ROBOT_FRONT_TEAM_2: 'assets/img/robot/robot-morty-front.png',
+  ROBOT_LEFT_TEAM_2: 'assets/img/robot/robot-morty-left.png',
+  ROBOT_BACK_TEAM_2: 'assets/img/robot/robot-morty-back.png',
+  ROBOT_RIGHT_TEAM_2: 'assets/img/robot/robot-morty-right.png',
+  BASE: 'assets/img/base.png',
+  TOWER: 'assets/img/tower.png'
 }).then(() => {
   document.body.appendChild(app.start({hash: true}))
 })

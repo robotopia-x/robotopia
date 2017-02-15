@@ -23,7 +23,11 @@ module.exports = {
   },
 
   editor: {
-    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
 
     toolbox: `
       <xml id="toolbox" style="display: none">
@@ -60,8 +64,7 @@ module.exports = {
 
   storyModal: {
     text: 'Looks like we need a lot of blocks to get to the grass field Morty. Good thing I added a new repeat block which let\'s the robot do commands multiple times.',
-    hint: 'You can also do this without the repeat block.',
-    img: '../../assets/img/tutorials/simple-loops.png'
+    hint: 'You can also do this without the repeat block.'
   },
 
   nextTutorial: 'nested-loops-1'

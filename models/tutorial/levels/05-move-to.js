@@ -22,7 +22,11 @@ module.exports = {
   },
 
   editor: {
-    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
 
     toolbox: `
       <xml id="toolbox" style="display: none">
@@ -52,8 +56,7 @@ module.exports = {
 
   storyModal: {
     text: 'This is getting out of hand Morty. I added a new command which let\'s you tell the robot the exact position you want it to move to. Try it out!',
-    hint: 'Observe the behaviour of the move to block.',
-    img: '../../assets/img/tutorials/move-to.png'
+    hint: 'Observe the behaviour of the move to block.'
   },
 
   nextTutorial: 'collect-5-resources'

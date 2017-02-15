@@ -105,7 +105,6 @@ const editor = {
         
         <category name="Events" colour="20">
           <block type="resource_event_handler"></block>
-          <block type="start_handler"></block>
           <block type="marker_event_handler"></block>
         </category>
    </xml>`

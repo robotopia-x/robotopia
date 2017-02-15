@@ -23,7 +23,11 @@ module.exports = {
   },
 
   editor: {
-    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
 
     toolbox: `
       <xml id="toolbox" style="display: none">
@@ -75,7 +79,6 @@ module.exports = {
 
   storyModal: {
     text: 'Let\'s get the robot to do some actual work for us. Move it to the resource spot, collect some resources and deposit them back at the base.',
-    hint: 'The robot can only carry 10 resource at a time',
-    img: '../../assets/img/tutorials/collect-5-resources.png'
+    hint: 'The robot can only carry 10 resource at a time'
   }
 }

@@ -115,8 +115,6 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
             ${story.text}            
           </p>
           
-          ${story.img ? html`<img class="img" src="${story.img}"/>` : html``}
-          
          ${hintHtml}
           
           <div class="goals">

@@ -16,7 +16,11 @@ module.exports = {
   },
 
   editor: {
-    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
 
     toolbox: `
     <xml id="toolbox" style="display: none">
@@ -52,8 +56,7 @@ module.exports = {
   ],
 
   storyModal: {
-    text: 'I think we are going to need even more repeat blocks for this one Morty. Can you find the shortest solution?',
-    img: '../../assets/img/tutorials/complex-loops-2.png'
+    text: 'I think we are going to need even more repeat blocks for this one Morty. Can you find the shortest solution?'
   },
 
   nextTutorial: 'move-to'

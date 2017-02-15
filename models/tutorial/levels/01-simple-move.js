@@ -15,7 +15,11 @@ module.exports = {
   },
 
   editor: {
-    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
 
     toolbox: `
       <xml id="toolbox" style="display: none">
@@ -46,8 +50,7 @@ module.exports = {
 
   storyModal: {
     text: 'Hey Morty, I build this robot to help us on our space adventures. I need your help programming it. Can you make it move to the grass field.',
-    hint: 'Instead of the rotate block you can also only use move blocks with the different directions',
-    img: '../../assets/img/tutorials/simple-move.png'
+    hint: 'Instead of the rotate block you can also only use move blocks with the different directions'
   },
 
   nextTutorial: 'simple-loops'

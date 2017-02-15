@@ -41,7 +41,7 @@ function editorView (state, prev, send) {
 
   const blocklyHtml = blocklyView({
     toolbox: initialState.editor.toolbox,
-    workspace: localStorage.getItem('workspace') || editor.workspace,
+    workspace: localStorage.getItem('workspace') || initialState.editor.workspace || editor.workspace,
     onChange: ({ code, workspace }) => {
       localStorage.setItem('workspace', workspace)
       send('editor:update', { code, workspace })

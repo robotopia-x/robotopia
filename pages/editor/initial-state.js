@@ -49,6 +49,12 @@ const game = {
 }
 
 const editor = {
+  workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
+
   toolbox: `
     <xml id="toolbox" style="display: none">
         <category name="Logic" colour="210">
@@ -97,6 +103,7 @@ const editor = {
         
         <category name="Events" colour="20">
           <block type="resource_event_handler"></block>
+          <block type="start_handler"></block>
           <block type="marker_event_handler"></block>
         </category>
    </xml>`

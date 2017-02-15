@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 /* global Blockly */
 // adds the bow on top of event blocks
 Blockly.BlockSvg.START_HAT = true
@@ -7,10 +9,39 @@ Blockly.BlockSvg.START_HAT = true
 Blockly.HSV_SATURATION = 0.7
 Blockly.HSV_VALUE = 0.75
 
+function disableBlockIfNotConnected (block) {
+  const parent = block.getParent()
+
+  // ignore blocks which are inside of toolbar
+  if (block.isInFlyout) {
+    return
+  }
+
+  if (parent === null && block.disabled === false) {
+    block.setDisabled(true)
+    return
+  }
+
+  if (parent !== null && block.disabled === true) {
+    block.setDisabled(false)
+  }
+}
+
+/* add onchange handler to existing blocks */
+_.forEach([
+  'logic_boolean', 'logic_negate',
+  'controls_if', 'controls_repeat', 'controls_repeat_ext', 'controls_whileUntil',
+  'math_number', 'math_arithmetic'
+], (blockName) => {
+  Blockly.Blocks[blockName].onchange = function () {
+    disableBlockIfNotConnected(this)
+  }
+})
+
 /* MATH */
 
 Blockly.Blocks.random_number_ext = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Random between')
 
@@ -25,11 +56,15 @@ Blockly.Blocks.random_number_ext = {
     this.setOutput(true, 'Number')
     this.setColour(230)
     this.setTooltip('generates a random number between min and max')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.random_number = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Random between')
       .appendField(new Blockly.FieldNumber(1), 'min')
@@ -40,13 +75,17 @@ Blockly.Blocks.random_number = {
     this.setOutput(true, 'Number')
     this.setColour(230)
     this.setTooltip('generates a random number between min and max')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 /* MOVE */
 
 Blockly.Blocks.move = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move')
       .appendField(
@@ -63,11 +102,15 @@ Blockly.Blocks.move = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(40)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.rotate = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Rotate')
       .appendField(new Blockly.FieldDropdown([
@@ -79,11 +122,15 @@ Blockly.Blocks.rotate = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(40)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.move_to = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move to  x:')
       .appendField(new Blockly.FieldNumber(0), 'x')
@@ -95,11 +142,15 @@ Blockly.Blocks.move_to = {
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
     this.setColour(40)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.move_to_ext = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move to')
 
@@ -116,11 +167,15 @@ Blockly.Blocks.move_to_ext = {
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
     this.setColour(40)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.move_to_entity = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move to')
       .appendField(
@@ -137,13 +192,17 @@ Blockly.Blocks.move_to_entity = {
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position of selected entity')
     this.setColour(40)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 /* ACTIONS */
 
 Blockly.Blocks.collect_resource = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Collect resource')
 
@@ -151,11 +210,15 @@ Blockly.Blocks.collect_resource = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(50)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.deposit_resource = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Deposit resource')
 
@@ -163,11 +226,15 @@ Blockly.Blocks.deposit_resource = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(50)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.build_tower = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Build tower')
 
@@ -175,11 +242,15 @@ Blockly.Blocks.build_tower = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(50)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.place_marker = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Place')
       .appendField(new Blockly.FieldDropdown([
@@ -197,11 +268,15 @@ Blockly.Blocks.place_marker = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(50)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.place_marker_ext = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Place')
       .appendField(new Blockly.FieldDropdown([
@@ -223,13 +298,30 @@ Blockly.Blocks.place_marker_ext = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setColour(50)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 /* EVENTS */
 
+Blockly.Blocks.start_handler = {
+  init () {
+    this.appendDummyInput()
+      .appendField('when start')
+
+    this.appendStatementInput('body')
+      .setCheck(null)
+
+    this.setColour(20)
+    this.setTooltip('code which is executed when programm starts')
+  }
+}
+
 Blockly.Blocks.marker_event_handler = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('when')
       .appendField(
@@ -256,7 +348,7 @@ Blockly.Blocks.marker_event_handler = {
 }
 
 Blockly.Blocks.resource_event_handler = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('when resource is discovered')
 

@@ -5,13 +5,14 @@ const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
 const { goalProgressView } = require('../elements/goal-progress')
 const blocklyWidget = require('../elements/blockly')
 const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
+const { instructionView } = require('../elements/instructions')
 
 const blocklyView = blocklyWidget()
 
 const tutorialView = (state, prev, send) => {
   const { game, clock, editor, tutorial, location } = state
   let toolbox = editor.toolbox
-  let goalProgressHtml
+  let goalHtml
 
   // we need to check if level param has changed because onLoad will not be triggered if tutorial page
   // has already been loaded
@@ -19,10 +20,12 @@ const tutorialView = (state, prev, send) => {
     initLevel()
   }
 
+  const instructionHtml = instructionView()
+
   if (tutorial.level !== null) {
     toolbox = tutorial.level.editor.toolbox
 
-    goalProgressHtml = goalProgressView({
+    goalHtml = goalProgressView({
       display: !tutorial.isStoryModalOpen,
       game: game.prev,
       goals: tutorial.level.goals,
@@ -77,11 +80,12 @@ const tutorialView = (state, prev, send) => {
     },
 
     panels: [
-      blocklyHtml,
       [
-        gameHtml,
-        goalProgressHtml
-      ]
+        instructionHtml,
+        goalHtml
+      ],
+      blocklyHtml,
+      gameHtml
     ]
   })
 

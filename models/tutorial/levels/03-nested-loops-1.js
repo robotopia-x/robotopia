@@ -16,7 +16,11 @@ module.exports = {
   },
 
   editor: {
-    workspace: '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>',
+    workspace: `
+    <xml xmlns="http://www.w3.org/1999/xhtml">
+      <block type="start_handler" id="!o0D0w#D7c3RJ_[d[KgX" x="50" y="50" deletable="false"></block>
+    </xml>
+  `,
 
     toolbox: `
       <xml id="toolbox" style="display: none">
@@ -53,8 +57,7 @@ module.exports = {
 
   storyModal: {
     text: 'Things are getting a little bit more complicated Morty ... Good thing you now know how to use repeat blocks. Do you see the pattern?',
-    hint: 'Try nesting loops to get the shortest possible solution',
-    img: '../../assets/img/tutorials/complex-loops-1.png'
+    hint: 'Try nesting loops to get the shortest possible solution'
   },
 
   nextTutorial: 'nested-loops-2'

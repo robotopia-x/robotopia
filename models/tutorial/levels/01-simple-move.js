@@ -49,6 +49,12 @@ module.exports = {
     }
   ],
 
+  instructions: [
+    'Drag the move block out of the side bar.',
+    'Stack the blocks on top of each other to create the logic',
+    'You can delete a block by either dragging it into the bin (bottom right) or into the sidebar'
+  ],
+
   storyModal: {
     text: 'Hey Morty, I build this robot to help us on our space adventures. I need your help programming it. Can you make it move to the grass field.',
     hint: 'Instead of the rotate block you can also only use move blocks with the different directions'

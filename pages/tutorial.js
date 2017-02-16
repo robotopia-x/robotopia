@@ -20,7 +20,7 @@ const tutorialView = (state, prev, send) => {
     initLevel()
   }
 
-  const instructionHtml = instructionView()
+  const instructionHtml = instructionView(tutorial)
 
   if (tutorial.level !== null) {
     toolbox = tutorial.level.editor.toolbox

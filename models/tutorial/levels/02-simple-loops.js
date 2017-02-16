@@ -1,8 +1,10 @@
+const { ORIENTATION } = require('../../../lib/utils/types')
 const entities = require('../../../models/game/entities')
 
 module.exports = {
   game: {
     tiles: [
+      [4, 3],
       [4, 1],
       [4, 1],
       [4, 1],
@@ -13,12 +15,11 @@ module.exports = {
       [4, 1],
       [4, 1],
       [4, 1],
-      [4, 1],
-      [4, 3]
+      [4, 1]
     ],
 
     entities: [
-      entities.robot({ x: 0, y: 0, id: 'ROBOT' })
+      entities.tutorialRobot({ x: 0, y: 11, id: 'ROBOT', orientation: ORIENTATION.BACK })
     ]
   },
 
@@ -50,7 +51,7 @@ module.exports = {
   goals: [
     {
       type: 'moveTo',
-      params: { position: { x: 1, y: 11 }, entity: 'ROBOT' },
+      params: { position: { x: 1, y: 0 }, entity: 'ROBOT' },
       desc: 'Move Morty to the grass',
       isMandatory: true
     },
@@ -60,6 +61,11 @@ module.exports = {
       desc: 'Use at most 4 blocks',
       isMandatory: false
     }
+  ],
+
+  instructions: [
+    'Drag and drop the Repeat Block out of the side bar',
+    'Solve this riddle with the given loop block'
   ],
 
   storyModal: {

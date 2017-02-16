@@ -20,10 +20,10 @@ module.exports = {
     }
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, hasResource }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource }) => ({
     id,
     team: { id: teamId },
-    position: { x, y, rotation: 0 },
+    position: { x, y, rotation: orientation },
     movable: {},
     discoverer: { range: 3 },
     collector: { hasResource: hasResource },

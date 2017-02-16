@@ -45,21 +45,6 @@ const prefix = sf`
      border-right: 26px solid #dedede;
      border-bottom: 13px solid transparent;
   }
-  
-  :host > .story-hint {
-    width: 100%;
-    color: #8a6d3b;
-    border: 1px solid #faebcc;
-    padding: 15px;
-    border-radius: 3px;
-    padding-left: 50px;
-    display: inline-block;
-    background-color: #fcf8e3;
-    background-image: url('assets/icons/info.svg');
-    background-size: 32px 32px;
-    background-position: 10px center;
-    background-repeat: no-repeat;
-  }
 `
 
 const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
@@ -114,8 +99,6 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
           <p class="story-text">
             ${story.text}            
           </p>
-          
-         ${hintHtml}
           
           <div class="goals">
             <div>

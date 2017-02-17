@@ -8,8 +8,9 @@
 ...
 
 ## Installation
+> Make sure to use Google Chrome
+
 *You can find the most recent version here: [Robotopia](https://robotopia.surge.sh)*
-###### Make sure to use Google Chrome
 
 ```bash
 git clone https://github.com/robotopia-x/robotopia.git

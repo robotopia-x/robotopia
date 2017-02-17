@@ -63,14 +63,18 @@ module.exports = {
     }
   ],
 
-  instructions: [
-    'Drag and drop the Repeat Block out of the side bar',
-    'Solve this riddle with the given loop block'
-  ],
+  instructions: {
+    img: '../../assets/img/tutorials/simple-loops.png',
+    desc: [
+      'Drag and drop the Repeat Block out of the side bar',
+      'Solve this riddle with the given loop block'
+    ]
+  },
 
   storyModal: {
     text: 'Looks like we need a lot of blocks to get to the grass field Morty. Good thing I added a new repeat block which let\'s the robot do commands multiple times.',
-    hint: 'You can also do this without the repeat block.'
+    hint: 'You can also do this without the repeat block.',
+    unlockedBlock: { name: '...', src: '../../' }
   },
 
   nextTutorial: 'nested-loops-1'

@@ -45,6 +45,14 @@ const prefix = sf`
      border-right: 26px solid #dedede;
      border-bottom: 13px solid transparent;
   }
+  
+  :host > .unlocked {
+    
+  }
+  
+  :host > .unlocked > . unlockedBlock {
+  
+  }
 `
 
 const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
@@ -59,7 +67,11 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 
       return modalView(html`
         <div class="${prefix} animated content">
-          <h1>Congratulations, you finished the level!</h1>  
+          <h1>Congratulations, you finished the level!</h1>
+          <div class="unlocked">
+            <h3>You just unlocked the ${story.unlockedBlock.name}-Block!</h3>
+            ${story.unlockedBlock ? html`<img class="unlockedBlock" src="${story.unlockedBlock.src}>"}` : html``}
+          </div>
           <div class="goals">
             <div>
               <h5>Goals: </h5>
@@ -70,8 +82,6 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
           </div>
-          ${story.unlockedBlock.name}
-          ${story.unlockedBlock ? html`<img class="unlockedBlock" src="${story.unlockedBlock.src}>"}` : html``}
           <br>
           ${nextLevelButtonHtml}
         </div>

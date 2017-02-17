@@ -70,6 +70,8 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
           </div>
+          ${story.unlockedBlock.name}
+          ${story.unlockedBlock ? html`<img class="unlockedBlock" src="${story.unlockedBlock.src}>"}` : html``}
           <br>
           ${nextLevelButtonHtml}
         </div>

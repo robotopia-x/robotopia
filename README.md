@@ -7,7 +7,7 @@
 ## Features
 ...
 
-### Installation
+## Installation
 *You can find the most recent version here: [Robotopia](https://robotopia.surge.sh)*
 ###### Make sure to use Google Chrome
 

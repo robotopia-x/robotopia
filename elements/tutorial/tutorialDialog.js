@@ -47,11 +47,13 @@ const prefix = sf`
   }
   
   :host > .unlocked {
-    
+    width: 100%;
+    text-align: center;
   }
   
   :host > .unlocked > . unlockedBlock {
-  
+    border: 2px solid #404040;
+    width: 75%;
   }
 `
 

@@ -8,9 +8,6 @@ const prefix = sf`
     width: 100%;
     padding: 25px;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
   }
   
   :host > .instructImg {

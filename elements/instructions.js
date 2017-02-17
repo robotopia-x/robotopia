@@ -13,13 +13,8 @@ const prefix = sf`
     justify-content: space-around;
   }
   
-  :host > .rick {
-    width: 50%;
-    height: 30%;
-    background: url('assets/img/rick-avatar.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+  :host > .instructImg {
+    width: 100%;
   }
   
   :host > .instructContainer > .instructionList {
@@ -36,7 +31,7 @@ const prefix = sf`
   }
   
   :host .story-hint {
-    width: 100%;
+    width: 50%;
     color: #8a6d3b;
     border: 1px solid #faebcc;
     padding: 15px;
@@ -54,6 +49,8 @@ const prefix = sf`
 function instructionView ({ level }) {
   if (level) {
     const story = level.storyModal
+    const instructions = level.instructions
+
     let hintHtml
     let instructionHtml
 
@@ -65,20 +62,20 @@ function instructionView ({ level }) {
         `
     }
 
-    if (level.instructions) {
-      instructionHtml = html`<ul class="instructionList">${_.map(level.instructions, 
+    if (instructions) {
+      instructionHtml = html`<ul class="instructionList">${_.map(instructions.desc, 
         instruction => html`<li>- ${instruction}</li>`)}</ul>`
     }
 
     return html`
       <div class="${prefix}">
         <h1>${level.label}</h1>
-        <div class="rick"></div>
+        <p>${hintHtml}</p>
         <div class="instructContainer">
           <h3 class="instructionHeading">Instructions:</h3>
           ${instructionHtml}
         </div>
-        <p>${hintHtml}</p>
+        ${instructions.img ? html`<img src="${instructions.img}" class="instructImg">` : html``}
       </div>
     `
   }

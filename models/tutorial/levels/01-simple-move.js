@@ -27,6 +27,8 @@ module.exports = {
         <category name="Movement" colour="40">
           <block type="move"></block>
           <block type="rotate"></block>
+          <block type="math_number"></block>
+          <block type="move_to_ext"></block>
         </category>
       </xml>
     `

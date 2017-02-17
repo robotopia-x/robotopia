@@ -51,9 +51,10 @@ const prefix = sf`
     text-align: center;
   }
   
-  :host > .unlocked > . unlockedBlock {
-    border: 2px solid #404040;
-    width: 75%;
+  :host > .unlocked > .unlockedBlock {
+    border: 5px solid #DDDDDD;
+    border-radius: 20px;
+    width: 50%;
   }
 `
 
@@ -66,14 +67,21 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
       const nextLevelButtonHtml = getNextLevelButton(send, level)
+      let unlockedHtml
+
+      if (story.unlockedBlock) {
+        unlockedHtml = html`
+            <div class="unlocked">
+              <h3>You just unlocked the ${story.unlockedBlock.name}-Block!</h3>
+              <img class="unlockedBlock" src="${story.unlockedBlock.img}"}>
+            </div>
+          `
+      }
 
       return modalView(html`
         <div class="${prefix} animated content">
           <h1>Congratulations, you finished the level!</h1>
-          <div class="unlocked">
-            <h3>You just unlocked the ${story.unlockedBlock.name}-Block!</h3>
-            ${story.unlockedBlock ? html`<img class="unlockedBlock" src="${story.unlockedBlock.src}>"}` : html``}
-          </div>
+          ${unlockedHtml}
           <div class="goals">
             <div>
               <h5>Goals: </h5>

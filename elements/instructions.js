@@ -68,11 +68,11 @@ function instructionView ({ level }) {
       <div class="${prefix}">
         <h1>${level.label}</h1>
         <p>${hintHtml}</p>
+        ${instructions.img ? html`<img src="${instructions.img}" class="instructImg">` : html``}
         <div class="instructContainer">
           <h3 class="instructionHeading">Instructions:</h3>
           ${instructionHtml}
         </div>
-        ${instructions.img ? html`<img src="${instructions.img}" class="instructImg">` : html``}
       </div>
     `
   }

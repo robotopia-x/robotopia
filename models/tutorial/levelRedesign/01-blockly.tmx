@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1" height="4" tilewidth="100" tileheight="80" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1" height="5" tilewidth="100" tileheight="80" nextobjectid="1">
  <tileset firstgid="1" name="tiles" tilewidth="101" tileheight="171" tilecount="5" columns="0">
   <tileoffset x="0" y="45"/>
   <tile id="0">
@@ -18,9 +18,10 @@
    <image width="101" height="171" source="../../../assets/img/tiles/stone-tile.png"/>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="1" height="4">
+ <layer name="Tile Layer 1" width="1" height="5">
   <data encoding="csv">
 4,
+3,
 3,
 3,
 3

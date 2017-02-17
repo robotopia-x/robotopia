@@ -57,7 +57,8 @@ module.exports = {
 
   storyModal: {
     text: 'Hey Morty, I build this robot to help us on our space adventures. I need your help programming it. Can you make it move to the grass field.',
-    hint: 'Instead of the rotate block you can also only use move blocks with the different directions'
+    hint: 'Instead of the rotate block you can also only use move blocks with the different directions',
+    unlockedBlock: { name: 'loops', src: '../../'}
   },
 
   nextTutorial: 'simple-loops'

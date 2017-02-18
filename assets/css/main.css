@@ -23,6 +23,7 @@ input {
   100% {
     transform: translateY(0%);
   }
+}
 
 canvas {
   -webkit-touch-callout: none;

@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
-const levels = require('./levels')
+const levels = require('../../assets/tutorial')
 
 module.exports = {
   namespace: 'tutorial',

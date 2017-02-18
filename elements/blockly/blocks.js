@@ -131,9 +131,7 @@ Blockly.Blocks.move = {
       .appendField(
         new Blockly.FieldDropdown([
           ['⇧ Forward ', 'FORWARD'],
-          ['⇦ Left', 'LEFT'],
-          ['⇩ Backward', 'BACKWARD'],
-          ['⇨ Right', 'RIGHT']
+          ['⇩ Backward', 'BACKWARD']
         ]),
         'move'
       )

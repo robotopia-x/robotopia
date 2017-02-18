@@ -3,20 +3,20 @@
  <tileset firstgid="1" name="tiles" tilewidth="101" tileheight="171" tilecount="5" columns="0">
   <tileoffset x="0" y="45"/>
   <tile id="0">
-   <image width="101" height="171" source="../../../assets/img/tiles/water-tile.png"/>
-  </tile>
-  <tile id="1">
-   <image width="101" height="171" source="../../../assets/img/tiles/dirt-tile.png"/>
-  </tile>
-  <tile id="2">
-   <image width="101" height="171" source="../../../assets/img/tiles/grass-tile.png"/>
-  </tile>
-  <tile id="3">
-   <image width="101" height="171" source="../../../assets/img/tiles/plain-tile.png"/>
-  </tile>
-  <tile id="4">
-   <image width="101" height="171" source="../../../assets/img/tiles/stone-tile.png"/>
-  </tile>
+     <image width="101" height="171" source="../img/tiles/water-tile.png"/>
+    </tile>
+    <tile id="1">
+     <image width="101" height="171" source="../img/tiles/dirt-tile.png"/>
+    </tile>
+    <tile id="2">
+     <image width="101" height="171" source="../img/tiles/grass-tile.png"/>
+    </tile>
+    <tile id="3">
+     <image width="101" height="171" source="../img/tiles/plain-tile.png"/>
+    </tile>
+    <tile id="4">
+     <image width="101" height="171" source="../img/tiles/stone-tile.png"/>
+    </tile>
  </tileset>
  <layer name="Tile Layer 1" width="25" height="25">
   <data encoding="csv">

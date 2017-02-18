@@ -80,7 +80,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
@@ -124,7 +124,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>

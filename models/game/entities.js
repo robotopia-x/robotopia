@@ -6,7 +6,7 @@ module.exports = {
       max: 5
     },
     team: { id: teamId },
-    position: { x, y, rotation: 0 },
+    position: { x, y, rotation: 2 },
     movable: {},
     discoverer: { range: 3 },
     markerSpawner: {},
@@ -23,7 +23,7 @@ module.exports = {
   tutorialRobot: ({ id, x, y, teamId, hasResource }) => ({
     id,
     team: { id: teamId },
-    position: { x, y, rotation: 0 },
+    position: { x, y, rotation: 2 },
     movable: {},
     discoverer: { range: 3 },
     collector: { hasResource: hasResource },

@@ -38,6 +38,7 @@ const tutorialView = (state, prev, send) => {
       send('runtime:destroyRobot', { id: 'ROBOT' })
       send('runtime:createRobot', { id: 'ROBOT', groupId: 1 })
       send('clock:start')
+      send('tutorial:resetClock')
     },
     onStop: () => {
       send('clock:stop')

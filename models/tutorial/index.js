@@ -8,7 +8,8 @@ module.exports = {
 
   state: {
     level: null,
-    isStoryModalOpen: true
+    isStoryModalOpen: true,
+    time: 0
   },
 
   reducers: {
@@ -23,6 +24,19 @@ module.exports = {
       return update(state, {
         isStoryModalOpen: { $set: open }
       })
+    },
+
+    clockStepDone: (state, data) => {
+      return update(state, {
+        time: { $set: state.time + 1 }
+      })
+    },
+
+    resetClock: (state, data) => {
+      return update(state, {
+        time: { $set: 0 }
+      })
+
     }
   },
 

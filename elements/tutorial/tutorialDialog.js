@@ -72,6 +72,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
       const nextLevelButtonHtml = getNextLevelButton(send, level)
 
+      if (level.onFinish) level.onFinish({ gameState, workspace} )
+
+      send('clock:stop')
+
       return modalView(html`
         <div class="${prefix} animated content">
           <h1>Congratulations, you finished the level!</h1>  

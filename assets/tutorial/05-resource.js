@@ -1,6 +1,7 @@
 const entities = require('../../models/game/entities')
 
 const timeLimit = 10
+const DEFAULT_WORKSPACE = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="start_handler" x="50" y="50" deletable="false"></block></xml>`
 
 module.exports = () => {
   return {
@@ -34,52 +35,14 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', teamId: 1, discoverRange: 2})
+        entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', teamId: 1, discoverRange: 1})
       ]
     },
 
     ressources: 10,
 
     editor: {
-      workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="start_handler" x="50" y="50" deletable="false">
-  <statement name="body">
-    <block type="controls_repeat">
-      <field name="TIMES">3</field>
-      <statement name="DO">
-        <block type="controls_if">
-          <value name="IF0">
-            <block type="logic_compare">
-              <field name="OP">EQ</field>
-              <value name="A">
-                <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
-                  <field name="min">1</field>
-                  <field name="max">5</field>
-                </block>
-              </value>
-              <value name="B">
-                <block type="math_number" id="nL#iBs7tFzsRy}-I%z3a">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-            </block>
-          </value>
-          <statement name="DO0">
-            <block type="rotate">
-              <field name="direction">LEFT</field>
-            </block>
-          </statement>
-          <next>
-            <block type="move">
-              <field name="move">FORWARD</field>
-            </block>
-          </next>
-        </block>
-      </statement>
-    </block>
-  </statement>
-</block>
-</xml>`,
+      workspace: getWorkspace(),
 
       toolbox: `<xml id="toolbox" style="display: none">
                 <category name="RemoveCategories" colour="40">
@@ -98,16 +61,10 @@ module.exports = () => {
 
     goals: [
       {
-        type: 'discoverEntityOfType',
-        params: {type: 'resource'},
-        desc: 'Make the Robot scout the map to find something interesting',
+        type: 'collectResources',
+        params: {amount: 10},
+        desc: 'Collect the resource and bring it back to the base',
         isMandatory: true
-      },
-      {
-        type: 'gameTimeLimit',
-        params: {timeInS: timeLimit},
-        desc: 'Find something within ' + timeLimit + ' seconds',
-        isMandatory: false
       }
     ],
 
@@ -117,13 +74,21 @@ module.exports = () => {
       img: 'assets/img/tutorials/simple-move.png'
     },
 
-    onFinish: ({gameState, workspace}) => {
-      localStorage.setItem('robot04', JSON.stringify({
-        workspace: workspace,
-        robot: gameState && gameState.current && gameState.current.entities ? JSON.stringify(gameState.current.entities.ROBOT) : null
-      }))
-    },
+    nextTutorial: ''
+  }
 
-    nextTutorial: 'resource'
+  function getWorkspace() {
+    let wsJSON
+    let prevTut = localStorage['robot04']
+    if (!prevTut) return DEFAULT_WORKSPACE
+    try {
+      wsJSON = JSON.parse(prevTut)
+      if (wsJSON && wsJSON.workspace) {
+        return wsJSON.workspace
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    return DEFAULT_WORKSPACE
   }
 }

@@ -13,7 +13,7 @@ module.exports = game.model({
   state: {
     tiles: [[]],
     entities: [],
-    resources: {}
+    teams: {}
   },
   components: {
     movable,

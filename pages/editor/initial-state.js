@@ -61,6 +61,7 @@ const editor = {
           <block type="logic_boolean"></block>          
           <block type="logic_negate"></block>
           <block type="controls_if"></block>
+          <block type="logic_compare"></block>
         </category>
         
         <sep gap="8"></sep>
@@ -95,6 +96,7 @@ const editor = {
         <category name="Actions" colour="50">
           <block type="collect_resource"></block>
           <block type="deposit_resource"></block>
+          <block type="collected_resources"></block>
           <block type="place_marker"></block>
           <block type="place_marker_ext"></block>          
         </category>

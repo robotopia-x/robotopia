@@ -233,6 +233,21 @@ Blockly.Blocks.deposit_resource = {
   }
 }
 
+Blockly.Blocks.collected_resources = {
+  init () {
+    this.appendDummyInput()
+      .appendField('Collected resources')
+
+    this.setTooltip('number of resources which are currently available')
+    this.setColour(50)
+    this.setOutput(true, 'Number')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
+  }
+}
+
 Blockly.Blocks.build_tower = {
   init () {
     this.appendDummyInput()

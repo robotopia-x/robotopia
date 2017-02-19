@@ -60,6 +60,10 @@ Blockly.JavaScript.deposit_resource = function (block) {
   return 'robot.depositResource()\n'
 }
 
+Blockly.JavaScript.collected_resources = function (block) {
+  return ['robot.getCollectedResources()\n', Blockly.JavaScript.ORDER_FUNCTION_CALL]
+}
+
 Blockly.JavaScript.build_tower = function (block) {
   return 'robot.buildTowerNearPosition()\n'
 }

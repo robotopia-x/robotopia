@@ -1,5 +1,6 @@
 /* globals localStorage */
 const html = require('choo/html')
+const sf = require('sheetify')
 const gameView = require('../../elements/game/index')
 const blocklyWidget = require('../../elements/blockly')
 const { speedSliderView, playButtonView } = require('../../elements/runtime-controls')
@@ -7,9 +8,36 @@ const button = require('../../elements/button')
 const initialState = require('./initial-state')
 const clientDialogView = require('../../elements/client-dialog')
 const gameStatsView = require('../../elements/game-stats')
-const pageLayout = require('../../elements/page-layout')
+const panelGroup = require('../../components/panel-group')
 
 const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
+
+const prefix = sf`
+  :host {
+    width: 100vw;
+    height: 100vh;
+    display: flexbox;       
+  }
+    
+  :host > .header {
+    display: flex;
+    height: 65px;
+    margin: 0;
+    padding: 25px 0 0 100px;
+    font-size: 26px;
+    font-weight: normal;    
+    color: #fff;
+    background: #03A9F4;    
+    background-image: url('./assets/icons/logo.svg');
+    background-size: 50px;
+    background-position: 45px 5px;
+    background-repeat: no-repeat;    
+  }
+    
+  :host > .content {
+    height: calc(100% - 65px)
+  }
+`
 
 const blocklyView = blocklyWidget()
 
@@ -66,30 +94,23 @@ function editorView (state, prev, send) {
     progress: clock.progress
   })
 
-  const pageHtml = pageLayout({
-    id: 'editor-page',
-    context: [ state, prev, send ],
-    onload: init,
-    header: {
-      left: [
-        playButtonHtml,
-        speedSliderHtml,
-        commitButtonHtml
-      ],
-      right: []
-    },
-    panels: [
-      blocklyHtml,
-      [
+  const pageHtml = panelGroup.component(state, prev, send)('editor-page', {
+    props: {
+      panelViews: [
         gameHtml,
-        gameStatsHtml
+        blocklyHtml
       ]
-    ]
+    }
   })
 
   return html`
-    <div>
-      ${pageHtml}
+    <div class="${prefix}" onload=${init}>
+      <h1 class="header">
+        Robotopia
+      </h1>
+      <div class="content">
+        ${pageHtml}
+      </div>
       ${DEV_MODE ? null : clientDialogHtml}
     </div>
   `

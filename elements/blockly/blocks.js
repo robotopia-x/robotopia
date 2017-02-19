@@ -1,4 +1,12 @@
 const _ = require('lodash')
+const {
+  LOGIC_COLOR,
+  LOOPS_COLOR,
+  MATH_COLOR,
+  ACTION_COLOR,
+  EVENT_COLOR,
+  MOVEMENT_COLOR,
+} = require('./colors')
 
 /* global Blockly */
 // adds the bow on top of event blocks
@@ -27,9 +35,31 @@ function disableBlockIfNotConnected (block) {
   }
 }
 
+function overrideColor (blockName, color) {
+  const block = Blockly.Blocks[blockName]
+  const _init = block.init
+
+  block.init = function () {
+    _init.call(this)
+    this.setColour(color)
+  }
+}
+
+overrideColor('controls_if', LOGIC_COLOR)
+overrideColor('logic_boolean', LOGIC_COLOR)
+overrideColor('logic_negate', LOGIC_COLOR)
+overrideColor('logic_compare', LOGIC_COLOR)
+
+overrideColor('controls_repeat', LOOPS_COLOR)
+overrideColor('controls_repeat_ext', LOOPS_COLOR)
+overrideColor('controls_whileUntil', LOOPS_COLOR)
+
+overrideColor('math_number', MATH_COLOR)
+overrideColor('math_arithmetic', MATH_COLOR)
+
 /* add onchange handler to existing blocks */
 _.forEach([
-  'logic_boolean', 'logic_negate',
+  'logic_boolean', 'logic_negate', 'logic_compare',
   'controls_if', 'controls_repeat', 'controls_repeat_ext', 'controls_whileUntil',
   'math_number', 'math_arithmetic'
 ], (blockName) => {
@@ -54,7 +84,7 @@ Blockly.Blocks.random_number_ext = {
 
     this.setInputsInline(true)
     this.setOutput(true, 'Number')
-    this.setColour(230)
+    this.setColour(MATH_COLOR)
     this.setTooltip('generates a random number between min and max')
   },
 
@@ -73,7 +103,7 @@ Blockly.Blocks.random_number = {
 
     this.setInputsInline(true)
     this.setOutput(true, 'Number')
-    this.setColour(230)
+    this.setColour(MATH_COLOR)
     this.setTooltip('generates a random number between min and max')
   },
 
@@ -101,7 +131,7 @@ Blockly.Blocks.move = {
     this.setTooltip('move the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
   },
 
   onchange () {
@@ -121,7 +151,7 @@ Blockly.Blocks.rotate = {
     this.setTooltip('rotate the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
   },
 
   onchange () {
@@ -141,7 +171,7 @@ Blockly.Blocks.move_to = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
   },
 
   onchange () {
@@ -166,7 +196,7 @@ Blockly.Blocks.move_to_ext = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
   },
 
   onchange () {
@@ -191,7 +221,7 @@ Blockly.Blocks.move_to_entity = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position of selected entity')
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
   },
 
   onchange () {
@@ -209,7 +239,7 @@ Blockly.Blocks.collect_resource = {
     this.setTooltip('collect a resource on the the robots positions')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
   },
 
   onchange () {
@@ -225,7 +255,7 @@ Blockly.Blocks.deposit_resource = {
     this.setTooltip('deposits a resource if robot is on home base')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
   },
 
   onchange () {
@@ -241,7 +271,7 @@ Blockly.Blocks.build_tower = {
     this.setTooltip('build a tower in front of the robot')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
   },
 
   onchange () {
@@ -267,7 +297,7 @@ Blockly.Blocks.place_marker = {
     this.setTooltip('place a marker that triggers an event which other robots can react to')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
   },
 
   onchange () {
@@ -297,7 +327,7 @@ Blockly.Blocks.place_marker_ext = {
     this.setTooltip('place a marker that triggers an event which other robots can react to')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
   },
 
   onchange () {
@@ -315,7 +345,7 @@ Blockly.Blocks.start_handler = {
     this.appendStatementInput('body')
       .setCheck(null)
 
-    this.setColour(20)
+    this.setColour(EVENT_COLOR)
     this.setTooltip('code which is executed when programm starts')
   }
 }
@@ -338,7 +368,7 @@ Blockly.Blocks.marker_event_handler = {
     this.appendStatementInput('body')
       .setCheck(null)
 
-    this.setColour(20)
+    this.setColour(EVENT_COLOR)
     this.setTooltip('code which is executed when an marker is assigned')
 
     // mark block as event handler, we use blockly data string
@@ -355,7 +385,7 @@ Blockly.Blocks.resource_event_handler = {
     this.appendStatementInput('body')
       .setCheck(null)
 
-    this.setColour(20)
+    this.setColour(EVENT_COLOR)
     this.setTooltip('code which is executed when a new resource is discovered')
 
     // mark block as event handler

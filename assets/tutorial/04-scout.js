@@ -1,5 +1,7 @@
 const entities = require('../../models/game/entities')
 
+const timeLimit = 10
+
 module.exports = {
   game: {
     tiles: [
@@ -31,7 +33,7 @@ module.exports = {
     ],
 
     entities: [
-      entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', teamId: 1 })
+      entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: 2, teamId: 1, discoverRange: 1 })
     ]
   },
 
@@ -46,8 +48,19 @@ module.exports = {
       <statement name="DO">
         <block type="controls_if">
           <value name="IF0">
-            <block type="logic_boolean">
-              <field name="BOOL">TRUE</field>
+            <block type="logic_compare">
+              <field name="OP">EQ</field>
+              <value name="A">
+                <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
+                  <field name="min">1</field>
+                  <field name="max">5</field>
+                </block>
+              </value>
+              <value name="B">
+                <block type="math_number" id="nL#iBs7tFzsRy}-I%z3a">
+                  <field name="NUM">1</field>
+                </block>
+              </value>
             </block>
           </value>
           <statement name="DO0">
@@ -74,6 +87,7 @@ module.exports = {
                     <block type="controls_repeat"></block>
                     <block type="controls_if"></block>
                     <block type="random_number"></block>
+                    <block type="logic_compare"></block>
                 </category>
               </xml>`
   },
@@ -88,9 +102,9 @@ module.exports = {
       isMandatory: true
     },
     {
-      type: 'useBlockWithinBlock',
-      params: { outerBlock: 'controls_repeat', innerBlock: 'controls_repeat' },
-      desc: 'Use a repeat inside a repeat',
+      type: 'gameTimeLimit',
+      params: { timeInS: timeLimit },
+      desc: 'Find something within ' + timeLimit + ' seconds',
       isMandatory: false
     }
   ],

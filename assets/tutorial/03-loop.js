@@ -35,7 +35,7 @@ module.exports = () => {
 </xml>`,
 
       toolbox: `<xml id="toolbox" style="display: none">
-                <category name="RemoveCategories" colour="40">
+                <category name="Code Blocks" colour="40">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>

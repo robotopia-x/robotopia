@@ -53,6 +53,9 @@ module.exports = () => {
                     <block type="logic_compare"></block>
                     <block type="math_number"></block>
                     <block type="random_number"></block>
+                    <block type="move_to_entity"></block>
+                    <block type="collect_resource"></block>
+                    <block type="deposit_resource"></block>
                 </category>
               </xml>`
     },

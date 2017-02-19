@@ -23,6 +23,7 @@ input {
     transform: translateY(0%);
   }
 }
+<<<<<<< HEAD
 
 /* Blockly overrides */
 
@@ -55,6 +56,8 @@ input {
 .blocklyMainBackground {
   fill: #ECF0F1;
 }
+=======
+>>>>>>> develop
 
 /* disable 3d effect of blocks */
 .blocklyPathDark {

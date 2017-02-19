@@ -41,7 +41,7 @@
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "budo index.js:bundle.js --live --pushstate --dir ../robotopia",
+    "start": "budo index.js:bundle.js --live --pushstate",
     "build": "browserify index.js -t sheetify/transform -t [ babelify --presets [ es2015 stage-2 ] ] > bundle.js",
     "deploy": "npm run build && surge"
   },

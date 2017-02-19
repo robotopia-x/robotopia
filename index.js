@@ -36,6 +36,7 @@ clock.onTick((send) => {
   send('game:beginStep', {}, _.noop)
   send('runtime:step', {}, _.noop)
   send('game:completeStep', {}, _.noop)
+  send('tutorial:clockStepDone', {}, _.noop)
 })
 
 app.router({ default: '/' }, [

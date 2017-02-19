@@ -172,6 +172,13 @@ module.exports = {
       const entity = getEntity(id, game)
 
       return getBaseOfTeam(game, entity.team.id).position
+    },
+
+    getCollectedResources: (state, id, x, y) => {
+      const game = getGameState(state)
+      const entity = getEntity(id, game)
+
+      return game.teams[entity.team.id].resources
     }
   }
 }

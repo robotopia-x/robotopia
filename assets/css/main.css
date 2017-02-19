@@ -13,7 +13,6 @@ html, body {
 
 input {
   height: 2em;
-  width: 100%;
 }
 
 @keyframes move {
@@ -32,18 +31,35 @@ input {
   border-right: 1px solid grey;
 }
 
-.blocklyTreeSeparator {
-
+.blocklyTreeRoot {
+  padding: 0 !important;
 }
 
+
+.blocklyTreeSeparator {
+ margin: 0 !important;
+}
+
+.blocklyTreeRow {
+  margin: 0 !important;
+  padding: 5px 10px 5px 0 !important;
+  height: 30px !important;
+  display: flex;
+  align-items: center;
+}
+
+.blocklyTreeIcon {
+  display: none;
+}
+
+.blocklyMainBackground {
+  fill: #ECF0F1;
+}
+
+/* disable 3d effect of blocks */
 .blocklyPathDark {
   display: none;
 }
-
 .blocklyPathLight {
   display: none;
-}
-
-.blocklyTreeRow:hover {
-  color: #000 !important;
 }

@@ -67,6 +67,9 @@ function blocklyWidget () {
       blocklyWorkspace = Blockly.inject(container, DEFAULT_OPTIONS)
       blocklyWorkspace.addChangeListener(updateCode)
 
+      // remove background color
+      container.querySelector('.blocklyMainBackground').style = ''
+
       if (prevParams === null) {
         return
       }

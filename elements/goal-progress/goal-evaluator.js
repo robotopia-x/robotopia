@@ -52,6 +52,17 @@ function checkGoal ({ goal, game, workspace }) {
       //goal.params.innerBlock
       //console.log(workspaceAsJSON)
       return false
+    
+    case 'discoverEntityOfType':
+      if (!game || !game.entities || game.entities.length === 0) return false
+      let i
+      for (i in game.entities) {
+        if (game.entities[i].hasOwnProperty('discoverable')) {
+          let discoverable = game.entities[i].discoverable
+          if (discoverable.type === goal.params.type && discoverable.discovererTeamIds && discoverable.discovererTeamIds['1']) return true
+        }
+      }
+      return false
 
     default:
       return false

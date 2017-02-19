@@ -91,7 +91,7 @@ const tutorialView = (state, prev, send) => {
   return html`
     <div onload=${initLevel}>
       ${pageLayoutHtml}
-      ${tutorialDialogView(game, tutorial, editor.workspace, send)}
+      ${tutorialDialogView(game, tutorial, editor.workspace, clock, send)}
     </div>
   `
 

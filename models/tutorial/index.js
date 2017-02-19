@@ -28,7 +28,8 @@ module.exports = {
 
   effects: {
     loadLevel: (state, { name }, send) => {
-      const level = levels[name]
+      if (!levels.hasOwnProperty(name)) return
+      const level = levels[name]()
 
       if (level !== undefined) {
         send('tutorial:_setLevel', { level }, _.noop)

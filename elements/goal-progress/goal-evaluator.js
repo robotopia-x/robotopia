@@ -29,13 +29,13 @@ function checkGoal ({ goal, game, workspace }) {
       return false
 
     case 'carryResource':
-      if (game) {
+      if (game && game.entities) {
         return game.entities.ROBOT.collector.hasResource === goal.params.hasResource
       }
       return false
 
     case 'collectResources':
-      if (game) {
+      if (game && game.teams) {
         return game.teams[game.entities.ROBOT.team.id].resources === goal.params.amount
       }
       return false

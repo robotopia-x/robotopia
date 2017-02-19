@@ -50,6 +50,11 @@ const prefix = sf`
   :host a:hover {
     color: #dddddd;
   }
+  
+  :host > .credits {
+    margin-top: 50px;
+    text-decoration: underline;
+  }
 `
 
 const overviewView = (state, prev, send) => {
@@ -70,6 +75,7 @@ const overviewView = (state, prev, send) => {
         <h2>Check out the Editor:</h2>
         ${editorButton}
       </div>
+      <a class="credits" href="/credits">© Credits</a>
     </div>
   `
 }

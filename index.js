@@ -40,9 +40,10 @@ clock.onTick((send) => {
 
 app.router({ default: '/' }, [
   ['/', require('./pages/overview')],
+  ['/credits', require('./pages/credits/index')],
   ['/editor', require('./pages/editor')],
   ['/tutorial/:level', require('./pages/tutorial')],
-  ['/presenter', require('./pages/presenter/index')]
+  ['/presenter', require('./pages/presenter')]
 ])
 
 assets.load({

@@ -34,7 +34,7 @@ const tutorialView = (state, prev, send) => {
     isRunning: clock.isRunning,
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
-      if (tutorial.level.hasOwnProperty('ressources') && !isNaN(tutorial.level.ressources) && tutorial.level.ressources > 0) {
+      if (tutorial.level.hasOwnProperty('resources') && !isNaN(tutorial.level.resources) && tutorial.level.resources > 0) {
         send('game:initializeResourceSpots', { numberOfSpots: 10 })
       }
       send('runtime:destroyRobot', { id: 'ROBOT' })

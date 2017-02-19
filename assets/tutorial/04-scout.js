@@ -43,7 +43,7 @@ module.exports = () => {
       }
     },
 
-    ressources: 10,
+    resources: 10,
 
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
@@ -125,7 +125,7 @@ module.exports = () => {
     onFinish: ({gameState, workspace}) => {
       localStorage.setItem('robot04', JSON.stringify({
         workspace: workspace,
-        robot: gameState && gameState.current && gameState.current.entities ? JSON.stringify(gameState.current.entities.ROBOT) : null
+        entities: gameState && gameState.current ? JSON.stringify(gameState.current.entities) : null
       }))
     },
 

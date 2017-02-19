@@ -1,9 +1,39 @@
 const entities = require('../../models/game/entities')
 
-const timeLimit = 10
 const DEFAULT_WORKSPACE = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="start_handler" x="50" y="50" deletable="false"></block><block type="resource_event_handler" x="400" y="400" deletable="false"></block></xml>`
+const DEFAULT_ENTITIES = [
+  entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', teamId: 1, discoverRange: 2}),
+  entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
+]
+const LOCAL_STORAGE_LOAD = 'robot04'
 
 module.exports = () => {
+  let localStorageFromPreviousLevel = localStorage[LOCAL_STORAGE_LOAD]
+  let previousWorkspace, previousEntities
+  if (localStorageFromPreviousLevel) {
+    try {
+      let previousState = JSON.parse(localStorageFromPreviousLevel)
+      if (previousState) {
+        previousWorkspace = previousState.workspace
+        try {
+          let jsonEntities = JSON.parse(previousState.entities)
+          let i
+          previousEntities = []
+          for (i in jsonEntities) {
+            let toAdd = jsonEntities[i]
+            toAdd.id = i
+            if (toAdd.hasOwnProperty('discoverable')) toAdd.discoverable.discovererTeamIds = {}
+            previousEntities.push(toAdd)
+          }
+        } catch (e) {
+          console.log("Error parsing entities from previous Level: " + e)
+        }
+      }
+    } catch (e) {
+      console.log("Error parsing from previous Level: " + e)
+    }
+  }
+
   return {
     game: {
       tiles: [
@@ -34,17 +64,14 @@ module.exports = () => {
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],
 
-      entities: [
-        entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', teamId: 1, discoverRange: 1}),
-        entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
-      ],
+      entities: getEntitiesOrNew(),
 
       teams: {
         1: { resources: 0, points: 0 }
       }
     },
 
-    ressources: 10,
+    resources: previousEntities ? 0 : 10,
 
     editor: {
       workspace: getWorkspace(),
@@ -92,27 +119,20 @@ module.exports = () => {
   }
 
   function getWorkspace() {
-    let wsJSON
-    let prevTut = localStorage['robot04']
-    if (!prevTut) return DEFAULT_WORKSPACE
-    try {
-      wsJSON = JSON.parse(prevTut)
-      if (wsJSON && wsJSON.workspace) {
-        return addRessourceEventToWs(wsJSON.workspace)
-      }
-    } catch (e) {
-      console.log(e)
+    if (previousWorkspace) {
+      let injectPart = '<block type="resource_event_handler" x="400" y="400" deletable="false">'
+      let injectBefore = '</xml>'
+      let newWS = previousWorkspace.slice(0, previousWorkspace.length - injectBefore.length)
+      newWS += injectPart
+      newWS += injectBefore
+      return newWS
     }
     return DEFAULT_WORKSPACE
   }
 
-  function addRessourceEventToWs (workspaceXML) {
-    let injectPart = '<block type="resource_event_handler" x="400" y="400" deletable="false">'
-    let injectBefore = '</xml>'
-    let newWS = workspaceXML.slice(0, workspaceXML.length - injectBefore.length)
-    newWS += injectPart
-    newWS += injectBefore
-    return newWS
+  function getEntitiesOrNew() {
+    if (previousEntities && previousEntities.length > 0) return previousEntities
+    return DEFAULT_ENTITIES
   }
 
 }

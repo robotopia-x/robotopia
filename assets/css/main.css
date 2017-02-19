@@ -23,11 +23,27 @@ input {
   100% {
     transform: translateY(0%);
   }
+}
 
-canvas {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+/* Blockly overrides */
+
+.blocklyToolboxDiv {
+  background: #fff !important;
+  border-right: 1px solid grey;
+}
+
+.blocklyTreeSeparator {
+
+}
+
+.blocklyPathDark {
+  display: none;
+}
+
+.blocklyPathLight {
+  display: none;
+}
+
+.blocklyTreeRow:hover {
+  color: #000 !important;
 }

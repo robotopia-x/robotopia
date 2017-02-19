@@ -36,16 +36,14 @@ const prefix = sf`
   }
 
   :host > .divider {
-    background: #404040;
+    background: #fff;
+    border: 1px solid grey;
+    border-width: 0 1px;
     width: 10px;
     height: 100%;
     cursor: ew-resize;
     flex-shrink: 0;
     flex-grow: 0;
-  }
-
-  :host > .divider:hover {
-    background: #848484;
   }
 `
 

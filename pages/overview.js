@@ -61,7 +61,7 @@ const overviewView = (state, prev, send) => {
   const tutorialLinks = getAllTutorialRoutes()
   const editorButton = buttonView({
     label: 'Load Editor',
-    onClick: () => send('location:set', '/editor')
+    onClick: () => send('location:set', '#editor')
   })
 
   return html`
@@ -75,13 +75,13 @@ const overviewView = (state, prev, send) => {
         <h2>Check out the Editor:</h2>
         ${editorButton}
       </div>
-      <a class="credits" href="/credits">© Credits</a>
+      <a class="credits" href="#credits">© Credits</a>
     </div>
   `
 }
 
 function getAllTutorialRoutes () {
-  return html`<ol class="tutorialRoutes">${_.map(tutorials, (tutorial, key) => html`<li><a href="/tutorial/${key}">${key}</a></li>`)}</ol>`
+  return html`<ol class="tutorialRoutes">${_.map(tutorials, (tutorial, key) => html`<li><a href="#tutorial/${key}">${key}</a></li>`)}</ol>`
 }
 
 module.exports = overviewView

@@ -20,5 +20,5 @@ npm start
 # Deployment
 
 ```bash
-npm deploy
+npm run deploy
 ```

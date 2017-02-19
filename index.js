@@ -64,5 +64,5 @@ assets.load({
   BASE: 'assets/img/base.png',
   TOWER: 'assets/img/tower.png'
 }).then(() => {
-  document.body.appendChild(app.start({hash: true}))
+  document.body.appendChild(app.start({ hash: true }))
 })

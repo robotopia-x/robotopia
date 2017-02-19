@@ -140,13 +140,13 @@ function getNextLevelButton (send, level) {
   if (level.nextTutorial) {
     return buttonView({
       label: 'Next Level',
-      onClick: () => send('location:set', `/tutorial/${level.nextTutorial}`)
+      onClick: () => send('location:set', `#tutorial/${level.nextTutorial}`)
     })
   }
 
   return buttonView({
     label: 'Load Editor',
-    onClick: () => send('location:set', '/editor')
+    onClick: () => send('location:set', '#editor')
   })
 }
 

@@ -59,7 +59,7 @@ module.exports = () => {
               <value name="A">
                 <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
                   <field name="min">1</field>
-                  <field name="max">5</field>
+                  <field name="max">2</field>
                 </block>
               </value>
               <value name="B">

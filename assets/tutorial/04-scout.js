@@ -52,31 +52,31 @@ module.exports = () => {
     <block type="controls_repeat">
       <field name="TIMES">3</field>
       <statement name="DO">
-        <block type="controls_if">
-          <value name="IF0">
-            <block type="logic_compare">
-              <field name="OP">EQ</field>
-              <value name="A">
-                <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
-                  <field name="min">1</field>
-                  <field name="max">2</field>
-                </block>
-              </value>
-              <value name="B">
-                <block type="math_number" id="nL#iBs7tFzsRy}-I%z3a">
-                  <field name="NUM">1</field>
-                </block>
-              </value>
-            </block>
-          </value>
-          <statement name="DO0">
-            <block type="rotate">
-              <field name="direction">LEFT</field>
-            </block>
-          </statement>
+      <block type="move">
+        <field name="move">FORWARD</field>
           <next>
-            <block type="move">
-              <field name="move">FORWARD</field>
+            <block type="controls_if">
+              <value name="IF0">
+                <block type="logic_compare">
+                  <field name="OP">EQ</field>
+                  <value name="A">
+                    <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
+                      <field name="min">1</field>
+                      <field name="max">2</field>
+                    </block>
+                  </value>
+                  <value name="B">
+                    <block type="math_number" id="nL#iBs7tFzsRy}-I%z3a">
+                      <field name="NUM">1</field>
+                    </block>
+                  </value>
+                </block>
+              </value>
+            <statement name="DO0">
+              <block type="rotate">
+                <field name="direction">LEFT</field>
+              </block>
+            </statement>
             </block>
           </next>
         </block>
@@ -87,7 +87,7 @@ module.exports = () => {
 </xml>`,
 
       toolbox: `<xml id="toolbox" style="display: none">
-                <category name="RemoveCategories" colour="40">
+                <category name="Code Blocks" colour="40">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>

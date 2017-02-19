@@ -64,7 +64,7 @@ const prefix = sf`
   }
 `
 
-const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
+const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, clock, send) => {
   if (level) {
     const game = getGameState(gameState)
     const story = level.storyModal

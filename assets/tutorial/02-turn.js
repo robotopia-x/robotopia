@@ -51,7 +51,7 @@ module.exports = {
               </xml>`
   },
 
-  label: 'Blockly',
+  label: 'Turn',
 
   goals: [
     {
@@ -61,8 +61,8 @@ module.exports = {
       isMandatory: true
     },
     {
-      type: 'moveTo',
-      params: { position: { x: 0, y: 0 }, entity: 'ROBOT' },
+      type: 'dontTouchTileType',
+      params: { tileID: 2, entity: 'ROBOT' },
       desc: 'Do not get your boots dirty.',
       isMandatory: false
     }
@@ -74,5 +74,5 @@ module.exports = {
     img: 'assets/img/tutorials/simple-move.png'
   },
 
-  nextTutorial: 'simple-loops'
+  nextTutorial: 'loop'
 }

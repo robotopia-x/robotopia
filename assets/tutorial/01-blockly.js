@@ -49,7 +49,7 @@ module.exports = {
   storyModal: {
     text: 'Hey Morty, I build this robot to help us on our space adventures. I need your help programming it. Can you make it move to the grass field.',
     hint: '',
-    img: '../img/tutorials/simple-move.png'
+    img: 'assets/img/tutorials/simple-move.png'
   },
 
   nextTutorial: 'turn'

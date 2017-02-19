@@ -33,10 +33,15 @@ module.exports = () => {
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],
 
-    entities: [
-      entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: 2, teamId: 1, discoverRange: 2 })
-    ]
-  },
+      entities: [
+    entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: 2, teamId: 1, discoverRange: 2 }),
+        entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
+      ],
+
+      teams: {
+        1: { resources: 0, points: 0 }
+      }
+    },
 
     ressources: 10,
 

@@ -86,8 +86,9 @@ module.exports = {
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>
                     <block type="controls_if"></block>
-                    <block type="random_number"></block>
                     <block type="logic_compare"></block>
+                    <block type="math_number"></block>
+                    <block type="random_number"></block>
                 </category>
               </xml>`
   },

@@ -77,24 +77,35 @@ module.exports = () => {
       workspace: getWorkspace(),
 
       toolbox: `<xml id="toolbox" style="display: none">
+
+                <category name="Logic" colour="210">
+                    <block type="controls_repeat"></block>
+                    <block type="controls_if"></block>
+                    <block type="logic_compare"></block>
+                </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Numbers" colour="230">
+                    <block type="math_number"></block>
+                    <block type="random_number"></block>
+                </category>
+                
+                <sep gap="8"></sep>
+                
                 <category name="Movement" colour="40">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="move_to_entity"></block>
                 </category>
+                
+                <sep gap="8"></sep>
+                
                 <category name="Actions" colour="50">
                     <block type="collect_resource"></block>
                     <block type="deposit_resource"></block>
                 </category>
-                <category name="Numbers" colour="80">
-                    <block type="math_number"></block>
-                    <block type="random_number"></block>
-                </category>
-                <category name="Logic" colour="30">
-                    <block type="controls_repeat"></block>
-                    <block type="controls_if"></block>
-                    <block type="logic_compare"></block>
-                </category>
+                
               </xml>`
     },
 

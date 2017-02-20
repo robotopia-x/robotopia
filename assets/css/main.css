@@ -1,0 +1,38 @@
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+input {
+  height: 2em;
+  width: 100%;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.header-bar {
+  height: 50px;
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  background: #404040;
+  overflow: hidden;
+  z-index: 10;
+  width: 100%;
+  position: relative;
+}

@@ -27,7 +27,7 @@ const tutorialView = (state, prev, send) => {
       send('editor:update', { code, workspace })
     }
   })
-
+  
   const gameRunnerHtml = gameRunnerView({
     game, clock,
     onStart: () => {

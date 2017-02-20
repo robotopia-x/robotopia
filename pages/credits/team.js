@@ -1,7 +1,7 @@
 module.exports = [
   {
     name: 'Per Guth',
-    role: 'Project Lead / P2P-Guru / Scrummy Thing',
+    role: 'Project Manager / P2P-Guru / Scrummy Thing',
     img: 'https://avatars1.githubusercontent.com/u/85259?v=3&s=400',
     github: 'https://github.com/pguth',
     homepage: 'https://pguth.js.org',
@@ -9,7 +9,7 @@ module.exports = [
   },
   {
     name: 'Paul Sonnentag',
-    role: 'Project Lead / Mr. JavaScript',
+    role: 'Technical Lead / Mr. JavaScript',
     img: 'https://avatars1.githubusercontent.com/u/650540?v=3&s=400',
     github: 'https://github.com/paulsonnentag',
     homepage: 'http://paulsonnentag.com',
@@ -20,7 +20,7 @@ module.exports = [
     role: 'Developer / Evil Mind',
     img: 'https://avatars1.githubusercontent.com/u/5808849?v=3&s=400',
     github: 'https://github.com/H3rby7',
-    desc: 'Laberei, laber laber bla laber labbellabab laber laber, label babel laber lab.'
+    desc: ''
   },
   {
     name: 'Tim Großmann',
@@ -36,5 +36,12 @@ module.exports = [
     github: 'https://github.com/queicherius',
     homepage: 'https://david-reess.de',
     desc: 'Full stack developer, currently in love with JavaScript. Main pet project is @gw2efficiency'
+  },
+  {
+    name: 'Emre Kecik',
+    role: 'User Testing',
+    img: '../assets/img/emre.jpg',
+    github: 'https://github.com/robotopia-x/robotopia',
+    desc: ''
   }
 ]

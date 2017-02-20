@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
+const { goalProgressView } = require('../elements/goal-progress')
 
 const prefix = sf`
   :host {
@@ -8,27 +9,13 @@ const prefix = sf`
     width: 100%;
     padding: 25px;
     margin: 0;
-  }
-  
-  :host > .instructImg {
-    width: 100%;
-  }
-  
-  :host > .instructContainer > .instructionList {
-    list-style-type:none;
-    font-size: 1.2em;
-  }
-  
-  :host > .instructContainer > .instructionHeading {
-    margin-top: 50px;
-  }
-  
-  :host > .instructContainer > .instructionList > li {
-    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
   }
   
   :host .story-hint {
-    width: 50%;
+    width: 100%;
     color: #8a6d3b;
     border: 1px solid #faebcc;
     padding: 15px;
@@ -43,13 +30,21 @@ const prefix = sf`
   }
 `
 
-function instructionView ({ level }) {
+function instructionView ({ prev }, { level, isStoryModalOpen }) {
   if (level) {
     const story = level.storyModal
-    const instructions = level.instructions
 
+    let goalHtml
     let hintHtml
-    let instructionHtml
+
+    if (level !== null) {
+      goalHtml = goalProgressView({
+        display: !isStoryModalOpen,
+        game: prev,
+        goals: level.goals,
+        workspace: level.editor.workspace
+      })
+    }
 
     if (story.hint) {
       hintHtml = html`
@@ -59,20 +54,11 @@ function instructionView ({ level }) {
         `
     }
 
-    if (instructions) {
-      instructionHtml = html`<ul class="instructionList">${_.map(instructions.desc, 
-        instruction => html`<li>- ${instruction}</li>`)}</ul>`
-    }
-
     return html`
       <div class="${prefix}">
         <h1>${level.label}</h1>
         <p>${hintHtml}</p>
-        ${instructions.img ? html`<img src="${instructions.img}" class="instructImg">` : html``}
-        <div class="instructContainer">
-          <h3 class="instructionHeading">Instructions:</h3>
-          ${instructionHtml}
-        </div>
+        ${goalHtml}          
       </div>
     `
   }

@@ -10,7 +10,6 @@ const blocklyView = blocklyWidget()
 
 const tutorialView = (state, prev, send) => {
   const { game, clock, editor, tutorial, location } = state
-  let toolbox = editor.toolbox
 
   // we need to check if level param has changed because onLoad will not be triggered if tutorial page
   // has already been loaded
@@ -43,8 +42,8 @@ const tutorialView = (state, prev, send) => {
   })
 
   const blocklyHtml = blocklyView({
-    toolbox,
-    workspace: editor.workspace,
+    toolbox: tutorial.level && tutorial.level.editor.toolbox,
+    workspace: tutorial.level && tutorial.level.editor.workspace,
     onChange: ({ code, workspace }) => {
       send('runtime:commitCode', { code, groupId: 1 })
       send('editor:update', { code, workspace })

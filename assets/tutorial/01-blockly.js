@@ -53,6 +53,10 @@ module.exports = () => {
       img: 'assets/img/tutorials/simple-move.png'
     },
 
-    nextTutorial: 'turn'
+    nextTutorial: 'turn',
+    
+    highlighters: {
+      classes: ['play-button']
+    }
   }
 }

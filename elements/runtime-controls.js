@@ -18,7 +18,7 @@ function speedSliderView ({
 }
 
 function playButtonView ({
-  isRunning, highlight,
+  isRunning,
   onStart, onStop
 }) {
   if (isRunning) {
@@ -26,7 +26,7 @@ function playButtonView ({
       onClick: onStop,
       icon: 'stop',
       label: 'Reset',
-      highlight: highlight
+      additionalClasses: 'play-button'
     })
   }
 
@@ -34,7 +34,7 @@ function playButtonView ({
     onClick: onStart,
     icon: 'play',
     label: 'Run',
-    highlight: highlight
+    additionalClasses: 'play-button'
   })
 }
 

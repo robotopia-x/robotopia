@@ -61,19 +61,18 @@ const prefix = sf`
 
 function button ({
   icon, label, disabled = false,
-  onClick = _.noop, highlight = false
+  onClick = _.noop, additionalClasses
 }) {
   const classes = classNames(
     prefix,
     {
       [`has-icon icon-${icon}`]: !_.isNil(icon),
-      'has-label': !_.isNil(label),
-      'highlight': highlight
+      'has-label': !_.isNil(label)
     }
   )
 
   return html`
-    <button class="${classes}" onclick=${onClick} disabled=${disabled}>
+    <button class="${classes + ' ' + additionalClasses} " onclick=${onClick} disabled=${disabled}>
       ${label}
     </button>
   `

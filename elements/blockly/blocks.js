@@ -10,7 +10,7 @@ Blockly.HSV_SATURATION = 0.7
 Blockly.HSV_VALUE = 0.75
 
 function disableBlockIfNotConnected (block) {
-  const parent = block.getParent()
+  let parent = block.getParent()
 
   // ignore blocks which are inside of toolbar
   if (block.isInFlyout) {
@@ -19,11 +19,21 @@ function disableBlockIfNotConnected (block) {
 
   if (parent === null && block.disabled === false) {
     block.setDisabled(true)
+    _.forEach(block.childBlocks_, (child) => child.setDisabled(true))
     return
   }
 
   if (parent !== null && block.disabled === true) {
-    block.setDisabled(false)
+    while (parent.getParent()) {
+      parent = parent.getParent()
+    }
+
+    if (parent.type.endsWith('handler')) {
+      block.setDisabled(false)
+      return
+    }
+
+    _.forEach(block.childBlocks_, (child) => child.setDisabled(true))
   }
 }
 

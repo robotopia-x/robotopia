@@ -52,7 +52,7 @@ assets.load({
   GRASS_TILE: 'assets/img/tiles/grass-tile.png',
   PLAIN_TILE: 'assets/img/tiles/plain-tile.png',
   STONE_TILE: 'assets/img/tiles/stone-tile.png',
-  GEM: 'assets/img/gem-blue.png',
+  GEM: 'assets/img/gem-blue-splitted.png',
   ROBOT_FRONT_TEAM_1: 'assets/img/cyborg/cyborg-morty-front.png',
   ROBOT_LEFT_TEAM_1: 'assets/img/cyborg/cyborg-morty-left.png',
   ROBOT_BACK_TEAM_1: 'assets/img/cyborg/cyborg-morty-back.png',

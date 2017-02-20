@@ -108,7 +108,11 @@ function combineWithPrevEntityState (prev, entity) {
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
-  if (entity.sprite) {
+  if (entity.collectable) {
+    renderCollectable(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.sprite && !entity.collectable) {
     renderSprite(ctx, entity, prevEntity, progress)
   }
 
@@ -127,6 +131,30 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   if (entity.worker) {
     renderWorker(ctx, entity, prevEntity, progress)
   }
+}
+
+function renderCollectable (ctx, entity, prevEntity, progress) {
+  const spritePart = getCollectableSprite(entity.collectable)
+  const sprite = entity.sprite.data.sprite
+
+  const image = assets.store[sprite]
+  const width = image.width / 3
+  const height = image.height
+  const { x, y } = entity.position
+
+  ctx.drawImage(image, spritePart * width, 0, width, height, x * TILE_WIDTH, y * TILE_HEIGHT, width, height)
+}
+
+function getCollectableSprite ({ value, maxValue }) {
+  const parts = maxValue / 3
+
+  if (value < parts) {
+    return 2
+  }
+  if (value < parts * 2) {
+    return 1
+  }
+  return 0
 }
 
 function renderSprite (ctx, entity, prevEntity, progress) {

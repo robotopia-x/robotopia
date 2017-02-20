@@ -8,6 +8,8 @@
 ![Robotopia Editor](./assets/img/readme_IMG.png)
 
 ## Features
+<a href="https://github.com/robotopia-x"><img src="./assets/img/robotopia.png" align=right alt="Robotopia - Techning kids to code" /></a>
+
 - [x] Teaches kids to code.
 - [x] Features cute graphical robots which want to be programmed.
 - [x] Introduction tutorials and open world mode for long lasting fun

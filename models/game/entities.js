@@ -35,7 +35,7 @@ module.exports = {
     }
   }),
 
-  gem: ({ x, y }) => ({
+  gem: ({ x, y, value }) => ({
     position: { x, y },
     item: { type: 'gem' },
     discoverable: {
@@ -43,7 +43,9 @@ module.exports = {
       discovererTeamIds: {}
     },
     collides: {},
-    collectable: {},
+    collectable: {
+      value: value
+    },
     zIndex: 1,
     sprite: {
       type: 'SIMPLE',

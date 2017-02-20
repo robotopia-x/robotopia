@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const entites = require('./entities')
 
-function initializeResourceSpots (state, { numberOfSpots }, send) {
+function initializeResourceSpots (state, { numberOfSpots, value }, send) {
   const { tiles } = state
   const mapHeight = tiles.length
   const mapWidth = tiles[0].length
@@ -19,7 +19,7 @@ function initializeResourceSpots (state, { numberOfSpots }, send) {
 
     resourcePlaces[`${x},${y}`] = true
 
-    send('game:createEntity', { data: entites.gem({ x, y }) }, _.noop)
+    send('game:createEntity', { data: entites.gem({ x, y, value }) }, _.noop)
   })
 }
 

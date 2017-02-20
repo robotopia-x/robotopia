@@ -1,4 +1,5 @@
 const entities = require('../../models/game/entities')
+const blockColors = require('../../elements/blockly/colors')
 
 const game = {
   tiles: [
@@ -57,16 +58,17 @@ const editor = {
 
   toolbox: `
     <xml id="toolbox" style="display: none">
-        <category name="Logic" colour="210">
+        <category name="Logic" colour="${blockColors.LOGIC_COLOR}">
           <block type="logic_boolean"></block>          
           <block type="logic_negate"></block>
+          <block type="logic_compare"></block>
           <block type="controls_if"></block>
           <block type="logic_compare"></block>
         </category>
         
         <sep gap="8"></sep>
         
-        <category name="Loops" colour="100">
+        <category name="Loops" colour="${blockColors.LOOPS_COLOR}">
           <block type="controls_repeat"></block>
           <block type="controls_repeat_ext"></block>
           <block type="controls_whileUntil"></block>
@@ -74,7 +76,7 @@ const editor = {
         
         <sep gap="8"></sep>
         
-        <category name="Math" colour="230">
+        <category name="Math" colour="${blockColors.MATH_COLOR}">
           <block type="math_number"></block>
           <block type="random_number"></block>
           <block type="random_number_ext"></block>
@@ -83,7 +85,7 @@ const editor = {
         
         <sep gap="8"></sep>
         
-        <category name="Movement" colour="40">
+        <category name="Movement" colour="${blockColors.MOVEMENT_COLOR}">
           <block type="move"></block>
           <block type="rotate"></block>
           <block type="move_to"></block>
@@ -93,7 +95,7 @@ const editor = {
         
         <sep gap="8"></sep>
         
-        <category name="Actions" colour="50">
+        <category name="Actions" colour="${blockColors.ACTION_COLOR}">
           <block type="collect_resource"></block>
           <block type="deposit_resource"></block>
           <block type="collected_resources"></block>
@@ -103,7 +105,7 @@ const editor = {
         
         <sep gap="8"></sep>
         
-        <category name="Events" colour="20">
+        <category name="Events" colour="${blockColors.EVENT_COLOR}">
           <block type="resource_event_handler"></block>
           <block type="marker_event_handler"></block>
         </category>

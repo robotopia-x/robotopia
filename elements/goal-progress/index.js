@@ -6,9 +6,6 @@ const { checkGoal } = require('./goal-evaluator')
 
 const goalPrefix = sf`
   :host {
-    position: absolute;
-    top: 0;
-    right: 0;
     background-color: #DDDDDD;
     color: #404040;
     background-color: rgba(221,221,221,0.85);
@@ -43,6 +40,7 @@ const goalListPrefix = sf`
     background-size: 25px;
     margin-right: 7px;
     background-image: url('assets/icons/checkbox-empty.svg');
+    flex-shrink: 0;
   }
   
   :host > .goal.completed:before {  

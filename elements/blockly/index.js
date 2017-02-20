@@ -19,22 +19,18 @@ const DEFAULT_OPTIONS = {
   comments: true,
   disable: true,
   maxBlocks: Infinity,
-  trashcan: true,
+  trashcan: false,
   scrollbars: true,
   sounds: true,
   grid: {
-    spacing: 10,
+    spacing: 20,
     length: 1,
     colour: '#DDD',
     snap: true
   },
   zoom: {
-    controls: true,
+    controls: false,
     wheel: false,
-    startScale: 1,
-    maxcale: 20,
-    minScale: 0.5,
-    scaleSpeed: 1.05
   }
 }
 
@@ -42,14 +38,15 @@ function blocklyWidget () {
   let container = null
   let prevParams = null
   let onChange = _.noop
-  let toolbox, blocklyWorkspace
+  let blocklyWorkspace = null
+  let toolbox
 
   return widget({
     onupdate: (el, params) => {
       onChange = params.onChange
 
       // ignore if workspace isn't initialized or params haven't changed
-      if (!blocklyWorkspace || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
+      if (blocklyWorkspace === null || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
         return
       }
 
@@ -71,6 +68,9 @@ function blocklyWidget () {
       blocklyWorkspace = Blockly.inject(container, DEFAULT_OPTIONS)
       blocklyWorkspace.addChangeListener(updateCode)
 
+      // remove background color
+      container.querySelector('.blocklyMainBackground').style = ''
+
       if (prevParams === null) {
         return
       }
@@ -82,7 +82,6 @@ function blocklyWidget () {
       // apply initial params
       if (prevParams.workspace) {
         updateWorkspace(blocklyWorkspace, prevParams.workspace)
-        Blockly.svgResize(blocklyWorkspace)
       }
     },
 
@@ -122,11 +121,14 @@ function updateWorkspace (workspace, xmlString) {
   const workspaceXml = Blockly.Xml.textToDom(xmlString)
   workspace.clear()
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+  Blockly.svgResize(workspace)
 }
 
 function stringToWorkspace (xmlString) {
   const workspace = new Blockly.Workspace(DEFAULT_OPTIONS)
-  updateWorkspace(workspace, xmlString)
+  const workspaceXml = Blockly.Xml.textToDom(xmlString)
+  Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+
   return workspace
 }
 

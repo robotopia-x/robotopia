@@ -9,12 +9,13 @@ function speedSliderView ({
   const percentage = (1 - (intervalDuration - min) / (max - min))
 
   return html`
-      <input
-         type="range"
-         min="0" max="1"
-         step="0.1"
-         value="${percentage}"
-         oninput=${(evt) => onChange((1 - evt.target.value) * (max - min) + min)} />`
+    <input
+      type="range"
+      min="0" max="1"
+      step="0.1"
+      value="${percentage}"
+      oninput=${(evt) => onChange((1 - evt.target.value) * (max - min) + min)} />
+  `
 }
 
 function playButtonView ({

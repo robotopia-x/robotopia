@@ -9,7 +9,7 @@ const overlayView = require('../../elements/overlay')
 const gameView = require('../../elements/game')
 const gameStatsView = require('../../elements/game-stats')
 const clientsList = require('../../elements/clients-list')
-const pageLayout = require('../../elements/page-layout')
+const pageLayout = require('../../elements/old-page-layout')
 const prepfight = require('action-overlay')('prepfight').view
 const initialState = require('./initial-state')
 

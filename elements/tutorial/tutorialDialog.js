@@ -90,7 +90,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 
       if (level.onFinish) level.onFinish({ gameState, workspace} )
 
-      send('clock:stop')
+      send('tutorial:sendEvent', {type: 'levelWon'})
 
       return modalView(html`
         <div class="${prefix} animated content">

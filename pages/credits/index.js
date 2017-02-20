@@ -19,7 +19,6 @@ const prefix = sf`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    overflow: hidden;
     margin-bottom: 25px;
   } 
   

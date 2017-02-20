@@ -16,8 +16,6 @@ module.exports = {
         let nextY = position.y
         let rotatedDirection = applyRotation(direction, position.rotation)
 
-        console.log(direction, position.rotation, rotatedDirection)
-
         switch (rotatedDirection) {
           case MOVE.BACKWARD:
             nextY = position.y + 1

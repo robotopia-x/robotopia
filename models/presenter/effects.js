@@ -43,7 +43,7 @@ module.exports = ({presenter, timer}) => {
     send('prepfight:setRight', { name: clients[players[2]].username }, _.noop)
     send('runtime:reset', { loadState: initialState.game }, _.noop)
     send('game:loadGameState', { loadState: initialState.game }, _.noop)
-    send('game:initializeResourceSpots', { numberOfSpots: 8 }, _.noop)
+    send('game:initializeResourceSpots', { numberOfSpots: 8, value: 500 }, _.noop)
     send('presenter:_updateTime', 0, _.noop)
     send('prepfight:start', null, _.noop)
     setTimeout(() => {

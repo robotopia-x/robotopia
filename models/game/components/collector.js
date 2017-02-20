@@ -23,6 +23,10 @@ module.exports = {
             target: state.id,
             data: { hasResource: true }
           }, _.noop)
+          send('game:collectable.decreaseResource', {
+            target: state.id,
+            data: { amount: RESOURCE_AMOUNT }
+          }, _.noop)
         }
       },
 

@@ -1,6 +1,5 @@
 const html = require('choo/html')
 const sf = require('sheetify')
-const _ = require('lodash')
 const { goalProgressView } = require('../elements/goal-progress')
 
 const prefix = sf`

@@ -56,6 +56,12 @@ const prefix = sf`
     border-radius: 20px;
     width: 50%;
   }
+  
+  :host > .levelButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
 `
 
 const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
@@ -66,6 +72,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
+      const repeatLevelButtonHtml = buttonView({
+        label: 'Restart Level',
+        onClick: () => console.log('reload the page')
+      })
       const nextLevelButtonHtml = getNextLevelButton(send, level)
       let unlockedHtml
 
@@ -93,7 +103,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
             </div>
           </div>
           <br>
-          ${nextLevelButtonHtml}
+          <div class="levelButtons">
+            ${repeatLevelButtonHtml}
+            ${nextLevelButtonHtml}
+          </div>
         </div>
       `)
     }

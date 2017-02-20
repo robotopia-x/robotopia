@@ -32,6 +32,7 @@ const tutorialView = (state, prev, send) => {
 
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
+    highlight: true,
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
       if (tutorial.level.hasOwnProperty('resources') && !isNaN(tutorial.level.resources) && tutorial.level.resources > 0) {

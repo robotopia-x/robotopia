@@ -14,6 +14,8 @@ const levelModel = require('./models/tutorial')
 const clientModel = require('./models/client')(P2P_CONFIG)
 const presenterModel = require('./models/presenter')(P2P_CONFIG)
 const prepfight = require('./node_modules/action-overlay')('prepfight')
+const highlighter = require('./lib/highlighter')
+highlighter.start()
 
 const app = choo()
 

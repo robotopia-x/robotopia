@@ -61,7 +61,7 @@ const prefix = sf`
 
 function button ({
   icon, label, disabled = false,
-  onClick = _.noop
+  onClick = _.noop, additionalClasses
 }) {
   const classes = classNames(
     prefix,
@@ -72,7 +72,7 @@ function button ({
   )
 
   return html`
-    <button class="${classes}" onclick=${onClick} disabled=${disabled}>
+    <button class="${classes + ' ' + additionalClasses} " onclick=${onClick} disabled=${disabled}>
       ${label}
     </button>
   `

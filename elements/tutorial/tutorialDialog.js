@@ -72,6 +72,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
       const nextLevelButtonHtml = getNextLevelButton(send, level)
 
+      if (level.onFinish) level.onFinish({ gameState, workspace} )
+
+      send('tutorial:sendEvent', {type: 'levelWon'})
+
       return modalView(html`
         <div class="${prefix} animated content">
           <h1>Congratulations, you finished the level!</h1>  
@@ -80,7 +84,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
@@ -124,7 +128,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>

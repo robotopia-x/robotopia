@@ -5,6 +5,9 @@ const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
 const { goalProgressView } = require('../elements/goal-progress')
 const blocklyWidget = require('../elements/blockly')
 const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
+const createHighlighter = require('../lib/highlighter')
+const _highLighter = createHighlighter()
+_highLighter.start()
 
 const blocklyView = blocklyWidget()
 
@@ -28,15 +31,31 @@ const tutorialView = (state, prev, send) => {
       goals: tutorial.level.goals,
       workspace: editor.workspace
     })
+
+    let classes, names, ids
+    let hl = tutorial.level.highlighters
+    if (hl) {
+      classes = hl.classes
+      names = hl.names
+      ids = hl.ids
+    }
+    _highLighter.highlightTheseClasses = classes ? classes : []
+    _highLighter.highlightTheseNames = names ? names : []
+    _highLighter.highlightTheseIds = ids ? ids : []
   }
 
   const playButtonHtml = playButtonView({
     isRunning: clock.isRunning,
+    name: 'play-button',
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
+      if (tutorial.level.hasOwnProperty('resources') && !isNaN(tutorial.level.resources) && tutorial.level.resources > 0) {
+        send('game:initializeResourceSpots', { numberOfSpots: 10 })
+      }
       send('runtime:destroyRobot', { id: 'ROBOT' })
       send('runtime:createRobot', { id: 'ROBOT', groupId: 1 })
       send('clock:start')
+      send('tutorial:resetEvents')
     },
     onStop: () => {
       send('clock:stop')

@@ -46,19 +46,21 @@ const prefix = sf`
      border-bottom: 13px solid transparent;
   }
   
-  :host > .story-hint {
+  :host > .unlocked {
     width: 100%;
-    color: #8a6d3b;
-    border: 1px solid #faebcc;
-    padding: 15px;
-    border-radius: 3px;
-    padding-left: 50px;
-    display: inline-block;
-    background-color: #fcf8e3;
-    background-image: url('assets/icons/info.svg');
-    background-size: 32px 32px;
-    background-position: 10px center;
-    background-repeat: no-repeat;
+    text-align: center;
+  }
+  
+  :host > .unlocked > .unlockedBlock {
+    border: 5px solid #DDDDDD;
+    border-radius: 20px;
+    width: 50%;
+  }
+  
+  :host > .levelButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 `
 
@@ -70,11 +72,26 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
+      const repeatLevelButtonHtml = buttonView({
+        label: 'Restart Level',
+        onClick: () => console.log('reload the page')
+      })
       const nextLevelButtonHtml = getNextLevelButton(send, level)
+      let unlockedHtml
+
+      if (story.unlockedBlock) {
+        unlockedHtml = html`
+            <div class="unlocked">
+              <h3>You just unlocked the ${story.unlockedBlock.name}-Block!</h3>
+              <img class="unlockedBlock" src="${story.unlockedBlock.img}"}>
+            </div>
+          `
+      }
 
       return modalView(html`
         <div class="${prefix} animated content">
-          <h1>Congratulations, you finished the level!</h1>  
+          <h1>Congratulations, you finished the level!</h1>
+          ${unlockedHtml}
           <div class="goals">
             <div>
               <h5>Goals: </h5>
@@ -86,7 +103,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
             </div>
           </div>
           <br>
-          ${nextLevelButtonHtml}
+          <div class="levelButtons">
+            ${repeatLevelButtonHtml}
+            ${nextLevelButtonHtml}
+          </div>
         </div>
       `)
     }
@@ -114,10 +134,6 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
           <p class="story-text">
             ${story.text}            
           </p>
-          
-          ${story.img ? html`<img class="img" src="${story.img}"/>` : html``}
-          
-         ${hintHtml}
           
           <div class="goals">
             <div>

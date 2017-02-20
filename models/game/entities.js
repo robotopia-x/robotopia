@@ -26,7 +26,7 @@ module.exports = {
     position: { x, y, rotation: orientation },
     movable: {},
     discoverer: { range: 3 },
-    collector: { hasResource: hasResource },
+    collector: { hasResource: hasResource, chunk: 0 },
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {
@@ -35,7 +35,7 @@ module.exports = {
     }
   }),
 
-  gem: ({ x, y, value }) => ({
+  gem: ({ x, y, value, chunks, color }) => ({
     position: { x, y },
     item: { type: 'gem' },
     discoverable: {
@@ -44,6 +44,7 @@ module.exports = {
     },
     collides: {},
     collectable: {
+      chunks: chunks,
       value: value,
       maxValue: value
     },
@@ -51,7 +52,7 @@ module.exports = {
     sprite: {
       type: 'SIMPLE',
       data: {
-        sprite: 'GEM'
+        sprite: color + '_GEM'
       }
     }
   }),

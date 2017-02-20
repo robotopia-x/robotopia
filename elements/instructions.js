@@ -47,10 +47,10 @@ function instructionView ({ prev }, { level, isStoryModalOpen }) {
 
     if (story.hint) {
       hintHtml = html`
-          <p class="story-hint">
-            ${story.hint}
-          </p>
-        `
+        <p class="story-hint">
+          ${story.hint}
+        </p>
+      `
     }
 
     return html`

@@ -3,7 +3,7 @@ const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
 const update = require('immutability-helper')
-const component = require('choo-component')
+const component = require('choo-component').default
 const classNames = require('classnames')
 
 // PanelGroup
@@ -108,12 +108,12 @@ module.exports = component({
         window.dispatchEvent(new Event('resize'))
 
         send('panelGroup:_resizePanel', { position }, _.noop)
-      }
+      },
     }
   },
 
-  view: ({
-    panelSizes, selectedPanelIndex, panelViews,
+  render: ({
+    panelSizes, selectedPanelIndex, panelViews, initialPanelSizes,
     initPanelSizes, resizeGroup, selectPanel, resizePanel
   }) => {
     let windowResizeHandler
@@ -136,6 +136,8 @@ module.exports = component({
       resizing: selectedPanelIndex !== null
     })
 
+    console.log('render panelSizes', panelSizes)
+
     return html`
       <div class="${className}"
            onload=${init}
@@ -148,19 +150,14 @@ module.exports = component({
     `
 
     function init (panelsContainer) {
-      const initialPanelSizes = getInitialPanelSizes(panelsContainer, panelViews)
+      setTimeout(() => {
+        windowResizeHandler = () =>
+          resizeGroup({ width: getPanelsTotalWidth(panelsContainer, panelViews.length) })
 
-      windowResizeHandler = () =>
-        resizeGroup({ width: getPanelsTotalWidth(panelsContainer, panelViews.length) })
-
-      if (panelSizes === null) {
-        initPanelSizes({ panelSizes: initialPanelSizes })
-      } else {
-        // call resize if panelSizes has been preset, because panelsContainer width might have changed
         windowResizeHandler()
-      }
 
-      window.addEventListener('resize', windowResizeHandler)
+        window.addEventListener('resize', windowResizeHandler)
+      });
     }
 
     function unload () {
@@ -168,11 +165,6 @@ module.exports = component({
     }
   }
 })
-
-function getInitialPanelSizes (panelsContainer, panelViews) {
-  const panelWidth = getPanelsTotalWidth(panelsContainer, panelViews.length) / panelViews.length
-  return _.map(panelViews, () => panelWidth)
-}
 
 // returns width of container, subtracting the width of divider
 function getPanelsTotalWidth (panelsContainer, numberOfPanels) {

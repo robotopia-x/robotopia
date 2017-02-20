@@ -40,6 +40,7 @@ const goalListPrefix = sf`
     background-size: 25px;
     margin-right: 7px;
     background-image: url('assets/icons/checkbox-empty.svg');
+    flex-shrink: 0;
   }
   
   :host > .goal.completed:before {  

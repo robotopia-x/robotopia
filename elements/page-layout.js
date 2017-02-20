@@ -37,10 +37,8 @@ function pageLayout ({
 
   const contentHtml = panelGroup.component(...context)(id, {
     props: {
-      panelViews
-    },
-    initialState: {
-      panelSizes: panelSizes
+      panelViews,
+      initialPanelSizes: panelSizes
     }
   })
 

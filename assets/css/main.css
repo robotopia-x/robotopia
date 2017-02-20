@@ -74,7 +74,7 @@ input {
   transition: box-shadow 2s;
 }
 
-.highlight.on {
+.highlight.HL_on {
   -webkit-box-shadow: 0px 0px 20px 3px rgba(225,255,0,1);
   -moz-box-shadow: 0px 0px 20px 3px rgba(225,255,0,1);
   box-shadow: 0px 0px 20px 3px rgba(225,255,0,1);

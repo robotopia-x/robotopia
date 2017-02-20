@@ -98,7 +98,7 @@ function editorView (state, prev, send) {
     send('clock:stop')
     send('runtime:reset')
     send('game:loadGameState', { loadState: initialState.game })
-    send('game:initializeResourceSpots', { numberOfSpots: 10, value: 500 })
+    send('game:initializeResourceSpots', { numberOfSpots: 10, value: 100 })
   }
 }
 

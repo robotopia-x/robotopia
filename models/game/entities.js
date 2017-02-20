@@ -44,7 +44,8 @@ module.exports = {
     },
     collides: {},
     collectable: {
-      value: value
+      value: value,
+      maxValue: value
     },
     zIndex: 1,
     sprite: {

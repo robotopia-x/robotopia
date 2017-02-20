@@ -27,7 +27,7 @@
 - [x] User tested.
 - [x] Peer-to-Peer Connection between clients and presenter
 - [x] Uses the [Choo](https://github.com/yoshuawuyts/choo) JS-Framework. 
-- [x] *Easy self hosting*.
+- [x] *Easy self-hosting*.
 
 ## Installation
 > Make sure to use Google Chrome

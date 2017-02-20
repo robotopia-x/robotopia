@@ -3,7 +3,7 @@
 [![built with choo v4](https://img.shields.io/badge/built%20with%20choo-v4-ffc3e4.svg?style=flat-square)](https://github.com/yoshuawuyts/choo)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/robotopia-x/robotopia/blob/master/LICENSE)
 
-> Robotopia is an in-browser learning tool for kids and 
+> Robotopia is an in-browser learning tool for kids and young adults. It strives to teach programming concepts together with basic logic in a fun and comforting way without writing a single line of code.
 
 ![Robotopia Editor](./assets/img/readme_IMG.png)
 

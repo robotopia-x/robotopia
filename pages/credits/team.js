@@ -20,7 +20,7 @@ module.exports = [
     role: 'Developer / Evil Mind',
     img: 'https://avatars1.githubusercontent.com/u/5808849?v=3&s=400',
     github: 'https://github.com/H3rby7',
-    desc: 'Laberei, laber laber bla laber labbellabab laber laber, label babel laber lab.'
+    desc: ''
   },
   {
     name: 'Tim Großmann',
@@ -42,6 +42,6 @@ module.exports = [
     role: 'User Testing',
     img: '../assets/img/emre.jpg',
     github: 'https://github.com/robotopia-x/robotopia',
-    desc: 'Laberei, laber laber bla laber labbellabab laber laber, label babel laber lab.'
+    desc: ''
   }
 ]

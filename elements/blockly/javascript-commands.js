@@ -85,7 +85,11 @@ Blockly.JavaScript.place_marker_ext = function (block) {
 /* EVENTS */
 
 Blockly.JavaScript.start_handler = function (block) {
-  return Blockly.JavaScript.statementToCode(block, 'body')
+  // don't remove the generated comment, otherwise programs which just contain the start block won't load if the previous
+  // workspace has been empty because the generated code is equivalent
+  return (
+    `// Main program starts here
+${Blockly.JavaScript.statementToCode(block, 'body')}\n`)
 }
 
 Blockly.JavaScript.marker_event_handler = function (block) {

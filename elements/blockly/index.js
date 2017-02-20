@@ -38,14 +38,15 @@ function blocklyWidget () {
   let container = null
   let prevParams = null
   let onChange = _.noop
-  let toolbox, blocklyWorkspace
+  let blocklyWorkspace = null
+  let toolbox
 
   return widget({
     onupdate: (el, params) => {
       onChange = params.onChange
 
       // ignore if workspace isn't initialized or params haven't changed
-      if (!blocklyWorkspace || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
+      if (blocklyWorkspace === null || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
         return
       }
 
@@ -81,7 +82,6 @@ function blocklyWidget () {
       // apply initial params
       if (prevParams.workspace) {
         updateWorkspace(blocklyWorkspace, prevParams.workspace)
-        Blockly.svgResize(blocklyWorkspace)
       }
     },
 
@@ -121,11 +121,14 @@ function updateWorkspace (workspace, xmlString) {
   const workspaceXml = Blockly.Xml.textToDom(xmlString)
   workspace.clear()
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+  Blockly.svgResize(workspace)
 }
 
 function stringToWorkspace (xmlString) {
   const workspace = new Blockly.Workspace(DEFAULT_OPTIONS)
-  updateWorkspace(workspace, xmlString)
+  const workspaceXml = Blockly.Xml.textToDom(xmlString)
+  Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+
   return workspace
 }
 

@@ -5,15 +5,17 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [4],
-        [3],
-        [3],
-        [3],
-        [3]
+        [1, 1, 1],
+        [1, 4, 1],
+        [1, 3, 1],
+        [1, 3, 1],
+        [1, 3, 1],
+        [1, 3, 1],
+        [1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 0, y: 4, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 5, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -42,14 +44,15 @@ module.exports = () => {
     goals: [
       {
         type: 'moveTo',
-        params: {position: {x: 0, y: 0}, entity: 'ROBOT'},
+        params: {position: {x: 1, y: 1}, entity: 'ROBOT'},
         desc: 'Move the robot to the stone tile',
         isMandatory: true
       }
     ],
 
     storyModal: {
-      text: 'Hey Morty, I build this robot to help us on our space adventures. I need your help programming it. Can you make it move to the grass field.',
+      text: `Welcome to Robotopia, where no one (except you) has to work anymore, because WE GOT ROBOTS, that's right! 
+      And somebody, I'm talking about you here, has to tell them what to do. Let's start off with a simple task.`,
       hint: '',
       unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/rotate-dropdown.PNG' }
     },

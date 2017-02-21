@@ -119,12 +119,9 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: '',
-      hint: ''
-    },
-
-    winModal: {
-      text: 'Next one will not be that easy'
+      text: ``,
+      hint: '',
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     },
 
     onFinish: ({gameState, workspace}) => {

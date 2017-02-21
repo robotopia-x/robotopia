@@ -62,9 +62,9 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: '',
-      hint: '',
-      img: 'assets/img/tutorials/simple-move.png'
+      text: `Well done! Now here is a difficult one. Just kidding. In both matters. It will probably still be a challenge for you...`,
+      hint: 'You can use a repeat inside a repeat.',
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }
   }
 }

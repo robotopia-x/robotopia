@@ -15,14 +15,11 @@ module.exports = () => {
         [1, 3, 1, 1],
         [1, 3, 1, 1],
         [1, 3, 1, 1],
-        [1, 3, 1, 1],
-        [1, 3, 1, 1],
-        [1, 3, 1, 1],
         [1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -61,9 +58,10 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: '',
+      text: `"So far" you are doing surprisingly well. Let's see if you can make it "so far". 
+      Haha, I'm so good at making jokes. Probably because I don't need to work anymore. Why are you still listening? Get to work!`,
       hint: '',
-      img: 'assets/img/tutorials/simple-move.png'
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }
   }
 }

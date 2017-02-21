@@ -125,7 +125,7 @@ module.exports = () => {
     storyModal: {
       text: '',
       hint: '',
-      img: 'assets/img/tutorials/simple-move.png'
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }
   }
 

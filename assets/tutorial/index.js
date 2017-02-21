@@ -4,8 +4,8 @@ addTutorialRow('blockly', [
   require('./A-blockly01.js')
 ])
 
-addTutorialRow('turn', [
-  require('./B-turn-01.js')
+addTutorialRow('rotate', [
+  require('./B-rotate-01.js')
 ])
 
 addTutorialRow('loop', [

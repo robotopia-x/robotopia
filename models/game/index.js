@@ -2,6 +2,7 @@ const game = require('@robotopia/choo-game')
 const { movable } = require('./components/movable')
 const { health } = require('./components/health')
 const { collector } = require('./components/collector')
+const { collectable } = require('./components/collectable')
 const { markerSpawner, towerSpawner, robotSpawner } = require('./components/spawner')
 const { shooter } = require('./components/shooter')
 const { discoverable } = require('./components/discoverable')
@@ -19,6 +20,7 @@ module.exports = game.model({
     movable,
     health,
     collector,
+    collectable,
     markerSpawner,
     towerSpawner,
     robotSpawner,

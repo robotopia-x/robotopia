@@ -10,6 +10,12 @@ const TILE_WIDTH = 100
 // 80 / 100 = 4 / 5 => width has to be divisible by 5
 const TILE_DIVISOR = 5
 
+const RESOURCE_COLOR = {
+  10: '#2245e3',
+  20: '#3acb3a',
+  25: '#e4292a'
+}
+
 function render (ctx, viewport, state, progress) {
   const { tiles } = state.current
 
@@ -108,7 +114,11 @@ function combineWithPrevEntityState (prev, entity) {
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
-  if (entity.sprite) {
+  if (entity.collectable) {
+    renderCollectable(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.sprite && !entity.collectable) {
     renderSprite(ctx, entity, prevEntity, progress)
   }
 
@@ -127,6 +137,30 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   if (entity.worker) {
     renderWorker(ctx, entity, prevEntity, progress)
   }
+}
+
+function renderCollectable (ctx, entity, prevEntity, progress) {
+  const spritePart = getCollectableSprite(entity.collectable)
+  const sprite = entity.sprite.data.sprite
+
+  const image = assets.store[sprite]
+  const width = image.width / 3
+  const height = image.height
+  const { x, y } = entity.position
+
+  ctx.drawImage(image, spritePart * width, 0, width, height, x * TILE_WIDTH, y * TILE_HEIGHT, width, height)
+}
+
+function getCollectableSprite ({ value, maxValue }) {
+  const parts = maxValue / 3
+
+  if (value < parts) {
+    return 2
+  }
+  if (value < parts * 2) {
+    return 1
+  }
+  return 0
 }
 
 function renderSprite (ctx, entity, prevEntity, progress) {
@@ -227,10 +261,11 @@ function renderHealth (ctx, current, prev, progress) {
   ctx.restore()
 }
 
-const HAS_RESOURCE_RADIUS = 15
-const HAS_RESOURCE_COLOR = '#2245e3'
-
 function renderCarriesResource (ctx, current, prev, progress) {
+  // maximum size of 20
+  const HAS_RESOURCE_RADIUS = Math.min(current.collector.chunk, 25)
+  const HAS_RESOURCE_COLOR = RESOURCE_COLOR[HAS_RESOURCE_RADIUS]
+
   // only render if robot carries resource
   if ((current.collector.hasResource || prev.collector.hasResource) && current.position.rotation !== ORIENTATION.BACK) {
     let x = 0

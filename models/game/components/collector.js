@@ -1,15 +1,13 @@
 const _ = require('lodash')
 
-const RESOURCE_AMOUNT = 10
-
 module.exports = {
   collector: {
     requires: ['position'],
 
     reducers: {
-      _setHasResource: (state, { hasResource }) => {
+      _setHasResource: (state, { hasResource, chunk }) => {
         return {
-          collector: { hasResource: { $set: hasResource } }
+          collector: { hasResource: { $set: hasResource }, chunk: { $set: chunk } }
         }
       }
     },
@@ -17,23 +15,31 @@ module.exports = {
     effects: {
       collectResource: (state, data, game, send) => {
         const hasResource = state.collector.hasResource
+        const nearResource = getNearResource(state, game)
 
-        if (!hasResource && isNearResource(state, game)) {
+        if (!hasResource && nearResource) {
+          const resourceChunk = nearResource.collectable.chunks
+
           send('game:collector._setHasResource', {
             target: state.id,
-            data: { hasResource: true }
+            data: { hasResource: true, chunk: resourceChunk }
+          }, _.noop)
+          send('game:collectable.decreaseResource', {
+            target: state.id,
+            data: { amount: resourceChunk }
           }, _.noop)
         }
       },
 
       depositResource: (state, data, game, send) => {
         const hasResource = state.collector.hasResource
+        const resourceChunk = state.collector.chunk
 
         if (hasResource && isOnBase(state, game)) {
-          send('game:addResources', { teamId: state.team.id, amount: RESOURCE_AMOUNT }, _.noop)
+          send('game:addResources', { teamId: state.team.id, amount: resourceChunk }, _.noop)
           send('game:collector._setHasResource', {
             target: state.id,
-            data: { hasResource: false }
+            data: { hasResource: false, chunk: resourceChunk }
           }, _.noop)
         }
       }
@@ -41,7 +47,7 @@ module.exports = {
   }
 }
 
-function isNearResource ({ position }, { entities }) {
+function getNearResource ({ position }, { entities }) {
   const resources = _.filter(entities, 'collectable')
 
   return _.find(resources, (resource) => {

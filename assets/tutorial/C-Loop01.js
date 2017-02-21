@@ -1,22 +1,28 @@
+const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
 module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 3, 3, 3, 3, 3, 3, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 4, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1],
+        [1, 3, 4, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: 0 })
+        entities.tutorialRobot({ x: 1, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -48,27 +54,16 @@ module.exports = () => {
     goals: [
       {
         type: 'moveTo',
-        params: {position: {x: 7, y: 7}, entity: 'ROBOT'},
+        params: {position: {x: 2, y: 1}, entity: 'ROBOT'},
         desc: 'Move the robot to the stone tile',
         isMandatory: true
-      },
-      {
-        type: 'useBlockWithinBlock',
-        params: {outerBlock: 'controls_repeat', innerBlock: 'controls_repeat'},
-        desc: 'Use a repeat inside a repeat',
-        isMandatory: false
       }
     ],
 
     storyModal: {
       text: '',
-      hint: ''
-    },
-
-    winModal: {
-      text: 'Next one will not be that easy'
-    },
-
-    nextTutorial: 'scout'
+      hint: '',
+      img: 'assets/img/tutorials/simple-move.png'
+    }
   }
 }

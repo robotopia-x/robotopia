@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
-const levels = require('../../assets/tutorial')
+const levels = require('../assets/tutorial')
 
 let willStopOnNextTick = false
 let currentLevel

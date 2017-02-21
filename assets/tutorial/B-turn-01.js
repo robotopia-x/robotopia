@@ -1,3 +1,4 @@
+const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
 module.exports = () => {
@@ -13,7 +14,7 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: 0 })
+        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -71,17 +72,8 @@ module.exports = () => {
 
     storyModal: {
       text: 'I tried and failed. You can delete my Code. Then make the robot move to the stone tile. dont you get my robot dirty!',
-      hint: ''
-    },
-
-    winModal: {
-      text: 'Next one will not be that easy',
-      unlockedBlock: {
-        name: 'Repeat',
-        img: '../../assets/img/tutorials/repeat-10-block.png'
-      }
-    },
-
-    nextTutorial: 'loop'
+      hint: '',
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
+    }
   }
 }

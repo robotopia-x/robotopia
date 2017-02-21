@@ -1,9 +1,10 @@
 /* globals localStorage */
+const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
 const DEFAULT_WORKSPACE = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="start_handler" x="50" y="50" deletable="false"></block><block type="resource_event_handler" x="400" y="400" deletable="false"></block></xml>`
 const DEFAULT_ENTITIES = [
-  entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', orientation: 0, teamId: 1, discoverRange: 2}),
+  entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2}),
   entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
 ]
 const LOCAL_STORAGE_LOAD = 'robot04'
@@ -123,14 +124,9 @@ module.exports = () => {
 
     storyModal: {
       text: '',
-      hint: ''
-    },
-
-    winModal: {
-      text: 'Next one will not be that easy'
-    },
-
-    nextTutorial: ''
+      hint: '',
+      img: 'assets/img/tutorials/simple-move.png'
+    }
   }
 
   function getWorkspace () {

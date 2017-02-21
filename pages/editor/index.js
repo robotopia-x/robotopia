@@ -1,7 +1,6 @@
 /* globals localStorage */
 const html = require('choo/html')
 const initialState = require('./initial-state')
-const button = require('../../elements/button')
 const blocklyWidget = require('../../elements/blockly')
 const pageLayout = require('../../elements/page-layout')
 const gameRunnerView = require('../../elements/game-runner')
@@ -14,14 +13,6 @@ const blocklyView = blocklyWidget()
 function editorView (state, prev, send) {
   const { clock, editor, game, client } = state
 
-  const commitButtonHtml = button({
-    onClick: () => {
-      send('client:sendCode', { code: editor.code })
-    },
-    icon: 'upload',
-    label: 'Upload'
-  })
-
   const blocklyHtml = blocklyView({
     toolbox: initialState.editor.toolbox,
     workspace: localStorage.getItem('workspace') || initialState.editor.workspace || editor.workspace,
@@ -32,7 +23,8 @@ function editorView (state, prev, send) {
   })
 
   const gameRunnerHtml = gameRunnerView({
-    game, clock,
+    game,
+    clock,
     onStart: () => {
       send('runtime:commitCode', { code: editor.code, groupId: 1 })
       send('clock:start')
@@ -72,6 +64,5 @@ function editorView (state, prev, send) {
     send('game:initializeResourceSpots', { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' })
   }
 }
-
 
 module.exports = editorView

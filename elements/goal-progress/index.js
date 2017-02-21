@@ -66,7 +66,7 @@ function goalProgressView ({ display, game, goals, workspace }) {
 }
 
 function goalListView ({ goals, game, workspace }) {
-  if (goals.length === 0) return;
+  if (goals.length === 0) return
 
   const goalsHtml = _.map(goals, (goal) => {
     const className = classNames('goal', {

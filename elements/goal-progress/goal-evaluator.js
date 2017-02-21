@@ -1,5 +1,5 @@
 const _ = require('lodash')
-//const X2Js = require('x2js')
+// const X2Js = require('x2js')
 const { getEntity } = require('@robotopia/choo-game')
 
 function checkGoal ({ goal, game, workspace }) {
@@ -41,18 +41,18 @@ function checkGoal ({ goal, game, workspace }) {
       return false
 
     case 'dontTouchTileType':
-      //TODO: check for robot touching dirt upon walking
-      //goal.params.tileID
+      // TODO: check for robot touching dirt upon walking
+      // goal.params.tileID
       return false
 
     case 'useBlockWithinBlock':
-      //TODO: workspace to json, check for outer block. Stringify outer blocks statement object and regex the inner block.
-      //const workspaceAsJSON = new X2Js().xml_str2json(workspace);
-      //goal.params.outerBlock
-      //goal.params.innerBlock
-      //console.log(workspaceAsJSON)
+      // TODO: workspace to json, check for outer block. Stringify outer blocks statement object and regex the inner block.
+      // const workspaceAsJSON = new X2Js().xml_str2json(workspace);
+      // goal.params.outerBlock
+      // goal.params.innerBlock
+      // console.log(workspaceAsJSON)
       return false
-    
+
     case 'discoverEntityOfType':
       if (!game || !game.entities || game.entities.length === 0) return false
       let i

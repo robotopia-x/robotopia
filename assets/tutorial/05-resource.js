@@ -1,3 +1,4 @@
+/* globals localStorage */
 const entities = require('../../models/game/entities')
 
 const DEFAULT_WORKSPACE = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="start_handler" x="50" y="50" deletable="false"></block><block type="resource_event_handler" x="400" y="400" deletable="false"></block></xml>`
@@ -26,11 +27,11 @@ module.exports = () => {
             previousEntities.push(toAdd)
           }
         } catch (e) {
-          console.log("Error parsing entities from previous Level: " + e)
+          console.log('Error parsing entities from previous Level: ' + e)
         }
       }
     } catch (e) {
-      console.log("Error parsing from previous Level: " + e)
+      console.log('Error parsing from previous Level: ' + e)
     }
   }
 
@@ -129,7 +130,7 @@ module.exports = () => {
     nextTutorial: ''
   }
 
-  function getWorkspace() {
+  function getWorkspace () {
     if (previousWorkspace) {
       let injectPart = '<block type="resource_event_handler" x="400" y="400" deletable="false">'
       let injectBefore = '</xml>'
@@ -141,9 +142,8 @@ module.exports = () => {
     return DEFAULT_WORKSPACE
   }
 
-  function getEntitiesOrNew() {
+  function getEntitiesOrNew () {
     if (previousEntities && previousEntities.length > 0) return previousEntities
     return DEFAULT_ENTITIES
   }
-
 }

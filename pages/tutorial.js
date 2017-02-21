@@ -3,7 +3,6 @@ const pageLayout = require('../elements/page-layout')
 const gameRunnerView = require('../elements/game-runner')
 const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
 const blocklyWidget = require('../elements/blockly')
-const { speedSliderView, playButtonView } = require('../elements/runtime-controls')
 const { instructionView } = require('../elements/instructions')
 const createHighlighter = require('../lib/highlighter')
 const _highLighter = createHighlighter()
@@ -30,13 +29,14 @@ const tutorialView = (state, prev, send) => {
       send('editor:update', { code, workspace })
     }
   })
-  
+
   const gameRunnerHtml = gameRunnerView({
-    game, clock,
+    game,
+    clock,
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
       let res = tutorial.level.resources
-      if (res  && res.numberOfSpots && res.value && res.chunks && res.color) {
+      if (res && res.numberOfSpots && res.value && res.chunks && res.color) {
         send('game:initializeResourceSpots', res)
       }
       send('runtime:destroyRobot', { id: 'ROBOT' })

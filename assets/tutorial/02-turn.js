@@ -12,10 +12,10 @@ module.exports = () => {
         [1, 1, 1, 1, 1, 1]
       ],
 
-    entities: [
-      entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: 0 })
-    ]
-  },
+      entities: [
+        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: 0 })
+      ]
+    },
 
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">

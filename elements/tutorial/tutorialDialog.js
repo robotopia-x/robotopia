@@ -88,7 +88,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
           `
       }
 
-      if (level.onFinish) level.onFinish({ gameState, workspace} )
+      if (level.onFinish) level.onFinish({ gameState, workspace })
 
       send('tutorial:sendEvent', {type: 'levelWon'})
 
@@ -116,20 +116,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     }
 
     if (isStoryModalOpen) {
-      let hintHtml
-
       const startButton = buttonView({
         label: 'Start Tutorial',
         onClick: () => send('tutorial:setDisplayStoryModal', { displayStory: false })
       })
-
-      if (story.hint) {
-        hintHtml = html`
-          <p class="story-hint">
-            ${story.hint}
-          </p>
-        `
-      }
 
       return modalView(html`
         <div class="${prefix} content animated">

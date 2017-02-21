@@ -108,7 +108,7 @@ module.exports = component({
         window.dispatchEvent(new Event('resize'))
 
         send('panelGroup:_resizePanel', { position }, _.noop)
-      },
+      }
     }
   },
 
@@ -157,7 +157,7 @@ module.exports = component({
         windowResizeHandler()
 
         window.addEventListener('resize', windowResizeHandler)
-      });
+      })
     }
 
     function unload () {

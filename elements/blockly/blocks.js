@@ -5,7 +5,7 @@ const {
   MATH_COLOR,
   ACTION_COLOR,
   EVENT_COLOR,
-  MOVEMENT_COLOR,
+  MOVEMENT_COLOR
 } = require('./colors')
 
 /* global Blockly */
@@ -131,9 +131,7 @@ Blockly.Blocks.move = {
       .appendField(
         new Blockly.FieldDropdown([
           ['⇧ Forward ', 'FORWARD'],
-          ['⇦ Left', 'LEFT'],
-          ['⇩ Backward', 'BACKWARD'],
-          ['⇨ Right', 'RIGHT']
+          ['⇩ Backward', 'BACKWARD']
         ]),
         'move'
       )

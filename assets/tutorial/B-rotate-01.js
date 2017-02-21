@@ -21,27 +21,6 @@ module.exports = () => {
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
 <block type="start_handler" x="50" y="50" deletable="false">
-    <statement name="body">
-    <block type="move">
-        <next>
-            <block type="rotate">
-                <field name="direction">RIGHT</field>
-                <next>
-                    <block type="move">
-                        <next>
-                            <block type="rotate">
-                                <field name="direction">RIGHT</field>
-                                <next>
-                                    <block type="move"></block>
-                                </next>
-                            </block>
-                        </next>
-                    </block>
-                </next>
-            </block>
-        </next>
-    </block>
-</statement>
 </block>
 </xml>`,
 
@@ -65,13 +44,13 @@ module.exports = () => {
       {
         type: 'dontTouchTileType',
         params: {tileID: 2, entity: 'ROBOT'},
-        desc: 'Do not get your boots dirty.',
+        desc: 'Do not get your robot dirty to impress in an impressive way.',
         isMandatory: false
       }
     ],
 
     storyModal: {
-      text: 'I tried and failed. You can delete my Code. Then make the robot move to the stone tile. dont you get my robot dirty!',
+      text: `Ha, you think you are smart eh? I bet you won't be able to handle: THE ROTATE-BLOCK. Never. Ever...`,
       hint: '',
       unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }

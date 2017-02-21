@@ -71,7 +71,7 @@ module.exports = () => {
       }
     },
 
-    resources: previousEntities ? 0 : 10,
+    resources: previousEntities ? null : { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' },
 
     editor: {
       workspace: getWorkspace(),

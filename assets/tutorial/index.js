@@ -22,7 +22,7 @@ addTutorialRow('resource', [
 
 module.exports = tutorials
 
-function addTutorialRow(categoryName, levels) {
+function addTutorialRow (categoryName, levels) {
   let row = {
     categoryName: categoryName,
     levels: levels

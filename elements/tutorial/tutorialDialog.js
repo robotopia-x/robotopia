@@ -147,16 +147,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 }
 
 function getNextLevelButton (send, level) {
-  if (level.nextTutorial) {
-    return buttonView({
-      label: 'Next Level',
-      onClick: () => send('location:set', `#tutorial/${level.nextTutorial}`)
-    })
-  }
-
   return buttonView({
-    label: 'Load Editor',
-    onClick: () => send('location:set', '#editor')
+    label: 'Next',
+    onClick: () => send('tutorial:nextLevel', (nextLocation) => {
+      send('location:set', nextLocation)})
   })
 }
 

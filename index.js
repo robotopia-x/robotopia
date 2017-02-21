@@ -43,7 +43,7 @@ app.router({ default: '/' }, [
   ['/', require('./pages/overview')],
   ['/credits', require('./pages/credits/index')],
   ['/editor', require('./pages/editor')],
-  ['/tutorial/:level', require('./pages/tutorial')],
+  ['/tutorial/:category/:level', require('./pages/tutorial')],
   ['/presenter', require('./pages/presenter')]
 ])
 

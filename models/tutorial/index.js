@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
 const levels = require('../../assets/tutorial')
-//const levels = require('./levels')
+// const levels = require('./levels')
 
 let willStopOnNextTick = false
 
@@ -65,14 +65,14 @@ module.exports = {
   }
 }
 
-function handleClockEvent(events, event, send) {
+function handleClockEvent (events, event, send) {
   if (!event.hasOwnProperty('operation')) return events
   if (event.operation === 'tick') {
     if (willStopOnNextTick) {
       send('clock:stop', null, _.noop)
       willStopOnNextTick = false
     }
-    return updatedEvents = update(events, {
+    return update(events, {
       time: { $set: events.time + 1 }
     })
   }

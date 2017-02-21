@@ -54,7 +54,7 @@ module.exports = () => {
     },
 
     nextTutorial: 'turn',
-    
+
     highlighters: {
       classes: ['play-button']
     }

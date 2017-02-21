@@ -25,7 +25,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y, rotation: orientation },
     movable: {},
-    discoverer: { range: discoverRange ? discoverRange : 3 },
+    discoverer: { range: discoverRange | 3 },
     collector: { hasResource: hasResource },
     worker: { assignedTask: null },
     zIndex: 5,

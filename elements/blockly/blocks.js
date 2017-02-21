@@ -5,7 +5,7 @@ const {
   MATH_COLOR,
   ACTION_COLOR,
   EVENT_COLOR,
-  MOVEMENT_COLOR,
+  MOVEMENT_COLOR
 } = require('./colors')
 
 /* global Blockly */

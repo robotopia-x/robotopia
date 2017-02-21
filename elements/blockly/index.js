@@ -30,7 +30,7 @@ const DEFAULT_OPTIONS = {
   },
   zoom: {
     controls: false,
-    wheel: false,
+    wheel: false
   }
 }
 

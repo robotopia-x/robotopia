@@ -15,7 +15,7 @@ const tutorialView = (state, prev, send) => {
 
   // we need to check if level param has changed because onLoad will not be triggered if tutorial page
   // has already been loaded
-  if (prev !== null  && (location.params.category !== prev.location.params.category || location.params.level !== prev.location.params.level)) {
+  if (prev !== null && (location.params.category !== prev.location.params.category || location.params.level !== prev.location.params.level)) {
     init()
   }
 

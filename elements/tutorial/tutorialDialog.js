@@ -150,7 +150,8 @@ function getNextLevelButton (send, level) {
   return buttonView({
     label: 'Next',
     onClick: () => send('tutorial:nextLevel', (nextLocation) => {
-      send('location:set', nextLocation)})
+      send('location:set', nextLocation)
+    })
   })
 }
 

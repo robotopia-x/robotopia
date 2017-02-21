@@ -54,9 +54,9 @@ module.exports = () => {
         isMandatory: true
       },
       {
-        type: 'useBlockWithinBlock',
-        params: {outerBlock: 'controls_repeat', innerBlock: 'controls_repeat'},
-        desc: 'Use a repeat inside a repeat',
+        type: 'maxBlocks',
+        params: {amount: 4},
+        desc: 'Use a maximum of four blocks',
         isMandatory: false
       }
     ],

@@ -60,5 +60,4 @@ function getHeaderHtml (menu) {
   `
 }
 
-
 module.exports = pageLayout

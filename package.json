@@ -25,7 +25,8 @@
     "peer-star": "git://github.com/robotopia-x/networking.git",
     "prep-fight": "git://github.com/robotopia-x/start_action_screen.git",
     "sheetify": "^5.1.1",
-    "uid": "0.0.2"
+    "uid": "0.0.2",
+    "x2js": "https://github.com/abdmob/x2js.git"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

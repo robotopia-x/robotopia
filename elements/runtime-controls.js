@@ -26,14 +26,16 @@ function playButtonView ({
     return button({
       onClick: onStop,
       icon: 'stop',
-      label: 'Reset'
+      label: 'Reset',
+      additionalClasses: 'play-button'
     })
   }
 
   return button({
     onClick: onStart,
     icon: 'play',
-    label: 'Run'
+    label: 'Run',
+    additionalClasses: 'play-button'
   })
 }
 

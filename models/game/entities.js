@@ -6,7 +6,7 @@ module.exports = {
       max: 5
     },
     team: { id: teamId },
-    position: { x, y, rotation: 0 },
+    position: { x, y, rotation: 2 },
     movable: {},
     discoverer: { range: 3 },
     markerSpawner: {},
@@ -20,13 +20,13 @@ module.exports = {
     }
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource, discoverRange }) => ({
     id,
     team: { id: teamId },
     position: { x, y, rotation: orientation },
     movable: {},
-    discoverer: { range: 3 },
-    collector: { hasResource: hasResource, chunk: 0 },
+    discoverer: { range: discoverRange | 3 },
+    collector: { hasResource: hasResource },
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {

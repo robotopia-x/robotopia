@@ -88,6 +88,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
           `
       }
 
+      if (level.onFinish) level.onFinish({ gameState, workspace })
+
+      send('tutorial:sendEvent', {type: 'levelWon'})
+
       return modalView(html`
         <div class="${prefix} animated content">
           <h1>Congratulations, you finished the level!</h1>
@@ -97,7 +101,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
@@ -112,20 +116,10 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     }
 
     if (isStoryModalOpen) {
-      let hintHtml
-
       const startButton = buttonView({
         label: 'Start Tutorial',
         onClick: () => send('tutorial:setDisplayStoryModal', { displayStory: false })
       })
-
-      if (story.hint) {
-        hintHtml = html`
-          <p class="story-hint">
-            ${story.hint}
-          </p>
-        `
-      }
 
       return modalView(html`
         <div class="${prefix} content animated">
@@ -140,7 +134,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>

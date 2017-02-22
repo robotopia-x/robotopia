@@ -131,7 +131,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Marker',
+    label: 'Marker - Massive Collecting',
 
     goals: [
       {
@@ -148,11 +148,7 @@ module.exports = () => {
     },
 
     winModal: {
-      text: `Now that's what I'm talking about. ${RESOURCES_TO_WIN} blue gems. So shiny!`,
-      unlockedBlock: {
-        name: 'Block',
-        img: ''
-      }
+      text: `Now that's what I'm talking about. ${RESOURCES_TO_WIN} blue gems. So shiny!`
     }
   }
 }

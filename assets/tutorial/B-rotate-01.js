@@ -32,7 +32,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Turn - Right Round',
+    label: 'Turn - Around',
 
     goals: [
       {

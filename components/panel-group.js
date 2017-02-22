@@ -20,7 +20,7 @@ const prefix = sf`
   }
 
   :host.resizing {
-    cursor: ew-resize;
+    /* cursor: ew-resize; */
   }
 
   :host > .panel, :host > .divider {
@@ -124,7 +124,7 @@ module.exports = component({
         const width = panelSizes !== null ? `${panelSizes[index]}px` : '100%'
 
         return [
-          html`<div class="panel" style="width: ${width}">${panelHtml}</div>`,
+          html`<div class="panel" style="flex: ${initialPanelSizes[index]}">${panelHtml}</div>`,
           html`<div class="divider" onmousedown=${() => selectPanel({ panelIndex: index })}></div>`
         ]
       })

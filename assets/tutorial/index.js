@@ -13,7 +13,8 @@ addTutorialRow('rotate', [
 addTutorialRow('loop', [
   require('./C-Loop01'),
   require('./C-Loop02'),
-  require('./C-Loop03')
+  require('./C-Loop03'),
+  require('./C-Loop04')
 ])
 
 addTutorialRow('scout', [

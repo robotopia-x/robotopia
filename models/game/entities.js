@@ -18,10 +18,11 @@ module.exports = {
       type: 'ROBOT',
       data: {},
       team: teamId === 2 ? 2 : 1
-    }
+    },
+    showRange: 0
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, orientation, resource, discoverRange, teamSprite }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, resource, discoverRange, teamSprite, showRange }) => ({
     id,
     team: { id: teamId },
     position: { x, y, rotation: orientation },
@@ -36,7 +37,8 @@ module.exports = {
       type: 'ROBOT',
       data: {},
       team: teamSprite === 2 ? 2 : 1
-    }
+    },
+    showRange: showRange
   }),
 
   gem: ({ x, y, value, chunks, color }) => ({

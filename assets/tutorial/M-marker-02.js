@@ -1,5 +1,6 @@
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
+const blockColors = require('../../elements/blockly/colors')
 
 const IDLING_ROBOT_CODE = `
 robot.onMode('red', function (marker) {

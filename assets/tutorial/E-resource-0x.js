@@ -2,9 +2,40 @@
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
-const timeLimit = 10
+const DEFAULT_WORKSPACE = `<xml xmlns="http://www.w3.org/1999/xhtml"><block type="start_handler" x="50" y="50" deletable="false"></block><block type="resource_event_handler" x="400" y="400" deletable="false"></block></xml>`
+const DEFAULT_ENTITIES = [
+  entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2}),
+  entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
+]
+const LOCAL_STORAGE_LOAD = 'robot04'
 
 module.exports = () => {
+  let localStorageFromPreviousLevel = localStorage[LOCAL_STORAGE_LOAD]
+  let previousWorkspace, previousEntities
+  if (localStorageFromPreviousLevel) {
+    try {
+      let previousState = JSON.parse(localStorageFromPreviousLevel)
+      if (previousState) {
+        previousWorkspace = previousState.workspace
+        try {
+          let jsonEntities = JSON.parse(previousState.entities)
+          let i
+          previousEntities = []
+          for (i in jsonEntities) {
+            let toAdd = jsonEntities[i]
+            toAdd.id = i
+            if (toAdd.hasOwnProperty('discoverable')) toAdd.discoverable.discovererTeamIds = {}
+            previousEntities.push(toAdd)
+          }
+        } catch (e) {
+          console.log('Error parsing entities from previous Level: ' + e)
+        }
+      }
+    } catch (e) {
+      console.log('Error parsing from previous Level: ' + e)
+    }
+  }
+
   return {
     game: {
       tiles: [
@@ -35,69 +66,48 @@ module.exports = () => {
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],
 
-      entities: [
-        entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2 }),
-        entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
-      ],
+      entities: getEntitiesOrNew(),
 
       teams: {
         1: { resources: 0, points: 0 }
       }
     },
 
-    resources: { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' },
+    resources: previousEntities ? null : { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' },
 
     editor: {
-      workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="start_handler" x="50" y="50" deletable="false">
-  <statement name="body">
-    <block type="controls_repeat">
-      <field name="TIMES">3</field>
-      <statement name="DO">
-      <block type="move">
-        <field name="move">FORWARD</field>
-          <next>
-            <block type="controls_if">
-              <value name="IF0">
-                <block type="logic_compare">
-                  <field name="OP">EQ</field>
-                  <value name="A">
-                    <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
-                      <field name="min">1</field>
-                      <field name="max">2</field>
-                    </block>
-                  </value>
-                  <value name="B">
-                    <block type="math_number" id="nL#iBs7tFzsRy}-I%z3a">
-                      <field name="NUM">1</field>
-                    </block>
-                  </value>
-                </block>
-              </value>
-            <statement name="DO0">
-              <block type="rotate">
-                <field name="direction">LEFT</field>
-              </block>
-            </statement>
-            </block>
-          </next>
-        </block>
-      </statement>
-    </block>
-  </statement>
-</block>
-</xml>`,
+      workspace: getWorkspace(),
 
       toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="40">
-                    <block type="move"></block>
-                    <block type="rotate"></block>
+
+                <category name="Logic" colour="210">
                     <block type="controls_repeat"></block>
                     <block type="controls_if"></block>
                     <block type="logic_compare"></block>
+                </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Numbers" colour="230">
                     <block type="math_number"></block>
                     <block type="random_number"></block>
                 </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Movement" colour="40">
+                    <block type="move"></block>
+                    <block type="rotate"></block>
+                    <block type="move_to_entity"></block>
+                </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Actions" colour="50">
+                    <block type="collect_resource"></block>
+                    <block type="deposit_resource"></block>
+                </category>
+                
               </xml>`
     },
 
@@ -105,21 +115,15 @@ module.exports = () => {
 
     goals: [
       {
-        type: 'discoverEntityOfType',
-        params: {type: 'resource'},
-        desc: 'Make the Robot scout the map to find something interesting',
+        type: 'collectResources',
+        params: {amount: 10},
+        desc: 'Collect the resource and bring it back to the base',
         isMandatory: true
-      },
-      {
-        type: 'gameTimeLimit',
-        params: {timeInS: timeLimit},
-        desc: 'Find something within ' + timeLimit + ' seconds',
-        isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `Scout the map. Hya!`,
+      text: '',
       hint: ''
     },
 
@@ -129,13 +133,23 @@ module.exports = () => {
         name: 'Block',
         img: ''
       }
-    },
-
-    onFinish: ({gameState, workspace}) => {
-      localStorage.setItem('robot04', JSON.stringify({
-        workspace: workspace,
-        entities: gameState && gameState.current ? JSON.stringify(gameState.current.entities) : null
-      }))
     }
+  }
+
+  function getWorkspace () {
+    if (previousWorkspace) {
+      let injectPart = '<block type="resource_event_handler" x="400" y="400" deletable="false">'
+      let injectBefore = '</xml>'
+      let newWS = previousWorkspace.slice(0, previousWorkspace.length - injectBefore.length)
+      newWS += injectPart
+      newWS += injectBefore
+      return newWS
+    }
+    return DEFAULT_WORKSPACE
+  }
+
+  function getEntitiesOrNew () {
+    if (previousEntities && previousEntities.length > 0) return previousEntities
+    return DEFAULT_ENTITIES
   }
 }

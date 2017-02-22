@@ -15,12 +15,14 @@ addTutorialRow('loop', [
   require('./C-Loop03.js')
 ])
 
-addTutorialRow('scout', [
-  require('./D-scout-01.js')
+addTutorialRow('resource', [
+  require('./E-resource-01.js'),
+  require('./E-resource-02.js')
 ])
 
-addTutorialRow('resource', [
-  require('./E-resource-01.js')
+addTutorialRow('marker', [
+  require('./M-marker-01.js'),
+  require('./M-marker-02.js')
 ])
 
 module.exports = tutorials

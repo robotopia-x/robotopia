@@ -20,7 +20,7 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3}),
+        entities.tutorialRobot({x: 5, y: 6, id: 'ROBOT', orientation: ORIENTATION.FRONT, teamId: 1, discoverRange: 2, resource: {hasResource: true, chunk: 10}}),
         entities.tutorialBase({ x: 1, y: 9, id: 'BASE', teamId: 1 }),
         entities.gem({ x: 5, y: 5, value: 100, chunks: 10, color: 'BLUE' })
       ],
@@ -44,6 +44,7 @@ module.exports = () => {
                     <block type="controls_repeat"></block>
                     <block type="move_to_entity"></block>
                     <block type="collect_resource"></block>
+                    <block type="deposit_resource"></block>
                 </category>
 
               </xml>`
@@ -53,22 +54,22 @@ module.exports = () => {
 
     goals: [
       {
-        type: 'carryResource',
-        params: {hasResource: true},
-        desc: 'Collect a resource',
+        type: 'collectResources',
+        params: {amount: 1},
+        desc: 'Bring back the resource',
         isMandatory: true
       }
     ],
 
     storyModal: {
-      text: `So far it's all been fun and games. This is, what we're really after. Gems. Shiny. Valuable`,
-      hint: 'Robots detect resources within 3 fields.'
+      text: `Alright, you got the good stuff. Now get it home!`,
+      hint: 'A good robot always knows where his base is'
     },
 
     winModal: {
-      text: `Now what? This block let's the robot deposit the resource when being near the base.`,
+      text: 'Thank you for getting my robots back to safety.',
       unlockedBlock: {
-        name: 'Deposit-Resource',
+        name: 'Block',
         img: ''
       }
     }

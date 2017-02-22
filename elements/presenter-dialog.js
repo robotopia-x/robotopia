@@ -8,6 +8,7 @@ module.exports = function ({
   currentGame,
   onJoinGroup,
   onPlayersPicked,
+  onCancelPlayerPicking,
   onCloseWinModal = _.noop
 }) {
 
@@ -26,8 +27,13 @@ module.exports = function ({
   return html`<div></div>`
 
   function getPlayerPickingModal() {
-    const buttonHTML = buttonView({
+    const startButton = buttonView({
       label: 'Start'
+    })
+
+    const cancelButton = buttonView({
+      label: 'Cancel',
+      onClick: onCancelPlayerPicking
     })
 
     return modalView(html`
@@ -36,8 +42,9 @@ module.exports = function ({
         <form onsubmit=${handleSubmit}>
         ${clientsToOptions("1", presenter.clients, presenter.playerNumbers)}
         ${clientsToOptions("2", presenter.clients, presenter.playerNumbers)}
-        ${buttonHTML}
+        ${startButton}
         </form>
+        ${cancelButton}
       </div>
     `)
 

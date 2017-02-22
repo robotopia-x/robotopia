@@ -60,6 +60,10 @@ module.exports = () => {
     storyModal: {
       text: `I must admit that last one was easy. This one requires some more brainpower.`,
       hint: ''
+    },
+
+    winModal: {
+      text: `So you do have a brain. I was starting to wonder...`
     }
   }
 }

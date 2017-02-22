@@ -51,8 +51,13 @@ module.exports = () => {
 
     storyModal: {
       text: `Alright, I see you figured how to turn left. But you can also turn right. Crazy, i know.`,
-      hint: '',
-      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
+      hint: ''
+    },
+    
+    winModal: {
+      text: `Anything inside this block will be repeated as many times as defined by the number`,
+      unlockedBlock: { name: 'Repeat', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }
+
   }
 }

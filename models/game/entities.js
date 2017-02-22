@@ -8,7 +8,7 @@ module.exports = {
     team: { id: teamId },
     position: { x, y, rotation: 2 },
     movable: {},
-    discoverer: { range: 3 },
+    discoverer: { range: 2 },
     markerSpawner: {},
     towerSpawner: {},
     collector: { hasResource: false, chunk: 0 },

@@ -11,10 +11,10 @@ const pageLayoutPrefix = sf`
   }
 
   :host > .header {
-    height: 65px;
+    height: 50px;
     margin: 0;
-    padding: 5px 0 0 50px;
-    font-size: 26px;
+    padding: 5px 0 0 30px;
+    font-size: 20px;
     font-weight: normal;
     font-family: Arial;
     color: #fff;
@@ -30,12 +30,12 @@ const pageLayoutPrefix = sf`
   }
   
   .header > a > img {
-    height: 55px;
+    height: 40px;
     margin-right: 10px;
   }
   
   :host > .content {
-    height: calc(100% - 65px)
+    height: calc(100% - 50px)
   }
 `
 

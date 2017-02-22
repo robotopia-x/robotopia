@@ -6,19 +6,20 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 3, 3, 3, 3, 3, 3, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 4, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1],
+        [1, 3, 4, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 3, 1, 1],
+        [1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 8, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -41,41 +42,30 @@ module.exports = () => {
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>
+                    <block type="controls_if"></block>
                 </category>
               </xml>`
     },
 
-    label: 'Loops - Nesting',
+    label: 'If - Getting Lazy',
 
     goals: [
       {
         type: 'moveTo',
-        params: {position: {x: 7, y: 7}, entity: 'ROBOT'},
+        params: {position: {x: 2, y: 1}, entity: 'ROBOT'},
         desc: 'Move the robot to the stone tile',
         isMandatory: true
-      },
-      {
-        type: 'maxBlocks',
-        params: {amount: 4},
-        desc: 'Use a maximum of four blocks',
-        isMandatory: false
-      },
-      {
-        type: 'useBlockWithinBlock',
-        params: { outerBlock: 'controls_repeat', innerBlock: 'controls_repeat' },
-        desc: 'Nest a repeat block inside another repeat block',
-        isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `Well done! Now here is a difficult one. Just kidding. In both matters. It will probably still be a challenge for you...`,
-      hint: 'You can use a repeat inside a repeat.'
+      text: `"So far" you are doing surprisingly well. Let's see if you can make it "so far". 
+      Haha, I'm so good at making jokes. Probably because I don't need to work anymore. Why are you still listening? Get to work!`,
+      hint: ''
     },
 
     winModal: {
-      text: `What comes next?`,
-      unlockedBlock: { name: 'Next Block', img: '' }
+      text: `Not too shabby...`
     }
   }
 }

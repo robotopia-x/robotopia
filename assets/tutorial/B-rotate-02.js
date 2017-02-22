@@ -1,5 +1,6 @@
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
+const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
@@ -25,14 +26,14 @@ module.exports = () => {
 </xml>`,
 
       toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="40">
+                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
                     <block type="move"></block>
                     <block type="rotate"></block>
                 </category>
               </xml>`
     },
 
-    label: 'Turn',
+    label: 'Turn - ZigZag',
 
     goals: [
       {

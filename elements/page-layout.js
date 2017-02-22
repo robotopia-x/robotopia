@@ -13,17 +13,27 @@ const pageLayoutPrefix = sf`
   :host > .header {
     height: 65px;
     margin: 0;
-    padding: 25px 0 0 100px;
+    padding: 5px 0 0 50px;
     font-size: 26px;
     font-weight: normal;
+    font-family: Arial;
     color: #fff;
     background: #03A9F4;
-    background-image: url('./assets/icons/logo.svg');
-    background-size: 50px;
-    background-position: 45px 5px;
-    background-repeat: no-repeat;    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
-
+  
+  .header > a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .header > a > img {
+    height: 55px;
+    margin-right: 10px;
+  }
+  
   :host > .content {
     height: calc(100% - 65px)
   }
@@ -54,9 +64,10 @@ function pageLayout ({
 
 function getHeaderHtml (menu) {
   return html`
-    <h1 class="header">
-      Robotopia
-    </h1>
+    <div class="header">
+      <a href="/"><img src="./assets/icons/logo.svg"></a>
+      <a href="/">ROBOTOPIA</a>
+    </div>
   `
 }
 

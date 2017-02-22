@@ -1,11 +1,18 @@
-/* globals localStorage */
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
-const blockColors = require('../../elements/blockly/colors')
 
-const timeLimit = 10
+const LOST_ROBOT_CODE = `
+robot.onMode('red', function (marker) {
+  robot.moveTo(robot.getBasePosition().x, robot.getBasePosition().y)
+})
+//while (true) {
+//    robot.move("FORWARD")
+//    robot.rotate("LEFT")
+//  }
+`
 
 module.exports = () => {
+
   return {
     game: {
       tiles: [
@@ -37,7 +44,10 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2 }),
+        entities.tutorialRobot({x: 8, y: 8, id: 'ROBOT', orientation: ORIENTATION.FRONT, teamId: 1, discoverRange: 2}),
+        entities.tutorialRobot({x: 21, y: 5, id: 'LOST_ROBOT01', orientation: ORIENTATION.FRONT, teamId: 1, discoverRange: 0, teamSprite: 2}),
+        entities.tutorialRobot({x: 18, y: 22, id: 'LOST_ROBOT02', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 0, teamSprite: 2}),
+        entities.tutorialRobot({x: 4, y: 14, id: 'LOST_ROBOT03', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 0, teamSprite: 2}),
         entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
       ],
 
@@ -46,97 +56,94 @@ module.exports = () => {
       }
     },
 
-    resources: { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' },
-
+    otherRobots: [
+      {id: 'LOST_ROBOT01', groupId: 1, overwriteCode: LOST_ROBOT_CODE},
+      {id: 'LOST_ROBOT02', groupId: 1, overwriteCode: LOST_ROBOT_CODE},
+      {id: 'LOST_ROBOT03', groupId: 1, overwriteCode: LOST_ROBOT_CODE}
+    ],
+    
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="start_handler" x="50" y="50" deletable="false">
-  <statement name="body">
-    <block type="controls_repeat">
-      <field name="TIMES">3</field>
-      <statement name="DO">
-      <block type="move">
-        <field name="move">FORWARD</field>
-          <next>
-            <block type="controls_if">
-              <value name="IF0">
-                <block type="logic_compare">
-                  <field name="OP">EQ</field>
-                  <value name="A">
-                    <block type="random_number" id="/2hWV!Bsg{eIiMHNaQm6">
-                      <field name="min">1</field>
-                      <field name="max">2</field>
-                    </block>
-                  </value>
-                  <value name="B">
-                    <block type="math_number" id="nL#iBs7tFzsRy}-I%z3a">
-                      <field name="NUM">1</field>
-                    </block>
-                  </value>
-                </block>
-              </value>
-            <statement name="DO0">
-              <block type="rotate">
-                <field name="direction">LEFT</field>
-              </block>
-            </statement>
-            </block>
-          </next>
+    <block type="start_handler" x="50" y="50" deletable="false"></block>
+    <block type="marker_event_handler" x="50" y="400" deletable="false" editable="false">
+      <field name="type">red</field>
+      <data>EVENT_HANDLER</data>
+      <statement name="body" editable="false">
+        <block type="move_to_entity" movable="false" editable="false">
+          <field name="entity">marker.position</field>
         </block>
       </statement>
-    </block>
-  </statement>
 </block>
 </xml>`,
 
       toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
-                    <block type="move"></block>
-                    <block type="rotate"></block>
+
+                <category name="Logic" colour="210">
                     <block type="controls_repeat"></block>
                     <block type="controls_if"></block>
                     <block type="logic_compare"></block>
+                </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Numbers" colour="230">
                     <block type="math_number"></block>
                     <block type="random_number"></block>
                 </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Movement" colour="40">
+                    <block type="move"></block>
+                    <block type="rotate"></block>
+                    <block type="move_to_entity"></block>
+                </category>
+                
+                <sep gap="8"></sep>
+                
+                <category name="Actions" colour="50">
+                    <block type="collect_resource"></block>
+                    <block type="deposit_resource"></block>
+                    <block type="place_marker"></block>
+                </category>
+                
               </xml>`
     },
 
-    label: 'Scout',
+    label: 'Marker',
 
     goals: [
       {
-        type: 'discoverEntityOfType',
-        params: {type: 'resource'},
-        desc: 'Make the Robot scout the map to find something interesting',
+        type: 'moveTo',
+        params: {position: {x: 12, y: 12}, entity: 'LOST_ROBOT01'},
+        desc: 'Lost robot is in time for lunch',
         isMandatory: true
       },
       {
-        type: 'gameTimeLimit',
-        params: {timeInS: timeLimit},
-        desc: 'Find something within ' + timeLimit + ' seconds',
-        isMandatory: false
+        type: 'moveTo',
+        params: {position: {x: 12, y: 12}, entity: 'LOST_ROBOT02'},
+        desc: 'Lost robot is save',
+        isMandatory: true
+      },
+      {
+        type: 'moveTo',
+        params: {position: {x: 12, y: 12}, entity: 'LOST_ROBOT03'},
+        desc: 'Lost robot returned to home after 10 years',
+        isMandatory: true
       }
     ],
 
     storyModal: {
-      text: `Scout the map. Hya!`,
-      hint: ''
+      text: `Unfortunately three of the robots got lost. Luckily they will automatically move to a "red marker" as soon as one is placed.`,
+      hint: 'Robots can place markers of a given color.'
     },
 
     winModal: {
-      text: 'Some wise words.',
+      text: 'Thank you for getting my robots back to safety.',
       unlockedBlock: {
         name: 'Block',
         img: ''
       }
-    },
-
-    onFinish: ({gameState, workspace}) => {
-      localStorage.setItem('robot04', JSON.stringify({
-        workspace: workspace,
-        entities: gameState && gameState.current ? JSON.stringify(gameState.current.entities) : null
-      }))
     }
   }
 }

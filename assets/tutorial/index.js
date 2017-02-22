@@ -23,12 +23,18 @@ addTutorialRow('If-Conditions', [
   require('./D-If-Conditions03')
 ])
 
-addTutorialRow('Scout', [
-  require('./E-scout-01')
+addTutorialRow('resource', [
+  require('./E-resource-01.js'),
+  require('./E-resource-02.js')
 ])
 
-addTutorialRow('Resources', [
-  require('./F-resource-01')
+addTutorialRow('If-Conditions', [
+  require('./D-If-Conditions01')
+])
+
+addTutorialRow('marker', [
+  require('./M-marker-01.js'),
+  require('./M-marker-02.js')
 ])
 
 module.exports = tutorials

@@ -22,7 +22,7 @@ module.exports = {
     showRange: 0
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, orientation, resource, discoverRange, teamSprite, showRange }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource, discoverRange, teamSprite, showRange }) => ({
     id,
     team: { id: teamId },
     position: { x, y, rotation: orientation },
@@ -30,7 +30,7 @@ module.exports = {
     discoverer: { range: discoverRange | 3 },
     markerSpawner: {},
     towerSpawner: {},
-    collector: resource,
+    collector: { hasResource: hasResource },
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {

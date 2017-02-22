@@ -109,7 +109,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Marker',
+    label: 'Marker - Help Them',
 
     goals: [
       {
@@ -140,8 +140,8 @@ module.exports = () => {
     winModal: {
       text: 'Thank you for getting my robots back to safety.',
       unlockedBlock: {
-        name: 'Block',
-        img: ''
+        name: 'Resource Discovered Event',
+        img: '../../assets/img/tutorials/blocks/resource-dicovered.png'
       }
     }
   }

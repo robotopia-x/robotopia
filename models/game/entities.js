@@ -57,13 +57,13 @@ module.exports = {
     }
   }),
 
-  chest: ({ x, y }) => ({
+  chest: ({ x, y, orientation }) => ({
     position: { x, y },
     zIndex: 1,
     sprite: {
       type: 'SIMPLE',
       data: {
-        sprite: 'CHEST'
+        sprite: 'CHEST_' + orientation
       }
     }
   }),

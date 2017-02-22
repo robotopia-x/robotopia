@@ -47,7 +47,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Loops - Getting Lazy',
+    label: 'If - Getting Lazy',
 
     goals: [
       {

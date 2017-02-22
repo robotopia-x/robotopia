@@ -11,7 +11,7 @@ module.exports = {
     discoverer: { range: 3 },
     markerSpawner: {},
     towerSpawner: {},
-    collector: { hasResource: false },
+    collector: { hasResource: false, chunk: 0 },
     worker: { assignedTask: null },
     zIndex: 1,
     sprite: {
@@ -22,7 +22,7 @@ module.exports = {
     showRange: 0
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource, discoverRange, teamSprite, showRange }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, resource, discoverRange, teamSprite, showRange }) => ({
     id,
     team: { id: teamId },
     position: { x, y, rotation: orientation },
@@ -30,7 +30,7 @@ module.exports = {
     discoverer: { range: discoverRange | 3 },
     markerSpawner: {},
     towerSpawner: {},
-    collector: { hasResource: hasResource },
+    collector: { hasResource: resource.hasResource, chunk: resource.chunk },
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {

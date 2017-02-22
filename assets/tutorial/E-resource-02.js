@@ -49,7 +49,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Resource',
+    label: 'Resource - Drop The Gem',
 
     goals: [
       {
@@ -68,8 +68,8 @@ module.exports = () => {
     winModal: {
       text: 'Thank you for getting my robots back to safety.',
       unlockedBlock: {
-        name: 'Block',
-        img: ''
+        name: 'Place Marker',
+        img: '../../assets/img/tutorials/blocks/place-marker.png'
       }
     }
   }

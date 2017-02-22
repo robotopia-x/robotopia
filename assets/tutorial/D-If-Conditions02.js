@@ -59,7 +59,8 @@ module.exports = () => {
     },
 
     winModal: {
-      text: `Next one won't be so easy!`
+      text: `Let's get some resources`,
+      unlockedBlock: { name: 'Collect Block', img: '../../assets/img/tutorials/blocks/collect-resource.png' }
     }
   }
 }

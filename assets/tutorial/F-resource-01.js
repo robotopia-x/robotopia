@@ -10,8 +10,8 @@ module.exports = () => {
         [1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1],
         [1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1],
         [1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 1, 1, 3, 1],
         [1, 3, 1, 1, 1, 2, 1, 1, 1, 3, 1],
+        [1, 3, 1, 1, 1, 3, 1, 1, 1, 3, 1],
         [1, 3, 1, 1, 1, 3, 1, 1, 1, 3, 1],
         [1, 3, 1, 1, 1, 3, 1, 1, 1, 3, 1],
         [1, 3, 1, 1, 1, 3, 1, 1, 1, 3, 1],
@@ -20,9 +20,9 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3, showRange: 3}),
+        entities.tutorialRobot({x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3, showRange: 3, hasResource: false}),
         entities.tutorialBase({ x: 1, y: 9, id: 'BASE', teamId: 1 }),
-        entities.gem({ x: 5, y: 5, value: 100, chunks: 10, color: 'BLUE' })
+        entities.gem({ x: 5, y: 4, value: 100, chunks: 10, color: 'BLUE' })
       ],
 
       teams: {
@@ -49,7 +49,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Resource',
+    label: 'Resource - Pick It Up',
 
     goals: [
       {
@@ -69,7 +69,7 @@ module.exports = () => {
       text: `Now what? This block let's the robot deposit the resource when being near the base.`,
       unlockedBlock: {
         name: 'Deposit-Resource',
-        img: ''
+        img: '../../assets/img/tutorials/blocks/deposit-resource.png'
       }
     }
   }

@@ -114,6 +114,10 @@ function combineWithPrevEntityState (prev, entity) {
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
+  if (entity.showRange) {
+    renderRange(ctx, entity, prevEntity, progress)
+  }
+
   if (entity.collectable) {
     renderCollectable(ctx, entity, prevEntity, progress)
   }
@@ -209,7 +213,7 @@ function robotRenderer (ctx, data, current, prev, progress) {
   // drawSprite(ctx, sprite, x, y)
 }
 
-function getRobotSprite ({ position, team }) {
+function getRobotSprite ({ position, team, sprite }) {
   const positionName = ({
     [ORIENTATION.FRONT]: 'ROBOT_FRONT',
     [ORIENTATION.BACK]: 'ROBOT_BACK',
@@ -217,7 +221,7 @@ function getRobotSprite ({ position, team }) {
     [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
   })[position.rotation]
 
-  const teamId = (team && team.id) === 2 ? 2 : 1
+  const teamId = (sprite && sprite.team) === 2 ? 2 : 1
   const teamName = `TEAM_${teamId}`
 
   return `${positionName}_${teamName}`
@@ -362,6 +366,24 @@ function renderWorker (ctx, current, prev, progress) {
   ctx.closePath()
   ctx.fill()
   ctx.stroke()
+
+  ctx.restore()
+}
+
+const RANGE_INDICATOR_COLOR = 'rgba(255, 255, 255, 0.5)'
+
+function renderRange (ctx, current, prev, progress) {
+  const range = current.showRange
+
+  let x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH
+  let y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT + 115
+
+  ctx.save()
+
+  ctx.fillStyle = RANGE_INDICATOR_COLOR
+  ctx.beginPath()
+  ctx.arc(x, y, TILE_WIDTH * (range + 0.5), 0, 2 * Math.PI)
+  ctx.fill()
 
   ctx.restore()
 }

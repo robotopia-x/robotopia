@@ -14,7 +14,8 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: ORIENTATION.BACK }),
+        entities.chest({ x: 4, y: 1, orientation: 'FRONT' })
       ]
     },
 
@@ -53,7 +54,7 @@ module.exports = () => {
       text: `Alright, I see you figured how to turn left. But you can also turn right. Crazy, i know.`,
       hint: ''
     },
-    
+
     winModal: {
       text: `Anything inside this block will be repeated as many times as defined by the number`,
       unlockedBlock: { name: 'Repeat', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }

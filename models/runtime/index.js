@@ -23,11 +23,12 @@ module.exports = () => {
     },
 
     effects: {
-      createRobot: ({ code }, { id, groupId }) => {
+      createRobot: ({ code }, { id, groupId, overwriteCode }) => {
+        let useCode = !_.isNil(overwriteCode) ? overwriteCode : code[groupId]
         runtime.createAgent({
           id: id,
           api: api,
-          code: code[groupId],
+          code: useCode,
           groupId: groupId })
       },
 

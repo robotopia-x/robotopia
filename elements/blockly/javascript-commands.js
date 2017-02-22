@@ -1,5 +1,15 @@
 /* global Blockly */
 
+/* CONDITIONS */
+
+Blockly.JavaScript.is_next_field = function (block) {
+  const tileType = block.getFieldValue('NAME')
+
+  const code = `robot.isNextTile(${tileType})`
+
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]
+}
+
 /* MATH */
 
 Blockly.JavaScript.random_number = function (block) {

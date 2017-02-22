@@ -38,7 +38,7 @@ module.exports = () => {
       {
         type: 'moveTo',
         params: {position: {x: 1, y: 3}, entity: 'ROBOT'},
-        desc: 'Move the robot to the stone tile',
+        desc: 'Move the robot to the metal tile',
         isMandatory: true
       }
     ],

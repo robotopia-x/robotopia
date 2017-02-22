@@ -42,6 +42,7 @@ module.exports = () => {
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>
+                    <block type="controls_if"></block>
                 </category>
               </xml>`
     },

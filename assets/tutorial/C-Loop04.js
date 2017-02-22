@@ -70,7 +70,7 @@ module.exports = () => {
 
     storyModal: {
       text: `You're doing really good but i bet you won't solve this one. If you master it, you're definitely a loop master!`,
-      hint: 'Try to look for the pattern. If you find it, things are way easier.'
+      hint: 'Try to look for the pattern. If you find it, things are way easier... (If it is too hard, you can always click on the logo in the upper left corner to get back to the overview.)'
     },
 
     winModal: {

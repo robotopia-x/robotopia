@@ -1,5 +1,6 @@
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
+const blockColors = require('../../elements/blockly/colors')
 
 const LOST_ROBOT_CODE = `
 robot.onMode('red', function (marker) {
@@ -77,7 +78,7 @@ module.exports = () => {
 
       toolbox: `<xml id="toolbox" style="display: none">
 
-                <category name="Logic" colour="210">
+                <category name="Logic" colour="${blockColors.LOGIC_COLOR}">
                     <block type="controls_repeat"></block>
                     <block type="controls_if"></block>
                     <block type="logic_compare"></block>
@@ -85,14 +86,14 @@ module.exports = () => {
                 
                 <sep gap="8"></sep>
                 
-                <category name="Numbers" colour="230">
+                <category name="Numbers" colour="${blockColors.MATH_COLOR}">
                     <block type="math_number"></block>
                     <block type="random_number"></block>
                 </category>
                 
                 <sep gap="8"></sep>
                 
-                <category name="Movement" colour="40">
+                <category name="Movement" colour="${blockColors.MOVEMENT_COLOR}">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="move_to_entity"></block>
@@ -100,7 +101,7 @@ module.exports = () => {
                 
                 <sep gap="8"></sep>
                 
-                <category name="Actions" colour="50">
+                <category name="Actions" colour="${blockColors.ACTION_COLOR}">
                     <block type="collect_resource"></block>
                     <block type="deposit_resource"></block>
                     <block type="place_marker"></block>

@@ -37,7 +37,7 @@ module.exports = () => {
 
       toolbox: `<xml id="toolbox" style="display: none">
 
-                <category name="Code Blocks" colour="40">
+                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>
@@ -54,7 +54,7 @@ module.exports = () => {
     goals: [
       {
         type: 'collectResources',
-        params: {amount: 1},
+        params: { amount: 10 },
         desc: 'Bring back the resource',
         isMandatory: true
       }

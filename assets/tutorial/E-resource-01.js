@@ -20,7 +20,7 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3, showRange: 3, hasResource: false}),
+        entities.tutorialRobot({ x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3, showRange: 3, resource: {hasResource: false, chunk: 0} }),
         entities.tutorialBase({ x: 1, y: 9, id: 'BASE', teamId: 1 }),
         entities.gem({ x: 5, y: 4, value: 100, chunks: 10, color: 'BLUE' })
       ],
@@ -38,7 +38,7 @@ module.exports = () => {
 
       toolbox: `<xml id="toolbox" style="display: none">
 
-                <category name="Code Blocks" colour="40">
+                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>
@@ -54,7 +54,7 @@ module.exports = () => {
     goals: [
       {
         type: 'carryResource',
-        params: {hasResource: true},
+        params: { hasResource: true },
         desc: 'Collect a resource',
         isMandatory: true
       }

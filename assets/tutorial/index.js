@@ -18,7 +18,9 @@ addTutorialRow('Loops', [
 ])
 
 addTutorialRow('If-Conditions', [
-  require('./D-If-Conditions01')
+  require('./D-If-Conditions01'),
+  require('./D-If-Conditions02'),
+  require('./D-If-Conditions03')
 ])
 
 addTutorialRow('Scout', [

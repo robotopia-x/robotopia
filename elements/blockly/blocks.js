@@ -78,6 +78,23 @@ _.forEach([
   }
 })
 
+/* CONDITIONS */
+Blockly.Blocks.is_next_field = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('isNextField')
+      .appendField(new Blockly.FieldDropdown([['Water', '1'], ['Dirt', '2'], ['Grass', '3'], ['Plain', '4'], ['Stone', '5']]), 'NAME')
+
+    this.setOutput(true, null)
+    this.setColour(230)
+    this.setTooltip('Checks the next block for the given type')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
+  }
+}
+
 /* MATH */
 
 Blockly.Blocks.random_number_ext = {

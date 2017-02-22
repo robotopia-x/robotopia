@@ -6,19 +6,20 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 3, 3, 3, 3, 3, 3, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 3, 3, 3, 1, 3, 1],
-        [1, 3, 1, 3, 1, 3, 1, 3, 1],
-        [1, 3, 1, 3, 1, 4, 1, 3, 1],
-        [1, 3, 1, 3, 1, 1, 1, 3, 1],
-        [1, 3, 1, 3, 3, 3, 3, 3, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 3, 2, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 3, 3, 3, 3, 2, 1],
+        [1, 1, 2, 1, 3, 1, 1, 3, 1, 1],
+        [1, 3, 3, 3, 3, 5, 1, 3, 1, 1],
+        [1, 1, 3, 1, 1, 1, 1, 3, 1, 1],
+        [1, 1, 3, 1, 5, 1, 1, 3, 4, 1],
+        [1, 2, 3, 3, 3, 3, 1, 5, 1, 1],
+        [1, 1, 1, 1, 3, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 4, y: 8, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -26,18 +27,13 @@ module.exports = () => {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
 <block type="start_handler" x="50" y="50" deletable="false">
     <statement name="body">
-    <block type="controls_repeat">
-    <field name="TIMES">3</field>
-    <statement name="DO">
-        <block type="controls_if"></block>
-    </statement>
+    <block type="move" deletable="false"></block>
 </statement>
 </block>
 </xml>`,
 
       toolbox: `<xml id="toolbox" style="display: none">
                 <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
-                    <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>
                     <block type="controls_if"></block>
@@ -46,7 +42,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'If - Right Round',
+    label: 'If - Follow The Signs',
 
     goals: [
       {
@@ -54,22 +50,16 @@ module.exports = () => {
         params: { tileID: 4 },
         desc: 'Move to the metal tile',
         isMandatory: true
-      },
-      {
-        type: 'maxBlocks',
-        params: { amount: 5 },
-        desc: 'Use a maximum of 5 blocks',
-        isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `This puzzle looks quite hard, good thing you just got the If-Block. With this block, this level should be no problem at all`,
-      hint: 'It might look hard, but you can simply check if the next tile is water'
+      text: `Now you known the power of an If-Block... This time, you have to solve the level with a single Move-Block`,
+      hint: 'Try to see the pattern, the blocks give an indication where to go.'
     },
 
     winModal: {
-      text: `Your're a beast!`
+      text: `Next one won't be so easy!`
     }
   }
 }

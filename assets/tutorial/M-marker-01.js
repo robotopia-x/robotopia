@@ -12,7 +12,6 @@ robot.onMode('red', function (marker) {
 `
 
 module.exports = () => {
-
   return {
     game: {
       tiles: [
@@ -61,7 +60,7 @@ module.exports = () => {
       {id: 'LOST_ROBOT02', groupId: 1, overwriteCode: LOST_ROBOT_CODE},
       {id: 'LOST_ROBOT03', groupId: 1, overwriteCode: LOST_ROBOT_CODE}
     ],
-    
+
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
     <block type="start_handler" x="50" y="50" deletable="false"></block>

@@ -3,7 +3,6 @@ const entities = require('../../models/game/entities')
 const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
-
   return {
     game: {
       tiles: [

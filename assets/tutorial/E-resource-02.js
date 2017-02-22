@@ -2,7 +2,6 @@ const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
 module.exports = () => {
-
   return {
     game: {
       tiles: [
@@ -29,7 +28,7 @@ module.exports = () => {
         1: { resources: 0, points: 0 }
       }
     },
-    
+
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
     <block type="start_handler" x="50" y="50" deletable="false"></block>

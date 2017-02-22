@@ -30,7 +30,7 @@ module.exports = {
     discoverer: { range: discoverRange | 3 },
     markerSpawner: {},
     towerSpawner: {},
-    collector: { hasResource: resource.hasResource, chunk: resource.chunk },
+    collector: resource,
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {

@@ -186,9 +186,18 @@ module.exports = function ({
       <div class="${prefix}">
         <div class="logo"></div>
         <h1>Congratulations ${results[0].name}! You won!</h1>
-        <p>${results[0].name} won the game scoring ${results[0].resources} points</p>
+        ${getTableFromResult}
         <div class="center">${buttonHTML}</div>
       </div>
     `)
+
+    function getTableFromResult(result) {
+      return html`
+      <table class="result_table">
+        <tr><th>Player</th><th>Score</th></tr>
+        ${result.map((res) => {return html`<tr><td>${res.name}</td><td>${res.resources}</td></tr>`})}
+      </table>`
+    }
+
   }
 }

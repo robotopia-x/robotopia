@@ -1,6 +1,7 @@
 const _ = require('lodash')
 // const X2Js = require('x2js')
 const { getEntity } = require('@robotopia/choo-game')
+let haventTouchedTile = true
 
 function checkGoal ({ goal, game, workspace }) {
   switch (goal.type) {
@@ -41,9 +42,18 @@ function checkGoal ({ goal, game, workspace }) {
       return false
 
     case 'dontTouchTileType':
-      // TODO: check for robot touching dirt upon walking
-      // goal.params.tileID
-      return false
+      if (game && haventTouchedTile) {
+        const robotPosition = game.entities.ROBOT.position
+        const currTile = game.tiles[robotPosition.y][robotPosition.x]
+
+        haventTouchedTile = goal.params.tileID !== currTile
+      }
+
+      if (!game) {
+        haventTouchedTile = true
+      }
+
+      return haventTouchedTile
 
     case 'useBlockWithinBlock':
       // TODO: workspace to json, check for outer block. Stringify outer blocks statement object and regex the inner block.

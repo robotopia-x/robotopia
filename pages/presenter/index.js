@@ -48,7 +48,7 @@ module.exports = function (state, prev, send) {
     game,
     clock,
     onStart: () => {
-      send('presenter:setTime', 20)
+      send('presenter:setTime', 120)
       send('presenter:pickPlayers', {playerCount: 2, selectionMode: 'pick'})
     },
     onStop: () => send('presenter:stopMatch'),

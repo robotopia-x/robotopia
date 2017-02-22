@@ -27,7 +27,8 @@ const prefix = sf`
     overflow: scroll;
     z-index: 501;
     animation: move 1s 1 ease;
-    animation-delay: 10;    
+    animation-delay: 10;
+    overflow: hidden;
   }
   
   :host > .inner > .content {
@@ -35,6 +36,7 @@ const prefix = sf`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    overflow: hidden;
   }
   
   :host > .inner .img {

@@ -50,7 +50,7 @@ module.exports = ({presenter, timer}) => {
     }, showPreFight ? 4000 : 0)
   }
 
-  function stopMatch ({ clients }, data, send) {
+  function stopMatch (state, data, send) {
     send('clock:stop', null, _.noop)
     timer.stop()
   }
@@ -105,16 +105,16 @@ module.exports = ({presenter, timer}) => {
     }
     send('presenter:_setPickingPlayers', {displayPlayerPickScreen: true, playerCount}, _.noop)
   }
-  
-  function gameOver(state, data, send) {
-
-  }
 
 }
 
-function updateTime ( duration, send) {
+function updateTime ( timeRemaining, send) {
   return () => {
-    duration -= 1
-    send('presenter:setTime', duration, _.noop)
+    timeRemaining -= 1
+    if (timeRemaining === 0) {
+      send('presenter:stopMatch', null, _.noop)
+      send('presenter:showWinDialog', true, _.noop)
+    }
+    send('presenter:setTime', timeRemaining, _.noop)
   }
 }

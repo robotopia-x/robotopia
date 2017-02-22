@@ -4,8 +4,6 @@ const { getEntity } = require('@robotopia/choo-game')
 let haventTouchedTile = true
 
 function checkGoal ({ goal, game, workspace }) {
-  console.log(workspace)
-
   switch (goal.type) {
     case 'moveTo':
       if (game === null) {

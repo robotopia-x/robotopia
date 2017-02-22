@@ -18,15 +18,22 @@ addTutorialRow('Loops', [
 ])
 
 addTutorialRow('If-Conditions', [
-  require('./D-If-Conditions01')
-])
-
-addTutorialRow('Scout', [
-  require('./E-scout-01')
+  require('./D-If-Conditions01'),
+  require('./D-If-Conditions02')
 ])
 
 addTutorialRow('Resources', [
-  require('./F-resource-01')
+  require('./E-resource-01.js'),
+  require('./E-resource-02.js')
+])
+
+addTutorialRow('Marker', [
+  require('./M-marker-01.js'),
+  require('./M-marker-02.js')
+])
+
+addTutorialRow('Scout', [
+  require('./G-scout-01.js')
 ])
 
 module.exports = tutorials

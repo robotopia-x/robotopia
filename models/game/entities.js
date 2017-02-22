@@ -11,28 +11,34 @@ module.exports = {
     discoverer: { range: 3 },
     markerSpawner: {},
     towerSpawner: {},
-    collector: { hasResource: false },
+    collector: { hasResource: false, chunk: 0 },
     worker: { assignedTask: null },
     zIndex: 1,
     sprite: {
       type: 'ROBOT',
-      data: {}
-    }
+      data: {},
+      team: teamId === 2 ? 2 : 1
+    },
+    showRange: 0
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource, discoverRange }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, resource, discoverRange, teamSprite, showRange }) => ({
     id,
     team: { id: teamId },
     position: { x, y, rotation: orientation },
     movable: {},
     discoverer: { range: discoverRange | 3 },
-    collector: { hasResource: hasResource },
+    markerSpawner: {},
+    towerSpawner: {},
+    collector: resource,
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {
       type: 'ROBOT',
-      data: {}
-    }
+      data: {},
+      team: teamSprite === 2 ? 2 : 1
+    },
+    showRange: showRange
   }),
 
   gem: ({ x, y, value, chunks, color }) => ({

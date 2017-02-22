@@ -209,7 +209,7 @@ function robotRenderer (ctx, data, current, prev, progress) {
   // drawSprite(ctx, sprite, x, y)
 }
 
-function getRobotSprite ({ position, team }) {
+function getRobotSprite ({ position, team, sprite }) {
   const positionName = ({
     [ORIENTATION.FRONT]: 'ROBOT_FRONT',
     [ORIENTATION.BACK]: 'ROBOT_BACK',
@@ -217,7 +217,7 @@ function getRobotSprite ({ position, team }) {
     [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
   })[position.rotation]
 
-  const teamId = (team && team.id) === 2 ? 2 : 1
+  const teamId = (sprite && sprite.team) === 2 ? 2 : 1
   const teamName = `TEAM_${teamId}`
 
   return `${positionName}_${teamName}`

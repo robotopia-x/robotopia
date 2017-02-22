@@ -59,8 +59,11 @@ module.exports = () => {
     storyModal: {
       text: `"So far" you are doing surprisingly well. Let's see if you can make it "so far". 
       Haha, I'm so good at making jokes. Probably because I don't need to work anymore. Why are you still listening? Get to work!`,
-      hint: '',
-      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
+      hint: ''
+    },
+
+    winModal: {
+      text: `Not too shabby...`
     }
   }
 }

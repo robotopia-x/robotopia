@@ -53,7 +53,11 @@ module.exports = () => {
     storyModal: {
       text: `Welcome to Robotopia, where no one (except you) has to work anymore, because WE GOT ROBOTS, that's right! 
       And somebody, I'm talking about you here, has to tell them what to do. Let's start off with a simple task.`,
-      hint: '',
+      hint: ''
+    },
+
+    winModal: {
+      text: `This block allows you to rotate your robot. The direction can be changed via the dropdown menu inside the block`,
       unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/rotate-dropdown.PNG' }
     },
 

@@ -45,6 +45,11 @@ module.exports = () => {
     storyModal: {
       text: `Ha, you think you are smart eh? I bet you won't be able to handle: THE ROTATE-BLOCK. Never. Ever...`,
       hint: ''
+    },
+
+    winModal: {
+      text: `Well, that was unexpected to be honest...`
     }
+
   }
 }

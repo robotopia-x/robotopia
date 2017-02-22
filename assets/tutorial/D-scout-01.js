@@ -119,9 +119,16 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: ``,
-      hint: '',
-      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
+      text: `Scout the map. Hya!`,
+      hint: ''
+    },
+
+    winModal: {
+      text: 'Some wise words.',
+      unlockedBlock: {
+        name: 'Block',
+        img: ''
+      }
     },
 
     onFinish: ({gameState, workspace}) => {

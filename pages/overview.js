@@ -33,6 +33,10 @@ const prefix = sf`
     margin-bottom: 0;
   }
   
+  :host h2 {
+    color: #03a9f4;
+  }
+  
   :host ol {
     padding-top: 0;
     margin-top: 0;

@@ -61,11 +61,16 @@ function checkGoal ({ goal, game, workspace }) {
       return haventTouchedTile
 
     case 'useBlockWithinBlock':
+      const outerBlockType = goal.params.outerBlock
+      const innerBlockType = goal.params.innerBlock
+
+      // Regex for blocks - no need to destructure JSON
+      // return workspace.match(`<block type="${outerBlockType}".*<statement.*<block type="${innerBlockType}"`, 'g')
+
+      //const workspaceAsJSON = new X2Js().xml_str2json(workspace)
       // TODO: workspace to json, check for outer block. Stringify outer blocks statement object and regex the inner block.
-      // const workspaceAsJSON = new X2Js().xml_str2json(workspace);
-      // goal.params.outerBlock
-      // goal.params.innerBlock
-      // console.log(workspaceAsJSON)
+      // TODO: workspace is not the current workspace but the starting workspace
+
       return false
 
     case 'discoverEntityOfType':

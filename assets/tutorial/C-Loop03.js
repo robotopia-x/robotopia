@@ -19,7 +19,7 @@ module.exports = () => {
 
       entities: [
         entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: ORIENTATION.BACK }),
-        entities.chest({ x: 7, y: 7, orientation: 'BACK' })
+        entities.chest({ x: 7, y: 7, orientation: 'BACK'})
       ]
     },
 
@@ -52,7 +52,7 @@ module.exports = () => {
       {
         type: 'moveTo',
         params: {position: {x: 7, y: 7}, entity: 'ROBOT'},
-        desc: 'Move the robot to the stone tile',
+        desc: 'Move the robot to the metal tile',
         isMandatory: true
       },
       {
@@ -75,8 +75,8 @@ module.exports = () => {
     },
 
     winModal: {
-      text: `What comes next?`,
-      unlockedBlock: { name: 'Next Block', img: '' }
+      text: `What comes next? - Loops Hard Mode!`,
+      unlockedBlock: { name: 'If-Condition Block', img: '../../assets/img/tutorials/blocks/if-condition.png' }
     }
   }
 }

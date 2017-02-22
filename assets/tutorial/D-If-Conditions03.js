@@ -6,19 +6,21 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 3, 3, 3, 3, 3, 3, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 3, 3, 3, 1, 3, 1],
-        [1, 3, 1, 3, 1, 3, 1, 3, 1],
-        [1, 3, 1, 3, 1, 4, 1, 3, 1],
-        [1, 3, 1, 3, 1, 1, 1, 3, 1],
-        [1, 3, 1, 3, 3, 3, 3, 3, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1],
+        [1, 4, 4, 4, 4, 1],
+        getRandomTileRow(),
+        [1, 3, 3, 3, 3, 1],
+        getRandomTileRow(),
+        [1, 3, 3, 3, 3, 1],
+        getRandomTileRow(),
+        [1, 3, 3, 3, 3, 1],
+        getRandomTileRow(),
+        [1, 3, 3, 3, 3, 1],
+        [1, 1, 1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 2, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -29,8 +31,8 @@ module.exports = () => {
     <block type="controls_repeat">
     <field name="TIMES">3</field>
     <statement name="DO">
-        <block type="controls_if"></block>
     </statement>
+</block>
 </statement>
 </block>
 </xml>`,
@@ -46,30 +48,35 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'If - Right Round',
+    label: 'If - Hard Mode',
 
     goals: [
       {
         type: 'touchTile',
         params: { tileID: 4 },
-        desc: 'Move to the metal tile',
+        desc: 'Move the robot to any of the metal tiles',
         isMandatory: true
-      },
-      {
-        type: 'maxBlocks',
-        params: { amount: 5 },
-        desc: 'Use a maximum of 5 blocks',
-        isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `This puzzle looks quite hard, good thing you just got the If-Block. With this block, this level should be no problem at all`,
-      hint: 'It might look hard, but you can simply check if the next tile is water'
+      text: `Here comes the mastery challenge! If you can solve this puzzle, you are well prepared for the upcoming challenges.`,
+      hint: 'If you want to skip this level, you can simply click on the logo on the upper left corner to get back to the overview'
     },
 
     winModal: {
-      text: `Your're a beast!`
+      text: `Incredible! You really are on a run.`
     }
   }
+}
+
+function getRandomTileRow () {
+  const cases = [
+    [1, 3, 3, 3, 1, 1],
+    [1, 3, 3, 1, 3, 1],
+    [1, 3, 1, 3, 3, 1],
+    [1, 1, 3, 3, 3, 1]
+  ]
+
+  return cases[Math.floor(Math.random() * cases.length)]
 }

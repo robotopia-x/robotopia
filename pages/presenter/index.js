@@ -7,7 +7,7 @@ const overlayView = require('../../elements/overlay')
 const gameRunnerView = require('../../elements/game-runner')
 const pageLayout = require('../../elements/page-layout')
 
-const createGroupView = require('../../elements/presenter-dialog')
+const presenterModalView = require('../../elements/presenter-dialog')
 const clientsList = require('../../elements/clients-list')
 const prepfight = require('action-overlay')('prepfight').view
 const initialState = require('./initial-state')
@@ -26,14 +26,18 @@ module.exports = function (state, prev, send) {
     }
   }
 
-  const joinGroupDialog = createGroupView({
+  const presenterDialog = presenterModalView({
     presenter,
+    currentGame: game.current,
     onJoinGroup: (groupId) => {
       send('presenter:joinGroup', { groupId })
     },
     onPlayersPicked: (players) => {
       send('presenter:setPlayers', players)
       send('presenter:startMatch')
+    },
+    onCloseWinModal: () => {
+      send('presenter:showWinDialog', false)
     }
   })
 
@@ -41,7 +45,7 @@ module.exports = function (state, prev, send) {
     game,
     clock,
     onStart: () => {
-      send('presenter:setTime', 120)
+      send('presenter:setTime', 20)
       send('presenter:pickPlayers', {playerCount: 2, selectionMode: 'pick'})
     },
     onStop: () => send('presenter:stopMatch'),
@@ -75,7 +79,7 @@ module.exports = function (state, prev, send) {
   return html`
     <div onload=${init}>
       ${pageHtml}
-      ${joinGroupDialog}
+      ${presenterDialog}
       ${clientsListHtml}
       ${timerHtml}
       ${prepfightHtml}

@@ -60,6 +60,12 @@ function setTime (state, newTime) {
   })
 }
 
+function showWinDialog (state, show) {
+  return update(state, {
+    displayWinDialog: { $set: show }
+  })
+}
+
 function _setPickingPlayers (state, { displayPlayerPickScreen, playerCount }) {
   state = update(state, {
     displayPlayerPickScreen: { $set: displayPlayerPickScreen }
@@ -80,5 +86,6 @@ module.exports = {
   setPlayers,
   _setGroupId,
   setTime,
+  showWinDialog,
   _setPickingPlayers
 }

@@ -1,13 +1,14 @@
-/* globals FormData */
-
+const _ = require('lodash')
 const html = require('choo/html')
 const modalView = require('./modal')
 const buttonView = require('./button')
 
 module.exports = function ({
   presenter,
+  currentGame,
   onJoinGroup,
-  onPlayersPicked
+  onPlayersPicked,
+  onCloseWinModal = _.noop
 }) {
 
   if (!presenter.groupId) {
@@ -16,6 +17,10 @@ module.exports = function ({
 
   if (presenter.displayPlayerPickScreen) {
     return getPlayerPickingModal()
+  }
+
+  if (presenter.displayWinDialog) {
+    return getWinModal()
   }
 
   return html`<div></div>`
@@ -88,6 +93,70 @@ module.exports = function ({
       evt.preventDefault()
 
       onJoinGroup(groupId)
+    }
+
+  }
+  
+  function getWinModal() {
+    if (!currentGame || !currentGame.teams) {
+      return html`<div></div>`
+    }
+    const teams = currentGame.teams
+    const results = []
+    let i
+    for (i in presenter.playerNumbers) {
+      const playerId = presenter.playerNumbers[i]
+      const client = presenter.clients[playerId]
+      const points = teams[i].points
+      const resources = teams[i].resources
+      const username = client.username
+      results.push({
+        id: playerId,
+        name: username,
+        points: points,
+        resources: resources
+      })
+    }
+
+    results.sort((a, b) => {
+      return a.resources < b.resources
+    })
+
+    const winner = results[0]
+
+    console.log(results)
+
+    const buttonHTML = buttonView({
+      label: 'Close',
+      onClick: onCloseWinModal
+    })
+
+    return modalView(html`
+      <div>
+        <h1>Congratulations ${results[0].name}! You won!</h1>
+        <p> won the game scoring ${results[0].resources} points</p>
+        ${buttonHTML}
+      </div>
+    `)
+
+    function getWinnerFromResults(results) {
+      let i, highest
+      const keys = Object.keys(results)
+      if (keys.length === 0) {
+        return
+      }
+      highest = results[keys[0]]
+      for (i = 1; i < keys.length; i++) {
+        let current = results[keys[i]]
+        if (current.points > highest.points) {
+          highest = current
+        }
+      }
+      return highest.id
+    }
+
+    function resultAsTable(result) {
+
     }
 
   }

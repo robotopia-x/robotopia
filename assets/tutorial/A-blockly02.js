@@ -1,5 +1,6 @@
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
+const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
@@ -70,7 +71,7 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: `Now that you know how to drag new blocks into the canvas, you need to master rearranging them.`,
+      text: `Now that you know how to drag new blocks into the canvas, you need to master rearranging them. Stack the blocks in the right order to win this level.`,
       hint: 'You can only use the given blocks to solve this level'
     },
 

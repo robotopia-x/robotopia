@@ -1,6 +1,7 @@
 /* globals localStorage */
 const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
+const blockColors = require('../../elements/blockly/colors')
 
 const timeLimit = 10
 
@@ -89,7 +90,7 @@ module.exports = () => {
 </xml>`,
 
       toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="40">
+                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
                     <block type="move"></block>
                     <block type="rotate"></block>
                     <block type="controls_repeat"></block>

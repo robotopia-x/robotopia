@@ -80,7 +80,9 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 
       const repeatLevelButtonHtml = buttonView({
         label: 'Restart Level',
-        onClick: () => console.log('reload the page')
+        onClick: () => {
+          send('game:loadGameState', { loadState: level.game })
+        }
       })
       const nextLevelButtonHtml = getNextLevelButton(send, level)
       let unlockedHtml

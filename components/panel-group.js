@@ -136,7 +136,7 @@ module.exports = component({
       resizing: selectedPanelIndex !== null
     })
 
-    console.log('render panelSizes', panelSizes)
+    //console.log('render panelSizes', panelSizes)
 
     return html`
       <div class="${className}"

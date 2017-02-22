@@ -1,4 +1,5 @@
 /* globals localStorage */
+const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
 const timeLimit = 10
@@ -35,7 +36,7 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: 0, teamId: 1, discoverRange: 2 }),
+        entities.tutorialRobot({ x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2 }),
         entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
       ],
 
@@ -118,12 +119,16 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: '',
+      text: `Scout the map. Hya!`,
       hint: ''
     },
 
     winModal: {
-      text: 'Next one will not be that easy'
+      text: 'Some wise words.',
+      unlockedBlock: {
+        name: 'Block',
+        img: ''
+      }
     },
 
     onFinish: ({gameState, workspace}) => {
@@ -131,8 +136,6 @@ module.exports = () => {
         workspace: workspace,
         entities: gameState && gameState.current ? JSON.stringify(gameState.current.entities) : null
       }))
-    },
-
-    nextTutorial: 'resource'
+    }
   }
 }

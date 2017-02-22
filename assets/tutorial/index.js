@@ -1,23 +1,26 @@
 const tutorials = []
 
 addTutorialRow('blockly', [
-  require('./A01-blockly.js')
+  require('./A-blockly01.js')
 ])
 
-addTutorialRow('turn', [
-  require('./B01-turn.js')
+addTutorialRow('rotate', [
+  require('./B-rotate-01.js'),
+  require('./B-rotate-02.js')
 ])
 
 addTutorialRow('loop', [
-  require('./C01-loop.js')
+  require('./C-Loop01.js'),
+  require('./C-Loop02.js'),
+  require('./C-Loop03.js')
 ])
 
 addTutorialRow('scout', [
-  require('./D01-scout.js')
+  require('./D-scout-01.js')
 ])
 
 addTutorialRow('resource', [
-  require('./E01-resource.js')
+  require('./E-resource-01.js')
 ])
 
 module.exports = tutorials

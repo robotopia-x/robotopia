@@ -22,9 +22,14 @@ function checkGoal ({ goal, game, workspace }) {
       return workspace.indexOf(goal.params.type) === -1
 
     case 'maxBlocks':
-      const workspaceMatch = workspace.match(/<block/g)
+      const workspaceMatch = workspace.match(/<block type="\S*"/g)
+      const matchAsString = workspaceMatch.toString()
+      const handlerMatch = matchAsString.match(/_handler/g)
 
       if (workspaceMatch) {
+        if (handlerMatch) {
+          return (workspaceMatch.length - handlerMatch.length) <= goal.params.amount
+        }
         return workspaceMatch.length <= goal.params.amount
       }
       return false

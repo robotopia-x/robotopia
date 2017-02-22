@@ -13,8 +13,7 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 3, y: 3, id: 'ROBOT', orientation: ORIENTATION.BACK }),
-        entities.chest({ x: 1, y: 3, orientation: 'BACK' })
+        entities.tutorialRobot({ x: 3, y: 3, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 

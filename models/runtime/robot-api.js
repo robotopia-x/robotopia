@@ -68,6 +68,7 @@ module.exports = {
 
   methods: {
     moveTo: function (x, y) {
+      var comparePosition, i, path
       var nextPosition
       var currentPosition = this.getPosition()
 
@@ -77,23 +78,48 @@ module.exports = {
         return
       }
 
-      var path = this.getPathTo(target.x, target.y)
-      for (var i = 1; i < path.length; i++) {
-        nextPosition = path[i]
+      // repeat trying to find a path until target is reached
+      while (currentPosition.x !== target.x || currentPosition.y !== target.y) {
 
-        if (currentPosition.y < nextPosition.y) {
-          this.setRotation('FRONT')
-        } else if (currentPosition.y > nextPosition.y) {
-          this.setRotation('BACK')
-        } else if (currentPosition.x < nextPosition.x) {
-          this.setRotation('RIGHT')
-        } else {
-          this.setRotation('LEFT')
+        // recalculate target if it is no longer empty
+        if (!this.isFieldEmpty(target.x, target.y)) {
+          target = this.findEmptyFieldNearPosition(x, y)
+          break;
         }
 
-        this.move('FORWARD')
+        // calculate route
+        path = this.getPathTo(target.x, target.y)
 
-        currentPosition = nextPosition
+        // traverse route
+        for (i = 1; i < path.length; i++) {
+          // check if method has been interrupted by mode change or event in this case break and recalculate route
+          comparePosition = this.getPosition();
+          if (currentPosition.x !== comparePosition.x || currentPosition.y !== comparePosition.y) {
+            currentPosition = comparePosition
+            break
+          }
+
+          nextPosition = path[i]
+
+          // recalculate route if next position isn't empty
+          if (!this.isFieldEmpty(nextPosition.x, nextPosition.y)) {
+            break;
+          }
+
+          if (currentPosition.y < nextPosition.y) {
+            this.setRotation('FRONT')
+          } else if (currentPosition.y > nextPosition.y) {
+            this.setRotation('BACK')
+          } else if (currentPosition.x < nextPosition.x) {
+            this.setRotation('RIGHT')
+          } else {
+            this.setRotation('LEFT')
+          }
+
+          this.move('FORWARD')
+
+          currentPosition = nextPosition
+        }
       }
     },
 

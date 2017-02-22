@@ -49,7 +49,9 @@ module.exports = {
     },
 
     nextLevel: (state, cb, send) => {
-      if (!currentLevel || !currentLevel.hasOwnProperty('category') || !currentLevel.hasOwnProperty('index')) return
+      if (!currentLevel || !currentLevel.hasOwnProperty('category') || !currentLevel.hasOwnProperty('index')) {
+        return
+      }
       const prevIndex = currentLevel.index
       const prevCategory = currentLevel.category
       let level = getLevelIfExistent(prevCategory, prevIndex + 1)
@@ -64,7 +66,10 @@ module.exports = {
         return cb('#editor')
       }
       const nextCategory = levels[oldCategoryIndex + 1]
-      if (!nextCategory || !nextCategory.hasOwnProperty('categoryName')) return cb('')
+      if (!nextCategory || !nextCategory.hasOwnProperty('categoryName')) {
+        //jumps to tutorial overview
+        return cb('')
+      }
       console.log('loading next level of next category')
       // send('tutorial:loadLevel', { category: nextCategory.categoryName, index: 1 }, _.noop)
       return cb('#tutorial/' + nextCategory.categoryName + '/1')
@@ -77,8 +82,12 @@ module.exports = {
 
     sendEvent: (state, event, send) => {
       const type = event.type
-      if (!type) return state
-      if (type === 'clock') return send('tutorial:_updateEvents', handleClockEvent(state.events, event, send), _.noop)
+      if (!type) {
+        return state
+      }
+      if (type === 'clock') {
+        return send('tutorial:_updateEvents', handleClockEvent(state.events, event, send), _.noop)
+      }
       if (type === 'levelWon') {
         willStopOnNextTick = true
         return
@@ -88,7 +97,9 @@ module.exports = {
 }
 
 function handleClockEvent (events, event, send) {
-  if (!event.hasOwnProperty('operation')) return events
+  if (!event.hasOwnProperty('operation')) {
+    return events
+  }
   if (event.operation === 'tick') {
     if (willStopOnNextTick) {
       send('clock:stop', null, _.noop)
@@ -114,9 +125,15 @@ function getLevelIfExistent (category, index) {
     console.log('please specify the index as a number (min: 1)')
     return
   }
-  if (!category || isNaN(_index)) return
+  if (!category || isNaN(_index)) {
+    return
+  }
   const _category = _.find(levels, { 'categoryName': category })
-  if (!_category || !_category.hasOwnProperty('levels') || _category.levels.length <= _index) return
+  if (!_category || !_category.hasOwnProperty('levels') || _category.levels.length <= _index) {
+    return
+  }
   const level = _category.levels[_index]
-  if (level) return level()
+  if (level) {
+    return level()
+  }
 }

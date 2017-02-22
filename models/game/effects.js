@@ -1,26 +1,50 @@
 const _ = require('lodash')
 const entites = require('./entities')
 
+const MAX_TRIES = 100
+
 function initializeResourceSpots (state, { numberOfSpots, value, chunks, color }, send) {
   const { tiles } = state
   const mapHeight = tiles.length
   const mapWidth = tiles[0].length
 
-  const resourcePlaces = {}
+  let resourceSpots = []
 
-  _.times(numberOfSpots, () => {
-    let x, y
+  for (let i = 0; i < numberOfSpots; i++) {
+    let x, y, tries = 0;
 
     // search for empty random dirt spot
     do {
+      tries += 1;
       x = _.random(0, mapWidth - 1)
       y = _.random(0, mapHeight - 1)
-    } while (tiles[y][x] !== 2 || resourcePlaces[`${x},${y}`] === true)
+    } while ((tiles[y][x] !== 2 || getMinDistance(x, y, resourceSpots) < 5) && tries < MAX_TRIES)
 
-    resourcePlaces[`${x},${y}`] = true
+    if (tries < MAX_TRIES) {
+      resourceSpots.push({x, y})
+    } else {
+      i = 0
+      resourceSpots = []
+    }
+  }
 
+  _.forEach(resourceSpots, ({x, y}) => {
     send('game:createEntity', { data: entites.gem({ x, y, value, chunks, color }) }, _.noop)
   })
+
+}
+
+function getMinDistance(x, y, resourcePlaces) {
+  return _.reduce(resourcePlaces, (minDistance, resource) =>  {
+    const currentDistance = Math.sqrt(Math.pow(resource.x - x, 2) + Math.pow(resource.y - y, 2));
+
+    if (currentDistance < minDistance) {
+      return currentDistance
+    }
+
+    return minDistance
+
+  }, Infinity)
 }
 
 module.exports = {

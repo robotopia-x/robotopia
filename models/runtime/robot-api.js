@@ -68,8 +68,7 @@ module.exports = {
 
   methods: {
     moveTo: function (x, y) {
-      var comparePosition, i, path
-      var nextPosition
+      var comparePosition, i, path, nextPosition
       var currentPosition = this.getPosition()
 
       var target = this.findEmptyFieldNearPosition(x, y)

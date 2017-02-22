@@ -46,7 +46,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Loop',
+    label: 'Loops - Getting Lazy',
 
     goals: [
       {

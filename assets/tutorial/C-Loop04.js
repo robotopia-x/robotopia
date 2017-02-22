@@ -6,19 +6,25 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 3, 3, 3, 3, 3, 3, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 3, 1],
-        [1, 3, 1, 1, 1, 1, 1, 4, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1],
+        [1, 3, 1, 1, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1],
+        [1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1],
+        [1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1],
+        [1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1],
+        [1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 3, 3, 3, 3, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -45,32 +51,26 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Loops - Nesting',
+    label: 'Loops - Hard Mode',
 
     goals: [
       {
         type: 'moveTo',
-        params: {position: {x: 7, y: 7}, entity: 'ROBOT'},
+        params: {position: {x: 9, y: 13}, entity: 'ROBOT'},
         desc: 'Move the robot to the stone tile',
         isMandatory: true
       },
       {
         type: 'maxBlocks',
-        params: {amount: 4},
-        desc: 'Use a maximum of four blocks',
-        isMandatory: false
-      },
-      {
-        type: 'useBlockWithinBlock',
-        params: { outerBlock: 'controls_repeat', innerBlock: 'controls_repeat' },
-        desc: 'Nest a repeat block inside another repeat block',
+        params: {amount: 17},
+        desc: 'Use a maximum of 17 blocks',
         isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `Well done! Now here is a difficult one. Just kidding. In both matters. It will probably still be a challenge for you...`,
-      hint: 'You can use a repeat inside a repeat.'
+      text: `You're doing really good but i bet you won't solve this one. If you master it, you're definitely a loop master!`,
+      hint: 'Try to look for the pattern. If you find it, things are way easier.'
     },
 
     winModal: {

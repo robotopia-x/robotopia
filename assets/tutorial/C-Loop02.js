@@ -47,7 +47,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Loop',
+    label: 'Loops - The Good Parts',
 
     goals: [
       {

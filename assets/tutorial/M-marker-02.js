@@ -19,7 +19,6 @@ while (true) {
 const RESOURCES_TO_WIN = 100
 
 module.exports = () => {
-
   return {
     game: {
       tiles: [
@@ -70,7 +69,7 @@ module.exports = () => {
     ],
 
     resources: { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' },
-    
+
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
     <block type="start_handler" x="50" y="50" deletable="false"></block>

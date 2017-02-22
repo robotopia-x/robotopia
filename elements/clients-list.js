@@ -1,17 +1,27 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
+const classNames = require('classnames')
 
 const prefix = sf`
   :host {
     min-width: 200px;
+  }
+  
+  :host li {
+    font-weight: 600;
+    font-size: 150%;
+  }
+  
+  :host .player {
+    color: green;
   }
 `
 
 function clientsList ({ clients, playerNumbers }) {
   return html`
     <div class="${prefix}">
-      <h3>Clients</h3>
+      <h1>Clients</h1>
       <ul>
         ${Object.keys(clients).map(clientToLi)}
       </ul>
@@ -22,7 +32,7 @@ function clientsList ({ clients, playerNumbers }) {
     const isPlayer = _.valuesIn(playerNumbers).indexOf(key) >= 0
 
     return html`
-      <li>${clients[key].username} ${isPlayer ? 'p' : ''}</li>
+      <li class="${isPlayer ? 'player' : ''}">${clients[key].username}</li>
     `
   }
 }

@@ -56,6 +56,8 @@ assets.load({
   BLUE_GEM: 'assets/img/resources/gem-blue-splitted.png',
   RED_GEM: 'assets/img/resources/gem-red-splitted.png',
   GREEN_GEM: 'assets/img/resources/gem-green-splitted.png',
+  CHEST_FRONT: 'assets/img/chest_front.png',
+  CHEST_BACK: 'assets/img/chest_back.png',
   ROBOT_FRONT_TEAM_1: 'assets/img/cyborg/cyborg-morty-front.png',
   ROBOT_LEFT_TEAM_1: 'assets/img/cyborg/cyborg-morty-left.png',
   ROBOT_BACK_TEAM_1: 'assets/img/cyborg/cyborg-morty-back.png',

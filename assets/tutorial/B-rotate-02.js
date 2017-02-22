@@ -1,3 +1,4 @@
+const { ORIENTATION } = require('../../lib/utils/types')
 const entities = require('../../models/game/entities')
 
 module.exports = () => {
@@ -13,34 +14,13 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: 0 })
+        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
 <block type="start_handler" x="50" y="50" deletable="false">
-    <statement name="body">
-    <block type="move">
-        <next>
-            <block type="rotate">
-                <field name="direction">RIGHT</field>
-                <next>
-                    <block type="move">
-                        <next>
-                            <block type="rotate">
-                                <field name="direction">RIGHT</field>
-                                <next>
-                                    <block type="move"></block>
-                                </next>
-                            </block>
-                        </next>
-                    </block>
-                </next>
-            </block>
-        </next>
-    </block>
-</statement>
 </block>
 </xml>`,
 
@@ -64,24 +44,20 @@ module.exports = () => {
       {
         type: 'dontTouchTileType',
         params: {tileID: 2, entity: 'ROBOT'},
-        desc: 'Do not get your boots dirty.',
+        desc: 'Do not get your robot dirty to impress in an impressive way.',
         isMandatory: false
       }
     ],
 
     storyModal: {
-      text: 'I tried and failed. You can delete my Code. Then make the robot move to the stone tile. dont you get my robot dirty!',
+      text: `Alright, I see you figured how to turn left. But you can also turn right. Crazy, i know.`,
       hint: ''
     },
-
+    
     winModal: {
-      text: 'Next one will not be that easy',
-      unlockedBlock: {
-        name: 'Repeat',
-        img: '../../assets/img/tutorials/repeat-10-block.png'
-      }
-    },
+      text: `Anything inside this block will be repeated as many times as defined by the number`,
+      unlockedBlock: { name: 'Repeat', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
+    }
 
-    nextTutorial: 'loop'
   }
 }

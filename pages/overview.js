@@ -1,7 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const _ = require('lodash')
-const tutorials = require('../models/tutorial/levels')
+const tutorials = require('../assets/tutorial')
 const buttonView = require('../elements/button')
 
 const prefix = sf`
@@ -58,7 +58,7 @@ const prefix = sf`
 `
 
 const overviewView = (state, prev, send) => {
-  const tutorialLinks = getAllTutorialRoutes()
+  const tutorialLinks = getAllTutorials()
   const editorButton = buttonView({
     label: 'Load Editor',
     onClick: () => send('location:set', '#editor')
@@ -80,8 +80,12 @@ const overviewView = (state, prev, send) => {
   `
 }
 
-function getAllTutorialRoutes () {
-  return html`<ol class="tutorialRoutes">${_.map(tutorials, (tutorial, key) => html`<li><a href="#tutorial/${key}">${key}</a></li>`)}</ol>`
+function getAllTutorials () {
+  return html`
+<ol class="tutorialRoutes">
+    ${_.map(tutorials, (tutorial) => html`<li><a href="#tutorial/${tutorial.categoryName}/1">${tutorial.categoryName}</a></li>`)}
+</ol>
+`
 }
 
 module.exports = overviewView

@@ -57,6 +57,17 @@ module.exports = {
     }
   }),
 
+  chest: ({ x, y }) => ({
+    position: { x, y },
+    zIndex: 1,
+    sprite: {
+      type: 'SIMPLE',
+      data: {
+        sprite: 'CHEST'
+      }
+    }
+  }),
+
   base: ({ x, y, id, teamId }) => ({
     id,
     team: { id: teamId },

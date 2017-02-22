@@ -14,12 +14,11 @@ module.exports = () => {
         [1, 3, 1, 1],
         [1, 3, 1, 1],
         [1, 3, 1, 1],
-        [1, 3, 1, 1],
         [1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 8, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 

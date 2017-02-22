@@ -5,15 +5,16 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1],
-        [1, 3, 3, 3, 1],
-        [1, 3, 1, 3, 1],
-        [1, 4, 1, 3, 1],
-        [1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 3, 4, 1],
+        [1, 1, 3, 3, 2, 1],
+        [1, 3, 3, 2, 1, 1],
+        [1, 3, 2, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 3, y: 3, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 4, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -36,15 +37,22 @@ module.exports = () => {
     goals: [
       {
         type: 'moveTo',
-        params: {position: {x: 1, y: 3}, entity: 'ROBOT'},
+        params: {position: {x: 4, y: 1}, entity: 'ROBOT'},
         desc: 'Move the robot to the stone tile',
         isMandatory: true
+      },
+      {
+        type: 'dontTouchTileType',
+        params: {tileID: 2, entity: 'ROBOT'},
+        desc: 'Do not get your robot dirty to impress in an impressive way.',
+        isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `Ha, you think you are smart eh? I bet you won't be able to handle: THE ROTATE-BLOCK. Never. Ever...`,
-      hint: ''
+      text: `Alright, I see you figured how to turn left. But you can also turn right. Crazy, i know.`,
+      hint: '',
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }
   }
 }

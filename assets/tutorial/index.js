@@ -5,12 +5,14 @@ addTutorialRow('blockly', [
 ])
 
 addTutorialRow('rotate', [
-  require('./B-rotate-01.js')
+  require('./B-rotate-01.js'),
+  require('./B-rotate-02.js')
 ])
 
 addTutorialRow('loop', [
   require('./C-Loop01.js'),
-  require('./C-Loop02.js')
+  require('./C-Loop02.js'),
+  require('./C-Loop03.js')
 ])
 
 addTutorialRow('scout', [

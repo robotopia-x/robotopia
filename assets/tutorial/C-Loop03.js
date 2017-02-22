@@ -5,21 +5,19 @@ module.exports = () => {
   return {
     game: {
       tiles: [
-        [1, 1, 1, 1, 1, 1, 1], 
-        [1, 4, 3, 3, 3, 3, 1], 
-        [1, 1, 1, 1, 3, 1, 1], 
-        [1, 1, 1, 3, 3, 1, 1], 
-        [1, 1, 1, 3, 1, 1, 1], 
-        [1, 1, 3, 3, 1, 1, 1], 
-        [1, 1, 3, 1, 1, 1, 1], 
-        [1, 3, 3, 1, 1, 1, 1], 
-        [1, 3, 1, 1, 1, 1, 1], 
-        [1, 3, 1, 1, 1, 1, 1], 
-        [1, 1, 1, 1, 1, 1, 1]
+        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 3, 3, 3, 3, 3, 3, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 3, 1],
+        [1, 3, 1, 1, 1, 1, 1, 4, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1]
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 7, id: 'ROBOT', orientation: ORIENTATION.BACK })
       ]
     },
 
@@ -51,15 +49,22 @@ module.exports = () => {
     goals: [
       {
         type: 'moveTo',
-        params: {position: {x: 1, y: 1}, entity: 'ROBOT'},
+        params: {position: {x: 7, y: 7}, entity: 'ROBOT'},
         desc: 'Move the robot to the stone tile',
         isMandatory: true
+      },
+      {
+        type: 'maxBlocks',
+        params: {amount: 4},
+        desc: 'Use a maximum of four blocks',
+        isMandatory: false
       }
     ],
 
     storyModal: {
-      text: `I must admit that last one was easy. This one requires some more brainpower.`,
-      hint: ''
+      text: `Well done! Now here is a difficult one. Just kidding. In both matters. It will probably still be a challenge for you...`,
+      hint: 'You can use a repeat inside a repeat.',
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
     }
   }
 }

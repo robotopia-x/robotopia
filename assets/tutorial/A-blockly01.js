@@ -15,7 +15,8 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({ x: 1, y: 5, id: 'ROBOT', orientation: ORIENTATION.BACK })
+        entities.tutorialRobot({ x: 1, y: 5, id: 'ROBOT', orientation: ORIENTATION.BACK }),
+        entities.chest({ x: 1, y: 1 })
       ]
     },
 

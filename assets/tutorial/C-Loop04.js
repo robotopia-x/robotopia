@@ -57,7 +57,7 @@ module.exports = () => {
       {
         type: 'moveTo',
         params: {position: {x: 9, y: 13}, entity: 'ROBOT'},
-        desc: 'Move the robot to the stone tile',
+        desc: 'Move the robot to the metal tile',
         isMandatory: true
       },
       {
@@ -74,8 +74,7 @@ module.exports = () => {
     },
 
     winModal: {
-      text: `What comes next?`,
-      unlockedBlock: { name: 'Next Block', img: '' }
+      text: `You are the Loop-King!`
     }
   }
 }

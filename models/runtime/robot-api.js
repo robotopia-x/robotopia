@@ -97,6 +97,34 @@ module.exports = {
       }
     },
 
+    isNextTile: function (tileType) {
+      var position = this.getPosition()
+      var x = position.x
+      var y = position.y
+
+      var tiles = this.getGameTiles()
+
+      var xAdd = 0
+      var yAdd = 0
+
+      switch(position.rotation) {
+        case 0:
+          yAdd = -1
+          break
+        case 3:
+          xAdd = 1
+          break
+        case 2:
+          yAdd = 1
+          break
+        case 1:
+          xAdd = -1
+          break
+      }
+
+      return tiles[y + yAdd][x + xAdd] === tileType
+    },
+
     buildTowerNearPosition: function () { // don't use arrow shorthand here because it messes with toString
       var botPosition = this.getPosition()
       var towerPosition = this.findFieldForTowerNearPosition(botPosition.x, botPosition.y)
@@ -123,6 +151,10 @@ module.exports = {
   },
 
   sensors: {
+    getGameTiles: (state, id) => {
+      return getGameState(state).tiles
+    },
+
     getPosition: (state, id) => {
       const game = getGameState(state)
       const entity = getEntity(id, game)

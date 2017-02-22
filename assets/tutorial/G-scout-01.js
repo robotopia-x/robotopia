@@ -46,7 +46,7 @@ module.exports = () => {
       }
     },
 
-    resources: 10,
+    resources: { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' },
 
     editor: {
       workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
@@ -102,7 +102,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Scout',
+    label: 'Scout - Or... Walking Around Without Puropse',
 
     goals: [
       {
@@ -121,15 +121,11 @@ module.exports = () => {
 
     storyModal: {
       text: `Scout the map. Hya!`,
-      hint: ''
+      hint: 'Combine all the learned skills to beat this puzzle.'
     },
 
     winModal: {
-      text: 'Some wise words.',
-      unlockedBlock: {
-        name: 'Block',
-        img: ''
-      }
+      text: 'Some wise words.'
     },
 
     onFinish: ({gameState, workspace}) => {

@@ -58,7 +58,7 @@ const prefix = sf`
   :host > .unlocked > .unlockedBlock {
     border: 5px solid #DDDDDD;
     border-radius: 20px;
-    width: 50%;
+    max-height: 250px;
   }
   
   :host > .levelButtons {

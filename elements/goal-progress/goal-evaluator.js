@@ -1,5 +1,4 @@
 const _ = require('lodash')
-// const X2Js = require('x2js')
 const { getEntity } = require('@robotopia/choo-game')
 let haventTouchedTile = true
 
@@ -35,7 +34,7 @@ function checkGoal ({ goal, game, workspace }) {
       return false
 
     case 'carryResource':
-      if (game && game.entities) {
+      if (game && game.entities && game.entities.ROBOT && game.entities.ROBOT.collector) {
         return game.entities.ROBOT.collector.hasResource === goal.params.hasResource
       }
       return false
@@ -60,18 +59,21 @@ function checkGoal ({ goal, game, workspace }) {
 
       return haventTouchedTile
 
+    case 'touchTile':
+      if (game) {
+        const robotPosition = game.entities.ROBOT.position
+        const currTile = game.tiles[robotPosition.y][robotPosition.x]
+
+        return goal.params.tileID === currTile
+      }
+      return false
+
     case 'useBlockWithinBlock':
       const outerBlockType = goal.params.outerBlock
       const innerBlockType = goal.params.innerBlock
 
       // Regex for blocks - no need to destructure JSON
-      // return workspace.match(`<block type="${outerBlockType}".*<statement.*<block type="${innerBlockType}"`, 'g')
-
-      //const workspaceAsJSON = new X2Js().xml_str2json(workspace)
-      // TODO: workspace to json, check for outer block. Stringify outer blocks statement object and regex the inner block.
-      // TODO: workspace is not the current workspace but the starting workspace
-
-      return false
+      return workspace.match(`<block type="${outerBlockType}".*<statement.*<block type="${innerBlockType}"`, 'g')
 
     case 'discoverEntityOfType':
       if (!game || !game.entities || game.entities.length === 0) return false

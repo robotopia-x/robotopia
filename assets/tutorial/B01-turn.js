@@ -71,8 +71,15 @@ module.exports = () => {
 
     storyModal: {
       text: 'I tried and failed. You can delete my Code. Then make the robot move to the stone tile. dont you get my robot dirty!',
-      hint: '',
-      img: 'assets/img/tutorials/simple-move.png'
+      hint: ''
+    },
+
+    winModal: {
+      text: 'Next one will not be that easy',
+      unlockedBlock: {
+        name: 'Repeat',
+        img: '../../assets/img/tutorials/repeat-10-block.png'
+      }
     },
 
     nextTutorial: 'loop'

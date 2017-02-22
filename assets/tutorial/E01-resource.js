@@ -123,8 +123,11 @@ module.exports = () => {
 
     storyModal: {
       text: '',
-      hint: '',
-      img: 'assets/img/tutorials/simple-move.png'
+      hint: ''
+    },
+
+    winModal: {
+      text: 'Next one will not be that easy'
     },
 
     nextTutorial: ''

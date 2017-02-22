@@ -49,8 +49,15 @@ module.exports = () => {
 
     storyModal: {
       text: 'Hey Morty, I build this robot to help us on our space adventures. I need your help programming it. Can you make it move to the grass field.',
-      hint: '',
-      img: 'assets/img/tutorials/simple-move.png'
+      hint: ''
+    },
+
+    winModal: {
+      text: 'Next one will not be that easy',
+      unlockedBlock: {
+        name: 'Rotate',
+        img: '../../assets/img/tutorials/rotate-dropdown.PNG'
+      }
     },
 
     nextTutorial: 'turn',

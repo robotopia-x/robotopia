@@ -1,15 +1,13 @@
-/* globals FormData */
 const html = require('choo/html')
-const modal = require('../../elements/modal')
-const button = require('../../elements/button')
+
 const timerDisplay = require('../../elements/timer')
-const { startButtonView } = require('../../elements/presenter-controls')
-const { speedSliderView } = require('../../elements/runtime-controls')
 const overlayView = require('../../elements/overlay')
-const gameView = require('../../elements/game')
-const gameStatsView = require('../../elements/game-stats')
+
+const gameRunnerView = require('../../elements/game-runner')
+const pageLayout = require('../../elements/page-layout')
+
+const presenterModalView = require('../../elements/presenter-dialog')
 const clientsList = require('../../elements/clients-list')
-const pageLayout = require('../../elements/old-page-layout')
 const prepfight = require('action-overlay')('prepfight').view
 const initialState = require('./initial-state')
 
@@ -25,79 +23,71 @@ module.exports = function (state, prev, send) {
       send('presenter:joinGroup', { groupId: 'asd' })
       send('presenter:_testMode')
     }
-    return joinGroupDialog({
-      onJoinGroup: (groupId) => {
-        send('presenter:joinGroup', { groupId })
-      }
-    })
   }
 
-  const gameHtml = gameView({
-    state: game,
-    progress: clock.progress
+  const presenterDialog = presenterModalView({
+    presenter,
+    currentGame: game.current,
+    onJoinGroup: (groupId) => {
+      send('presenter:joinGroup', { groupId })
+    },
+    onPlayersPicked: (players) => {
+      send('presenter:setPlayers', players)
+      send('presenter:startMatch')
+    },
+    onCancelPlayerPicking: () => {
+      send('presenter:pickPlayers', false)
+      send('presenter:setTime', 0)
+    },
+    onCloseWinModal: () => {
+      send('presenter:showWinDialog', false)
+    }
   })
 
-  const gameStatsHtml = gameStatsView({
-    gamePoints: game.current.gamePoints,
-    resources: game.current.resources
+  const gameRunnerHtml = gameRunnerView({
+    game,
+    clock,
+    onStart: () => {
+      send('presenter:setTime', 120)
+      send('presenter:pickPlayers', {playerCount: 2, selectionMode: 'pick'})
+    },
+    onStop: () => send('presenter:stopMatch'),
+    onChangeSpeed: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
   })
 
   const timerHtml = overlayView({
-    position: 'top right',
+    position: 'bottom right',
     hasFrame: false,
     content: timerDisplay({ seconds: presenter.time })
   })
 
   const prepfightHtml = prepfight(state, prev, send)
 
-  const disconnectButtonHtml = button({
-    label: 'Exit',
-    onClick: () => send('presenter:disconnect')
-  })
-
-  const startButtonHtml = startButtonView({
-    isRunning: presenter.gameActive,
-    onStart: () => send('presenter:startMatch', 2),
-    onStop: () => send('presenter:stopMatch')
-  })
-
-  const speedSliderHtml = speedSliderView({
-    min: 100,
-    max: 1000,
-    intervalDuration: clock.intervalDuration,
-    onChange: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
-  })
-
   const clientsListHtml = overlayView({
-    position: 'top left',
+    position: 'bottom left',
     content: clientsList({
       clients: presenter.clients,
       playerNumbers: presenter.playerNumbers
     })
   })
 
-  return pageLayout({
+  const pageHtml = pageLayout({
     id: 'presenter-page',
     context: [state, prev, send],
-    onload: init,
-    header: {
-      left: [
-        disconnectButtonHtml,
-        startButtonHtml,
-        speedSliderHtml
-      ],
-      right: []
-    },
     panels: [
-      [
-        gameHtml,
-        gameStatsHtml,
-        clientsListHtml,
-        timerHtml,
-        prepfightHtml
-      ]
+      { view: gameRunnerHtml, size: 1 }
     ]
   })
+
+  return html`
+    <div onload=${init}>
+      ${pageHtml}
+      ${presenterDialog}
+      ${clientsListHtml}
+      ${timerHtml}
+      ${prepfightHtml}
+    </div>
+  `
 
   function init () {
     send('clock:stop')
@@ -106,30 +96,5 @@ module.exports = function (state, prev, send) {
     send('prepfight:setRight', { img: '../../assets/img/cyborg/cyborg_rick_left.png' })
     send('prepfight:setVS', { img: 'http://vignette2.wikia.nocookie.net/mortalkombat/images/6/64/Vs.png/revision/latest?cb=20150319161124&path-prefix=de' })
     send('prepfight:setDurations', { up: 1000, down: 1000, stay: 1500 })
-  }
-}
-
-function joinGroupDialog ({ onJoinGroup }) {
-  const buttonHTML = button({
-    label: 'submit'
-  })
-
-  return modal(html`
-    <div>
-      <p>To continue please enter a rather unique name for your group or create one!!</p>
-      <form onsubmit=${handleSubmit}>
-          <input type="text" name="groupId" autofocus>
-          ${buttonHTML}
-      </form>
-    </div>
-  `)
-
-  function handleSubmit (evt) {
-    const formData = new FormData(evt.target)
-    const groupId = formData.get('groupId')
-
-    evt.preventDefault()
-
-    onJoinGroup(groupId)
   }
 }

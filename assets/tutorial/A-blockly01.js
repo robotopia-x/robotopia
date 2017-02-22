@@ -40,7 +40,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Blockly',
+    label: 'Blockly - Drag and Drop',
 
     goals: [
       {
@@ -54,7 +54,7 @@ module.exports = () => {
     storyModal: {
       text: `Welcome to Robotopia, where no one (except you) has to work anymore, because WE GOT ROBOTS, that's right! 
       And somebody, I'm talking about you here, has to tell them what to do. Let's start off with a simple task.`,
-      hint: ''
+      hint: 'You can duplicate a block by copy and pasting it with CTRL+C and CTRL+V'
     },
 
     winModal: {

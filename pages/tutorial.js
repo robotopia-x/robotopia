@@ -35,18 +35,33 @@ const tutorialView = (state, prev, send) => {
     clock,
     onStart: () => {
       send('game:loadGameState', { loadState: tutorial.level.game })
+      let otherRobots = tutorial.level.otherRobots
       let res = tutorial.level.resources
       if (res && res.numberOfSpots && res.value && res.chunks && res.color) {
         send('game:initializeResourceSpots', res)
       }
       send('runtime:destroyRobot', { id: 'ROBOT' })
       send('runtime:createRobot', { id: 'ROBOT', groupId: 1 })
+      if (otherRobots) {
+        let i
+        for (i in otherRobots) {
+          send('runtime:destroyRobot', { id: otherRobots[i].id })
+          send('runtime:createRobot', otherRobots[i])
+        }
+      }
       send('clock:start')
       send('tutorial:resetEvents')
     },
     onStop: () => {
       send('clock:stop')
       send('runtime:destroyRobot', { id: 'ROBOT' })
+      let otherRobots = tutorial.level.otherRobots
+      if (otherRobots) {
+        let i
+        for (i in otherRobots) {
+          send('runtime:destroyRobot', { id: otherRobots[i].id })
+        }
+      }
       send('game:loadGameState', { loadState: tutorial.level.game })
     },
     onChangeSpeed: (value) => send('clock:setIntervalDuration', { intervalDuration: value })

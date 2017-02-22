@@ -16,22 +16,26 @@ module.exports = {
     zIndex: 1,
     sprite: {
       type: 'ROBOT',
-      data: {}
+      data: {},
+      team: teamId === 2 ? 2 : 1
     }
   }),
 
-  tutorialRobot: ({ id, x, y, teamId, orientation, hasResource, discoverRange }) => ({
+  tutorialRobot: ({ id, x, y, teamId, orientation, resource, discoverRange, teamSprite }) => ({
     id,
     team: { id: teamId },
     position: { x, y, rotation: orientation },
     movable: {},
     discoverer: { range: discoverRange | 3 },
-    collector: { hasResource: hasResource },
+    markerSpawner: {},
+    towerSpawner: {},
+    collector: resource,
     worker: { assignedTask: null },
     zIndex: 5,
     sprite: {
       type: 'ROBOT',
-      data: {}
+      data: {},
+      team: teamSprite === 2 ? 2 : 1
     }
   }),
 

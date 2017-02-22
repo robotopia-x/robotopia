@@ -1,13 +1,31 @@
-const blocklyTutorial = require('./01-blockly')
-const turnTutorial = require('./02-turn')
-const loopTutorial = require('./03-loop')
-const scoutTutorial = require('./04-scout')
-const resourceTutorial = require('./05-resource')
+const tutorials = []
 
-module.exports = {
-  'blockly': blocklyTutorial,
-  'turn': turnTutorial,
-  'loop': loopTutorial,
-  'scout': scoutTutorial,
-  'resource': resourceTutorial
+addTutorialRow('blockly', [
+  require('./A01-blockly.js')
+])
+
+addTutorialRow('turn', [
+  require('./B01-turn.js')
+])
+
+addTutorialRow('loop', [
+  require('./C01-loop.js')
+])
+
+addTutorialRow('scout', [
+  require('./D01-scout.js')
+])
+
+addTutorialRow('resource', [
+  require('./E01-resource.js')
+])
+
+module.exports = tutorials
+
+function addTutorialRow (categoryName, levels) {
+  let row = {
+    categoryName: categoryName,
+    levels: levels
+  }
+  tutorials.push(row)
 }

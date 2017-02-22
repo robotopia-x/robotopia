@@ -46,6 +46,10 @@ const prefix = sf`
      border-bottom: 13px solid transparent;
   }
   
+  :host > h1 {
+    color: #03a9f4;
+  }
+  
   :host > .unlocked {
     width: 100%;
     text-align: center;
@@ -72,18 +76,22 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
+      const winModal = level.winModal
+
       const repeatLevelButtonHtml = buttonView({
         label: 'Restart Level',
-        onClick: () => console.log('reload the page')
+        onClick: () => {
+          send('game:loadGameState', { loadState: level.game })
+        }
       })
       const nextLevelButtonHtml = getNextLevelButton(send, level)
       let unlockedHtml
 
-      if (story.unlockedBlock) {
+      if (winModal.unlockedBlock) {
         unlockedHtml = html`
             <div class="unlocked">
-              <h3>You just unlocked the ${story.unlockedBlock.name}-Block!</h3>
-              <img class="unlockedBlock" src="${story.unlockedBlock.img}"}>
+              <h3>You just unlocked the ${winModal.unlockedBlock.name}-Block!</h3>
+              <img class="unlockedBlock" src="${winModal.unlockedBlock.img}"}>
             </div>
           `
       }
@@ -96,6 +104,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
         <div class="${prefix} animated content">
           <h1>Congratulations, you finished the level!</h1>
           ${unlockedHtml}
+          <p>${winModal.text}</p>
           <div class="goals">
             <div>
               <h5>Goals: </h5>
@@ -147,16 +156,11 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 }
 
 function getNextLevelButton (send, level) {
-  if (level.nextTutorial) {
-    return buttonView({
-      label: 'Next Level',
-      onClick: () => send('location:set', `#tutorial/${level.nextTutorial}`)
-    })
-  }
-
   return buttonView({
-    label: 'Load Editor',
-    onClick: () => send('location:set', '#editor')
+    label: 'Next',
+    onClick: () => send('tutorial:nextLevel', (nextLocation) => {
+      send('location:set', nextLocation)
+    })
   })
 }
 

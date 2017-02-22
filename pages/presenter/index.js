@@ -36,6 +36,10 @@ module.exports = function (state, prev, send) {
       send('presenter:setPlayers', players)
       send('presenter:startMatch')
     },
+    onCancelPlayerPicking: () => {
+      send('presenter:pickPlayers', false)
+      send('presenter:setTime', 0)
+    },
     onCloseWinModal: () => {
       send('presenter:showWinDialog', false)
     }

@@ -21,7 +21,7 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3}),
+        entities.tutorialRobot({x: 1, y: 9, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 3, showRange: 3}),
         entities.tutorialBase({ x: 1, y: 9, id: 'BASE', teamId: 1 }),
         entities.gem({ x: 5, y: 5, value: 100, chunks: 10, color: 'BLUE' })
       ],

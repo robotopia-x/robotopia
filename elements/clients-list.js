@@ -1,7 +1,6 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const classNames = require('classnames')
 
 const prefix = sf`
   :host {

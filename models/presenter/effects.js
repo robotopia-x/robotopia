@@ -32,7 +32,7 @@ module.exports = ({presenter, timer}) => {
     }
 
     send('presenter:_setPickingPlayers', {displayPlayerPickScreen: false}, _.noop)
-    
+
     if (showPreFight) {
       send('prepfight:setLeft', { name: clients[playerNumbers[1]].username }, _.noop)
       send('prepfight:setRight', { name: clients[playerNumbers[2]].username }, _.noop)
@@ -105,10 +105,9 @@ module.exports = ({presenter, timer}) => {
     }
     send('presenter:_setPickingPlayers', {displayPlayerPickScreen: true, playerCount}, _.noop)
   }
-
 }
 
-function updateTime ( timeRemaining, send) {
+function updateTime (timeRemaining, send) {
   return () => {
     timeRemaining -= 1
     if (timeRemaining === 0) {

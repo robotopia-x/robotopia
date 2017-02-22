@@ -47,12 +47,6 @@ function setPlayers (state, players) {
   })
 }
 
-function _setGameState (state, gameRunning) {
-  return update(state, {
-    gameActive: { $set: gameRunning }
-  })
-}
-
 function _setGroupId (state, { groupId }) {
   return update(state, {
     groupId: { $set: groupId },
@@ -60,10 +54,22 @@ function _setGroupId (state, { groupId }) {
   })
 }
 
-function _updateTime (state, newTime) {
+function setTime (state, newTime) {
   return update(state, {
     time: { $set: newTime }
   })
+}
+
+function _setPickingPlayers (state, { displayPlayerPickScreen, playerCount }) {
+  state = update(state, {
+    displayPlayerPickScreen: { $set: displayPlayerPickScreen }
+  })
+  if (!_.isNil(playerCount)) {
+    update(state, {
+      playerCount: { $set: playerCount }
+    })
+  }
+  return state
 }
 
 module.exports = {
@@ -72,7 +78,7 @@ module.exports = {
   setUsername,
   commitCode,
   setPlayers,
-  _setGameState,
   _setGroupId,
-  _updateTime
+  setTime,
+  _setPickingPlayers
 }

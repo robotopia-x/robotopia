@@ -18,7 +18,8 @@ module.exports = ({ hubUrl }) => {
       groupId: null,
       clients: {}, // clients [{ id, code, username }] mapped to their id
       playerNumbers: {}, // maps playerNumbers to Client. eg.: 1->eflajsnf1248dsnf
-      gameActive: false,
+      displayPlayerPickScreen: false,
+      playerCount: 0,
       time: 0
     },
 

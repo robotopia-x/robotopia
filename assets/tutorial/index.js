@@ -1,27 +1,30 @@
 const tutorials = []
 
-addTutorialRow('blockly', [
+addTutorialRow('Blockly', [
   require('./A-blockly01'),
   require('./A-blockly02')
 ])
 
-addTutorialRow('rotate', [
+addTutorialRow('Rotate', [
   require('./B-rotate-01'),
   require('./B-rotate-02')
 ])
 
-addTutorialRow('loop', [
+addTutorialRow('Loops', [
   require('./C-Loop01'),
   require('./C-Loop02'),
   require('./C-Loop03'),
   require('./C-Loop04')
 ])
 
-addTutorialRow('scout', [
+addTutorialRow('If-Conditions', [
+])
+
+addTutorialRow('Scout', [
   require('./D-scout-01')
 ])
 
-addTutorialRow('resource', [
+addTutorialRow('Resources', [
   require('./E-resource-01')
 ])
 

@@ -41,7 +41,7 @@ module.exports = ({presenter, timer}) => {
 
     send('runtime:reset', { loadState: initialState.game }, _.noop)
     send('game:loadGameState', { loadState: initialState.game }, _.noop)
-    send('game:initializeResourceSpots', { numberOfSpots: 12, value: 100, chunks: 20, color: 'BLUE' }, _.noop)
+    send('game:initializeResourceSpots', { numberOfSpots: 12, value: 100, chunks: 20, color: 'BLUE', requiredDistance: 5 }, _.noop)
 
     setTimeout(() => {
       send('clock:start', null, _.noop)

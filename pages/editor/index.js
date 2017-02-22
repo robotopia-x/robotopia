@@ -6,7 +6,7 @@ const pageLayout = require('../../elements/page-layout')
 const gameRunnerView = require('../../elements/game-runner')
 const clientDialogView = require('../../elements/client-dialog')
 
-const DEV_MODE = false // set to true to dev on the editor and not be bothered with multiplayer
+const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
 
 const blocklyView = blocklyWidget()
 
@@ -61,7 +61,7 @@ function editorView (state, prev, send) {
     send('clock:stop')
     send('runtime:reset')
     send('game:loadGameState', { loadState: initialState.game })
-    send('game:initializeResourceSpots', { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE' })
+    send('game:initializeResourceSpots', { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE', requiredDistance: 5})
   }
 }
 

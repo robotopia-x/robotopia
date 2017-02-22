@@ -67,7 +67,7 @@ module.exports = {
       }
       const nextCategory = levels[oldCategoryIndex + 1]
       if (!nextCategory || !nextCategory.hasOwnProperty('categoryName')) {
-        //jumps to tutorial overview
+        // jumps to tutorial overview
         return cb('')
       }
       console.log('loading next level of next category')

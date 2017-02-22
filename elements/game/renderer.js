@@ -114,7 +114,6 @@ function combineWithPrevEntityState (prev, entity) {
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
-
   if (entity.showRange) {
     renderRange(ctx, entity, prevEntity, progress)
   }
@@ -371,7 +370,7 @@ function renderWorker (ctx, current, prev, progress) {
   ctx.restore()
 }
 
-const RANGE_INDICATOR_COLOR = "rgba(255, 255, 255, 0.5)"
+const RANGE_INDICATOR_COLOR = 'rgba(255, 255, 255, 0.5)'
 
 function renderRange (ctx, current, prev, progress) {
   const range = current.showRange
@@ -387,7 +386,6 @@ function renderRange (ctx, current, prev, progress) {
   ctx.fill()
 
   ctx.restore()
-
 }
 
 module.exports = {

@@ -1,4 +1,3 @@
-/* globals FormData */
 const html = require('choo/html')
 
 const timerDisplay = require('../../elements/timer')

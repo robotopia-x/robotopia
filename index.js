@@ -1,5 +1,5 @@
 const P2P_CONFIG = {
-  //hubUrl: 'https://signalhub.perguth.de:65300/'
+  // hubUrl: 'https://signalhub.perguth.de:65300/'
   hubUrl: 'localhost:8080'
 }
 

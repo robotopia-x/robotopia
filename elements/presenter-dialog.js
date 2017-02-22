@@ -1,3 +1,4 @@
+/* globals FormData */
 const _ = require('lodash')
 const html = require('choo/html')
 const modalView = require('./modal')
@@ -12,7 +13,6 @@ module.exports = function ({
   onCancelPlayerPicking,
   onCloseWinModal = _.noop
 }) {
-
   if (!presenter.groupId) {
     return getCreationModal()
   }
@@ -27,8 +27,7 @@ module.exports = function ({
 
   return html`<div></div>`
 
-  function getPlayerPickingModal() {
-
+  function getPlayerPickingModal () {
     const prefix = sf`
       :host {
         
@@ -51,7 +50,6 @@ module.exports = function ({
       }
 `
 
-
     const startButton = buttonView({
       label: 'Start'
     })
@@ -66,14 +64,13 @@ module.exports = function ({
       <div class="${prefix}">
         <h1 class="pick_header">Chose the players to battle.</h1>
         <form onsubmit=${handleSubmit}>
-        ${clientsToOptions("1", presenter.clients, presenter.playerNumbers)}
-        ${clientsToOptions("2", presenter.clients, presenter.playerNumbers)}
+        ${clientsToOptions('1', presenter.clients, presenter.playerNumbers)}
+        ${clientsToOptions('2', presenter.clients, presenter.playerNumbers)}
         ${startButton}
         </form>
         ${cancelButton}
       </div>
     `)
-
 
     function clientsToOptions (selectSuffix, clients, players) {
       return html`
@@ -84,10 +81,9 @@ module.exports = function ({
       `
 
       function clientToOption (clientId) {
-        //let isSelected = players[selectSuffix] === clientId
+        // let isSelected = players[selectSuffix] === clientId
         return html`<option class="pick_option" value="${clientId}">${clients[clientId].username}</option>`
       }
-
     }
 
     function handleSubmit (evt) {
@@ -106,10 +102,9 @@ module.exports = function ({
         2: player2
       })
     }
-
   }
-  
-  function getCreationModal() {
+
+  function getCreationModal () {
     const buttonHTML = buttonView({
       label: 'submit'
     })
@@ -132,10 +127,9 @@ module.exports = function ({
 
       onJoinGroup(groupId)
     }
-
   }
-  
-  function getWinModal() {
+
+  function getWinModal () {
     if (!currentGame || !currentGame.teams) {
       return html`<div></div>`
     }
@@ -196,27 +190,5 @@ module.exports = function ({
         <div class="center">${buttonHTML}</div>
       </div>
     `)
-
-    function getWinnerFromResults(results) {
-      let i, highest
-      const keys = Object.keys(results)
-      if (keys.length === 0) {
-        return
-      }
-      highest = results[keys[0]]
-      for (i = 1; i < keys.length; i++) {
-        let current = results[keys[i]]
-        if (current.points > highest.points) {
-          highest = current
-        }
-      }
-      return highest.id
-    }
-
-    function resultAsTable(result) {
-
-    }
-
   }
-
 }

@@ -11,7 +11,7 @@ const clientsList = require('../../elements/clients-list')
 const prepfight = require('action-overlay')('prepfight').view
 const initialState = require('./initial-state')
 
-const DEV_MODE = true
+const DEV_MODE = false
 
 module.exports = function (state, prev, send) {
   let presenter = state.presenter

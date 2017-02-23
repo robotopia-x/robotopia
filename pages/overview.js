@@ -56,6 +56,7 @@ const prefix = sf`
   :host > .credits {
     margin-top: 50px;
     text-decoration: underline;
+    text-align: center;
   }
   
   :host .category {
@@ -123,7 +124,7 @@ const overviewView = (state, prev, send) => {
         <h2>Check out the Editor:</h2>
         ${editorButton}
       </div>
-      <a class="credits" href="#credits">© Credits</a>
+      <div class="credits"><a href="#credits">© Credits</a></div>
     </div>
   `
 }

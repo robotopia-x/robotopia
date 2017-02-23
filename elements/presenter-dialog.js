@@ -135,14 +135,18 @@ module.exports = function ({
     }
 
     const prefix = sf`
-      :host .center {
+      :host {
         color: #404040;
         height: 100%;
-        width: 100%;
+        width: 30em;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-image: url('assets/img/celebration.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
       }
       
       :host > .logo {
@@ -154,6 +158,35 @@ module.exports = function ({
         background-repeat: no-repeat;
         margin-bottom: 0;
       }
+      
+      :host > .win {
+        width: 100%;
+        font-size: 45px;
+        overflow: hidden;
+        text-align: center;
+        font-weight: 600;
+      }
+      
+      :host .result_container {
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      
+      :host .result_table {
+        width: 80%;
+        margin: 0 auto;
+      }
+      
+      :host .result_table tr{
+        height: 2em;
+      }
+      
+      :host .result_table td{
+        text-align: center;
+        vertical-align: middle;
+      }
+      
     `
 
     const teams = currentGame.teams
@@ -185,9 +218,9 @@ module.exports = function ({
     return modalView(html`
       <div class="${prefix}">
         <div class="logo"></div>
-        <h1>Congratulations ${results[0].name}! You won!</h1>
-        ${getTableFromResult}
-        <div class="center">${buttonHTML}</div>
+        <div class="win">${results[0].name} won!</div>
+        <div class="result_container">${getTableFromResult(results)}</div>
+        <div>${buttonHTML}</div>
       </div>
     `)
 

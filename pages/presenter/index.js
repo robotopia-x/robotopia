@@ -11,7 +11,7 @@ const clientsList = require('../../elements/clients-list')
 const prepfight = require('action-overlay')('prepfight').view
 const initialState = require('./initial-state')
 
-const DEV_MODE = true
+const DEV_MODE = false
 
 module.exports = function (state, prev, send) {
   let presenter = state.presenter
@@ -48,7 +48,7 @@ module.exports = function (state, prev, send) {
     game,
     clock,
     onStart: () => {
-      send('presenter:setTime', 10)
+      send('presenter:setTime', 120)
       send('presenter:pickPlayers', {playerCount: 2, selectionMode: 'pick'})
     },
     onStop: () => send('presenter:stopMatch'),

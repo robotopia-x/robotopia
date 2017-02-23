@@ -83,7 +83,7 @@ module.exports = function (state, prev, send) {
     <div onload=${init}>
       ${pageHtml}
       ${presenterDialog}
-      ${clientsListHtml}
+      ${presenter.time === 0 && !presenter.displayWinDialog && !presenter.displayPlayerPickScreen ? clientsListHtml : ''}
       ${timerHtml}
       ${prepfightHtml}
     </div>

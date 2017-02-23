@@ -62,6 +62,7 @@ const prefix = sf`
     width: 95%;
     border-bottom: 1px solid black;
     margin: 20px auto;
+    padding: 1em;
   }
   
   :host .name {
@@ -71,21 +72,37 @@ const prefix = sf`
   }
   
   :host .level {
-    width: 256px;
-    height: 256px;
+    width: 250px;
     overflow: hidden;
     display: inline-block;
-    margin: 20px;
     position: relative;
+    margin: 20px;
+    text-decoration: none;
   }
   
-  :host .level > div {
+  :host .level:hover {
+    opacity: 0.8;
+    color: #404040;
+  }
+  
+  :host .level > div{
     width: 100%;
-    height: 100%;
+    position: relative;
+    text-align: center;
+  }
+  
+  :host .levelImage {
+    width: 250px;
+    height: 250px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    position: absolute;
+    margin-bottom: 5px;
+  }
+  
+  :host .levelName {
+    font-weight: 600;
+    line-height: 150%;
   }
 `
 
@@ -119,20 +136,20 @@ function getAllTutorials (tutorials) {
 `
 
   function getTutorialCategory(category) {
-    const name = category.categoryName
+    const categoryName = category.categoryName
     return html`
       <div class="category">
-        <div class="name">${name}</div>
+        <div class="name">${categoryName}</div>
         ${_.map(category.levels, getTutorial)}
       </div>
 `
 
     function getTutorial(level, index) {
+      const oneIndex = index + 1
       return html`
-      <a href="#tutorial/${name}/${index + 1}" class="level">
-        <div style="background-image: url('assets/tutorial/levelImages/${name}${index + 1}.png');">
-        
-        </div>
+      <a href="#tutorial/${categoryName}/${oneIndex}" class="level">
+        <div class="levelImage" style="background-image: url('assets/tutorial/levelImages/${categoryName}${index + 1}.png');"></div>
+        <div class="levelName">${level().label}</div>
       </a>
     `
     }

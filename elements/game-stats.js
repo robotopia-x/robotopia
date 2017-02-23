@@ -62,6 +62,10 @@ function gamePointsDisplay ({
     })
     .value()
 
+  if (_.isEmpty(game.current.teams)) {
+    return ''
+  }
+
   if (_.size(game.current.teams) > 1) {
     teamColumnHeaderHtml = html`<th>Team</th>`
   }

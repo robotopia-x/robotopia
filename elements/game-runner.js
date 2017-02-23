@@ -2,6 +2,7 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const gameView = require('./game')
 const { speedSliderView, playButtonView } = require('./runtime-controls')
+const gameStatsView = require('./game-stats')
 
 const gameRunnerPrefix = sf`
   :host {
@@ -20,6 +21,7 @@ const gameRunnerPrefix = sf`
   }
 
   :host > .game {
+    position: relative;
     height: calc(100% - 50px);
   }
 `
@@ -46,6 +48,11 @@ function gameRunnerView ({
     onChange: onChangeSpeed
   })
 
+  const gameStatsHtml = gameStatsView({
+    game,
+    progress: clock.progress
+  })
+
   return html`
     <div class="${gameRunnerPrefix}">
       <div class="controls">
@@ -54,7 +61,8 @@ function gameRunnerView ({
       </div>
       <div class="game">
          ${gameHtml}
-      </div>
+         ${gameStatsHtml}
+      </div>      
     </div>
   `
 }

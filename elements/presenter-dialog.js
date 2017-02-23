@@ -224,13 +224,12 @@ module.exports = function ({
       </div>
     `)
 
-    function getTableFromResult(result) {
+    function getTableFromResult (result) {
       return html`
       <table class="result_table">
         <tr><th>Player</th><th>Score</th></tr>
-        ${result.map((res) => {return html`<tr><td>${res.name}</td><td>${res.resources}</td></tr>`})}
+        ${result.map((res) => { return html`<tr><td>${res.name}</td><td>${res.resources}</td></tr>` })}
       </table>`
     }
-
   }
 }

@@ -3,7 +3,7 @@ const entites = require('./entities')
 
 const MAX_TRIES = 100
 
-function initializeResourceSpots (state, { numberOfSpots, value, chunks, color }, send) {
+function initializeResourceSpots (state, { numberOfSpots, value, chunks, color, requiredDistance = 0 }, send) {
   const { tiles } = state
   const mapHeight = tiles.length
   const mapWidth = tiles[0].length
@@ -18,7 +18,7 @@ function initializeResourceSpots (state, { numberOfSpots, value, chunks, color }
       tries += 1;
       x = _.random(0, mapWidth - 1)
       y = _.random(0, mapHeight - 1)
-    } while ((tiles[y][x] !== 2 || getMinDistance(x, y, resourceSpots) < 5) && tries < MAX_TRIES)
+    } while ((tiles[y][x] !== 2 || getMinDistance(x, y, resourceSpots) < requiredDistance) && tries < MAX_TRIES)
 
     if (tries < MAX_TRIES) {
       resourceSpots.push({x, y})

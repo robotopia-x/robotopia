@@ -57,7 +57,10 @@ Blockly.JavaScript.move_to_ext = function (block) {
 Blockly.JavaScript.move_to_entity = function (block) {
   const entity = block.getFieldValue('entity')
 
-  return `robot.moveTo(${entity}.x, ${entity}.y)\n`
+  return `try {
+  robot.moveTo(${entity}.x, ${entity}.y)\n
+} catch (e) { }
+`
 }
 
 /* ACTIONS */

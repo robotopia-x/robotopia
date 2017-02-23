@@ -1,12 +1,13 @@
 /* globals localStorage */
 const html = require('choo/html')
 const initialState = require('./initial-state')
+const button = require('../../elements/button')
 const blocklyWidget = require('../../elements/blockly')
 const pageLayout = require('../../elements/page-layout')
 const gameRunnerView = require('../../elements/game-runner')
 const clientDialogView = require('../../elements/client-dialog')
 
-const DEV_MODE = true // set to true to dev on the editor and not be bothered with multiplayer
+const DEV_MODE = false // set to true to dev on the editor and not be bothered with multiplayer
 
 const blocklyView = blocklyWidget()
 
@@ -33,6 +34,14 @@ function editorView (state, prev, send) {
     onChangeSpeed: (value) => send('clock:setIntervalDuration', { intervalDuration: value })
   })
 
+  const commitButtonHtml = button({
+    onClick: () => {
+      send('client:sendCode', {code: editor.code})
+    },
+    icon: 'upload',
+    label: 'Upload'
+  })
+
   const clientDialogHtml = clientDialogView({
     client,
     onSetUsername: (username) => send('client:setUsername', { username }),
@@ -47,6 +56,9 @@ function editorView (state, prev, send) {
     panels: [
       { view: gameRunnerHtml, size: 1 },
       { view: blocklyHtml, size: 1 }
+    ],
+    menu: [
+      commitButtonHtml
     ]
   })
 

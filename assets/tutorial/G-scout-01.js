@@ -121,7 +121,7 @@ module.exports = () => {
 
     storyModal: {
       text: `Scout the map. Hya!`,
-      hint: 'Combine all the learned skills to beat this puzzle.'
+      hint: 'When you start the game random diamands will appear on the map.'
     },
 
     winModal: {

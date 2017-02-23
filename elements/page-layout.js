@@ -9,30 +9,6 @@ const pageLayoutPrefix = sf`
     height: 100vh;
     display: flexbox;
   }
-
-  :host > .header {
-    height: 50px;
-    margin: 0;
-    padding: 5px 0 0 30px;
-    font-size: 20px;
-    font-weight: normal;
-    font-family: Arial;
-    color: #fff;
-    background: #03A9F4;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .header > a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .header > a > img {
-    height: 40px;
-    margin-right: 10px;
-  }
   
   :host > .content {
     height: calc(100% - 50px)
@@ -62,11 +38,47 @@ function pageLayout ({
   `
 }
 
+const headerPrefix = sf`
+  :host {
+    height: 50px;
+    margin: 0;
+    padding:  0 10px 0 20px;
+    color: #fff;
+    background: #03A9F4;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  :host > .logo {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: sans-serif;
+  }
+  
+  :host > .logo > img {
+    height: 40px;
+    margin-right: 10px;
+  }
+`
+
 function getHeaderHtml (menu) {
   return html`
-    <div class="header">
-      <a href="/"><img src="./assets/icons/logo.svg"></a>
-      <a href="/">ROBOTOPIA</a>
+    <div class="${headerPrefix}">
+    
+      <a href="#" class="logo">
+      <img src="./assets/icons/logo.svg">
+      ROBOTOPIA
+      </a>
+      
+      <div class="menu">
+        ${menu}
+      </div>
     </div>
   `
 }

@@ -25,7 +25,7 @@ const prefix = sf`
   }
 
   :host.has-icon {
-    padding-left: 27px;
+    padding-left: 30px;
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: 10px center;

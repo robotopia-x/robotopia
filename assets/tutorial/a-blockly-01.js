@@ -60,7 +60,7 @@ module.exports = () => {
 
     winModal: {
       text: `This block allows you to rotate your robot. The direction can be changed via the dropdown menu inside the block`,
-      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/rotate-dropdown.PNG' }
+      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/rotate-dropdown.png' }
     },
 
     highlighters: {

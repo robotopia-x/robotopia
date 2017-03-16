@@ -149,7 +149,7 @@ function getAllTutorials (tutorials) {
       const oneIndex = index + 1
       return html`
       <a href="#tutorial/${categoryName}/${oneIndex}" class="level">
-        <div class="levelImage" style="background-image: url('assets/tutorial/levelImages/${categoryName}${index + 1}.PNG');"></div>
+        <div class="levelImage" style="background-image: url('assets/tutorial/level-images/${categoryName.toLowerCase()}${index + 1}.png');"></div>
         <div class="levelName">${level().label}</div>
       </a>
     `

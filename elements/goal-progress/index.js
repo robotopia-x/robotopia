@@ -6,9 +6,6 @@ const { checkGoal } = require('./goal-evaluator')
 
 const goalPrefix = sf`
   :host {
-    position: absolute;
-    top: 0;
-    right: 0;
     background-color: #DDDDDD;
     color: #404040;
     background-color: rgba(221,221,221,0.85);
@@ -43,6 +40,7 @@ const goalListPrefix = sf`
     background-size: 25px;
     margin-right: 7px;
     background-image: url('assets/icons/checkbox-empty.svg');
+    flex-shrink: 0;
   }
   
   :host > .goal.completed:before {  
@@ -60,7 +58,7 @@ function goalProgressView ({ display, game, goals, workspace }) {
         <h2>Goals: </h2>
         ${goalListView({ goals: mandatoryGoals, game, workspace })}
       
-        <h2>Bonus: </h2>
+        <h2 style="${optionalGoals.length === 0 ? 'display: none' : ''}">Bonus: </h2>
         ${goalListView({ goals: optionalGoals, game, workspace })}
     </div>
     `
@@ -68,6 +66,8 @@ function goalProgressView ({ display, game, goals, workspace }) {
 }
 
 function goalListView ({ goals, game, workspace }) {
+  if (goals.length === 0) return
+
   const goalsHtml = _.map(goals, (goal) => {
     const className = classNames('goal', {
       'completed': checkGoal({ goal, workspace, game })

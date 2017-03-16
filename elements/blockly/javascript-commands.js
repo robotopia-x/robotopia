@@ -1,5 +1,15 @@
 /* global Blockly */
 
+/* CONDITIONS */
+
+Blockly.JavaScript.is_next_field = function (block) {
+  const tileType = block.getFieldValue('NAME')
+
+  const code = `robot.isNextTile(${tileType})`
+
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]
+}
+
 /* MATH */
 
 Blockly.JavaScript.random_number = function (block) {
@@ -47,7 +57,10 @@ Blockly.JavaScript.move_to_ext = function (block) {
 Blockly.JavaScript.move_to_entity = function (block) {
   const entity = block.getFieldValue('entity')
 
-  return `robot.moveTo(${entity}.x, ${entity}.y)\n`
+  return `try {
+  robot.moveTo(${entity}.x, ${entity}.y)\n
+} catch (e) { }
+`
 }
 
 /* ACTIONS */
@@ -58,6 +71,10 @@ Blockly.JavaScript.collect_resource = function (block) {
 
 Blockly.JavaScript.deposit_resource = function (block) {
   return 'robot.depositResource()\n'
+}
+
+Blockly.JavaScript.collected_resources = function (block) {
+  return ['robot.getCollectedResources()\n', Blockly.JavaScript.ORDER_FUNCTION_CALL]
 }
 
 Blockly.JavaScript.build_tower = function (block) {
@@ -79,6 +96,14 @@ Blockly.JavaScript.place_marker_ext = function (block) {
 }
 
 /* EVENTS */
+
+Blockly.JavaScript.start_handler = function (block) {
+  // don't remove the generated comment, otherwise programs which just contain the start block won't load if the previous
+  // workspace has been empty because the generated code is equivalent
+  return (
+    `// Main program starts here
+${Blockly.JavaScript.statementToCode(block, 'body')}\n`)
+}
 
 Blockly.JavaScript.marker_event_handler = function (block) {
   const type = block.getFieldValue('type')

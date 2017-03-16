@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const update = require('immutability-helper')
-const Runtime = require('../../lib/runtime/runtime')
+const Runtime = require('@robotopia/agent-runtime')
 const api = require('./robot-api')
 
 module.exports = () => {
@@ -23,11 +23,12 @@ module.exports = () => {
     },
 
     effects: {
-      createRobot: ({ code }, { id, groupId }) => {
+      createRobot: ({ code }, { id, groupId, overwriteCode }) => {
+        let useCode = !_.isNil(overwriteCode) ? overwriteCode : code[groupId]
         runtime.createAgent({
           id: id,
           api: api,
-          code: code[groupId],
+          code: useCode,
           groupId: groupId })
       },
 

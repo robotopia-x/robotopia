@@ -1,3 +1,13 @@
+const _ = require('lodash')
+const {
+  LOGIC_COLOR,
+  LOOPS_COLOR,
+  MATH_COLOR,
+  ACTION_COLOR,
+  EVENT_COLOR,
+  MOVEMENT_COLOR
+} = require('./colors')
+
 /* global Blockly */
 // adds the bow on top of event blocks
 Blockly.BlockSvg.START_HAT = true
@@ -7,10 +17,88 @@ Blockly.BlockSvg.START_HAT = true
 Blockly.HSV_SATURATION = 0.7
 Blockly.HSV_VALUE = 0.75
 
+function disableBlockIfNotConnected (block) {
+  let parent = block.getParent()
+
+  // ignore blocks which are inside of toolbar
+  if (block.isInFlyout) {
+    return
+  }
+
+  if (parent === null && block.disabled === false) {
+    block.setDisabled(true)
+    _.forEach(block.childBlocks_, (child) => child.setDisabled(true))
+    return
+  }
+
+  if (parent !== null && block.disabled === true) {
+    while (parent.getParent()) {
+      parent = parent.getParent()
+    }
+
+    if (parent.type.endsWith('handler')) {
+      block.setDisabled(false)
+      return
+    }
+
+    _.forEach(block.childBlocks_, (child) => child.setDisabled(true))
+  }
+}
+
+function overrideColor (blockName, color) {
+  const block = Blockly.Blocks[blockName]
+  const _init = block.init
+
+  block.init = function () {
+    _init.call(this)
+    this.setColour(color)
+  }
+}
+
+overrideColor('controls_if', LOGIC_COLOR)
+overrideColor('logic_boolean', LOGIC_COLOR)
+overrideColor('logic_negate', LOGIC_COLOR)
+overrideColor('logic_compare', LOGIC_COLOR)
+
+overrideColor('controls_repeat', LOOPS_COLOR)
+overrideColor('controls_repeat_ext', LOOPS_COLOR)
+overrideColor('controls_whileUntil', LOOPS_COLOR)
+
+overrideColor('math_number', MATH_COLOR)
+overrideColor('math_arithmetic', MATH_COLOR)
+
+/* add onchange handler to existing blocks */
+_.forEach([
+  'logic_boolean', 'logic_negate', 'logic_compare',
+  'controls_if', 'controls_repeat', 'controls_repeat_ext', 'controls_whileUntil',
+  'math_number', 'math_arithmetic'
+], (blockName) => {
+  Blockly.Blocks[blockName].onchange = function () {
+    disableBlockIfNotConnected(this)
+  }
+})
+
+/* CONDITIONS */
+Blockly.Blocks.is_next_field = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField('isNextField')
+      .appendField(new Blockly.FieldDropdown([['Water', '1'], ['Dirt', '2'], ['Grass', '3'], ['Plain', '4'], ['Stone', '5']]), 'NAME')
+
+    this.setOutput(true, null)
+    this.setColour(230)
+    this.setTooltip('Checks the next block for the given type')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
+  }
+}
+
 /* MATH */
 
 Blockly.Blocks.random_number_ext = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Random between')
 
@@ -23,13 +111,17 @@ Blockly.Blocks.random_number_ext = {
 
     this.setInputsInline(true)
     this.setOutput(true, 'Number')
-    this.setColour(230)
+    this.setColour(MATH_COLOR)
     this.setTooltip('generates a random number between min and max')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.random_number = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Random between')
       .appendField(new Blockly.FieldNumber(1), 'min')
@@ -38,23 +130,25 @@ Blockly.Blocks.random_number = {
 
     this.setInputsInline(true)
     this.setOutput(true, 'Number')
-    this.setColour(230)
+    this.setColour(MATH_COLOR)
     this.setTooltip('generates a random number between min and max')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 /* MOVE */
 
 Blockly.Blocks.move = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move')
       .appendField(
         new Blockly.FieldDropdown([
-          ['⇩ Forward ', 'FORWARD'],
-          ['⇦ Left', 'LEFT'],
-          ['⇧ Backward', 'BACKWARD'],
-          ['⇨ Right', 'RIGHT']
+          ['⇧ Forward ', 'FORWARD'],
+          ['⇩ Backward', 'BACKWARD']
         ]),
         'move'
       )
@@ -62,28 +156,36 @@ Blockly.Blocks.move = {
     this.setTooltip('move the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.rotate = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Rotate')
       .appendField(new Blockly.FieldDropdown([
-        ['↻ Left', 'LEFT'],
-        ['↺ Right', 'RIGHT']
+        ['↺ Left', 'LEFT'],
+        ['↻ Right', 'RIGHT']
       ]), 'direction')
 
     this.setTooltip('rotate the robot in the given direction')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.move_to = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move to  x:')
       .appendField(new Blockly.FieldNumber(0), 'x')
@@ -94,12 +196,16 @@ Blockly.Blocks.move_to = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.move_to_ext = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move to')
 
@@ -115,12 +221,16 @@ Blockly.Blocks.move_to_ext = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position x, y on the game field')
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.move_to_entity = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Move to')
       .appendField(
@@ -136,50 +246,81 @@ Blockly.Blocks.move_to_entity = {
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
     this.setTooltip('move the robot to position of selected entity')
-    this.setColour(40)
+    this.setColour(MOVEMENT_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 /* ACTIONS */
 
 Blockly.Blocks.collect_resource = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Collect resource')
 
     this.setTooltip('collect a resource on the the robots positions')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.deposit_resource = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Deposit resource')
 
     this.setTooltip('deposits a resource if robot is on home base')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
+  }
+}
+
+Blockly.Blocks.collected_resources = {
+  init () {
+    this.appendDummyInput()
+      .appendField('Collected resources')
+
+    this.setTooltip('number of resources which are currently available')
+    this.setColour(ACTION_COLOR)
+    this.setOutput(true, 'Number')
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.build_tower = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Build tower')
 
     this.setTooltip('build a tower in front of the robot')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.place_marker = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Place')
       .appendField(new Blockly.FieldDropdown([
@@ -196,12 +337,16 @@ Blockly.Blocks.place_marker = {
     this.setTooltip('place a marker that triggers an event which other robots can react to')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 Blockly.Blocks.place_marker_ext = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('Place')
       .appendField(new Blockly.FieldDropdown([
@@ -222,14 +367,31 @@ Blockly.Blocks.place_marker_ext = {
     this.setTooltip('place a marker that triggers an event which other robots can react to')
     this.setPreviousStatement(true, null)
     this.setNextStatement(true, null)
-    this.setColour(50)
+    this.setColour(ACTION_COLOR)
+  },
+
+  onchange () {
+    disableBlockIfNotConnected(this)
   }
 }
 
 /* EVENTS */
 
+Blockly.Blocks.start_handler = {
+  init () {
+    this.appendDummyInput()
+      .appendField('when start')
+
+    this.appendStatementInput('body')
+      .setCheck(null)
+
+    this.setColour(EVENT_COLOR)
+    this.setTooltip('code which is executed when programm starts')
+  }
+}
+
 Blockly.Blocks.marker_event_handler = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('when')
       .appendField(
@@ -246,7 +408,7 @@ Blockly.Blocks.marker_event_handler = {
     this.appendStatementInput('body')
       .setCheck(null)
 
-    this.setColour(20)
+    this.setColour(EVENT_COLOR)
     this.setTooltip('code which is executed when an marker is assigned')
 
     // mark block as event handler, we use blockly data string
@@ -256,14 +418,14 @@ Blockly.Blocks.marker_event_handler = {
 }
 
 Blockly.Blocks.resource_event_handler = {
-  init: function () {
+  init () {
     this.appendDummyInput()
       .appendField('when resource is discovered')
 
     this.appendStatementInput('body')
       .setCheck(null)
 
-    this.setColour(20)
+    this.setColour(EVENT_COLOR)
     this.setTooltip('code which is executed when a new resource is discovered')
 
     // mark block as event handler

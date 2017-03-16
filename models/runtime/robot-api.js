@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { MOVE, ROTATE, ORIENTATION } = require('../../lib/utils/types')
-const pathfinder = require('../../lib/utils/pathfinder')
+const pathfinder = require('./../../lib/pathfinder')
 const {
   getGameState,
   getEntity,
@@ -8,7 +8,7 @@ const {
   isFieldEmpty,
   findFieldNearPosition,
   findEmptyFieldNearPosition
-} = require('../../lib/game')
+} = require('@robotopia/choo-game')
 
 const SAVE_ZONE_SIZE = 4 // how far enemy towers have to build from base
 
@@ -68,7 +68,7 @@ module.exports = {
 
   methods: {
     moveTo: function (x, y) {
-      var nextPosition
+      var comparePosition, i, path, nextPosition
       var currentPosition = this.getPosition()
 
       var target = this.findEmptyFieldNearPosition(x, y)
@@ -77,24 +77,77 @@ module.exports = {
         return
       }
 
-      var path = this.getPathTo(target.x, target.y)
-      for (var i = 1; i < path.length; i++) {
-        nextPosition = path[i]
+      // repeat trying to find a path until target is reached
+      while (currentPosition.x !== target.x || currentPosition.y !== target.y) {
 
-        if (currentPosition.y < nextPosition.y) {
-          this.setRotation('FRONT')
-        } else if (currentPosition.y > nextPosition.y) {
-          this.setRotation('BACK')
-        } else if (currentPosition.x < nextPosition.x) {
-          this.setRotation('RIGHT')
-        } else {
-          this.setRotation('LEFT')
+        // recalculate target if it is no longer empty
+        if (!this.isFieldEmpty(target.x, target.y)) {
+          target = this.findEmptyFieldNearPosition(x, y)
+          break;
         }
 
-        this.move('FORWARD')
+        // calculate route
+        path = this.getPathTo(target.x, target.y)
 
-        currentPosition = nextPosition
+        // traverse route
+        for (i = 1; i < path.length; i++) {
+          // check if method has been interrupted by mode change or event in this case break and recalculate route
+          comparePosition = this.getPosition();
+          if (currentPosition.x !== comparePosition.x || currentPosition.y !== comparePosition.y) {
+            currentPosition = comparePosition
+            break
+          }
+
+          nextPosition = path[i]
+
+          // recalculate route if next position isn't empty
+          if (!this.isFieldEmpty(nextPosition.x, nextPosition.y)) {
+            break;
+          }
+
+          if (currentPosition.y < nextPosition.y) {
+            this.setRotation('FRONT')
+          } else if (currentPosition.y > nextPosition.y) {
+            this.setRotation('BACK')
+          } else if (currentPosition.x < nextPosition.x) {
+            this.setRotation('RIGHT')
+          } else {
+            this.setRotation('LEFT')
+          }
+
+          this.move('FORWARD')
+
+          currentPosition = nextPosition
+        }
       }
+    },
+
+    isNextTile: function (tileType) {
+      var position = this.getPosition()
+      var x = position.x
+      var y = position.y
+
+      var tiles = this.getGameTiles()
+
+      var xAdd = 0
+      var yAdd = 0
+
+      switch(position.rotation) {
+        case 0:
+          yAdd = -1
+          break
+        case 3:
+          xAdd = 1
+          break
+        case 2:
+          yAdd = 1
+          break
+        case 1:
+          xAdd = -1
+          break
+      }
+
+      return tiles[y + yAdd][x + xAdd] === tileType
     },
 
     buildTowerNearPosition: function () { // don't use arrow shorthand here because it messes with toString
@@ -123,6 +176,10 @@ module.exports = {
   },
 
   sensors: {
+    getGameTiles: (state, id) => {
+      return getGameState(state).tiles
+    },
+
     getPosition: (state, id) => {
       const game = getGameState(state)
       const entity = getEntity(id, game)
@@ -172,6 +229,13 @@ module.exports = {
       const entity = getEntity(id, game)
 
       return getBaseOfTeam(game, entity.team.id).position
+    },
+
+    getCollectedResources: (state, id, x, y) => {
+      const game = getGameState(state)
+      const entity = getEntity(id, game)
+
+      return game.teams[entity.team.id].resources
     }
   }
 }

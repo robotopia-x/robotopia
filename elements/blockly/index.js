@@ -1,8 +1,6 @@
 /* global Blockly */
 require('./blocks')
 require('./javascript-commands')
-require('./tutorialBlocks')
-require('./tutorial-javascript-commands')
 
 const _ = require('lodash')
 const widget = require('cache-element/widget')
@@ -21,22 +19,18 @@ const DEFAULT_OPTIONS = {
   comments: true,
   disable: true,
   maxBlocks: Infinity,
-  trashcan: true,
+  trashcan: false,
   scrollbars: true,
   sounds: true,
   grid: {
-    spacing: 10,
+    spacing: 20,
     length: 1,
     colour: '#DDD',
     snap: true
   },
   zoom: {
-    controls: true,
-    wheel: false,
-    startScale: 1,
-    maxcale: 20,
-    minScale: 0.5,
-    scaleSpeed: 1.05
+    controls: false,
+    wheel: false
   }
 }
 
@@ -44,14 +38,15 @@ function blocklyWidget () {
   let container = null
   let prevParams = null
   let onChange = _.noop
-  let toolbox, blocklyWorkspace, code
+  let blocklyWorkspace = null
+  let toolbox
 
   return widget({
     onupdate: (el, params) => {
       onChange = params.onChange
 
       // ignore if workspace isn't initialized or params haven't changed
-      if (!blocklyWorkspace || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
+      if (blocklyWorkspace === null || (prevParams.workspace === params.workspace && prevParams.toolbox === params.toolbox)) {
         return
       }
 
@@ -73,15 +68,18 @@ function blocklyWidget () {
       blocklyWorkspace = Blockly.inject(container, DEFAULT_OPTIONS)
       blocklyWorkspace.addChangeListener(updateCode)
 
+      // remove background color
+      container.querySelector('.blocklyMainBackground').style = ''
+
       if (prevParams === null) {
         return
       }
 
-      // apply initial params
       if (prevParams.toolbox) {
         blocklyWorkspace.updateToolbox(prevParams.toolbox)
         toolbox = prevParams.toolbox
       }
+      // apply initial params
       if (prevParams.workspace) {
         updateWorkspace(blocklyWorkspace, prevParams.workspace)
       }
@@ -106,22 +104,15 @@ function blocklyWidget () {
   })
 
   function updateCode () {
-    const newCode = workspaceToOrderedCode(blocklyWorkspace)
-
-    // don't trigger update code if block is beeing dragged
+    // don't trigger update code if block is being dragged
     if (container.querySelector('.blocklyDragging') !== null) {
       return
     }
 
-    // only update call onChangeWorkspace if resulting code from workspace has changed
-    if (newCode !== code) {
-      code = newCode
-
-      onChange({
-        workspace: workspaceToString(blocklyWorkspace),
-        code
-      })
-    }
+    onChange({
+      workspace: workspaceToString(blocklyWorkspace),
+      code: workspaceToOrderedCode(blocklyWorkspace)
+    })
   }
 }
 
@@ -130,11 +121,14 @@ function updateWorkspace (workspace, xmlString) {
   const workspaceXml = Blockly.Xml.textToDom(xmlString)
   workspace.clear()
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+  Blockly.svgResize(workspace)
 }
 
 function stringToWorkspace (xmlString) {
   const workspace = new Blockly.Workspace(DEFAULT_OPTIONS)
-  updateWorkspace(workspace, xmlString)
+  const workspaceXml = Blockly.Xml.textToDom(xmlString)
+  Blockly.Xml.domToWorkspace(workspaceXml, workspace)
+
   return workspace
 }
 
@@ -146,7 +140,10 @@ function workspaceToString (workspace) {
 // checks if workspaces generate both the same code, ignoring position of blocks
 // you have to pass in an actual workspace not just strings
 function isWorkspaceEquivalentTo (workspace, compareWorkspace) {
-  return workspaceToOrderedCode(workspace) === workspaceToOrderedCode(compareWorkspace)
+  const workspaceCode = workspaceToOrderedCode(workspace)
+  const compareCode = workspaceToOrderedCode(compareWorkspace)
+
+  return workspaceCode === compareCode
 }
 
 // turns workspace into javascript
@@ -161,7 +158,7 @@ function workspaceToOrderedCode (workspace) {
   // the variableDB is provided by the workspace but since we are generating the code block wise we need to provide
   // our own variableDB
 
-  // safe reference to original value
+  // save reference to original value
   const originalVariableDB_ = Blockly.JavaScript.variableDB_
 
   // monkey patch variableDB

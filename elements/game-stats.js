@@ -1,13 +1,13 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const { interpolate } = require('../lib/game')
+const { interpolate } = require('@robotopia/choo-game')
 
 const gameStatsPrefix = sf`
   :host {
     position: absolute;
     right: 0;
-    top: 50px;
+    top: 0;
     background-color: rgba(221,221,221,0.85);
     color: #404040;
     padding: 10px;
@@ -45,6 +45,7 @@ function gamePointsDisplay ({
       let teamFieldHtml
       const currentTeam = game.current.teams[teamId]
       const prevTeam = game.prev === null ? currentTeam : game.prev.teams[teamId]
+      // TODO: Uncomment when points are implemented
       // const points = Math.round(interpolate(currentTeam.points, prevTeam.points, progress))
       const resources = Math.round(interpolate(currentTeam.resources, prevTeam.resources, progress))
 
@@ -60,6 +61,10 @@ function gamePointsDisplay ({
       `
     })
     .value()
+
+  if (_.isEmpty(game.current.teams)) {
+    return ''
+  }
 
   if (_.size(game.current.teams) > 1) {
     teamColumnHeaderHtml = html`<th>Team</th>`

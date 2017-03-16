@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const html = require('choo/html')
 const sf = require('sheetify')
-const { getGameState } = require('../../lib/game/index')
+const { getGameState } = require('@robotopia/choo-game')
 const { checkGoals } = require('../goal-progress/goal-evaluator')
 const buttonView = require('../button')
 const modalView = require('../modal')
@@ -28,7 +28,7 @@ const prefix = sf`
     position: absolute;
     top: -50px;
     left: -130px;
-    background: url('../../assets/img/rick-avatar.png');
+    background: url('assets/img/rick-avatar.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -46,19 +46,25 @@ const prefix = sf`
      border-bottom: 13px solid transparent;
   }
   
-  :host > .story-hint {
+  :host > h1 {
+    color: #03a9f4;
+  }
+  
+  :host > .unlocked {
     width: 100%;
-    color: #8a6d3b;
-    border: 1px solid #faebcc;
-    padding: 15px;
-    border-radius: 3px;
-    padding-left: 50px;
-    display: inline-block;
-    background-color: #fcf8e3;
-    background-image: url(../../assets/icons/info.svg);
-    background-size: 32px 32px;
-    background-position: 10px center;
-    background-repeat: no-repeat;
+    text-align: center;
+  }
+  
+  :host > .unlocked > .unlockedBlock {
+    border: 5px solid #DDDDDD;
+    border-radius: 20px;
+    max-height: 250px;
+  }
+  
+  :host > .levelButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 `
 
@@ -70,46 +76,59 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
     const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
-      const nextLevelButtonInfo = getNextLevelButton(send, level)
-      const nextLevelButton = buttonView({
-        label: nextLevelButtonInfo.text,
-        onClick: nextLevelButtonInfo.callback
+      const winModal = level.winModal
+
+      const repeatLevelButtonHtml = buttonView({
+        label: 'Restart Level',
+        onClick: () => {
+          send('game:loadGameState', { loadState: level.game })
+        }
       })
+      const nextLevelButtonHtml = getNextLevelButton(send, level)
+      let unlockedHtml
+
+      if (winModal.unlockedBlock) {
+        unlockedHtml = html`
+            <div class="unlocked">
+              <h3>You just unlocked the ${winModal.unlockedBlock.name}-Block!</h3>
+              <img class="unlockedBlock" src="${winModal.unlockedBlock.img}">
+            </div>
+          `
+      }
+
+      if (level.onFinish) level.onFinish({ gameState, workspace })
+
+      send('tutorial:sendEvent', {type: 'levelWon'})
 
       return modalView(html`
         <div class="${prefix} animated content">
-          <h1>Congratulations, you finished the level!</h1>  
+          <h1>Congratulations, you finished the level!</h1>
+          ${unlockedHtml}
+          <p>${winModal.text}</p>
           <div class="goals">
             <div>
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
           </div>
           <br>
-          ${nextLevelButton}
+          <div class="levelButtons">
+            ${repeatLevelButtonHtml}
+            ${nextLevelButtonHtml}
+          </div>
         </div>
       `)
     }
 
     if (isStoryModalOpen) {
-      let hintHtml
-
       const startButton = buttonView({
         label: 'Start Tutorial',
         onClick: () => send('tutorial:setDisplayStoryModal', { displayStory: false })
       })
-
-      if (story.hint) {
-        hintHtml = html`
-          <p class="story-hint">
-            ${story.hint}
-          </p>
-        `
-      }
 
       return modalView(html`
         <div class="${prefix} content animated">
@@ -119,16 +138,12 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
             ${story.text}            
           </p>
           
-          ${story.img ? html`<img class="img" src="${story.img}"/>` : html``}
-          
-         ${hintHtml}
-          
           <div class="goals">
             <div>
               <h5>Goals: </h5>
               ${goalListView({ goals: mandatoryGoals, game, workspace })}
             </div>
-            <div>
+            <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
               ${goalListView({ goals: optionalGoals, game, workspace })}
             </div>
@@ -141,17 +156,12 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 }
 
 function getNextLevelButton (send, level) {
-  if (level.nextTutorial) {
-    return {
-      text: 'Next Level',
-      callback: () => send('location:set', `/tutorial/${level.nextTutorial}`)
-    }
-  }
-
-  return {
-    text: 'Load Editor',
-    callback: () => send('location:set', '/editor')
-  }
+  return buttonView({
+    label: 'Next',
+    onClick: () => send('tutorial:nextLevel', (nextLocation) => {
+      send('location:set', nextLocation)
+    })
+  })
 }
 
 module.exports = winningCondition

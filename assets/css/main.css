@@ -13,7 +13,6 @@ html, body {
 
 input {
   height: 2em;
-  width: 100%;
 }
 
 @keyframes move {
@@ -25,14 +24,57 @@ input {
   }
 }
 
-.header-bar {
-  height: 50px;
+/* Blockly overrides */
+
+.blocklyToolboxDiv {
+  background: #fff !important;
+  border-right: 1px solid grey;
+}
+
+.blocklyTreeRoot {
+  padding: 0 !important;
+}
+
+
+.blocklyTreeSeparator {
+ margin: 0 !important;
+}
+
+.blocklyTreeRow {
+  margin: 0 !important;
+  padding: 5px 10px 5px 0 !important;
+  height: 30px !important;
   display: flex;
-  padding: 20px;
   align-items: center;
-  background: #404040;
-  overflow: hidden;
-  z-index: 10;
-  width: 100%;
-  position: relative;
+}
+
+.blocklyTreeIcon {
+  display: none;
+}
+
+.blocklyMainBackground {
+  fill: #ECF0F1;
+}
+
+/* disable 3d effect of blocks */
+.blocklyPathDark {
+  display: none;
+}
+
+.blocklyPathLight {
+  display: none;
+}
+
+.highlight {
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(225,255,0,1);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(225,255,0,1);
+  box-shadow: 0px 0px 5px 0px rgba(225,255,0,1);
+  -webkit-transition: box-shadow 2s;
+  transition: box-shadow 2s;
+}
+
+.highlight.HL_on {
+  -webkit-box-shadow: 0px 0px 20px 3px rgba(225,255,0,1);
+  -moz-box-shadow: 0px 0px 20px 3px rgba(225,255,0,1);
+  box-shadow: 0px 0px 20px 3px rgba(225,255,0,1);
 }

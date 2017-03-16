@@ -3,10 +3,15 @@ const widget = require('cache-element/widget')
 const html = require('choo/html')
 const sf = require('sheetify')
 
-// inital zoom is set so viewport will have at least this height and width
-const MIN_INITAL_VIEWPORT_SIZE = 1000
-
-const INITIAL_TRANSFORM = { zoom: 1, pan: { x: 0, y: 0 } }
+const MIN_INITAL_VIEWPORT_SIZE = 200 // inital zoom is set so viewport will have at least this height and width
+const MIN_SCALE = 0.1
+const MAX_SCALE = 1
+const INITIAL_TRANSFORM = {
+  scale: 1,
+  translate: {
+    x: 0, y: 0
+  }
+}
 
 const prefix = sf`
   :host {
@@ -30,12 +35,12 @@ function canvasWidget () {
   let canvas = null
   let isDragging = false
   let render = _.noop
-  let canvasTransform = INITIAL_TRANSFORM
+  let transform = INITIAL_TRANSFORM
   let prevDragPoint
 
   return widget({
-    onupdate: (el, _render) => {
-      render = _render
+    onupdate: (el, params) => {
+      render = params.render
 
       if (ctx !== null) {
         renderCanvas()
@@ -53,6 +58,8 @@ function canvasWidget () {
       canvas.addEventListener('mousewheel', handleZoom)
       window.addEventListener('resize', resize)
 
+      transform.scale = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
+
       resize()
 
       renderCanvas()
@@ -60,20 +67,20 @@ function canvasWidget () {
 
     onunload: () => {
       ctx = null
-      canvas = null
       isDragging = false
-      canvasTransform = INITIAL_TRANSFORM
-
+      transform = INITIAL_TRANSFORM
       canvas.removeEventListener('mousedown', handleDragStart)
       canvas.removeEventListener('mousemove', handleDragMove)
       canvas.removeEventListener('mouseup', handleDragEnd)
       canvas.removeEventListener('mouseleave', handleDragEnd)
       canvas.removeEventListener('mousewheel', handleZoom)
+      canvas = null
+
       window.removeEventListener('resize', resize)
     },
 
-    render: (_render) => {
-      render = _render
+    render: (params) => {
+      render = params.render
 
       return html`
         <div class="${prefix}">
@@ -94,8 +101,8 @@ function canvasWidget () {
       let x = evt.clientX
       let y = evt.clientY
 
-      canvasTransform.pan.x += (x - prevDragPoint.x) / canvasTransform.zoom
-      canvasTransform.pan.y += (y - prevDragPoint.y) / canvasTransform.zoom
+      transform.translate.x += (x - prevDragPoint.x) / transform.scale
+      transform.translate.y += (y - prevDragPoint.y) / transform.scale
 
       prevDragPoint.x = evt.clientX
       prevDragPoint.y = evt.clientY
@@ -113,32 +120,24 @@ function canvasWidget () {
     canvas.width = canvas.parentNode.offsetWidth
     canvas.height = canvas.parentNode.offsetHeight
 
-    // zoom out if width or height of canvas are less than 1000
-    canvasTransform.zoom = Math.min(Math.min(1, canvas.width / MIN_INITAL_VIEWPORT_SIZE), canvas.height / MIN_INITAL_VIEWPORT_SIZE)
-
     renderCanvas()
   }
 
   function handleZoom (evt) {
     evt.preventDefault()
-    const zoom = canvasTransform.zoom - (evt.deltaY / MIN_INITAL_VIEWPORT_SIZE)
-    canvasTransform.zoom = _.clamp(zoom, 0.1, 2)
+    const scale = transform.scale - (evt.deltaY / 2000)
+    transform.scale = _.clamp(scale, MIN_SCALE, MAX_SCALE)
 
     renderCanvas()
   }
 
   function renderCanvas () {
-    const { pan, zoom } = canvasTransform
+    const viewport = _.assign({}, { width: canvas.width, height: canvas.height }, transform)
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.save()
 
-    // apply canvas transform
-    ctx.translate(canvas.width / 2, canvas.height / 2)
-    ctx.scale(zoom, zoom)
-    ctx.translate(pan.x, pan.y)
-
-    render(ctx, canvas.width, canvas.height)
+    render(ctx, viewport)
 
     ctx.restore()
   }

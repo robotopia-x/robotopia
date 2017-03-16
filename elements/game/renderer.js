@@ -1,38 +1,79 @@
 const _ = require('lodash')
-const assets = require('../../lib/utils/assets')
-const { getAllEntities, getEntity } = require('../../lib/game')
+const assets = require('@robotopia/assets-loader')
+const { getAllEntities, getEntity, interpolate } = require('@robotopia/choo-game')
 const { RENDERER } = require('../../lib/utils/types')
 const { ORIENTATION } = require('../../lib/utils/types')
-const { interpolate } = require('../../lib/game')
 
 const TILE_HEIGHT = 80
 const TILE_WIDTH = 100
 
-function render (ctx, state, progress) {
+// 80 / 100 = 4 / 5 => width has to be divisible by 5
+const TILE_DIVISOR = 5
+
+const RESOURCE_COLOR = {
+  10: '#3acb3a',
+  20: '#2245e3',
+  25: '#e4292a'
+}
+
+function render (ctx, viewport, state, progress) {
   const { tiles } = state.current
 
   ctx.save()
   ctx.strokeStyle = '#000'
   ctx.lineWidth = 2
 
-  moveOrigin(ctx, tiles)
-  renderTiles(ctx, tiles)
+  applyViewportTransforms({
+    ctx,
+    viewport,
+    gameWidth: tiles[0].length,
+    gameHeight: tiles.length
+  })
+
+  renderTiles(ctx, viewport, tiles)
   renderEntities(ctx, state.current, state.prev, progress)
 
   ctx.restore()
 }
 
-// move origin to top left by half the size of the board so the game will be centered
-function moveOrigin (ctx, tiles) {
-  const offsetX = -(tiles[0].length / 2) * TILE_WIDTH
-  const offsetY = -(tiles.length / 2) * TILE_HEIGHT
-  ctx.translate(offsetX, offsetY)
+function applyViewportTransforms ({ ctx, viewport, gameWidth, gameHeight }) {
+  // move origin to center of canvas
+  ctx.translate(viewport.width / 2, viewport.height / 2)
+
+  // apply scale
+  const scale = getEvenScale(viewport.scale)
+  ctx.scale(scale, scale)
+
+  // center game field
+  ctx.translate(-(gameWidth / 2) * TILE_WIDTH, -(gameHeight / 2) * TILE_WIDTH)
+
+  // apply viewport translate
+  ctx.translate(viewport.translate.x, viewport.translate.y)
 }
 
-function renderTiles (ctx, tiles) {
+// enforce that scale always results in integer tile dimensions (no subpixel rendering)
+// if scale doesn't full fill this requirement find the next smaller scale that does
+function getEvenScale (scale) {
+  const width = Math.floor(scale * TILE_WIDTH)
+
+  if (width % TILE_DIVISOR === 0) {
+    return width / TILE_WIDTH
+  }
+
+  let divisibleWidth = 0
+
+  while ((divisibleWidth + TILE_DIVISOR) < width) {
+    divisibleWidth += TILE_DIVISOR
+  }
+
+  return divisibleWidth / TILE_WIDTH
+}
+
+function renderTiles (ctx, viewport, tiles) {
   for (let y = 0; y < tiles.length; y++) {
     for (let x = 0; x < tiles[y].length; x++) {
-      ctx.drawImage(assets.store[getTileImageType(tiles[y][x])], x * TILE_WIDTH, y * TILE_HEIGHT + 40)
+      const image = assets.store[getTileImageType(tiles[y][x])]
+      ctx.drawImage(image, x * TILE_WIDTH, y * TILE_HEIGHT + 40)
     }
   }
 }
@@ -73,7 +114,15 @@ function combineWithPrevEntityState (prev, entity) {
 }
 
 function renderEntity (ctx, entity, prevEntity, progress) {
-  if (entity.sprite) {
+  if (entity.showRange) {
+    renderRange(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.collectable) {
+    renderCollectable(ctx, entity, prevEntity, progress)
+  }
+
+  if (entity.sprite && !entity.collectable) {
     renderSprite(ctx, entity, prevEntity, progress)
   }
 
@@ -92,6 +141,30 @@ function renderEntity (ctx, entity, prevEntity, progress) {
   if (entity.worker) {
     renderWorker(ctx, entity, prevEntity, progress)
   }
+}
+
+function renderCollectable (ctx, entity, prevEntity, progress) {
+  const spritePart = getCollectableSprite(entity.collectable)
+  const sprite = entity.sprite.data.sprite
+
+  const image = assets.store[sprite]
+  const width = image.width / 3
+  const height = image.height
+  const { x, y } = entity.position
+
+  ctx.drawImage(image, spritePart * width, 0, width, height, x * TILE_WIDTH, y * TILE_HEIGHT, width, height)
+}
+
+function getCollectableSprite ({ value, maxValue }) {
+  const parts = maxValue / 3
+
+  if (value < parts) {
+    return 2
+  }
+  if (value < parts * 2) {
+    return 1
+  }
+  return 0
 }
 
 function renderSprite (ctx, entity, prevEntity, progress) {
@@ -140,7 +213,7 @@ function robotRenderer (ctx, data, current, prev, progress) {
   // drawSprite(ctx, sprite, x, y)
 }
 
-function getRobotSprite ({ position, team }) {
+function getRobotSprite ({ position, team, sprite }) {
   const positionName = ({
     [ORIENTATION.FRONT]: 'ROBOT_FRONT',
     [ORIENTATION.BACK]: 'ROBOT_BACK',
@@ -148,7 +221,7 @@ function getRobotSprite ({ position, team }) {
     [ORIENTATION.RIGHT]: 'ROBOT_RIGHT'
   })[position.rotation]
 
-  const teamId = (team && team.id) === 2 ? 2 : 1
+  const teamId = (sprite && sprite.team) === 2 ? 2 : 1
   const teamName = `TEAM_${teamId}`
 
   return `${positionName}_${teamName}`
@@ -192,10 +265,11 @@ function renderHealth (ctx, current, prev, progress) {
   ctx.restore()
 }
 
-const HAS_RESOURCE_RADIUS = 15
-const HAS_RESOURCE_COLOR = '#2245e3'
-
 function renderCarriesResource (ctx, current, prev, progress) {
+  // maximum size of 20
+  const HAS_RESOURCE_RADIUS = Math.min(current.collector.chunk, 25)
+  const HAS_RESOURCE_COLOR = RESOURCE_COLOR[HAS_RESOURCE_RADIUS]
+
   // only render if robot carries resource
   if ((current.collector.hasResource || prev.collector.hasResource) && current.position.rotation !== ORIENTATION.BACK) {
     let x = 0
@@ -276,8 +350,6 @@ function renderWorker (ctx, current, prev, progress) {
   const x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH - (WORKER_ICON_SIZE / 2)
   const y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT - 35
 
-  const scaleFactor = WORKER_ICON_SIZE / 512
-
   ctx.save()
 
   ctx.fillStyle = current.worker.assignedTask.type
@@ -294,6 +366,24 @@ function renderWorker (ctx, current, prev, progress) {
   ctx.closePath()
   ctx.fill()
   ctx.stroke()
+
+  ctx.restore()
+}
+
+const RANGE_INDICATOR_COLOR = 'rgba(255, 255, 255, 0.5)'
+
+function renderRange (ctx, current, prev, progress) {
+  const range = current.showRange
+
+  let x = (interpolate(current.position.x, prev.position.x, progress) + 0.5) * TILE_WIDTH
+  let y = interpolate(current.position.y, prev.position.y, progress) * TILE_HEIGHT + 115
+
+  ctx.save()
+
+  ctx.fillStyle = RANGE_INDICATOR_COLOR
+  ctx.beginPath()
+  ctx.arc(x, y, TILE_WIDTH * (range + 0.5), 0, 2 * Math.PI)
+  ctx.fill()
 
   ctx.restore()
 }

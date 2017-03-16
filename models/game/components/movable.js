@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const { MOVE } = require('../../../lib/utils/types')
-const { isFieldEmpty } = require('../../../lib/game')
+const { isFieldEmpty } = require('@robotopia/choo-game')
 
 module.exports = {
   movable: {
@@ -14,14 +14,14 @@ module.exports = {
         const mapHeight = tiles.length
         let nextX = position.x
         let nextY = position.y
-        let rotatedDirection = mod((direction), 4)
+        let rotatedDirection = applyRotation(direction, position.rotation)
 
         switch (rotatedDirection) {
           case MOVE.BACKWARD:
-            nextY = position.y - 1
+            nextY = position.y + 1
             break
           case MOVE.FORWARD:
-            nextY = position.y + 1
+            nextY = position.y - 1
             break
           case MOVE.LEFT:
             nextX = position.x - 1
@@ -66,6 +66,10 @@ module.exports = {
       }
     }
   }
+}
+
+function applyRotation (direction, rotation) {
+  return mod((direction + rotation), 4)
 }
 
 function mod (x, n) {

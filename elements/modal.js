@@ -3,9 +3,11 @@ const sf = require('sheetify')
 
 const prefix = sf`
   :host {
-    position: absolute;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -25,7 +27,8 @@ const prefix = sf`
     overflow: scroll;
     z-index: 501;
     animation: move 1s 1 ease;
-    animation-delay: 10;    
+    animation-delay: 10;
+    overflow: hidden;
   }
   
   :host > .inner > .content {
@@ -33,6 +36,7 @@ const prefix = sf`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    overflow: hidden;
   }
   
   :host > .inner .img {

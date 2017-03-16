@@ -5,61 +5,56 @@ const classNames = require('classnames')
 
 const prefix = sf`
   :host {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     padding: 8px 10px;
+    margin: 10px;
     border: none;
     border-radius: 3px;
     font-size: 1em;
-    font-family: sans-serif;
-    color: #404040;
+    color: #676768;
     line-height: 100%;
-    background-color: #dddddd;
+    background-color: #E0E1E2;
   }
 
   :host:hover {
     color: #2b2b2b;
-    background-color: white;
+    background-color: #CACBCD;
   }
 
   :host[disabled] {
     opacity: 0.5
   }
 
-  :host.has-icon:before {
-    content: '';
-    width: 16px;
-    height: 16px;
-    background-size: contain;
-    background-position: center;
+  :host.has-icon {
+    padding-left: 30px;
     background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 10px center;
   }
 
-  :host.has-icon.has-label:before {
+  :host.has-icon.has-label {
     margin-right: 5px;
   }
 
-  :host.icon-play:before {
+  :host.icon-play {
     background-image: url('assets/icons/play.svg');
   }
 
-  :host.icon-pause:before {
+  :host.icon-pause {
     background-image: url('assets/icons/pause.svg');
   }
 
-  :host.icon-stop:before {
+  :host.icon-stop {
     background-image: url('assets/icons/stop.svg');
   }
   
-  :host.icon-upload:before {
+  :host.icon-upload {
     background-image: url('assets/icons/upload.svg');
   }
 `
 
 function button ({
   icon, label, disabled = false,
-  onClick = _.noop
+  onClick = _.noop, additionalClasses
 }) {
   const classes = classNames(
     prefix,
@@ -70,7 +65,7 @@ function button ({
   )
 
   return html`
-    <button class="${classes}" onclick=${onClick} disabled=${disabled}>
+    <button class="${classes + ' ' + additionalClasses} " onclick=${onClick} disabled=${disabled}>
       ${label}
     </button>
   `

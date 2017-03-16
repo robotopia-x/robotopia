@@ -16,7 +16,7 @@ module.exports = [
     desc: 'Passionate developer, studying computer science. At home on the web. Building things with JavaScript, Elm and Clojure.'
   },
   {
-    name: 'Johannes Klakhöfer',
+    name: 'Johannes Kahlhöfer',
     role: 'Developer / Evil Mind',
     img: 'https://avatars1.githubusercontent.com/u/5808849?v=3&s=400',
     github: 'https://github.com/H3rby7',
@@ -43,5 +43,12 @@ module.exports = [
     img: '../assets/img/emre.jpg',
     github: 'https://github.com/robotopia-x/robotopia',
     desc: ''
+  },
+  {
+    name: 'Lorena Müller',
+    role: 'Robot Designer',
+    img: '../assets/img/dragon.png',
+    github: 'https://github.com/robotopia-x/robotopia',
+    desc: 'Animation & Game Student'
   }
 ]

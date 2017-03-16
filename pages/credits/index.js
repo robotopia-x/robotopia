@@ -8,23 +8,21 @@ const prefix = sf`
     color: #404040;
     height: 100%;
     width: 100%;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow-x: hidden;
   }
   
   :host div {
-    display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-around;
     margin-bottom: 25px;
   } 
   
   :host > .logo {
     width: 100%;
     height: 15%;
+    min-height: 250px;
     background-image: url('assets/icons/robotopia.svg');
     background-size: contain;
     background-position: center;
@@ -36,6 +34,7 @@ const prefix = sf`
     display: flex;
     flex-direction: row;
     width: 70%;
+    margin: 0 auto;
   }
   
   .person > .personImg {

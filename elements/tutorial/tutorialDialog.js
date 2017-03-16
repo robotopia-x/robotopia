@@ -91,7 +91,7 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
         unlockedHtml = html`
             <div class="unlocked">
               <h3>You just unlocked the ${winModal.unlockedBlock.name}-Block!</h3>
-              <img class="unlockedBlock" src="${winModal.unlockedBlock.img}"}>
+              <img class="unlockedBlock" src="${winModal.unlockedBlock.img}">
             </div>
           `
       }

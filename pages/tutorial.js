@@ -4,9 +4,6 @@ const gameRunnerView = require('../elements/game-runner')
 const tutorialDialogView = require('../elements/tutorial/tutorialDialog')
 const blocklyWidget = require('../elements/blockly')
 const { instructionView } = require('../elements/instructions')
-const createHighlighter = require('../lib/highlighter')
-const _highLighter = createHighlighter()
-_highLighter.start()
 
 const blocklyView = blocklyWidget()
 

@@ -44,6 +44,7 @@ If you're interested in using our tool in an event in your area, feel free to do
 
 
 On the computers open Chrome and head over to https://robotopia-x.github.io. Here the kids first will play through the tutorials.  While they are learning the basic concepts, you and your friends meanwhile help them understand these concepts.  
+At the time of reaching the end of the tutorials, you can open the presenter on the mentioned projector. Head over to http://robotopia-x.github.io/#presenter and enter a name for your room. (That's the room name the kids have to enter later)
 > Note: We had the impression, that 1 supervisor can handle ~5 kids.
 
 **2. Building a basic competitive program**
@@ -57,8 +58,8 @@ Upload the current code by pressing the "Upload" button on the top right corner.
 **3. Let the robots battle**
 
 
-You now have to open the presenter for the projector. Head over to http://robotopia-x.github.io/presenter and select two of the players that already commited their programs.  
-You can now press the "Play" button to start the competition.  
+You now have to get back to the presenter on the projector. Press the "Run" button and select two players that already commited their program.  
+You can now press the "Start" button to start the competition.  
 > Note: The idea on this point is, that all people in the room now look at the game running on the projector.
 
 **4. Improving the programs**

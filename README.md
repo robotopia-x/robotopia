@@ -31,22 +31,22 @@
 If you're interested in using our tool in an event in your area, feel free to do so.  
 **Here's a little guide to get you started**.
 
-#### What you'll need
+### What you'll need
 - A small room for the event
+- Around 1,5h of time
 - Computers/Laptops with Chrome installed
 - A projector
 - Some kids or youths
 - Yourself and, depending on the amount of kids, maybe a friend or two
 
-#### Agenda
-**1.** Introducing the kids with the tutorials 
+### Agenda
+**1. Introducing the kids with the tutorials**
 
 
-**This is the first part of the event.**
 On the computers open Chrome and head over to https://robotopia-x.github.io. Here the kids first will play through the tutorials.  While they are learning the basic concepts, you and your friends meanwhile help them understand these concepts.  
 > Note: We had the impression, that 1 supervisor can handle ~5 kids.
 
-**2.** Building a basic competitive program 
+**2. Building a basic competitive program**
 
 
 At this point, the supervisors will, together with the him assigned kids, build a competitive program.  
@@ -54,17 +54,19 @@ He'll show them the basic idea behind the program and make them ready to build t
 Upload the current code by pressing the "Upload" button on the top right corner.
 > Note: You'll run the first competitive game with 2 of the build programs
 
-**3.** Let the robots battle
+**3. Let the robots battle**
 
 
 You now have to open the presenter for the projector. Head over to http://robotopia-x.github.io/presenter and select two of the players that already commited their programs.  
 You can now press the "Play" button to start the competition.  
 > Note: The idea on this point is, that all people in the room now look at the game running on the projector.
 
-**4.** Improving the programs
+**4. Improving the programs**
 
 
-
+When the first few competitions are finished, the kids get time to imporove their programs with things they noticed while battling.    
+Also, the kids that could't build their own program by now get the time and opportunity to commit their own program and compete with the others.
+> Note: This part of the event can be extended as long as the kids are interested. 
 
 ## Installation
 > Make sure to use Google Chrome

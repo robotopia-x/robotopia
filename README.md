@@ -44,7 +44,8 @@ If you're interested in using our tool in an event in your area, feel free to do
 
 
 On the computers open Chrome and head over to https://robotopia-x.github.io. Here the kids first will play through the tutorials.  While they are learning the basic concepts, you and your friends meanwhile help them understand these concepts.  
-At the time of reaching the end of the tutorials, you can open the presenter on the mentioned projector. Head over to http://robotopia-x.github.io/#presenter and enter a name for your room. (That's the room name the kids have to enter later)
+At the time of reaching the end of the tutorials, you can open the presenter on the mentioned projector.    
+Head over to http://robotopia-x.github.io/#presenter and enter a name for your room. (That's the room name the kids have to enter later)
 > Note: We had the impression, that 1 supervisor can handle ~5 kids.
 
 **2. Building a basic competitive program**

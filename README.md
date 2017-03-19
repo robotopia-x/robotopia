@@ -5,7 +5,9 @@
 
 > Robotopia is an in-browser learning tool for kids and young adults. It strives to teach programming concepts together with basic logic in a fun and comforting way without writing a single line of code.
 
-![Robotopia Editor](./assets/img/screenshot.png)
+<p align="center">
+  <img src="./assets/img/screenshot.png" align="center" alt="Robotopia Editor"/>
+</p>
 
 ## Features
 

@@ -27,6 +27,27 @@
 - [x] Uses the [Choo](https://github.com/yoshuawuyts/choo) JS-Framework 
 - [x] *Easy self-hosting*.
 
+## How *You* could use this
+If you're interested in using our tool in an event in your area, feel free to do so.  
+**Here's a little guide to get you started**.
+
+#### What you'll need
+- A small room for the event
+- Computers/Laptops with Chrome installed
+- A beamer
+- Some kids or youths
+- Yourself and, depending on the amount of kids, maybe a friend or two
+
+#### Agenda
+**1.** Introducing the kids with the tutorials 
+
+
+**This is the first part of the event.**
+On the computers open Chrome and head over to https://robotopia-x.github.io. Here the kids first will play through the tutorials.  While they are learning the basic concepts, you and your friends meanwhile help them understand these concepts.  
+> Note: We had the impression, that 1 supervisor can handle ~5 kids.
+
+**2.** 
+
 ## Installation
 > Make sure to use Google Chrome
 

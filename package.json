@@ -9,7 +9,7 @@
     ]
   },
   "dependencies": {
-    "@robotopia/agent-runtime": "^1.0.1",
+    "@robotopia/agent-runtime": "^1.0.2",
     "@robotopia/assets-loader": "^1.0.1",
     "@robotopia/choo-game": "^1.0.1",
     "@robotopia/clock": "^1.0.2",

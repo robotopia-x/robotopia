@@ -26,7 +26,7 @@ const DEFAULT_OPTIONS = {
     spacing: 20,
     length: 1,
     colour: '#DDD',
-    snap: true
+    snap: false
   },
   zoom: {
     controls: false,
@@ -61,6 +61,10 @@ function blocklyWidget () {
       if (!isWorkspaceEquivalentTo(blocklyWorkspace, newBlocklyWorkspace)) {
         updateWorkspace(blocklyWorkspace, params.workspace)
       }
+
+      // prevent memory leak and no don't delete this line, this call isn't here just in case to be sure.
+      // if you remove this line bad things will happen
+      newBlocklyWorkspace.dispose()
     },
 
     onload: (_container) => {
@@ -128,7 +132,6 @@ function stringToWorkspace (xmlString) {
   const workspace = new Blockly.Workspace(DEFAULT_OPTIONS)
   const workspaceXml = Blockly.Xml.textToDom(xmlString)
   Blockly.Xml.domToWorkspace(workspaceXml, workspace)
-
   return workspace
 }
 

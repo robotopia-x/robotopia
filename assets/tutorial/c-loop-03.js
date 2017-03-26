@@ -70,7 +70,7 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: `Well done! Now here is a difficult one. Just kidding. In both matters. It will probably still be a challenge for you...`,
+      text: `Well done! Now here is a difficult one..`,
       hint: 'You can use a repeat inside a repeat.'
     },
 

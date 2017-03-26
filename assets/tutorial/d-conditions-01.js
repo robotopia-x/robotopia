@@ -23,30 +23,34 @@ module.exports = () => {
     },
 
     editor: {
-      workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="start_handler" x="50" y="50" deletable="false">
-    <statement name="body">
-    <block type="controls_repeat">
-    <field name="TIMES">3</field>
-    <statement name="DO">
-        <block type="controls_if"></block>
-    </statement>
-</statement>
-</block>
-</xml>`,
+      workspace: `
+        <xml xmlns="http://www.w3.org/1999/xhtml">
+          <block type="start_handler" x="50" y="50" deletable="false">
+            <statement name="body">
+              <block type="controls_repeat"/>
+              <field name="TIMES">3</field>
+              <statement name="DO">
+                <block type="controls_if"/>
+              </statement>
+            </statement>
+          </block>
+        </xml>
+      `,
 
-      toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
-                    <block type="move"></block>
-                    <block type="rotate"></block>
-                    <block type="controls_repeat"></block>
-                    <block type="controls_if"></block>
-                    <block type="is_next_field"></block>
-                </category>
-              </xml>`
+      toolbox: `
+        <xml id="toolbox" style="display: none">
+          <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
+            <block type="move"></block>
+            <block type="rotate"></block>
+            <block type="controls_repeat"></block>
+            <block type="controls_if"></block>
+            <block type="is_next_field"></block>
+          </category>
+        </xml>
+      `
     },
 
-    label: 'If - Right Round',
+    label: 'Conditions - Right Round',
 
     goals: [
       {
@@ -64,7 +68,7 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: `This puzzle looks quite hard, good thing you just got the If-Block. With this block, this level should be no problem at all`,
+      text: `This puzzle looks quite hard, good thing you just got the condition-block. With this block, this level should be no problem at all`,
       hint: 'It might look hard, but you can simply check if the next tile is water'
     },
 

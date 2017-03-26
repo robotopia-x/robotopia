@@ -60,10 +60,14 @@ const prefix = sf`
   }
   
   :host .category {
-    width: 95%;
+    max-width: 950px;
     border-bottom: 1px solid black;
     margin: 20px auto;
     padding: 1em;
+  }
+  
+  :host .category:first-child {
+    border-top: 1px solid black;
   }
   
   :host .name {
@@ -109,21 +113,27 @@ const prefix = sf`
 
 const overviewView = (state, prev, send) => {
   const editorButton = buttonView({
-    label: 'Load Editor',
+    label: 'Open Editor',
     onClick: () => send('location:set', '#editor')
+  })
+
+  const presenterButton = buttonView({
+    label: 'Open Presenter',
+    onClick: () => send('location:set', '#presenter')
   })
 
   return html`
     <div class="${prefix}">
       <div class="logo"></div>
       <div class="tutorials">
-        <h2>Tutorials:</h2>
+        <h2>Tutorials</h2>
         ${getAllTutorials(tutorials)}
       </div>
       <div class="editor">
-        <h2>Check out the Editor:</h2>
+        <h2>Competitive Mode</h2>
         ${editorButton}
-      </div>
+        ${presenterButton}
+      </div>      
       <div class="credits"><a href="#credits">© Credits</a></div>
     </div>
   `

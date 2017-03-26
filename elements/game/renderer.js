@@ -11,7 +11,7 @@ const TILE_WIDTH = 100
 const TILE_DIVISOR = 5
 
 const RESOURCE_COLOR = {
-  10: '#3acb3a',
+  10: '#2245e3',
   20: '#2245e3',
   25: '#e4292a'
 }

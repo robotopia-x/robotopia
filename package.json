@@ -5,7 +5,8 @@
   "main": "src/client.js",
   "browserify": {
     "transform": [
-      "sheetify/transform"
+      "sheetify/transform",
+      "yo-yoify"
     ]
   },
   "dependencies": {
@@ -37,13 +38,13 @@
     "browserify-hmr": "^0.3.5",
     "budo": "^9.4.5",
     "standard": "^8.5.0",
-    "surge": "^0.18.0"
+    "yo-yoify": "^3.5.0"
   },
   "scripts": {
     "test": "standard",
     "lint": "standard --fix",
-    "start": "budo index.js:bundle.js --live",
-    "build": "browserify index.js -t sheetify/transform -t [ babelify --presets [ es2015 stage-2 ] ] > bundle.js",
+    "start": "budo index.js:bundle.js",
+    "build": "browserify index.js -t yo-yoify -t sheetify/transform -t [ babelify --presets [ es2015 stage-2 ] ] > bundle.js",
     "deploy": "./bin/deploy.sh"
   },
   "repository": {

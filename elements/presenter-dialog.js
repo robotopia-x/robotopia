@@ -111,7 +111,7 @@ module.exports = function ({
 
     return modalView(html`
       <div>
-        <p>To continue please enter a rather unique name for your group or create one!!</p>
+        <p>Choose a group name</p>
         <form onsubmit=${handleSubmit}>
             <input type="text" name="groupId" autofocus>
             ${buttonHTML}

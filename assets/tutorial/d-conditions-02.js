@@ -42,7 +42,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'If - Follow The Signs',
+    label: 'Conditions - Follow The Signs',
 
     goals: [
       {
@@ -54,7 +54,7 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: `Now you known the power of an If-Block... This time, you have to solve the level with a single Move-Block`,
+      text: `Now you known the power of a condition-block... This time, you have to solve the level with a single move-block`,
       hint: 'Try to see the pattern, the blocks give an indication where to go.'
     },
 

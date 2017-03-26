@@ -48,7 +48,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'If - Hard Mode',
+    label: 'Conditions - Hard Mode',
 
     goals: [
       {

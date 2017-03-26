@@ -50,7 +50,7 @@ module.exports = () => {
       `
     },
 
-    label: 'If - Right Round',
+    label: 'Conditions - Right Round',
 
     goals: [
       {
@@ -68,7 +68,7 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: `This puzzle looks quite hard, good thing you just got the If-Block. With this block, this level should be no problem at all`,
+      text: `This puzzle looks quite hard, good thing you just got the condition-block. With this block, this level should be no problem at all`,
       hint: 'It might look hard, but you can simply check if the next tile is water'
     },
 

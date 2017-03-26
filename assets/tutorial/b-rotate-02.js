@@ -46,7 +46,7 @@ module.exports = () => {
       {
         type: 'dontTouchTileType',
         params: {tileID: 2, entity: 'ROBOT'},
-        desc: 'Do not get your robot dirty to impress in an impressive way.',
+        desc: 'Do not get your robot dirty',
         isMandatory: false
       }
     ],

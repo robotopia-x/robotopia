@@ -60,10 +60,14 @@ const prefix = sf`
   }
   
   :host .category {
-    width: 95%;
+    max-width: 950px;
     border-bottom: 1px solid black;
     margin: 20px auto;
     padding: 1em;
+  }
+  
+  :host .category:first-child {
+    border-top: 1px solid black;
   }
   
   :host .name {

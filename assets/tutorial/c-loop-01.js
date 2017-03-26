@@ -58,13 +58,12 @@ module.exports = () => {
     ],
 
     storyModal: {
-      text: `"So far" you are doing surprisingly well. Let's see if you can make it "so far". 
-      Haha, I'm so good at making jokes. Probably because I don't need to work anymore. Why are you still listening? Get to work!`,
+      text: `You are doing great so far! Can you also solve the next puzzle?`,
       hint: ''
     },
 
     winModal: {
-      text: `Not too shabby...`
+      text: `Great job!`
     }
   }
 }

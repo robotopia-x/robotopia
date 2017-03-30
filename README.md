@@ -3,7 +3,7 @@
 [![built with choo v4](https://img.shields.io/badge/built%20with%20choo-v4-ffc3e4.svg?style=flat-square)](https://github.com/yoshuawuyts/choo)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)(https://github.com/robotopia-x/robotopia/blob/master/LICENSE)
 
-> Robotopia is an browser based programming environment for kids and young adults. The goal is to introduce kids to basic programming concepts with cute little robots.
+> Robotopia is a browser based programming environment for kids and young adults. The goal is to introduce kids to basic programming concepts with cute little robots.
 
 <p align="center">
   <img src="./assets/img/screenshot.png" align="center" alt="Robotopia Editor"/>
@@ -22,7 +22,7 @@
     - [x] Basic arithmetic logic
 - [x] Competitive mode
     - [x] Client editor to create bots
-    - [x] Presenter to present robot competition on central monitor
+    - [x] Presenter to present robot competition on a central monitor
     - [x] p2p connection between clients and presenter
     - [x] 1v1 mode
 - [x] Programmable robots

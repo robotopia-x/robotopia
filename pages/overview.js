@@ -125,6 +125,7 @@ const overviewView = (state, prev, send) => {
   return html`
     <div class="${prefix}">
       <div class="logo"></div>
+      ${githubButtons()}
       <div class="tutorials">
         <h2>Tutorials</h2>
         ${getAllTutorials(tutorials)}
@@ -135,6 +136,19 @@ const overviewView = (state, prev, send) => {
         ${presenterButton}
       </div>      
       <div class="credits"><a href="#credits">© Credits</a></div>
+    </div>
+  `
+}
+
+function githubButtons () {
+  <!-- Place this tag where you want the button to render. -->
+  return html`
+    <div style="display: flex; justify-content: center">
+    <!-- Place this tag where you want the button to render. -->
+        <a class="github-button" data-style="mega" href="http://github.com/robotopia-x/robotopia">View on github</a>
+        <div style="margin: 0 10px;"/>
+        <a class="github-button" href="https://github.com/robotopia-x/robotopia" data-icon="octicon-star" data-style="mega" data-count-href="/robotopia-x/robotopia/stargazers" data-count-api="/repos/robotopia-x/robotopia#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star robotopia-x/robotopia on GitHub">Star</a>        
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </div>
   `
 }
@@ -164,9 +178,7 @@ function getAllTutorials (tutorials) {
       </a>
     `
     }
-
   }
-
 }
 
 module.exports = overviewView

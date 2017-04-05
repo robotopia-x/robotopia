@@ -35,6 +35,7 @@ const prefix = sf`
     flex-direction: row;
     width: 70%;
     margin: 0 auto;
+    margin-bottom: 20px;
   }
   
   .person > .personImg {
@@ -48,6 +49,7 @@ const prefix = sf`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    margin-bottom: 0;
   }
   
   .personInfo h2 {
@@ -117,7 +119,7 @@ function personDiv ({ name, role, img, github, homepage, desc }) {
         <h4>${role}</h4>
         <div class="links">
           <a href="${github}" class="githubLink">${githubName}</a>
-          ${homepage ? html`<a href="homepage">${homepage}</a>` : html``}
+          ${homepage ? html`<a href="${homepage}">${homepage}</a>` : html``}
         </div>
         <p>${desc}</p>
       </div>

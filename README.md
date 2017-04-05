@@ -9,6 +9,8 @@
   <img src="./assets/img/screenshot.png" align="center" alt="Robotopia Editor"/>
 </p>
 
+### [Now, play it!](https://robotopia-x.github.io)
+
 ## Features
 
 - [x] Graphical programming environment

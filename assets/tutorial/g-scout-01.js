@@ -102,7 +102,7 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Scout - Or... Walking Around Without Puropse',
+    label: 'Scout - Or... Walking Around Without Purpose',
 
     goals: [
       {

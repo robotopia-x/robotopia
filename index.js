@@ -14,7 +14,7 @@ const panelGroupModel = require('./components/panel-group').model
 const levelModel = require('./models/tutorial')
 const clientModel = require('./models/client')(P2P_CONFIG)
 const presenterModel = require('./models/presenter')(P2P_CONFIG)
-const prepfight = require('./node_modules/action-overlay')('prepfight')
+const prepfight = require('action-overlay')('prepfight')
 
 const app = choo()
 

@@ -24,7 +24,7 @@
     "lodash": "^4.16.4",
     "pathfinding": "0.4.18",
     "peer-star": "git://github.com/robotopia-x/networking.git",
-    "prep-fight": "git://github.com/robotopia-x/start_action_screen.git",
+    "action-overlay": "git://github.com/robotopia-x/start_action_screen.git",
     "sheetify": "^5.1.1",
     "uid": "0.0.2",
     "x2js": "https://github.com/abdmob/x2js.git"

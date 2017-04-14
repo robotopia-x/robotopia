@@ -15,8 +15,10 @@ cp -r assets dist
 mkdir dist/node_modules
 cp -r node_modules/blockly dist/node_modules/blockly
 
+
 cd dist
 touch .nojekyll
+echo "robotopia.co" > CNAME
 git add .
 git commit -am 'update'
 git push --force --set-upstream origin master

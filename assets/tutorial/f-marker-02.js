@@ -51,10 +51,10 @@ module.exports = () => {
       ],
 
       entities: [
-        entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2}),
-        entities.tutorialRobot({x: 21, y: 5, id: 'LOST_ROBOT01', orientation: ORIENTATION.FRONT, teamId: 1, discoverRange: 0, teamSprite: 2}),
-        entities.tutorialRobot({x: 18, y: 22, id: 'LOST_ROBOT02', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 0, teamSprite: 2}),
-        entities.tutorialRobot({x: 4, y: 14, id: 'LOST_ROBOT03', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 0, teamSprite: 2}),
+        entities.tutorialRobot({x: 12, y: 12, id: 'ROBOT', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 2, resource: {hasResource: false, chunk: 0}}),
+        entities.tutorialRobot({x: 21, y: 5, id: 'LOST_ROBOT01', orientation: ORIENTATION.FRONT, teamId: 1, discoverRange: 0, teamSprite: 2, resource: {hasResource: false, chunk: 0}}),
+        entities.tutorialRobot({x: 18, y: 22, id: 'LOST_ROBOT02', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 0, teamSprite: 2, resource: {hasResource: false, chunk: 0}}),
+        entities.tutorialRobot({x: 4, y: 14, id: 'LOST_ROBOT03', orientation: ORIENTATION.BACK, teamId: 1, discoverRange: 0, teamSprite: 2, resource: {hasResource: false, chunk: 0}}),
         entities.tutorialBase({ x: 12, y: 12, id: 'BASE', teamId: 1 })
       ],
 

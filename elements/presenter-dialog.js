@@ -65,6 +65,7 @@ module.exports = function ({
         <h1 class="pick_header">Chose the players to battle.</h1>
         <form onsubmit=${handleSubmit}>
         ${clientsToOptions('1', presenter.clients, presenter.playerNumbers)}
+        vs
         ${clientsToOptions('2', presenter.clients, presenter.playerNumbers)}
         ${startButton}
         </form>
@@ -74,15 +75,14 @@ module.exports = function ({
 
     function clientsToOptions (selectSuffix, clients, players) {
       return html`
-        <select name="player${selectSuffix}" class="pick_select">
-        <option selected disabled value="0">Player${selectSuffix}</option>
+        <select name="player${selectSuffix}" class="pick_select">        
           ${Object.keys(clients).map(clientToOption)}
         </select>
       `
 
       function clientToOption (clientId) {
-        // let isSelected = players[selectSuffix] === clientId
-        return html`<option class="pick_option" value="${clientId}">${clients[clientId].username}</option>`
+        const isSelected = players[selectSuffix] === clientId
+        return html`<option class="pick_option" value="${clientId}" selected="${isSelected}">${clients[clientId].username}</option>`
       }
     }
 

@@ -92,8 +92,8 @@ module.exports = function (state, prev, send) {
   function init () {
     send('clock:stop')
     send('game:loadGameState', { loadState: initialState.game })
-    send('prepfight:setLeft', { img: '../../assets/img/robot/robot_rick_right.png' })
-    send('prepfight:setRight', { img: '../../assets/img/cyborg/cyborg_rick_left.png' })
+    send('prepfight:setLeft', { img: '' })
+    send('prepfight:setRight', { img: '' })
     send('prepfight:setVS', { img: 'http://vignette2.wikia.nocookie.net/mortalkombat/images/6/64/Vs.png/revision/latest?cb=20150319161124&path-prefix=de' })
     send('prepfight:setDurations', { up: 1000, down: 1000, stay: 1500 })
   }

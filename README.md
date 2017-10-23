@@ -9,6 +9,8 @@
   <img src="./assets/img/screenshot.png" align="center" alt="Robotopia Editor"/>
 </p>
 
+
+### [Read the Article!](https://medium.freecodecamp.org/how-to-use-tiny-programmable-robots-to-introduce-kids-to-coding-47dbd7866ee7)
 ### [Now, play it!](https://robotopia-x.github.io)
 
 ## Features

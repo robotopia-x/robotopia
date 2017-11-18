@@ -84,13 +84,41 @@ Also, the kids who couldn't build their own program by now get the time and oppo
 
 ## Installation
 
+If you want to install Robotopia on your local environment follow these instructions.
+
+### Precondition
+
+* Install [node.js](https://nodejs.org/)
+* Install [npm](https://www.npmjs.com/get-npm)
+
+### Project Setup 
+
+First install [budo](https://github.com/mattdesl/budo) globally first:
+
+```bash
+npm install -g budo
+```
+
+Then clone the project from github and install:
 ```bash
 git clone https://github.com/robotopia-x/robotopia.git
 cd robotopia
 npm install
+
+```
+
+In the directory of robotopia call
+
+```bash
 npm start
 ```
 A local web server will be started at [http://localhost:9966/](http://localhost:9966/).
+
+### Configuration
+
+In the file `index.js` there is configured the SignalingHub server for communication in presenter mode:
+
+* 'hubUrl: [serverURL]': Add there your prefered server url
 
 ## Related
 - [Our research repo](https://github.com/robotopia-x/research)

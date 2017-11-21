@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'resource01',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -31,46 +33,33 @@ module.exports = () => {
     },
 
     editor: {
-      workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-    <block type="start_handler" x="50" y="50" deletable="false"></block>
-    <block type="resource_event_handler" x="50" y="200" deletable="false"></block>
-</xml>`,
+      workspace: `
+        <xml xmlns="http://www.w3.org/1999/xhtml">
+            <block type="start_handler" x="50" y="50" deletable="false"></block>
+            <block type="resource_event_handler" x="50" y="200" deletable="false"></block>
+        </xml>
+      `,
 
-      toolbox: `<xml id="toolbox" style="display: none">
-
-                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
-                    <block type="move"></block>
-                    <block type="rotate"></block>
-                    <block type="controls_repeat"></block>
-                    <block type="move_to_entity"></block>
-                    <block type="collect_resource"></block>
-                </category>
-
-              </xml>`
+      toolbox: `
+        <xml id="toolbox" style="display: none">
+          <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
+              <block type="move"></block>
+              <block type="rotate"></block>
+              <block type="controls_repeat"></block>
+              <block type="move_to_entity"></block>
+              <block type="collect_resource"></block>
+          </category>
+        </xml>
+      `
     },
-
-    label: 'Resource - Pick It Up',
 
     goals: [
       {
+        id: 'carryResource',
         type: 'carryResource',
         params: { hasResource: true },
-        desc: 'Collect a resource',
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: `So far it's all been fun and games. This is, what we're really after. Gems. Shiny. Valuable`,
-      hint: 'Robots detect resources within 3 fields.'
-    },
-
-    winModal: {
-      text: `Now what? This block let's the robot deposit the resource when being near the base.`,
-      unlockedBlock: {
-        name: 'Deposit-Resource',
-        img: '../../assets/img/tutorials/blocks/deposit-resource.png'
-      }
-    }
+    ]
   }
 }

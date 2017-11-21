@@ -3,6 +3,7 @@ const sf = require('sheetify')
 const _ = require('lodash')
 const tutorials = require('../assets/tutorial')
 const buttonView = require('../elements/button')
+const {i18nText} = require('../elements/i18n')
 
 const prefix = sf`
   :host {
@@ -158,7 +159,7 @@ function getAllTutorials (tutorials) {
 </div>
 `
 
-  function getTutorialCategory(category) {
+  function getTutorialCategory (category) {
     const categoryName = category.categoryName
     return html`
       <div class="category">
@@ -170,11 +171,11 @@ function getAllTutorials (tutorials) {
     function getTutorial(level, index) {
       const oneIndex = index + 1
       return html`
-      <a href="#tutorial/${categoryName}/${oneIndex}" class="level">
-        <div class="levelImage" style="background-image: url('assets/tutorial/level-images/${categoryName.toLowerCase()}${index + 1}.png');"></div>
-        <div class="levelName">${level().label}</div>
-      </a>
-    `
+        <a href="#tutorial/${categoryName}/${oneIndex}" class="level">
+          <div class="levelImage" style="background-image: url('assets/tutorial/level-images/${categoryName.toLowerCase()}${index + 1}.png');"></div>
+          <div class="levelName">${i18nText('levels', level().id, 'title')}</div>
+        </a>
+      `
     }
   }
 }

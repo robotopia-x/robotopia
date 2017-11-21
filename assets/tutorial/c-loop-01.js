@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'loop01',
+
     game: {
       tiles: [
         [1, 1, 1, 1],
@@ -46,24 +48,13 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Loops - Getting Lazy',
-
     goals: [
       {
+        id: 'goToChest',
         type: 'moveTo',
         params: {position: {x: 2, y: 1}, entity: 'ROBOT'},
-        desc: 'Move the robot to the metal tile',
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: `You are doing great so far! Can you also solve the next puzzle?`,
-      hint: ''
-    },
-
-    winModal: {
-      text: `Great job!`
-    }
+    ]
   }
 }

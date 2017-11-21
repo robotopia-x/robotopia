@@ -14,6 +14,8 @@ robot.onMode('red', function (marker) {
 
 module.exports = () => {
   return {
+    id: 'marker01',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -76,74 +78,59 @@ module.exports = () => {
 </block>
 </xml>`,
 
-      toolbox: `<xml id="toolbox" style="display: none">
-
-                <category name="Logic" colour="${blockColors.LOGIC_COLOR}">
-                    <block type="controls_repeat"></block>
-                    <block type="controls_if"></block>
-                    <block type="logic_compare"></block>
-                </category>
-                
-                <sep gap="8"></sep>
-                
-                <category name="Numbers" colour="${blockColors.MATH_COLOR}">
-                    <block type="math_number"></block>
-                    <block type="random_number"></block>
-                </category>
-                
-                <sep gap="8"></sep>
-                
-                <category name="Movement" colour="${blockColors.MOVEMENT_COLOR}">
-                    <block type="move"></block>
-                    <block type="rotate"></block>
-                    <block type="move_to_entity"></block>
-                </category>
-                
-                <sep gap="8"></sep>
-                
-                <category name="Actions" colour="${blockColors.ACTION_COLOR}">
-                    <block type="collect_resource"></block>
-                    <block type="deposit_resource"></block>
-                    <block type="place_marker"></block>
-                </category>
-                
-              </xml>`
+      toolbox: `
+        <xml id="toolbox" style="display: none">
+          <category name="Logic" colour="${blockColors.LOGIC_COLOR}">
+              <block type="controls_repeat"></block>
+              <block type="controls_if"></block>
+              <block type="logic_compare"></block>
+          </category>
+          
+          <sep gap="8"></sep>
+          
+          <category name="Numbers" colour="${blockColors.MATH_COLOR}">
+              <block type="math_number"></block>
+              <block type="random_number"></block>
+          </category>
+          
+          <sep gap="8"></sep>
+          
+          <category name="Movement" colour="${blockColors.MOVEMENT_COLOR}">
+              <block type="move"></block>
+              <block type="rotate"></block>
+              <block type="move_to_entity"></block>
+          </category>
+          
+          <sep gap="8"></sep>
+          
+          <category name="Actions" colour="${blockColors.ACTION_COLOR}">
+              <block type="collect_resource"></block>
+              <block type="deposit_resource"></block>
+              <block type="place_marker"></block>
+          </category>                
+        </xml>
+      `
     },
-
-    label: 'Marker - Help Them',
 
     goals: [
       {
+        id: 'saveRobot1',
         type: 'moveTo',
         params: {position: {x: 12, y: 12}, entity: 'LOST_ROBOT01'},
-        desc: 'Lost robot is in time for lunch',
         isMandatory: true
       },
       {
+        id: 'saveRobot2',
         type: 'moveTo',
         params: {position: {x: 12, y: 12}, entity: 'LOST_ROBOT02'},
-        desc: 'Lost robot is save',
         isMandatory: true
       },
       {
+        id: 'saveRobot3',
         type: 'moveTo',
         params: {position: {x: 12, y: 12}, entity: 'LOST_ROBOT03'},
-        desc: 'Lost robot returned to home after 10 years',
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: `Unfortunately three of the robots got lost. Luckily they will automatically move to a "red marker" as soon as one is placed.`,
-      hint: 'Robots can place markers of a given color.'
-    },
-
-    winModal: {
-      text: 'Thank you for getting my robots back to safety.',
-      unlockedBlock: {
-        name: 'Resource Discovered Event',
-        img: '../../assets/img/tutorials/blocks/resource-dicovered.png'
-      }
-    }
+    ]
   }
 }

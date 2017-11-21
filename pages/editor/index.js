@@ -36,7 +36,7 @@ function editorView (state, prev, send) {
 
   const commitButtonHtml = button({
     onClick: () => {
-      send('client:sendCode', {code: editor.code})
+      send('client:sendCode', { code: editor.code })
     },
     icon: 'upload',
     label: 'Upload'
@@ -73,7 +73,13 @@ function editorView (state, prev, send) {
     send('clock:stop')
     send('runtime:reset')
     send('game:loadGameState', { loadState: initialState.game })
-    send('game:initializeResourceSpots', { numberOfSpots: 10, value: 100, chunks: 10, color: 'BLUE', requiredDistance: 5})
+    send('game:initializeResourceSpots', {
+      numberOfSpots: 10,
+      value: 100,
+      chunks: 10,
+      color: 'BLUE',
+      requiredDistance: 5
+    })
   }
 }
 

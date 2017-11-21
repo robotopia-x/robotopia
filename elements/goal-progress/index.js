@@ -3,6 +3,7 @@ const html = require('choo/html')
 const sf = require('sheetify')
 const classNames = require('classnames')
 const { checkGoal } = require('./goal-evaluator')
+const { i18nText } = require('../i18n.js')
 
 const goalPrefix = sf`
   :host {
@@ -49,23 +50,23 @@ const goalListPrefix = sf`
   }
 `
 
-function goalProgressView ({ display, game, goals, workspace }) {
+function goalProgressView ({ levelId, display, game, goals, workspace }) {
   if (display) {
     const [mandatoryGoals, optionalGoals] = _.partition(goals, (goal) => goal.isMandatory)
 
     return html`
     <div class="${goalPrefix}">
         <h2>Goals: </h2>
-        ${goalListView({ goals: mandatoryGoals, game, workspace })}
+        ${goalListView({ goals: mandatoryGoals, game, workspace, levelId })}
       
         <h2 style="${optionalGoals.length === 0 ? 'display: none' : ''}">Bonus: </h2>
-        ${goalListView({ goals: optionalGoals, game, workspace })}
+        ${goalListView({ goals: optionalGoals, game, workspace, levelId })}
     </div>
     `
   }
 }
 
-function goalListView ({ goals, game, workspace }) {
+function goalListView ({ goals, game, workspace, levelId }) {
   if (goals.length === 0) return
 
   const goalsHtml = _.map(goals, (goal) => {
@@ -74,7 +75,7 @@ function goalListView ({ goals, game, workspace }) {
     })
 
     return html`
-      <li class="${className}"><span>${goal.desc}</span></li>
+      <li class="${className}"><span>${i18nText('levels', levelId, 'goals', goal.id)}</span></li>
     `
   })
 

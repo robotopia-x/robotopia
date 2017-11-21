@@ -17,10 +17,10 @@ while (true) {
 }
 `
 
-const RESOURCES_TO_WIN = 100
-
 module.exports = () => {
   return {
+    id: 'marker02',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -132,24 +132,13 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Marker - Massive Collecting',
-
     goals: [
       {
+        id: 'collectResources',
         type: 'collectResources',
-        params: {amount: RESOURCES_TO_WIN},
-        desc: 'Collect ' + RESOURCES_TO_WIN + ' resources',
+        params: {amount: 100},
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: `Now that we've got 3 more robots, let's get down to business. Utilize them to gather some resources.`,
-      hint: 'Place a marker next to a resource.'
-    },
-
-    winModal: {
-      text: `Now that's what I'm talking about. ${RESOURCES_TO_WIN} blue gems. So shiny!`
-    }
+    ]
   }
 }

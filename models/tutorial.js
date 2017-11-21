@@ -90,7 +90,6 @@ module.exports = {
       }
       if (type === 'levelWon') {
         willStopOnNextTick = true
-        return
       }
     }
   }

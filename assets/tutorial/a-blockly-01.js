@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'blockly01',
+
     game: {
       tiles: [
         [1, 1, 1],
@@ -22,48 +24,36 @@ module.exports = () => {
     },
 
     editor: {
-      workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="start_handler" x="50" y="50" deletable="false">
-    <statement name="body">
-    <block type="move">
-    <next>
-        <block type="move"></block>
-    </next>
-</block>
-</statement>
-</block>
-</xml>`,
+      workspace: `
+        <xml xmlns="http://www.w3.org/1999/xhtml">
+          <block type="start_handler" x="50" y="50" deletable="false">
+              <statement name="body">
+              <block type="move">
+              <next>
+                  <block type="move"></block>
+              </next>
+          </block>
+          </statement>
+          </block>
+        </xml>
+      `,
 
-      toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
-                    <block type="move" ></block>
-                </category>
-              </xml>`
+      toolbox: `
+        <xml id="toolbox" style="display: none">
+          <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
+              <block type="move" ></block>
+          </category>
+        </xml>
+      `
     },
-
-    label: 'Blockly - Drag and Drop',
 
     goals: [
       {
+        id: 'goToChest',
         type: 'moveTo',
         params: {position: {x: 1, y: 1}, entity: 'ROBOT'},
-        desc: 'Move the robot to the metal tile',
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: `Welcome to Robotopia where you can learn the basics of programming with cute little robots.`,
-      hint: 'You can duplicate a block by copy and pasting it with CTRL+C and CTRL+V'
-    },
-
-    winModal: {
-      text: `This block allows you to rotate your robot. The direction can be changed via the dropdown menu inside the block`,
-      unlockedBlock: { name: 'Rotate', img: '../../assets/img/tutorials/blocks/rotate-dropdown.png' }
-    },
-
-    highlighters: {
-      classes: ['play-button']
-    }
+    ]
   }
 }

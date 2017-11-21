@@ -1,6 +1,7 @@
 const html = require('choo/html')
 const sf = require('sheetify')
 const { goalProgressView } = require('../elements/goal-progress')
+const { i18nText } = require('./i18n.js')
 
 const prefix = sf`
   :host {
@@ -41,21 +42,22 @@ function instructionView ({ prev }, { level, isStoryModalOpen }) {
         display: !isStoryModalOpen,
         game: prev,
         goals: level.goals,
+        levelId: level.id,
         workspace: level.editor.workspace
       })
     }
 
-    if (story.hint) {
+    if (false && story.hint) {
       hintHtml = html`
-        <p class="story-hint">
-          ${story.hint}
+        <p class='story-hint'>
+          ${i18nText('levels', level.id, 'story.hint')}
         </p>
       `
     }
 
     return html`
-      <div class="${prefix}">
-        <h1>${level.label}</h1>
+      <div class='${prefix}EXTERNAL_FRAGMENT'>
+        <h1>${i18nText('levels', level.id, 'title')}</h1>
         <p>${hintHtml}</p>
         ${goalHtml}          
       </div>

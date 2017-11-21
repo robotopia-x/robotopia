@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'rotate02',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1],
@@ -34,32 +36,19 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Turn - ZigZag',
-
     goals: [
       {
+        id: 'goToChest',
         type: 'moveTo',
         params: {position: {x: 4, y: 1}, entity: 'ROBOT'},
-        desc: 'Move the robot to the metal tile',
         isMandatory: true
       },
       {
+        id: 'notDirty',
         type: 'dontTouchTileType',
         params: {tileID: 2, entity: 'ROBOT'},
-        desc: 'Do not get your robot dirty',
         isMandatory: false
       }
-    ],
-
-    storyModal: {
-      text: `Alright, I see you figured how to turn left. But you can also turn right. Crazy, i know.`,
-      hint: ''
-    },
-
-    winModal: {
-      text: `Anything inside this block will be repeated as many times as defined by the number`,
-      unlockedBlock: { name: 'Repeat', img: '../../assets/img/tutorials/blocks/repeat-10-block.png' }
-    }
-
+    ]
   }
 }

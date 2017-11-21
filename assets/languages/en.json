@@ -1,0 +1,236 @@
+{
+  "levels": {
+    "blockly01": {
+      "title": "Blockly - Drag and Drop",
+      "storyModal": {
+        "text": "Welcome to Robotopia where you can learn the basics of programming with cute little robots.",
+        "hint": "You can duplicate a block by copy and pasting it with CTRL+C and CTRL+V"
+      },
+      "winModal": {
+        "text": "This block allows you to rotate your robot. The direction can be changed via the dropdown menu inside the block",
+        "unlockedBlock": {
+          "name": "Rotate",
+          "img": "../../assets/img/tutorials/blocks/rotate-dropdown.png"
+        }
+      },
+      "goals": {
+        "goToChest": "Move the robot to the metal chest"
+      }
+    },
+    "blockly02": {
+      "title": "Blockly - Rearrange",
+      "storyModal": {
+        "text": "Now that you know how to drag new blocks into the canvas, you need to master rearranging them. Stack the blocks in the right order to win this level.",
+        "hint": "You can only use the given blocks to solve this level"
+      },
+      "winModal": {
+        "text": "You mastered the basics of the interface, now your journey goes on with some harder puzzles."
+      },
+      "goals": {
+        "goToChest": "Move the robot to the metal chest"
+      }
+    },
+    "rotate01": {
+      "title": "Turn around",
+      "goals": {
+        "goToChest": "Move the robot to the metal tile"
+      },
+      "storyModal": {
+        "text": "Next you will learn how to change the direction of the robot.",
+        "hint": ""
+      },
+      "winModal": {
+        "text": "Good job there, making the robots spin!"
+      }
+    },
+    "rotate02": {
+      "title": "Turn - ZigZag",
+      "goals": {
+        "goToChest": "Move the robot to the metal tile",
+        "notDirty": "Do not get your robot dirty"
+      },
+      "storyModal": {
+        "text": "Alright, I see you figured how to turn left. But you can also turn right. Crazy, I know.",
+        "hint": ""
+      },
+      "winModal": {
+        "text": "Anything inside this block will be repeated as many times as defined by the number",
+        "unlockedBlock": {
+          "name": "Repeat",
+          "img": "../../assets/img/tutorials/blocks/repeat-10-block.png"
+        }
+      }
+    },
+    "loop01": {
+      "title": "Loops - Getting Lazy",
+      "goals": {
+        "goals": {
+          "goToChest": "Move the robot to the metal tile"
+        },
+        "storyModal": {
+          "text": "You are doing great so far! Can you also solve the next puzzle?",
+          "hint": ""
+        },
+        "winModal": {
+          "text": "Great job!"
+        }
+      }
+    },
+    "loop02": {
+      "title": "Loops - The Good Parts",
+      "goals": {
+        "goToChest": "Move the robot to the metal tile"
+      },
+      "storyModal": {
+        "text": "You are doing a great job. This level is going to be a little bit harder.",
+        "hint": ""
+      },
+      "winModal": {
+        "text": "Great job!"
+      }
+    },
+    "loop03": {
+      "title": "Loops - Nesting",
+      "goals": {
+        "goToChest": "Move the robot to the metal tile",
+        "maxBlocks": "Use a maximum of four blocks",
+        "useNesting": "Nest a repeat block inside another repeat block"
+      },
+      "storyModal": {
+        "text": "Well done! Now here is a difficult one..",
+        "hint": "You can use a repeat inside a repeat."
+      },
+      "winModal": {
+        "text": "What comes next? - Loops Hard Mode!",
+        "unlockedBlock": {
+          "name": "If-Condition Block",
+          "img": "../../assets/img/tutorials/blocks/if-condition.png"
+        }
+      }
+    },
+    "conditions01": {
+      "title": "Conditions - Right Round",
+      "goals": {
+        "goToChest": "Move to the metal tile",
+        "maxBlocks": "Use a maximum of 5 blocks"
+      },
+      "storyModal": {
+        "text": "This puzzle looks quite hard, good thing you just got the condition-block. With this block, this level should be no problem at all",
+        "hint": "It might look hard, but you can simply check if the next tile is water"
+      },
+      "winModal": {
+        "text": "Your're a beast!"
+      }
+    },
+    "conditions02": {
+      "title": "Conditions - Follow The Signs",
+      "goals": {
+        "goToChest": "Move to the metal tile"
+      },
+      "storyModal": {
+        "text": "Now you known the power of a condition-block... This time, you have to solve the level with a single move-block",
+        "hint": "Try to see the pattern, the blocks give an indication where to go."
+      },
+      "winModal": {
+        "text": "Let's get some resources",
+        "unlockedBlock": {
+          "name": "Collect Block",
+          "img": "../../assets/img/tutorials/blocks/collect-resource.png"
+        }
+      }
+    },
+    "conditions03": {
+      "title": "Conditions - Very hard",
+      "goals": {
+        "goToChest": "Move the robot to any of the metal tiles"
+      },
+      "storyModal": {
+        "text": "Here comes the mastery challenge! If you can solve this puzzle, you are well prepared for the upcoming challenges.",
+        "hint": "If you want to skip this level, you can simply click on the logo on the upper left corner to get back to the overview"
+      },
+      "winModal": {
+        "text": "Incredible! You really are on a run."
+      }
+    },
+    "resource01": {
+      "title": "Resource - Pick It Up",
+      "goals": {
+        "carryResource": "Collect a resource"
+      },
+      "storyModal": {
+        "text": "So far it's all been fun and games. This is, what we're really after. Gems. Shiny. Valuable",
+        "hint": "Robots detect resources within 3 fields."
+      },
+      "winModal": {
+        "text": "Now what? This block let's the robot deposit the resource when being near the base.",
+        "unlockedBlock": {
+          "name": "Deposit-Resource",
+          "img": "../../assets/img/tutorials/blocks/deposit-resource.png"
+        }
+      }
+    },
+    "resource02": {
+      "title": "Resource - Drop The Gem",
+      "goals": {
+        "collectResources": "Bring back the resource"
+      },
+      "storyModal": {
+        "text": "Alright, you got the good stuff. Now get it home!",
+        "hint": "A good robot always knows where his base is"
+      },
+      "winModal": {
+        "text": "Thank you for getting my robots back to safety.",
+        "unlockedBlock": {
+          "name": "Place Marker",
+          "img": "../../assets/img/tutorials/blocks/place-marker.png"
+        }
+      }
+    },
+    "marker01": {
+      "title": "Marker - Help Them",
+      "goals": {
+        "saveRobot1": "Lost robot is in time for lunch",
+        "saveRobot2": "Lost robot is save",
+        "saveRobot3": "Lost robot returned to home after 10 years"
+      },
+      "storyModal": {
+        "text": "Unfortunately three of the robots got lost. Luckily they will automatically move to a \"red marker\" as soon as one is placed.",
+        "hint": "Robots can place markers of a given color."
+      },
+      "winModal": {
+        "text": "Thank you for getting my robots back to safety.",
+        "unlockedBlock": {
+          "name": "Resource Discovered Event",
+          "img": "../../assets/img/tutorials/blocks/resource-dicovered.png"
+        }
+      }
+    },
+    "marker02": {
+      "title": "Marker - Massive Collecting",
+      "goals": {
+        "collectResources": "Collect 100 resources"
+      },
+      "storyModal": {
+        "text": "Now that we've got 3 more robots, let's get down to business. Utilize them to gather some resources.",
+        "hint": "Place a marker next to a resource."
+      },
+      "winModal": {
+        "text": "Now that's what I'm talking about. 100 blue gems. So shiny!"
+      }
+    },
+    "scout01": {
+      "title": "Scout - Or... Walking Around without purpose",
+      "goals": {
+        "discoverResource": "Make the Robot scout the map to find something interesting",
+        "timeLimit": "Find something within 10 seconds"
+      },
+      "storyModal": {
+        "text": "Scout the map. Hya!",
+        "hint": "When you start the game random diamands will appear on the map."
+      },
+      "winModal": {
+        "text": "Some wise words."
+      }
+    }
+  }
+}

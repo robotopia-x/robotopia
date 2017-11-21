@@ -7,6 +7,8 @@ const timeLimit = 10
 
 module.exports = () => {
   return {
+    id: 'scout01',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -102,31 +104,21 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Scout - Or... Walking Around Without Purpose',
-
     goals: [
       {
+        id: 'discoverResource',
         type: 'discoverEntityOfType',
         params: {type: 'resource'},
         desc: 'Make the Robot scout the map to find something interesting',
         isMandatory: true
       },
       {
+        id: 'timeLimit',
         type: 'gameTimeLimit',
         params: {timeInS: timeLimit},
-        desc: 'Find something within ' + timeLimit + ' seconds',
         isMandatory: false
       }
     ],
-
-    storyModal: {
-      text: `Scout the map. Hya!`,
-      hint: 'When you start the game random diamands will appear on the map.'
-    },
-
-    winModal: {
-      text: 'Some wise words.'
-    },
 
     onFinish: ({gameState, workspace}) => {
       localStorage.setItem('robot04', JSON.stringify({

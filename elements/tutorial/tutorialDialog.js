@@ -6,6 +6,7 @@ const { checkGoals } = require('../goal-progress/goal-evaluator')
 const buttonView = require('../button')
 const modalView = require('../modal')
 const { goalListView } = require('../goal-progress')
+const { i18nText } = require('../i18n')
 
 const prefix = sf`
   :host {
@@ -71,8 +72,6 @@ const prefix = sf`
 const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, send) => {
   if (level) {
     const game = getGameState(gameState)
-    const story = level.storyModal
-
     const [mandatoryGoals, optionalGoals] = _.partition(level.goals, (goal) => goal.isMandatory)
 
     if (checkGoals({ game, workspace }, mandatoryGoals)) {
@@ -89,16 +88,16 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
 
       if (winModal.unlockedBlock) {
         unlockedHtml = html`
-            <div class="unlocked">
+            <div class='unlocked'>
               <h3>You just unlocked the ${winModal.unlockedBlock.name}-Block!</h3>
-              <img class="unlockedBlock" src="${winModal.unlockedBlock.img}">
+              <img class='unlockedBlock' src='${winModal.unlockedBlock.img}EXTERNAL_FRAGMENT'>
             </div>
           `
       }
 
       if (level.onFinish) level.onFinish({ gameState, workspace })
 
-      send('tutorial:sendEvent', {type: 'levelWon'})
+      send('tutorial:sendEvent', { type: 'levelWon' })
 
       return modalView(html`
         <div class="${prefix} animated content">
@@ -108,11 +107,11 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
           <div class="goals">
             <div>
               <h5>Goals: </h5>
-              ${goalListView({ goals: mandatoryGoals, game, workspace })}
+              ${goalListView({ goals: mandatoryGoals, game, workspace, levelId: level.id })}
             </div>
             <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
-              ${goalListView({ goals: optionalGoals, game, workspace })}
+              ${goalListView({ goals: optionalGoals, game, workspace, levelId: level.id })}
             </div>
           </div>
           <br>
@@ -135,17 +134,17 @@ const winningCondition = (gameState, { level, isStoryModalOpen }, workspace, sen
           <h1>${level.label}</h1> 
           
           <p class="story-text">
-            ${story.text}            
+            ${i18nText('levels', level.id, 'storyModal.text')}            
           </p>
           
           <div class="goals">
             <div>
               <h5>Goals: </h5>
-              ${goalListView({ goals: mandatoryGoals, game, workspace })}
+              ${goalListView({ goals: mandatoryGoals, game, workspace, levelId: level.id })}
             </div>
             <div style="${optionalGoals.length === 0 ? 'display: none' : ''}">
               <h5>Optional: </h5>
-              ${goalListView({ goals: optionalGoals, game, workspace })}
+              ${goalListView({ goals: optionalGoals, game, workspace, levelId: level.id })}
             </div>
           </div>
           ${startButton}

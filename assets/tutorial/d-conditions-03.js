@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'conditions03',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1],
@@ -25,30 +27,30 @@ module.exports = () => {
     },
 
     editor: {
-      workspace: `<xml xmlns="http://www.w3.org/1999/xhtml">
-<block type="start_handler" x="50" y="50" deletable="false">
-    <statement name="body">
-    <block type="controls_repeat">
-    <field name="TIMES">3</field>
-    <statement name="DO">
-    </statement>
-</block>
-</statement>
-</block>
-</xml>`,
+      workspace: `
+        <xml xmlns="http://www.w3.org/1999/xhtml">
+          <block type="start_handler" x="50" y="50" deletable="false">
+              <statement name="body">
+              <block type="controls_repeat">
+              <field name="TIMES">3</field>
+              <statement name="DO">
+              </statement>
+          </block>
+          </statement>
+          </block>
+        </xml>`,
 
-      toolbox: `<xml id="toolbox" style="display: none">
-                <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
-                    <block type="move"></block>
-                    <block type="rotate"></block>
-                    <block type="controls_repeat"></block>
-                    <block type="controls_if"></block>
-                    <block type="is_next_field"></block>
-                </category>
-              </xml>`
+      toolbox: `
+        <xml id="toolbox" style="display: none">
+          <category name="Code Blocks" colour="${blockColors.EVENT_COLOR}">
+              <block type="move"></block>
+              <block type="rotate"></block>
+              <block type="controls_repeat"></block>
+              <block type="controls_if"></block>
+              <block type="is_next_field"></block>
+          </category>
+        </xml>`
     },
-
-    label: 'Conditions - Hard Mode',
 
     goals: [
       {

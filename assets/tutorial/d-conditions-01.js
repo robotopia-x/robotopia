@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'conditions01',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -50,30 +52,19 @@ module.exports = () => {
       `
     },
 
-    label: 'Conditions - Right Round',
-
     goals: [
       {
+        id: 'goToChest',
         type: 'touchTile',
         params: { tileID: 4 },
-        desc: 'Move to the metal tile',
         isMandatory: true
       },
       {
+        id: 'maxBlocks',
         type: 'maxBlocks',
         params: { amount: 5 },
-        desc: 'Use a maximum of 5 blocks',
         isMandatory: false
       }
-    ],
-
-    storyModal: {
-      text: `This puzzle looks quite hard, good thing you just got the condition-block. With this block, this level should be no problem at all`,
-      hint: 'It might look hard, but you can simply check if the next tile is water'
-    },
-
-    winModal: {
-      text: `Your're a beast!`
-    }
+    ]
   }
 }

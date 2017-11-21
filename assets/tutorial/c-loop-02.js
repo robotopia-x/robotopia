@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'loop02',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1, 1, 1],
@@ -47,24 +49,13 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Loops - The Good Parts',
-
     goals: [
       {
+        id: 'goToChest',
         type: 'moveTo',
         params: {position: {x: 1, y: 1}, entity: 'ROBOT'},
-        desc: 'Move the robot to the metal tile',
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: 'You are doing a great job. This level is going to be a little bit harder.',
-      hint: ''
-    },
-
-    winModal: {
-      text: 'Great job!'
-    }
+    ]
   }
 }

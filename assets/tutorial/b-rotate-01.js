@@ -4,6 +4,8 @@ const blockColors = require('../../elements/blockly/colors')
 
 module.exports = () => {
   return {
+    id: 'rotate01',
+
     game: {
       tiles: [
         [1, 1, 1, 1, 1],
@@ -32,25 +34,13 @@ module.exports = () => {
               </xml>`
     },
 
-    label: 'Turn - Around',
-
     goals: [
       {
+        id: 'goToChest',
         type: 'moveTo',
         params: {position: {x: 1, y: 3}, entity: 'ROBOT'},
-        desc: 'Move the robot to the metal tile',
         isMandatory: true
       }
-    ],
-
-    storyModal: {
-      text: ``,
-      hint: 'Next you will learn how to change the direction of the robot.'
-    },
-
-    winModal: {
-      text: `Good job there, making the robots spin!`
-    }
-
+    ]
   }
 }

@@ -41,7 +41,6 @@ const prefix = sf`
     border-width: 0 1px;
     width: 10px;
     height: 100%;
-    cursor: ew-resize;
     flex-shrink: 0;
     flex-grow: 0;
   }

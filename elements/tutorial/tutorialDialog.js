@@ -18,32 +18,7 @@ const prefix = sf`
     position: relative;
     border-radius: 10px;
     padding: 15px;
-    margin: 50px 0 75px 125px;
-  }
-  
-  :host > .story-text:before {
-    content: '';
-    width: 100px;
-    height: 175px;
-    position: absolute;
-    top: -50px;
-    left: -130px;
-    background: url('assets/img/rick-avatar.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  :host > .story-text:after {
-     content: '';
-     position: absolute;
-     right: 100%;
-     top: 26px;
-     width: 0;
-     height: 0;
-     border-top: 13px solid transparent;
-     border-right: 26px solid #dedede;
-     border-bottom: 13px solid transparent;
+    margin: 50px;
   }
   
   :host > h1 {

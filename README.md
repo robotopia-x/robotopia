@@ -1,4 +1,4 @@
-# Robotopia :robot:
+# :robot: Robotopia
 
 [![built with choo v4](https://img.shields.io/badge/built%20with%20choo-v4-ffc3e4.svg?style=flat-square)](https://github.com/yoshuawuyts/choo)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/robotopia-x/robotopia/blob/master/LICENSE)
@@ -122,4 +122,4 @@ In the file `index.js` there is configured the SignalingHub server for communica
 
 ## Related
 - [Our research repo](https://github.com/robotopia-x/research)
-- [Our presentation slides](http://slides.com/pguth/robotopia-x)
+- [Our presentation slides](https://slides.com/perguth/robotopia-x)

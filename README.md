@@ -13,6 +13,9 @@
 ### [Read the Article!](https://medium.freecodecamp.org/how-to-use-tiny-programmable-robots-to-introduce-kids-to-coding-47dbd7866ee7)
 ### [Now, play it!](https://robotopia-x.github.io)
 
+## In Action
+[![in action](https://image.ibb.co/iXBc3k/687474703a2f2f69332e7974696d672e636f6d2f76692f39614961354574717635452f6d617872657364656661756c742e6a7067.png)](https://youtu.be/9aIa5Etqv5E)
+
 ## Features
 
 - [x] Graphical programming environment
@@ -39,9 +42,6 @@
     - [x] Scriptable with JavaScript
     - [x] Roundbased execution of robot scripts 
     - [x] Events
-
-## In Action
-[![in action](https://image.ibb.co/iXBc3k/687474703a2f2f69332e7974696d672e636f6d2f76692f39614961354574717635452f6d617872657364656661756c742e6a7067.png)](https://youtu.be/9aIa5Etqv5E)
 
 ## How *you* could use this
 Here is a short guide to get you started if you're interested in using our tool to organize your own coding events.
